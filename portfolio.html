@@ -1,0 +1,28 @@
+
+<select id="testSelect">
+    <option>Option 1</option>
+</select>
+<button id="testButton"> Add </button>
+<script>
+    $(document).ready(function (){
+        $("#testButton").on({
+            click: function (){
+                $('#testSelect').append($('<option>', {
+                    value: 1,
+                    text: 'My option'
+                }));
+            }
+        });
+    });
+</script>
+
+$("button").click(function(){
+$.post("",
+{
+name: "Donald Duck",
+city: "Duckburg"
+},
+function(data, status){
+//alert("Data: " + data + "\nStatus: " + status);
+});
+});

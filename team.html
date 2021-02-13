@@ -1,0 +1,73 @@
+<!-- Contact Start -->
+<div class="contact">
+    <div class="container">
+        <div class="section-header">
+            <h2>Edit Visa Information</h2>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="contact-form">
+                    <form action="template/editVisaQry.php" method="post">
+                        <input type="hidden" value="update" name="alter">
+                        <input type="hidden" value="<?php echo $visaId;?>" name="visaId">
+                        <h3>Visa Information</h3>
+                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
+                            <label>Visa Name</label>
+                            <input type="text" class="form-control" required="required" name="name" value="<?php echo $visa['name'];?>"/>
+                            <br>
+                            <label>Visa Date</label>
+                            <input type="date" class="form-control" required="required" name="date" value="<?php echo $visa['date'];?>"/>
+                            <br>
+                            <label>Visa Catagory</label>
+                            <input type="text" class="form-control" required="required" name="type" value="<?php echo $visa['type'];?>"/>
+                            <br>
+                            <label>Select Sponsor of VISA</label>
+                            <select class="form-control" id="passport" name="sponsorId">
+                                <option value="<?php echo $visa['visaSponsorId']; ?>"><?php echo $visa['sponsorName']; ?></option>
+                                <?php
+                                $sponsorId = $visa['visaSponsorId'];
+                                $qry = "select sponsorId, sponsorName from sponsor where sponsorId != $sponsorId";
+                                $result = mysqli_query($conn,$qry);
+                                while($sponsor = mysqli_fetch_assoc($result)){
+                                ?>
+                                <option value="<?php echo $sponsor['sponsorId']; ?>"><?php echo $sponsor['sponsorName']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <h3>Visa Detail Information</h3>
+                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
+                            <label>Position</label>
+                            <input type="text" class="form-control" required="required" name="pos" value="<?php echo $visa['position'];?>"/>
+                            <br>
+                            <label>Basic Salary</label>
+                            <input type="text" class="form-control" required="required" name="bSalary" value="<?php echo $visa['bSalary'];?>"/>
+                            <br>
+                            <label>Total salary</label>
+                            <input type="text" class="form-control" required="required" name="tSalary" value="<?php echo $visa['tSalary'];?>"/>
+                        </div>
+                        <?php
+                        $agentId = $visa['visaIssuAgent'];
+                        $qry = "select agentId, agentName from agent where agentId != $agentId";
+                        $result = mysqli_query($conn,$qry);
+                        ?>
+                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
+                            <select class="form-control" id="agent" name="agent">
+                                <option value="<?php echo $visa['visaIssuAgent']; ?>"><?php echo $visa['agentName']; ?></option>
+                                <?php
+                                while($agent = mysqli_fetch_assoc($result)){
+                                    ?>
+                                <option value="<?php echo $agent['agentId']; ?>"><?php echo $agent['agentName']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn" type="submit">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
