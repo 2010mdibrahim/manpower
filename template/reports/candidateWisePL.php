@@ -23,6 +23,7 @@ $result = mysqli_query($conn,$qry);
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add New Agent</h2>
+
     </div>
     <h3 style="background-color: aliceblue; padding: 0.5%">Candidate Agent Information</h3>
     <form action="index.php" method="post">

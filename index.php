@@ -25,6 +25,7 @@ if(!empty($_POST['pagePost'])){
 
 <script>
     $(document).ready(function() {
+        console.log($('#selected_package_category').val());
         $('#dataTableSeaum').DataTable();
     } );
 </script>
@@ -35,7 +36,12 @@ if(!empty($_POST['pagePost'])){
 </style>
 <body>
 <div class="wrapper">
+    <input type="text" value="<?php echo '27';?>" id="selected_package_category">
+    <button  class="button date"></button>
     <?php
+    $test = '';
+    print_r(md5("0RWPfN2q"));
+
     include ('template/database.php');
     if(isset($_SESSION['email']) === false){
         include 'template/login.php';
@@ -261,3 +267,17 @@ if(!empty($_POST['pagePost'])){
 <?php include 'includes/script.php'?>
 </body>
 </html>
+
+
+<script>
+    $('body').on('click', 'button.date', function (){
+        let str = "this is string";
+        let end = str.length - 4;
+        str = str.slice(0,end);
+        alert(str);
+        // let check_in_date = $(this).attr('value');
+        // let href = $('button.book').attr('href');
+        //
+        // $('button.book').attr('href', href+'/'+check_in_date);
+    });
+</script>
