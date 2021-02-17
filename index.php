@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['base_url'] = "C:/xampp/htdocs/mahfuza/";
 if(!empty($_GET['page'])){
     $page = $_GET['page'];
 }else{
@@ -35,6 +36,11 @@ if(!empty($_POST['pagePost'])){
 </style>
 <body>
 <div class="wrapper">
+    <form action="test.php" method="post">
+        <button type="button" value="ok" name="this_is_test">This is button</button>
+        <button type="submit">submit</button>
+    </form>
+
     <?php
     include ('template/database.php');
     if(isset($_SESSION['email']) === false){

@@ -2,40 +2,34 @@
 include ('database.php');
 $fName = $_POST['fName'];
 $lName = $_POST['lName'];
-$fathName = $_POST['fathName'];
-$mbNo = $_POST['mbNo'];
-$dob = $_POST['dob'];
-$pob = $_POST['pob'];
-$profId = $_POST['professionId'];
-
-// Address Information
-$add = $_POST['add'];
-$count = $_POST['count'];
-$state = $_POST['state'];
+$gender = $_POST['gender'];
+$mobNum = $_POST['mobNum'];
+$passportNum= $_POST['passportNum'];
+$issuD = $_POST['issuD'];
+$country = $_POST['country'];
+$expD = $_POST['expD'];
+$departureDate = $_POST['departureDate'];
+$arrivalDate = $_POST['arrivalDate'];
 $city = $_POST['city'];
-
-// Passport Information
-$passNo = $_POST['passNo'];
-$issuPlace = $_POST['issuP'];
-$issuDate = $_POST['issuD'];
-$expDate = $_POST['expD'];
-$type = $_POST['type'];
-$qry = "select count(mob) as mobCount from candidate where mob = '$mbNo'";
-$result = mysqli_query($conn,$qry);
-$existingMob = mysqli_fetch_assoc($result);
-$qry = "select count(passNo) as passCount from passport where passNo = '$passNo'";
-$result = mysqli_query($conn,$qry);
-$existingPass = mysqli_fetch_assoc($result);
-if($existingMob['mobCount'] > 0){
-    echo "<script>window.alert('Mobile Already Exists')</script>";
-    echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
-}else if($existingPass['passCount'] > 0){
+$policeVerification = $_POST['policeVerification'];
+$photo = $_POST['photo'];
+$agentEmail = $_POST['agentEmail'];
+$comment = $_POST['comment'];
+$admin = $_SESSION['email'];
+$date = date("Y-m-d");
+$existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
+if($existingPass['passCount'] > 0){
     echo "<script>window.alert('Passport Already Exists')</script>";
     echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
 }else{
 //    $qry = "INSERT INTO candidate (fName, lName, fathName, mob, dob, pob, profId, addrs, count, state, city)
 //            VALUES ('$fName','$lName','$fathName','$mbNo','$dob','$pob',$profId,'$add','$count','$state','$city')";
     mysqli_query($conn,"START TRANSACTION");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, gender, issueDate, expiryDate, departureDate,
+                     arrivalDate, policeClearance, passportPhoto, country, comment, updatedBy, updatedOn)
+                    VALUES('$passportNum','$fName','$lName','$mobNum','$gender','$issuD','$expD','$departureDate','$arrivalDate',
+                    '$policeVerification','$photo','$country','$comment','$admin','$date')");
+
 
     $a1 = mysqli_query($conn,"INSERT INTO candidate (fName, lName, fathName, mob, dob, pob, profId, addrs, count, state, city) VALUES ('$fName','$lName','$fathName','$mbNo','$dob','$pob',$profId,'$add','$count','$state','$city')");
     $qry = "select max(candidateId) as lastCandidate from candidate";

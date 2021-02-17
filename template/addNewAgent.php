@@ -1,69 +1,57 @@
-<?php
-$qry = "select * from agenttype";
-$result = mysqli_query($conn,$qry);
-
-?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add New Agent</h2>
     </div>
     <h3 style="background-color: aliceblue; padding: 0.5%">Candidate Agent Information</h3>
-    <form action="template/addNewAgentQry.php" method="post">
+    <form action="template/addNewAgentQry.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="row">
                 <div class="column col-md-6" >
                     <label>Agent Name</label>
-                    <input class="form-control" type="text" name="agentName" placeholder="Enter Name">
+                    <input class="form-control" type="text" name="agentName" id="agentName" placeholder="Enter Name">
                     <br>
-                    <label for="sel1">Company:</label>
-                    <input class="form-control" type="text" name="company" placeholder="Give Company Name">
+                    <label for="sel1">Agent Email: <span class="samin danger" >Email Already Exists</span> </label>
+                    <input class="form-control" type="email" name="agentEmail" placeholder="example@abc.com" id="agentEmail">
                 </div>
                 <div class="column col-md-6">
-                    <label for="sel1">Opening balance:</label>
-                    <input class="form-control" type="number" name="openAmount" placeholder="BDT">
+                    <label for="sel1">Phone:</label>
+                    <input class="form-control" type="text" name="agentPhone" id="agentPhone" placeholder="Phone Number">
                     <br>
-                    <label for="sel1">Agent type:</label>
-                    <select class="form-control" id="agentType" name="agentType">
-                        <option>Select Agent Type</option>
-                        <?php while($agentType = mysqli_fetch_assoc($result)){ ?>
-                            <option value="<?php echo $agentType['agentTypeId'];?>"><?php echo $agentType['agentType']; ?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="sel1">Photo:</label>
+                    <input class="form-control" type="file" name="agentImage" id="image" >
+                </div>
+                <div class="column col-md-6">
+                    <br>
+                    <label for="sel1">Any Remarks:</label>
+                    <input class="form-control" type="text" name="comment" id="comment" placeholder="comment">
                 </div>
             </div>
         </div>
         <br>
-        <h3 style="background-color: aliceblue; padding: 0.5%">Address information</h3>
-        <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
-                    <label>Address</label>
-                    <input class="form-control" type="text" name="address" placeholder="Enter Address">
-                    <br>
-                    <label for="sel1">Country:</label>
-                    <input class="form-control" type="text" name="country" placeholder="Enter Country">
-                </div>
-                <div class="column col-md-6">
-                    <label for="sel1">City:</label>
-                    <input class="form-control" type="text" name="city" placeholder="Enter State">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <h3 style="background-color: aliceblue; padding: 0.5%">Contact information</h3>
-        <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
-                    <label>Phone Number</label>
-                    <input class="form-control" type="text" name="phnNumber" placeholder="Enter Phone">
-                    <br>
-                    <label for="sel1">Email:</label>
-                    <input class="form-control" type="email" name="agentEmail" placeholder="Enter Email">
-                </div>
-            </div>
-        </div>
-        <br>
-        <input type="submit" value="Add">
+        <div id="test"></div>
+        <input id="insert" type="submit" value="Add">
 </div>
-</form>
+    </form>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#insert').click(function (){
+            let image_name = $('#image').val();
+            if(image_name === '')
+            {
+                alert("Please Select Image");
+                return false;
+            }
+            else
+            {
+                var extension = $('#image').val().split('.').pop().toLowerCase();
+                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+                {
+                    alert('Invalid Image File');
+                    $('#image').val('');
+                    return false;
+                }
+            }
+        });
+    });
+</script>

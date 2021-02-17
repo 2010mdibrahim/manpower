@@ -12,32 +12,33 @@
         <table id="dataTableSeaum" class="table col-12" style="width:100%">
             <thead>
             <tr>
+                <th>Photo</th>
+                <th>Agent Email</th>
                 <th>Agent Name</th>
-                <th>Agent Type</th>
-                <th>Mobile No.</th>
-                <th>Email</th>
-                <th>Alter</th>
+                <th>Agent Phone</th>
+                <th>Remarks</th>
             </tr>
             </thead>
             <?php
-            $qry = "select agent.agentId, agent.agentName, agent.phone, agent.email, agenttype.agentType, agenttype.agentTypeId from agent 
-                        inner join agenttype on agent.agentType = agenttype.agentTypeId";
+            $qry = "SELECT agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent";
             $result = mysqli_query($conn,$qry);
             while($agent = mysqli_fetch_assoc($result)){ ?>
                 <tr>
+                    <td>
+                        <a target="_blank" href="<?php echo $agent['agentPhoto'];?>">
+                            <img class="agent thumbnail" src="<?php echo $agent['agentPhoto'];?>" alt="Forest">
+                        </a>
+                    </td>
+                    <td><?php echo $agent['agentEmail'];?></td>
                     <td><?php echo $agent['agentName'];?></td>
-                    <td><?php echo $agent['agentType'];?></td>
-                    <td><?php echo $agent['phone'];?></td>
-                    <td><?php echo $agent['email'];?></td>
+                    <td><?php echo $agent['agentPhone'];?></td>
                     <td>
                         <div class="flex-container">
                             <div style="padding-right: 2%">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="alter" value="update">
                                     <input type="hidden" value="editAgent" name="pagePost">
-                                    <input type="hidden" value="<?php echo $agent['agentId']; ?>" name="agentId">
-                                    <input type="hidden" value="<?php echo $agent['agentType']; ?>" name="agentType">
-                                    <input type="hidden" value="<?php echo $agent['agentTypeId']; ?>" name="agentTypeId">
+                                    <input type="hidden" value="<?php echo $agent['agentEmail']; ?>" name="agentEmail">
                                     <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
                                 </form>
                             </div>
@@ -57,11 +58,11 @@
             <?php } ?>
             <tfoot hidden>
             <tr>
+                <th>Photo</th>
+                <th>Agent Email</th>
                 <th>Agent Name</th>
-                <th>Agent Type</th>
-                <th>Mobile No.</th>
-                <th>Email</th>
-                <th>Alter</th>
+                <th>Agent Phone</th>
+                <th>Remarks</th>
             </tr>
             </tfoot>
 

@@ -1,83 +1,62 @@
 <?php
-$agentId = $_POST['agentId'];
-$agentType = $_POST['agentType'];
-$agentTypeId = $_POST['agentTypeId'];
-$qry = "select * from agent where agentId = $agentId";
-$result = mysqli_query($conn,$qry);
-$agent = mysqli_fetch_assoc($result);
-$qry = "select * from agentType";
-$result = mysqli_query($conn,$qry);
-
+$agentEmail = $_POST['agentEmail'];
+$agent = mysqli_fetch_assoc($conn -> query("select * from agent where agentEmail = '$agentEmail'"));
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add New Agent</h2>
     </div>
     <h3 style="background-color: aliceblue; padding: 0.5%">Candidate Agent Information</h3>
-    <form action="template/addNewAgentQry.php" method="post">
-        <input type="hidden" value="update" name="alter">
-        <input type="hidden" value="<?php echo $agentId?>" name="agentId">
+    <form action="template/addNewAgentQry.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="row">
                 <div class="column col-md-6" >
                     <label>Agent Name</label>
-                    <input class="form-control" type="text" name="agentName" value="<?php echo $agent['agentName']; ?>">
+                    <input class="form-control" type="text" name="agentName" id="agentName" value="<?php echo $agent['agentName'];?>">
                     <br>
-                    <label for="sel1">Company:</label>
-                    <input class="form-control" type="text" name="company" value="<?php echo $agent['company']; ?>">
+                    <label for="sel1">Agent Email: <span class="samin danger" >Email Already Exists</span> </label>
+                    <input class="form-control" type="email" name="agentEmail" value="<?php echo $agent['agentEmail'];?>" id="agentEmail">
                 </div>
                 <div class="column col-md-6">
-                    <label for="sel1">Opening balance:</label>
-                    <input class="form-control" type="number" name="openAmount" value="<?php echo $agent['openBalance']; ?>">
+                    <label for="sel1">Phone:</label>
+                    <input class="form-control" type="text" name="agentPhone" id="agentPhone" value="<?php echo $agent['agentPhone'];?>">
                     <br>
-                    <label for="sel1">Agent type:</label>
-                    <select class="form-control" id="agentType" name="agentType">
-                        <option value="<?php echo $agentTypeId; ?>">Assigned Agent Type: <?php echo $agentType; ?></option>
-                        <?php
-                        while($agentTypeAll = mysqli_fetch_assoc($result)){
-                            if($agentTypeAll['agentTypeId'] != $agentTypeId){
-                        ?>
-                            <option value="<?php echo $agentTypeAll['agentTypeId'];?>"><?php echo $agentType['agentType']; ?></option>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </select>
+                    <label for="sel1">Photo:</label>
+                    <input class="form-control" type="file" name="agentImage" id="image">
+                </div>
+                <div class="column col-md-6">
+                    <br>
+                    <label for="sel1">Any Remarks:</label>
+                    <input class="form-control" type="text" name="comment" id="comment" value="<?php echo $agent['comment'];?>">
                 </div>
             </div>
         </div>
         <br>
-        <h3 style="background-color: aliceblue; padding: 0.5%">Address information</h3>
-        <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
-                    <label>Address</label>
-                    <input class="form-control" type="text" name="address" value="<?php echo $agent['address']; ?>">
-                    <br>
-                    <label for="sel1">Country:</label>
-                    <input class="form-control" type="text" name="country" value="<?php echo $agent['country']; ?>">
-                </div>
-                <div class="column col-md-6">
-                    <label for="sel1">City:</label>
-                    <input class="form-control" type="text" name="city" value="<?php echo $agent['city']; ?>">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <h3 style="background-color: aliceblue; padding: 0.5%">Contact information</h3>
-        <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
-                    <label>Phone Number</label>
-                    <input class="form-control" type="text" name="phnNumber" value="<?php echo $agent['phone']; ?>">
-                    <br>
-                    <label for="sel1">Email:</label>
-                    <input class="form-control" type="email" name="agentEmail" value="<?php echo $agent['email']; ?>">
-                </div>
-            </div>
-        </div>
-        <br>
-        <input type="submit" value="Update">
+        <div id="test"></div>
+        <input type="hidden" value="update" name="alter">
+        <input id="insert" type="submit" value="Add">
 </div>
 </form>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#insert').click(function (){
+            let image_name = $('#image').val();
+            if(image_name === '')
+            {
+                alert("Please Select Image");
+                return false;
+            }
+            else
+            {
+                var extension = $('#image').val().split('.').pop().toLowerCase();
+                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
+                {
+                    alert('Invalid Image File');
+                    $('#image').val('');
+                    return false;
+                }
+            }
+        });
+    });
+</script>

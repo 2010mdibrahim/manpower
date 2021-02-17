@@ -1,6 +1,5 @@
 <?php
-$qry = "select professionId, professionName from profession";
-$result = mysqli_query($conn,$qry);
+$result = $conn->query("select agentEmail, agentName from agent");
 ?>
 
 <div class="container">
@@ -14,20 +13,11 @@ $result = mysqli_query($conn,$qry);
                 <label>First Name</label>
                 <input type="text" class="form-control" required="required" name="fName"/>
                 <br>
-                <label>Fathers Name</label>
-                <input type="text" class="form-control" required="required" name="fathName"/>
-                <br>
-                <label>DOB</label>
-                <input type="date" class="form-control" required="required" name="dob"/>
-                <br>
-                <label for="sel1">Profession:</label>
-                <select class="form-control" id="professionId" name="professionId">
-                    <option>Select profession</option>
-                    <?php
-                    while($profession = mysqli_fetch_assoc($result)){
-                        ?>
-                        <option value="<?php echo $profession['professionId'];?>"><?php echo $profession['professionName'];?></option>
-                    <?php }?>
+                <label>Gender</label>
+                <select class="form-control" name="gender">
+                    <option>----- Select Gender -----</option>
+                    <option>Male</option>
+                    <option>Female</option>
                 </select>
             </div>
             <div class="column col-md-6">
@@ -35,32 +25,7 @@ $result = mysqli_query($conn,$qry);
                 <input type="text" class="form-control" required="required" name="lName"/>
                 <br>
                 <label>Mobile No.</label>
-                <input type="text" class="form-control" required="required" name="mbNo"/>
-                <br>
-                <label>Place of Birth</label>
-                <input type="text" class="form-control datepicker" required="required" name="pob"/>
-            </div>
-        </div>
-        <br>
-        <h4 class="bg-light">Address Information</h4>
-        <div class="row">
-            <div class="column col-md-6">
-                <label>Address</label>
-                <input type="text" class="form-control" required="required" name="add"/>
-                <br>
-                <label>City</label>
-                <input type="text" class="form-control" required="required" name="city"/>
-            </div>
-            <div class="column col-md-6">
-                <label for="sel1">Country:</label>
-                <select class="form-control" id="count" name="count">
-                    <option>Select Country</option>
-                    <option>Bangladesh</option>
-                    <option>India</option>
-                </select>
-                <br>
-                <label>State</label>
-                <input type="text" class="form-control" required="required" name="state"/>
+                <input type="text" class="form-control" required="required" name="mobNum"/>
             </div>
         </div>
         <br>
@@ -68,27 +33,62 @@ $result = mysqli_query($conn,$qry);
         <div class="row">
             <div class="column col-md-6">
                 <label>Passport No.</label>
-                <input type="text" class="form-control" required="required" name="passNo"/>
+                <input type="text" class="form-control" required="required" name="passportNum"/>
                 <br>
                 <label>Issue Date</label>
                 <input type="date" class="form-control" required="required" name="issuD"/>
                 <br>
             </div>
             <div class="column col-md-6">
-                <label>Issue place</label>
-                <input type="text" class="form-control" required="required" name="issuP"/>
+                <label>Country</label>
+                <input type="text" class="form-control" name="country"/>
                 <br>
                 <label>Expiry Date</label>
                 <input type="date" class="form-control" required="required" name="expD"/>
                 <br>
             </div>
             <div class="column col-md-6">
-                <label for="sel1">Type of passport:</label>
-                <select class="form-control" id="type" name="type">
-                    <option>Select type passport</option>
-                    <option>E - passport</option>
-                    <option>GE</option>
+                <label>Departure Date</label>
+                <input type="date" class="form-control" name="departureDate"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Arrival Date</label>
+                <input type="date" class="form-control" name="arrivalDate"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Police Verification</label>
+                <select class="form-control" name="policeVerification">
+                    <option>------ Select Option ------</option>
+                    <option value="yes">Provided</option>
+                    <option value="no">Did not provide</option>
                 </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Passport Size Photo</label>
+                <select class="form-control" name="photo">
+                    <option>------ Select Option ------</option>
+                    <option value="yes">Submitted</option>
+                    <option value="no">Did not submit</option>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Agent</label>
+                <select class="form-control" name="agentEmail">
+                    <option>------ Select Option ------</option>
+                    <?php while($agent = mysqli_fetch_assoc($result)){?>
+                        <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                    <?php } ?>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Comment</label>
+                <input type="text" class="form-control" name="comment"/>
+                <br>
             </div>
         </div>
         <br>
