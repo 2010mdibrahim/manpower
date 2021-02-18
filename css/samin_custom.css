@@ -1,0 +1,13 @@
+.samin.danger{
+    color: red;
+    display: none;
+}
+
+.agent.thumbnail{
+    width: 90px;
+    height: 90px;
+}
+
+label{
+    font-weight: bold;
+}
