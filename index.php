@@ -26,7 +26,7 @@ if(!empty($_POST['pagePost'])){
 
 <script>
     $(document).ready(function() {
-        $('#dataTableSeaum').DataTable();
+        $('#dataTableSeaum').DataTable();        
     } );
 </script>
 <style>
@@ -252,6 +252,12 @@ if(!empty($_POST['pagePost'])){
             include('template/reports/sponsorReportByCategory.php');
         }else if($page == 'switchJob') {
             include('template/admin/switchJob.php');
+        }else if($page == 'visaSponsor') {
+            include('template/visaSponsor.php');
+        }else if($page == 'allVisaList') {
+            include('template/allVisaList.php');
+        }else if($page == 'manpower') {
+            include('template/manpower.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';

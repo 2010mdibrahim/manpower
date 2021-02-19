@@ -1,105 +1,130 @@
 <?php
-    $candidateId = $_POST['candidateId'];
-    $qry = "select candidate.*,profession.professionId,profession.professionName from candidate
-                inner join profession on profession.professionId = candidate.profId where candidate.candidateId = $candidateId";
-    $result = mysqli_query($conn,$qry);
-    $candidate = mysqli_fetch_assoc($result);
-    $professionId = $candidate['professionId'];
-    $qry = "select * from passport where candidateId = $candidateId";
-    $result = mysqli_query($conn,$qry);
-    $passport = mysqli_fetch_assoc($result);
-    $qry = "select professionId, professionName from profession where professionId != $professionId";
-    $result = mysqli_query($conn,$qry);
+if(isset($_POST['passportNum'])){
+    $passportNum = $_POST['passportNum'];
+}else{
+    $passportNum = '';
+}
+$candidate = mysqli_fetch_assoc($conn -> query("select * from passport where passportNum = '".$passportNum."'"));
+$result = $conn->query("select agentEmail, agentName from agent");
+$curYear = date("Y");
+$minYear = $curYear - 38;
+$maxYear = $curYear - 25;
+$curDay = date('m-d');
 ?>
 
-<!-- Contact Start -->
-<div class="contact">
-    <div class="container">
-        <div class="section-header">
-            <h2>New Candidate Information</h2>
-        </div>
+<div class="container">
+    <div class="section-header">
+        <h2>New Candidate Information</h2>
+    </div>
+    <form action="template/editCandidateQry.php" method="post">
+        <input type="hidden" name="alter" value="update">
+        <h4 class="bg-light">Candidate Information</h4>
         <div class="row">
-
-            <div class="col-md-12">
-                <div class="contact-form">
-                    <form action="template/editCandidateQry.php" method="post">
-                        <input type="hidden" value="<?php echo $candidateId;?>" name="candidateId">
-                        <input type="hidden" value="update" name="alter">
-                        <h3>Candidate Information</h3>
-                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" required="required" name="fName" value="<?php echo $candidate['fName']; ?>"/>
-                            <br>
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" required="required" name="lName" value="<?php echo $candidate['lName']; ?>"/>
-                            <br>
-                            <label>Fathers Name</label>
-                            <input type="text" class="form-control" required="required" name="fathName" value="<?php echo $candidate['fathName']; ?>"/>
-                            <br>
-                            <label>Mobile No.</label>
-                            <input type="text" class="form-control" required="required" name="mbNo" value="<?php echo $candidate['mob']; ?>"/>
-                            <br>
-                            <label>DOB</label>
-                            <input type="date" class="form-control" required="required" name="dob" value="<?php echo $candidate['dob']; ?>"/>
-                            <br>
-                            <label>Place of Birth</label>
-                            <input type="text" class="form-control" required="required" name="pob" value="<?php echo $candidate['pob']; ?>"/>
-                            <br>
-                            <label for="sel1">Profession:</label>
-                            <select class="form-control" id="prof" name="profId">
-                                <option value="<?php echo $candidate['professionId']; ?>"><?php echo $candidate['professionName']; ?></option>
-                                <?php
-                                while($profession = mysqli_fetch_assoc($result)){
-                                ?>
-                                <option value="<?php echo $profession['professionId']; ?>"><?php echo $profession['professionName']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <h3>Address information</h3>
-                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
-                            <label>Address</label>
-                            <input type="text" class="form-control" required="required" name="add" value="<?php echo $candidate['addrs']; ?>"/>
-                            <br>
-                            <label for="sel1">Country:</label>
-                            <select class="form-control" id="count" name="count">
-                                <option><?php echo $candidate['count']; ?></option>
-                                <option>Bangladesh</option>
-                                <option>India</option>
-                            </select>
-                            <br>
-                            <label>State</label>
-                            <input type="text" class="form-control" required="required" name="state" value="<?php echo $candidate['state']; ?>"/>
-                            <br>
-                            <label>City</label>
-                            <input type="text" class="form-control" required="required" name="city" value="<?php echo $candidate['city']; ?>"/>
-                        </div>
-                        <h3>Passport Information</h3>
-                        <div class="form-group" style="background-color: #D6D6D6; padding: 2%">
-                            <label>Passport No.</label>
-                            <input type="text" class="form-control" required="required" name="passNo" value="<?php echo $passport['passNo']; ?>"/>
-                            <br>
-                            <label>Issue place</label>
-                            <input type="text" class="form-control" required="required" name="issuP" value="<?php echo $passport['issuPlace']; ?>"/>
-                            <br>
-                            <label>Issue Date</label>
-                            <input type="date" class="form-control" required="required" name="issuD" value="<?php echo $passport['issuDate']; ?>"/>
-                            <br>
-                            <label>Expiry Date</label>
-                            <input type="date" class="form-control" required="required" name="expD" value="<?php echo $passport['expDate']; ?>"/>
-                            <br>
-                            <label for="sel1">Type of passport:</label>
-                            <select class="form-control" id="type" name="type">
-                                <option><?php echo $passport['type']; ?></option>
-                                <option>E - passport</option>
-                                <option>GE</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button class="btn" type="submit">Update</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="column col-md-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" required="required" name="fName" value="<?php echo $candidate['fName']?>"/>
+                <br>
+                <label>Gender</label>
+                <select class="form-control" name="gender">
+                    <?php if($candidate['gender'] === 'Male'){?>
+                        <option selected>Male</option>
+                        <option>Female</option>
+                    <?php }else{ ?>
+                        <option>Male</option>
+                        <option selected>Female</option>
+                    <?php } ?>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" required="required" name="lName" value="<?php echo $candidate['lName']?>"/>
+                <br>
+                <label>Mobile No.</label>
+                <input type="text" class="form-control" required="required" name="mobNum" value="<?php echo $candidate['mobNum']?>"/>
+            </div>
+            <div class="column col-md-6">
+                <label>Date of Birth</label>
+                <input type="date" class="form-control" required="required" name="dob" value="<?php echo $candidate['dob']?>" min="<?php echo $minYear.'-'.$curDay;?>" max="<?php echo $maxYear.'-'.$curDay;?>"/>
             </div>
         </div>
-    </div>
+        <br>
+        <h4 class="bg-light">Passport Information</h4>
+        <div class="row">
+            <div class="column col-md-6">
+                <label>Passport No.</label>
+                <input type="text" class="form-control" required="required" name="passportNum" value="<?php echo $candidate['passportNum']?>" readonly/>
+                <br>
+                <label>Issue Date</label>
+                <input type="date" class="form-control" required="required" name="issuD" value="<?php echo $candidate['issueDate']?>"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Country</label>
+                <input type="text" class="form-control" name="country" value="<?php echo $candidate['country']?>"/>
+                <br>
+                <label>Expiry Date</label>
+                <input type="date" class="form-control" required="required" name="expD" value="<?php echo $candidate['expiryDate']?>"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Departure Date</label>
+                <input type="date" class="form-control" name="departureDate" value="<?php echo $candidate['departureDate']?>"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Arrival Date</label>
+                <input type="date" class="form-control" name="arrivalDate" value="<?php echo $candidate['arrivalDate']?>"/>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Police Verification</label>
+                <select class="form-control" name="policeVerification">
+                    <?php if($candidate['policeClearance'] === 'yes'){?>
+                        <option value="yes" selected>Provided</option>
+                        <option value="no">Did not provide</option>
+                    <?php }else{ ?>
+                        <option value="yes">Provided</option>
+                        <option value="no" selected>Did not provide</option>
+                    <?php } ?>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Passport Size Photo</label>
+                <select class="form-control" name="photo">
+                    <?php if($candidate['passportPhoto'] === 'yes'){?>
+                        <option value="yes" selected>Submitted</option>
+                        <option value="no">Did not submit</option>
+                    <?php }else{ ?>
+                        <option value="yes">Submitted</option>
+                        <option value="no" selected>Did not submit</option>
+                    <?php } ?>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Agent</label>
+                <select class="form-control" name="agentEmail">
+                    <?php while($agent = mysqli_fetch_assoc($result)){
+                        if($agent['agentEmail'] === $candidate['agentEmail']){ ?>
+                            <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
+                        <?php }else{?>
+                            <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                    <?php }
+                    } ?>
+                </select>
+                <br>
+            </div>
+            <div class="column col-md-6">
+                <label>Comment</label>
+                <input type="text" class="form-control" name="comment" value="<?php echo $candidate['comment'];?>"/>
+                <br>
+            </div>
+        </div>
+        <br>
+        <div>
+            <input class="form-control bg-primary" type="submit" style="margin: auto; width: 15%" value="Update">
+        </div>
+    </form>
 </div>

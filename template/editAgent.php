@@ -34,7 +34,7 @@ $agent = mysqli_fetch_assoc($conn -> query("select * from agent where agentEmail
         <br>
         <div id="test"></div>
         <input type="hidden" value="update" name="alter">
-        <input id="insert" type="submit" value="Add">
+        <input id="insert" type="submit" value="Update">
 </div>
 </form>
 </div>
@@ -42,13 +42,7 @@ $agent = mysqli_fetch_assoc($conn -> query("select * from agent where agentEmail
     $(document).ready(function(){
         $('#insert').click(function (){
             let image_name = $('#image').val();
-            if(image_name === '')
-            {
-                alert("Please Select Image");
-                return false;
-            }
-            else
-            {
+            if(image_name != ''){
                 var extension = $('#image').val().split('.').pop().toLowerCase();
                 if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)
                 {

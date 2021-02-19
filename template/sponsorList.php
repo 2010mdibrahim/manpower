@@ -13,10 +13,7 @@
             <thead>
             <tr>
                 <th>Sponsor Name</th>
-                <th>Sponsor NID</th>
-                <th>Sponsor Visa</th>
-                <th>Sponsor Email</th>
-                <th>Sponsor Phone</th>
+                <th>Comment</th>
                 <th>Alter</th>
             </tr>
             </thead>
@@ -26,17 +23,14 @@
             while($sponsor = mysqli_fetch_assoc($result)){ ?>
                 <tr>
                     <td><?php echo $sponsor['sponsorName'];?></td>
-                    <td><?php echo $sponsor['sponsorNID'];?></td>
-                    <td><?php echo $sponsor['sponsorVisa'];?></td>
-                    <td><?php echo $sponsor['email'];?></td>
-                    <td><?php echo $sponsor['phone'];?></td>
+                    <td><?php echo $sponsor['comment'];?></td>
                     <td>
                         <div class="flex-container">
                             <div style="padding-right: 2%">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="alter" value="update">
                                     <input type="hidden" value="editSponsor" name="pagePost">
-                                    <input type="hidden" value="<?php echo $sponsor['sponsorId']; ?>" name="sponsorId">
+                                    <input type="hidden" value="<?php echo $sponsor['sponsorName']; ?>" name="sponsorName">
                                     <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
                                 </form>
                             </div>
@@ -44,7 +38,7 @@
                                 <form action="template/addNewSponsorQry.php" method="post">
                                     <input type="hidden" name="alter" value="delete">
                                     <input type="hidden" value="editAgent" name="pagePost">
-                                    <input type="hidden" value="<?php echo $sponsor['sponsorId']; ?>" name="sponsorId">
+                                    <input type="hidden" value="<?php echo $sponsor['sponsorName']; ?>" name="sponsorName">
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
                                 </form>
                             </div>
@@ -55,9 +49,7 @@
             <tfoot hidden>
             <tr>
                 <th>Sponsor Name</th>
-                <th>Sponsor Id</th>
-                <th>Sponsor Email</th>
-                <th>Sponsor Phone</th>
+                <th>Comment</th>
                 <th>Alter</th>
             </tr>
             </tfoot>

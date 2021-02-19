@@ -38,7 +38,7 @@ if($alter == 'delete') {
     $temp_name = '';
     $target_dir = '';
     $ext = '';
-    if (($_FILES['agentImage']['name']!="")){
+    if (($_FILES['agentImage']['name'] != "")){
         // Where the file is going to be stored
         $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/";
@@ -48,14 +48,21 @@ if($alter == 'delete') {
         $temp_name = $_FILES['agentImage']['tmp_name'];
         $path_filename_ext = $base_dir.$target_dir.$agentEmail.".".$ext;
     }
-    if ($alter == 'update') {
+    if ($alter == 'update') {        
         $photo = $target_dir.$agentEmail.'.'.$ext;
-        $qry = "UPDATE agent SET agentEmail='$agentEmail',agentName='$agentName',agentPhone='$agentPhone',agentPhoto ='$photo', comment='$comment'
+        if (($_FILES['agentImage']['name'] != "")){
+            $qry = "UPDATE agent SET agentEmail='$agentEmail',agentName='$agentName',agentPhone='$agentPhone',agentPhoto ='$photo', comment='$comment'
                ,updatedBy='$admin',updatedOn='$date'
                 WHERE agentEmail='$agentEmail'";
+        }else{
+            $qry = "UPDATE agent SET agentEmail='$agentEmail',agentName='$agentName',agentPhone='$agentPhone', comment='$comment'
+               ,updatedBy='$admin',updatedOn='$date'
+                WHERE agentEmail='$agentEmail'";
+        }
+        
         $result = mysqli_query($conn, $qry);
         if ($result) {
-            if (($_FILES['agentImage']['name']!="")){
+            if (($_FILES['agentImage']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Updated')</script>";

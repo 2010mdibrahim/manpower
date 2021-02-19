@@ -5,13 +5,9 @@ if(!empty($_POST['alter'])){
 }else{
     $alter = '';
 }
-if(!empty($_POST['sponsorId'])){
-    $sponsorId = $_POST['sponsorId'];
-}else{
-    $agentId = '';
-}
+$sponsorName = strtolower($_POST['sponsorName']);
 if($alter == 'delete') {
-    $qry = "delete from sponsor where sponsorId = $sponsorId";
+    $qry = "DELETE from sponsor where sponsorName = '$sponsorName'";
     $result = mysqli_query($conn, $qry);
     if ($result) {
         echo "<script>window.alert('Deleted')</script>";
@@ -22,39 +18,22 @@ if($alter == 'delete') {
     }
 }else {
     $admin = $_SESSION['email'];
-    $sponsorName = $_POST['sponsorName'];
-    $address = $_POST['address'];
-    $country = $_POST['country'];
-    $city = $_POST['city'];
-    $phnNumber = $_POST['phnNumber'];
-    $sponsorEmail = $_POST['sponsorEmail'];
-    $sponsorVisa = $_POST['sponsorVisa'];
-    $sponsorNid = $_POST['sponsorNid'];
-    $date = date("Y-m-d");
-    $qry = "select count(sponsorVisa) as visaCount from sponsor where sponsorVisa = '$sponsorVisa'";
-    $result = mysqli_query($conn,$qry);
-    $existingVisa = mysqli_fetch_assoc($result);
-    $qry = "select count(sponsorNID) as nidCount from sponsor where sponsorNID = '$sponsorNid'";
-    $result = mysqli_query($conn,$qry);
-    $existingNid = mysqli_fetch_assoc($result);
-//    echo $existingVisa['visaCount'];
-//    echo $existingNid['nidCount'];
-    if ($alter == 'update') {
-        $qry = "UPDATE sponsor SET sponsorName='$sponsorName',sponsorVisa = '$sponsorVisa', sponsorNid = '$sponsorNid',address='$address',country='$country'
-             ,city='$city',phone='$phnNumber',email='$sponsorEmail',updatedBy='$admin',updatedOn='$date' WHERE sponsorId=$sponsorId";
-        $result = mysqli_query($conn, $qry);
+    $comment = $_POST['comment'];
+    $date = date("Y-m-d");    
+    if ($alter == 'Update') {
+        $result = $conn->query("UPDATE sponsor SET comment = '$comment', updatedBy='$admin',updatedOn='$date' WHERE sponsorName='$sponsorName'");
         if ($result) {
             echo "<script>window.alert('Updated')</script>";
             echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
         } else {
             echo "<script>window.alert('Error')</script>";
+            echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
         }
 
     } else {
-        if($existingVisa['visaCount'] == 0 && $existingNid['nidCount'] == 0){
-            $qry = "INSERT INTO sponsor(sponsorName, sponsorVisa, sponsorNID, address, country, city, phone, email, status, updatedBy, updatedOn)
-            VALUES ('$sponsorName','$sponsorVisa', '$sponsorNid','$address','$country','$city','$phnNumber','$sponsorEmail',1,'$admin','$date')";
-            $result = mysqli_query($conn, $qry);
+        $sponsorCount = mysqli_fetch_assoc($conn -> query("SELECT count(sponsorName) as sponsorCount from sponsor where sponsorName = '$sponsorName'"));
+        if($sponsorCount['sponsorCount'] == 0){
+            $result = $conn->query("INSERT INTO sponsor(sponsorName, comment, updatedBy, updatedOn) VALUES ('$sponsorName','$comment','$admin','$date')");
             if ($result) {
                 echo "<script>window.alert('Inserted')</script>";
                 echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
@@ -62,8 +41,8 @@ if($alter == 'delete') {
                 echo "<script>window.alert('Error')</script>";
             }
         }else{
-            echo "<script>window.alert('Visa or NID already exists')</script>";
-            echo "<script> window.location.href='../index.php?page=addNewSponsor'</script>";
+                echo "<script>window.alert('Sponsor Already Exists')</script>";
+                echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
         }
     }
 

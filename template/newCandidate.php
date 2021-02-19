@@ -1,5 +1,11 @@
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
+
 <?php
 $result = $conn->query("select agentEmail, agentName from agent");
+$curYear = date("Y");
+$minYear = $curYear - 38;
+$maxYear = $curYear - 25;
+$curDay = date('m-d');
 ?>
 
 <div class="container">
@@ -19,6 +25,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
                     <option>Male</option>
                     <option>Female</option>
                 </select>
+                <br>
             </div>
             <div class="column col-md-6">
                 <label>Last Name</label>
@@ -26,6 +33,10 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <br>
                 <label>Mobile No.</label>
                 <input type="text" class="form-control" required="required" name="mobNum"/>
+            </div>
+            <div class="column col-md-6">
+                <label>Date of Birth</label>
+                <input type="date" class="form-control" required="required" name="dob" min="<?php echo $minYear.'-'.$curDay;?>" max="<?php echo $maxYear.'-'.$curDay;?>"/>
             </div>
         </div>
         <br>
@@ -36,7 +47,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <input type="text" class="form-control" required="required" name="passportNum"/>
                 <br>
                 <label>Issue Date</label>
-                <input type="date" class="form-control" required="required" name="issuD"/>
+                <input type="date" class="form-control" required="required" name="issuD" id="issuD" onchange="expDateVal(this.value)"/>
                 <br>
             </div>
             <div class="column col-md-6">
@@ -44,7 +55,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <input type="text" class="form-control" name="country"/>
                 <br>
                 <label>Expiry Date</label>
-                <input type="date" class="form-control" required="required" name="expD"/>
+                <input type="date" class="form-control" required="required" name="expD" id="expDate"/>
                 <br>
             </div>
             <div class="column col-md-6">
@@ -97,3 +108,10 @@ $result = $conn->query("select agentEmail, agentName from agent");
         </div>
     </form>
 </div>
+
+
+<script>
+    function expDateVal(val){
+        $('#expDate').attr('min', val);
+    };
+</script>

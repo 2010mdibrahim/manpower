@@ -60,6 +60,9 @@
                         <div class="dropdown-menu">
                             <a href="?page=addNewSponsor" class="dropdown-item">Add New Sponsor</a>
                             <a href="?page=sponsorList" class="dropdown-item">Sponsor List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=visaSponsor" class="dropdown-item">Add Visa to Sponsor</a>
+                            <a href="?page=allVisaList" class="dropdown-item">Show all visa list</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -80,6 +83,7 @@
                             <a href="?page=completeCandidate" class="dropdown-item">Candidates Update Stage</a>
                         </div>
                     </div>
+                    <a href="?page=manpower" class="nav-item nav-link">Manpower Office</a>
                     <a href="?page=report" class="nav-item nav-link">Report</a>
                     <a href="?page=tmp" class="nav-item nav-link">Tmp</a>
                 </div>
