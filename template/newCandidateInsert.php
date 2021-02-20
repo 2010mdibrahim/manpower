@@ -28,9 +28,9 @@ if($existingPass['passCount'] > 0){
 //             VALUES ('$passportNum', '$fName', '$lName', '$mobNum', '$gender', '$issuD', '$expD', '$departureDate', '$arrivalDate', '$policeVerification', '$country', '$photo', '$comment', '$admin', '$date')";
 //     mysqli_query($conn,"START TRANSACTION");
     $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, expiryDate, departureDate,
-                     arrivalDate, policeClearance, passportPhoto, agentEmail, country, comment, updatedBy, updatedOn)
+                     arrivalDate, policeClearance, passportPhoto, agentEmail, country,musanadReady, musanadEntry, comment, updatedBy, updatedOn)
                     VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD','$expD','$departureDate','$arrivalDate',
-                    '$policeVerification','$photo', '$agentEmail','$country','$comment','$admin','$date')");
+                    '$policeVerification','$photo', '$agentEmail','$country', 'no', 'no','$comment','$admin','$date')");
     if($result){
         echo "<script>window.alert('Inserted')</script>";
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";

@@ -28,7 +28,7 @@ if($alter == 'delete'){
     $agentEmail = $_POST['agentEmail'];
     $comment = $_POST['comment'];
     $admin = $_SESSION['email'];
-    $date = date("Y-m-d");
+    $date = date("Y-m-d H:i:s");
     $qry = "UPDATE passport SET fName='$fName',lName='$lName',mobNum='$mobNum',dob = '$dob',gender='$gender',issueDate='$issuD',expiryDate='$expD',departureDate='$departureDate',arrivalDate='$arrivalDate',policeClearance='$policeVerification',country='$country',passportPhoto='$photo',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE passportNum = '$passportNum'";
     $result = mysqli_query($conn,$qry);
     if($result){

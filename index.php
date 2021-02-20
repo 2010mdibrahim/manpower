@@ -258,6 +258,16 @@ if(!empty($_POST['pagePost'])){
             include('template/allVisaList.php');
         }else if($page == 'manpower') {
             include('template/manpower.php');
+        }else if($page == 'manpowerList') {
+            include('template/manpowerList.php');
+        }else if($page == 'addExpenseAgent') {
+            include('template/addExpenseAgent.php');
+        }else if($page == 'expenseAgentList') {
+            include('template/expenseAgentList.php');
+        }else if($pagePost == 'showAgentExpenseList') {
+            include('template/showAgentExpenseList.php');
+        }else if($pagePost == 'editAgentExpense') {
+            include('template/editAgentExpense.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';

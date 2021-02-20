@@ -53,6 +53,9 @@
                         <div class="dropdown-menu">
                             <a href="?page=addNewAgent" class="dropdown-item">Add New Agent</a>
                             <a href="?page=agentList" class="dropdown-item">Agent List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense</a>
+                            <a href="?page=expenseAgentList" class="dropdown-item">Agent Expense List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -83,7 +86,14 @@
                             <a href="?page=completeCandidate" class="dropdown-item">Candidates Update Stage</a>
                         </div>
                     </div>
-                    <a href="?page=manpower" class="nav-item nav-link">Manpower Office</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Manpower</a>
+                        <div class="dropdown-menu">
+                            <a href="?page=manpower" class="dropdown-item">Add Office</a>
+                            <a href="?page=manpowerList" class="dropdown-item">Office List</a>
+                        </div>
+                    </div>
+                    
                     <a href="?page=report" class="nav-item nav-link">Report</a>
                     <a href="?page=tmp" class="nav-item nav-link">Tmp</a>
                 </div>

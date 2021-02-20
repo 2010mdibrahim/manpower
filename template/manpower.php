@@ -19,6 +19,6 @@
             </div>
         </div>
         <br>        
-        <input type="submit" value="Add">
+        <input type="submit" value="Add" name="manpower">
 </div>
 </form>

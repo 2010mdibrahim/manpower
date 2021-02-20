@@ -11,27 +11,37 @@
     <div class="table-responsive">
         <table id="dataTableSeaum" class="table col-12" style="width:100%">
             <thead>
-            <tr>
-                <th>DATE</th>
+            <tr>                
                 <th>Visa No</th>
-                <th>Name</th>
-                <th>Visa Type</th>
-                <th>Agent</th>
-                <th>Alter</th>
+                <th>Employee Request</th>
+                <th>Foreign Mole</th>
+                <th>Okala</th>
+                <th>Mufa</th>
+                <th>Test Medical</th>
+                <th>Final Medical</th>
+                <th>Finger</th>
+                <th>Visa Stamping</th>
+                <th>Departure Date</th>
+                <th>Arrival Date</th>
             </tr>
             </thead>
             <?php
-            $qry = "select * from visainfo";
-            $result = mysqli_query($conn,$qry);
+            $result = $conn->query("SELECT * from visa");
             $status = "pending";
             while($visa = mysqli_fetch_assoc($result)){ ?>
                 <tr>
-                    <td><?php echo $visa['date'];?></td>
-                    <td><?php echo $visa['visaId'];?></td>
-                    <td><?php echo $visa['name'];?></td>
-                    <td><?php echo $visa['type'];?></td>
-                    <td><?php echo $visa['visaIssuAgent'];?></td>
-                    <td>
+                    <td><?php echo $visa['visaNo'];?></td>
+                    <td><?php echo $visa['empRqst'];?></td>
+                    <td><?php echo $visa['foreignMole'];?></td>
+                    <td><?php echo $visa['okala'];?></td>
+                    <td><?php echo $visa['mufa'];?></td>
+                    <td><?php echo $visa['testMedical'];?></td>
+                    <td><?php echo $visa['finalMedical'];?></td>
+                    <td><?php echo $visa['finger'];?></td>
+                    <td><?php echo $visa['visaStamping'];?></td>
+                    <td><?php echo $visa['mufa'];?></td>
+                    <td><?php echo $visa['mufa'];?></td>
+                    <!-- <td>
                         <div class="flex-container">
                             <div style="padding-right: 2%">
                                 <form action="index.php" method="post">
@@ -50,17 +60,22 @@
                                 </form>
                             </div>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
             <?php } ?>
             <tfoot hidden>
             <tr>
-                <th>DATE</th>
                 <th>Visa No</th>
-                <th>Name</th>
-                <th>Visa Type</th>
-                <th>Agent</th>
-                <th>Alter</th>
+                <th>Employee Request</th>
+                <th>Foreign Mole</th>
+                <th>Okala</th>
+                <th>Mufa</th>
+                <th>Test Medical</th>
+                <th>Final Medical</th>
+                <th>Finger</th>
+                <th>Visa Stamping</th>
+                <th>Departure Date</th>
+                <th>Arrival Date</th>
             </tr>
             </tfoot>
 

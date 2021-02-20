@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT * from passport order by updatedBy");
+$result = $conn -> query("SELECT * from passport order by updatedOn asc");
 ?>
 <style>
     .flex-container {
@@ -27,13 +27,14 @@ $result = $conn -> query("SELECT * from passport order by updatedBy");
                 <th>Comment</th>
                 <th>Training Card</th>
                 <th>Musanad</th>
+                <th>Musanad Entry</th>
                 <th>Edit</th>
             </tr>
             </thead>
             <?php
             while( $candidate = mysqli_fetch_assoc($result) ){
                 $today = date("Y-m-d");
-                $dateDiff = mysqli_fetch_assoc($conn -> query("select datediff(arrivalDate, departureDate) as expDay, datediff(expiryDate, '$today') as passportValidity, year(dob) as dobYear from passport WHERE passportNum = '".$candidate['passportNum']."'"));
+                $dateDiff = mysqli_fetch_assoc($conn -> query("SELECT datediff(arrivalDate, departureDate) as expDay, datediff(expiryDate, '$today') as passportValidity, year(dob) as dobYear from passport WHERE passportNum = '".$candidate['passportNum']."'"));
                 // ----- experience days ------
                 $expDays = intval($dateDiff['expDay']);
                 $expMonths = 0;
@@ -120,14 +121,43 @@ $result = $conn -> query("SELECT * from passport order by updatedBy");
                     <?php
                         if($candidate['policeClearance'] === 'yes' AND $candidate['passportPhoto'] === 'yes' AND $passportValidityYears >= 1){ 
                             if($expYears >= 1){ ?>
+                                 <!-- --------- updating musanad ready ---------- -->
+                                <?php $entry = $conn->query("UPDATE passport set musanadReady = 'ready' where passportNum = '".$candidate['passportNum']."'");?>
+                                 <!-- --------- end updating musanad ready ---------- -->
                                 <button type="button" class="btn btn-success" value="Ready">Ready</button>
                         <?php }else if($candidate['trainingCard'] === 'yes'){ ?>
+                                 <!-- --------- updating musanad ready ---------- -->
+                                <?php $entry = $conn->query("UPDATE passport set musanadReady = 'ready' where passportNum = '".$candidate['passportNum']."'");?>
+                                 <!-- --------- end updating musanad ready ---------- -->
                                 <button type="button" class="btn btn-success" value="Ready">Ready</button>
-                        <?php }else{ ?>  
-                                <button type="button" class="btn btn-warning" value="Ready">Not Ready</button>
+                        <?php }else{ ?> 
+                                <!-- --------- updating musanad ready ---------- -->
+                                <?php $entry = $conn->query("UPDATE passport set musanadReady = 'no' where passportNum = '".$candidate['passportNum']."'");?>
+                                <!-- --------- end updating musanad ready ---------- --> 
+                                <button type="button" class="btn btn-warning" value="Not Ready">Not Ready</button>
                         <?php } ?>                       
                     <?php }else{ ?>
+                                <!-- --------- updating musanad ready ---------- -->
+                                <?php $entry = $conn->query("UPDATE passport set musanadReady = 'no' where passportNum = '".$candidate['passportNum']."'");?>
+                                <!-- --------- end updating musanad ready ---------- -->
                             <button type="button" class="btn btn-warning" value="Ready">Not Ready</button>
+                    <?php } ?>
+                    </td>
+                    <!-- Musanad Entry -->
+                    <td>
+                    <?php 
+                        $musanad = mysqli_fetch_assoc($conn->query("SELECT musanadReady from passport where passportNum = '".$candidate['passportNum']."'"));
+                        if($musanad['musanadReady'] == 'ready'){ 
+                        if($candidate['musanadEntry'] == 'no'){?>
+                            <form action="template/musanadEntry.php" method="post">
+                                <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                <button type="submit" class="btn btn-warning" value="Ready" name="musanadReady">Not Submitted</button>
+                            </form>
+                        <?php }else{ ?>  
+                            <button type="button" class="btn btn-success" value="Ready">Submitted</button>
+                        <?php } ?>                      
+                    <?php }else{ ?>
+                        <button type="button" class="btn btn-secondary" value="Not Ready">Not Ready</button>
                     <?php } ?>
                     </td>
                     <td>
@@ -165,6 +195,8 @@ $result = $conn -> query("SELECT * from passport order by updatedBy");
                 <th>Passport Photo</th>
                 <th>Comment</th>
                 <th>Training Card</th>
+                <th>Musanad</th>
+                <th>Musanad Entry</th>
                 <th>Edit</th>
             </tr>
             </tfoot>
