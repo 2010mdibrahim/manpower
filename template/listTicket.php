@@ -16,40 +16,33 @@
                 <th>Airplane</th>
                 <th>Flight No</th>
                 <th>Flight Date</th>
-                <th>Flight Time</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Amount</th>
-                <th>Departure</th>
-                <th>Terminal</th>
-                <th>Agent Name</th>
+                <th>Comment</th>
                 <th>Alter</th>
             </tr>
             </thead>
             <?php
             $agent = $_SESSION['email'];
-            $qry = "select * from ticket";
-            $result = mysqli_query($conn,$qry);
-            while($candidate = mysqli_fetch_assoc($result)){ ?>
+            $result = $conn->query("select * from ticket");
+            while($ticket = mysqli_fetch_assoc($result)){ ?>
                 <tr>
-                    <td><?php echo $candidate['passportNum'];?></td>
-                    <td><?php  echo $candidate['airplane'];?></td>
-                    <td><?php  echo $candidate['flightNo'];?></td>
-                    <td><?php  echo $candidate['flightDate'];?></td>
-                    <td><?php  echo $candidate['flightTime'];?></td>
-                    <td><?php  echo $candidate['fromPlace'];?></td>
-                    <td><?php  echo $candidate['toPlace'];?></td>
-                    <td><?php  echo number_format($candidate['amount']);?></td>
-                    <td><?php  echo $candidate['departure'];?></td>
-                    <td><?php  echo $candidate['terminal'];?></td>
-                    <td><?php echo $candidate['agent'];?></td>
+                    <td><?php echo $ticket['passportNum'];?></td>
+                    <td><?php  echo $ticket['airline'];?></td>
+                    <td><?php  echo $ticket['flightNo'];?></td>
+                    <td><?php  echo $ticket['flightDate'];?></td>
+                    <td><?php  echo $ticket['flightFrom'];?></td>
+                    <td><?php  echo $ticket['flightTo'];?></td>
+                    <td><?php  echo $ticket['ticketPrice'];?></td>
+                    <td><?php  echo $ticket['comment'];?></td>
                     <td>
                         <div class="flex-container">
                             <div style="padding-right: 2%">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="alter" value="update">
                                     <input type="hidden" value="editTicket" name="pagePost">
-                                    <input type="hidden" value="<?php echo $candidate['ticketId']; ?>" name="ticketId">
+                                    <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
                                     <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
                                 </form>
                             </div>
@@ -71,13 +64,10 @@
                 <th>Airplane</th>
                 <th>Flight No</th>
                 <th>Flight Date</th>
-                <th>Flight Time</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Amount</th>
-                <th>Departure</th>
-                <th>Terminal</th>
-                <th>Agent Name</th>
+                <th>Comment</th>
                 <th>Alter</th>
             </tr>
             </tfoot>

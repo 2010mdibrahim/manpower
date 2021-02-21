@@ -92,7 +92,7 @@ $curDay = date('m-d');
             </div>
             <div class="column col-md-6">
                 <label>Passport Size Photo</label>
-                <select class="form-control" name="photo">
+                <select class="form-control" name="photo" id="policeVerification">
                     <?php if($candidate['passportPhoto'] === 'yes'){?>
                         <option value="yes" selected>Submitted</option>
                         <option value="no">Did not submit</option>
@@ -102,6 +102,10 @@ $curDay = date('m-d');
                     <?php } ?>
                 </select>
                 <br>
+                <div id="policeFile" style="display: none;">
+                    <label>Police Verification File</label>
+                    <input class="form-control" type="file" name="policeVerification">
+                </div>
             </div>
             <div class="column col-md-6">
                 <label>Agent</label>
@@ -128,3 +132,13 @@ $curDay = date('m-d');
         </div>
     </form>
 </div>
+<script>
+$('body').on('change', '#policeVerification', function(){
+    let policeVerification = $('#policeVerification').val();
+    if(policeVerification == 'yes'){
+        $('#policeFile').show();
+    }else{
+        $('#policeFile').hide();
+    }
+});
+</script>

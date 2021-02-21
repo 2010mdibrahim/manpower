@@ -26,7 +26,17 @@ if(!empty($_POST['pagePost'])){
 
 <script>
     $(document).ready(function() {
-        $('#dataTableSeaum').DataTable();        
+        $('#dataTableSeaum').DataTable({
+            scrollY:        "450px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            "autoWidth": false,
+            columnDefs: [
+                { width: 200, targets: 0 }
+            ],
+            fixedColumns: true
+        });        
     } );
 </script>
 <style>

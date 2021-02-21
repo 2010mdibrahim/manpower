@@ -15,23 +15,57 @@ $photo = $_POST['photo'];
 $agentEmail = $_POST['agentEmail'];
 $comment = $_POST['comment'];
 $dob = $_POST['dob'];
-print_r($dob);
 $admin = $_SESSION['email'];
 $date = date("Y-m-d H:i:s");
-// print_r()
+
+
+$path_filename_ext = '';
+$temp_name = '';
+$target_dir = '';
+$ext = '';
+if (($_FILES['policeVerification']['name'] != "")){
+    // Where the file is going to be stored
+    $base_dir = "C:/xampp/htdocs/mahfuza/";
+    $target_dir = "uploads/policeVerification/";
+    $file = $_FILES['policeVerification']['name'];
+    $path = pathinfo($file);
+    $ext = $path['extension'];
+    $temp_name = $_FILES['policeVerification']['tmp_name'];
+    $path_filename_ext = $base_dir.$target_dir."policeVerification"."-".$passportNum.".".$ext;
+}
+
+$path_photofilename_ext = '';
+$photo_temp_name = '';
+$photo_target_dir = '';
+$photo_ext = '';
+if (($_FILES['photoFile']['name'] != "")){
+    // Where the file is going to be stored
+    $base_dir = "C:/xampp/htdocs/mahfuza/";
+    $target_dir_photo = "uploads/photo/";
+    $file_photo = $_FILES['photoFile']['name'];
+    $path_photo = pathinfo($file_photo);
+    $photo_ext = $path_photo['extension'];
+    $photo_temp_name = $_FILES['photoFile']['tmp_name'];
+    $path_photofilename_ext = $base_dir.$target_dir_photo."photo"."-".$passportNum.".".$photo_ext;
+}
 $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
 if($existingPass['passCount'] > 0){
     echo "<script>window.alert('Passport Already Exists')</script>";
     echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
 }else{
-//    $qry = "INSERT INTO passport(passportNum, fName, lName, mobNum, gender, issueDate, expiryDate, departureDate, arrivalDate, policeClearance, country, musanadEntry, passportPhoto, comment, updatedBy, updatedOn)
-//             VALUES ('$passportNum', '$fName', '$lName', '$mobNum', '$gender', '$issuD', '$expD', '$departureDate', '$arrivalDate', '$policeVerification', '$country', '$photo', '$comment', '$admin', '$date')";
-//     mysqli_query($conn,"START TRANSACTION");
+    $policeFile = $target_dir."policeVerification"."-".$passportNum.".".$ext;
+    $photoFile = $target_dir_photo."photo"."-".$passportNum.".".$photo_ext; 
     $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, expiryDate, departureDate,
-                     arrivalDate, policeClearance, passportPhoto, agentEmail, country,musanadReady, musanadEntry, comment, updatedBy, updatedOn)
+                     arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, agentEmail, country,musanadReady, musanadEntry, comment, updatedBy, updatedOn, creationDate)
                     VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD','$expD','$departureDate','$arrivalDate',
-                    '$policeVerification','$photo', '$agentEmail','$country', 'no', 'no','$comment','$admin','$date')");
+                    '$policeVerification', '$policeFile', '$photo', '$photoFile', '$agentEmail','$country', 'no', 'no','$comment','$admin','$date', '$date')");
     if($result){
+        if (($_FILES['policeVerification']['name'] != "")){
+            move_uploaded_file($temp_name,$path_filename_ext);
+        }
+        if (($_FILES['photoFile']['name'] != "")){
+            move_uploaded_file($photo_temp_name,$path_photofilename_ext);
+        }
         echo "<script>window.alert('Inserted')</script>";
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{

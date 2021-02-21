@@ -14,20 +14,17 @@ if($alter == 'delete'){
         echo 'something went wrong!';
     }
 }else{
-    $passport = $_POST['passport'];
+    $passport = $_POST['passportNum'];
     $airplane = $_POST['airline'];
     $flightNo = $_POST['flightNo'];
     $flightDate = $_POST['flightDate'];
-    $flightTime = $_POST['flightTime'];
     $fromPlace = $_POST['fromPlace'];
     $toPlace = $_POST['toPlace'];
     $amount = $_POST['amount'];
-    $departure = $_POST['departure'];
-    $terminal = $_POST['terminal'];
-    $agent = $_POST['agent'];
-    $qry = "UPDATE ticket SET passportNum='$passport',airplane='$airplane',agent='$agent',flightNo='$flightNo',flightDate='$flightDate',flightTime='$flightTime'
-              ,fromPlace='$fromPlace',toPlace='$toPlace',amount=$amount,departure='$departure',terminal='$terminal' WHERE ticketId=$ticketId";
-    $result = mysqli_query($conn,$qry);
+    $comment = $_POST['comment'];
+    $admin = $_SESSION['email'];
+    $date = date("Y-m-d");
+    $result = $conn->query("UPDATE ticket SET flightDate='$flightDate',ticketPrice='$amount',flightNo='$flightNo',flightFrom='$fromPlace',flightTo='$toPlace',airline='$airplane',passportNum='$passport',comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE ticketId = $ticketId");
     if($result)
     {
         echo "<script> window.alert('Updated')</script>";

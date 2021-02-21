@@ -28,7 +28,7 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport");
                     <h4 class="bg-light">Sponsor Information</h4>
                     <label> Sponsor Name </label>
                     <select class="form-control" id="sponsorInfo" name="sponsorInfo">
-                        <option>Select Sponsor Name</option>
+                        <option>Select Passport First</option>
                     </select>
                     <br>                    
                 </div>

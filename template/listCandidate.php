@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT * from passport order by updatedOn asc");
+$result = $conn -> query("SELECT * from passport order by creationDate");
 ?>
 <style>
     .flex-container {
@@ -10,6 +10,87 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
 <div class="container-fluid" style="padding: 2%">
     <div class="section-header">
         <h3>Candidate List</h3>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="policeClearanceFileSubmit">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Give Police Clearance File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="mode" value="policeVerification">
+                        <input type="hidden" name="modalPassportPolice" id="modalPassportPolice" value="">
+                        <input class="form-control" type="file" name="policeClearance">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="trainingCardFileSubmit">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Give Training Card</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="mode" value="trainingCardMode">
+                        <input type="hidden" name="passportNumModalTraining" id="passportNumModalTraining" value="">
+                        <input class="form-control" type="file" name="trainingCard">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="photoFileSubmit">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Give Passport Photo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="mode" value="photoMode">
+                        <input type="hidden" name="passportNumModalPhoto" id="passportNumModalPhoto" value="">
+                        <input class="form-control" type="file" name="photo">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="table-responsive">
         <table id="dataTableSeaum" class="table col-12"  style="width:100%">
@@ -35,6 +116,7 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
             while( $candidate = mysqli_fetch_assoc($result) ){
                 $today = date("Y-m-d");
                 $dateDiff = mysqli_fetch_assoc($conn -> query("SELECT datediff(arrivalDate, departureDate) as expDay, datediff(expiryDate, '$today') as passportValidity, year(dob) as dobYear from passport WHERE passportNum = '".$candidate['passportNum']."'"));
+
                 // ----- experience days ------
                 $expDays = intval($dateDiff['expDay']);
                 $expMonths = 0;
@@ -47,6 +129,7 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
                         $expMonths %= 12;
                     }
                 }
+                
                 // ------- validity days -------
                 $passportValidityDays = intval($dateDiff['passportValidity']);
                 $passportValidityMonths = 0;
@@ -97,25 +180,42 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
                     if($expYears != 0){
                         echo $expYears.' Years';
                     }
-                    ?></td>                    
-                    <td><?php echo $candidate['policeClearance'];?></td>
-                    <td><?php echo $candidate['passportPhoto'];?></td>
+                    ?></td>   
+                    
+                    <!-- Police Clearance -->
+                    <td><?php 
+                    if($candidate['policeClearance'] == 'yes'){ ?>
+                        <a href="<?php echo $candidate['policeClearanceFile'];?>" target="_blank"><button class="btn btn-success">Submitted</button></a>
+                    <?php }else{ ?>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>">Not Submitted</button>
+                    <?php } ?>
+                    </td>
+
+                    <!-- Passport Photo -->
+                    <td>
+                        <?php if($candidate['passportPhoto'] == 'yes'){ ?>
+                            <a href="<?php echo $candidate['passportPhotoFile'];?>" target="_blank"><button class="btn btn-success">Submitted</button></a>
+                        <?php }else{ ?>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#photoFileSubmit" id="photoFile" value="<?php echo $candidate['passportNum'];?>">Not Submitted</button> 
+                        <?php } ?>
+                    </td>
+
+
                     <td><?php echo $candidate['comment'];?></td>
+
                     <!-- Training Card -->
                     <td><?php 
                     if(intval($dateDiff['expDay']) < 365){
                         if(!empty($candidate['trainingCard'])){ ?>
-                            <input type="button" class="btn btn-primary" name="card" value="Card Received">
-                        <?php }else{ ?>
-                            <form action="template/trainingCard.php" method="post">
-                            <input type="hidden" name="trainingCard" value="<?php echo $candidate['passportNum'];?>">
-                            <input type="submit" id="trainingCard" class="btn btn-danger" name="trainingCard" value="Not Submitted">
-                            </form>
+                            <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-success">Submitted</button></a>
+                        <?php }else{ ?> 
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingCard" value="<?php echo $candidate['passportNum'];?>">Not Submitted</button> 
                         <?php }
                     }else{
                         echo 'Not Requied';
                     }
                     ?></td>
+
                     <!-- Musanad Ready -->
                     <td>
                     <?php
@@ -143,6 +243,8 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
                             <button type="button" class="btn btn-warning" value="Ready">Not Ready</button>
                     <?php } ?>
                     </td>
+
+
                     <!-- Musanad Entry -->
                     <td>
                     <?php 
@@ -151,10 +253,13 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
                         if($candidate['musanadEntry'] == 'no'){?>
                             <form action="template/musanadEntry.php" method="post">
                                 <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
-                                <button type="submit" class="btn btn-warning" value="Ready" name="musanadReady">Not Submitted</button>
+                                <button type="submit" class="btn btn-warning" value="yes" name="musanadReady">Not Submitted</button>
                             </form>
                         <?php }else{ ?>  
-                            <button type="button" class="btn btn-success" value="Ready">Submitted</button>
+                            <form action="template/musanadEntry.php" method="post">
+                                <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                <button type="submit" class="btn btn-success" value="no" name="musanadReady">Submitted</button>
+                            </form>
                         <?php } ?>                      
                     <?php }else{ ?>
                         <button type="button" class="btn btn-secondary" value="Not Ready">Not Ready</button>
@@ -204,6 +309,21 @@ $result = $conn -> query("SELECT * from passport order by updatedOn asc");
         </table>
     </div>
 </div>
+
+<script>
+$('body').on('click', '#policeClearancePassport', function(){
+    // alert($("#policeClearancePassport").val());
+    $('#modalPassportPolice').val($("#policeClearancePassport").val());
+});
+$('body').on('click', '#trainingCard', function(){
+    // alert($("#trainingCard").val());
+    $('#passportNumModalTraining').val($("#trainingCard").val());
+});
+$('body').on('click', '#photoFile', function(){
+    // alert($("#trainingCard").val());
+    $('#passportNumModalPhoto').val($("#photoFile").val());
+});
+</script>
 
 
 
