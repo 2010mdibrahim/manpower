@@ -1,39 +1,50 @@
 <?php
 include ('database.php');
 $alter = $_POST['alter'];
-if(!empty($_POST['expenseId'])){
-    $expenseId = $_POST['expenseId'];
+
+if(!empty($_POST['purpose'])){
+    $purpose = $_POST['purpose'];
 }else{
-    $expenseId = '';
+    $purpose = '';
 }
-if(!empty($_POST['expenseName'])){
-    $expenseNameId = $_POST['expenseName'];
-}else{
-    $expenseNameId = '';
-}
+
 if(!empty($_POST['amount'])){
     $amount = $_POST['amount'];
 }else{
     $amount = '';
 }
-if(!empty($_POST['paymode'])){
-    $paymode = $_POST['paymode'];
+
+if(!empty($_POST['advance'])){
+    $advance = $_POST['advance'];
 }else{
-    $paymode = '';
+    $advance = 0;
 }
+
+if(!empty($_POST['payDate'])){
+    $payDate = $_POST['payDate'];
+}else{
+    $payDate = '';
+}
+
 if(!empty($_POST['remark'])){
     $remark = $_POST['remark'];
 }else{
     $remark = '';
 }
-if(!empty($_POST['date'])){
-    $date = $_POST['date'];
+
+if(!empty($_POST['expenseId'])){
+    $expenseId = $_POST['expenseId'];
 }else{
-    $date= '';
+    $expenseId = '';
 }
 
+$date = date("Y-m-d");
+$creationDate = date("Y-m-d H:i:s");
+$admin = $_SESSION['email'];
+
 if($alter == 'insert'){
-    $qry = "INSERT INTO expense(expenseheadId, amount, paymode, date, remark) VALUES ($expenseNameId,$amount,'$paymode','$date','$remark')";
+    $qry = "INSERT INTO expense (purpose, amount, advance, payDate, creationDate, updatedBy, updatedOn, comment) 
+            VALUES ('$purpose',$amount,$advance,'$payDate','$creationDate', '$admin','$date','$remark')";
     $result = mysqli_query($conn,$qry);
     if($result)
     {
@@ -41,10 +52,10 @@ if($alter == 'insert'){
         echo "<script> window.location.href='../index.php?page=expenseDetails'</script>";
     }
     else{
-        echo 'something went wrong!';
+        echo 'something went wrong insert!';
     }
 }else if($alter == 'update'){
-    $qry = "UPDATE expense SET expenseheadId=$expenseNameId,amount=$amount,paymode='$paymode',date='$date',remark='$remark' WHERE expenseId = $expenseId";
+    $qry = "UPDATE expense SET purpose='$purpose',amount=$amount,advance=$advance,payDate='$payDate',updatedBy='$admin',updatedOn = '$date',comment= '$remark' WHERE expenseId = $expenseId";
     $result = mysqli_query($conn,$qry);
     if($result)
     {
@@ -55,7 +66,7 @@ if($alter == 'insert'){
         echo 'something went wrong!';
     }
 }else{
-    $qry = "delete from expense where expenseId = $expenseId";
+    $qry = "DELETE from expense where expenseId = $expenseId";
     $result = mysqli_query($conn,$qry);
     if($result)
     {

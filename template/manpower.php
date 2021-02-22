@@ -22,3 +22,9 @@
         <input type="submit" value="Add" name="manpower">
 </div>
 </form>
+
+<script>
+    window.onload = function() {
+        $('#manpowerNav').addClass('active');
+    };
+</script>

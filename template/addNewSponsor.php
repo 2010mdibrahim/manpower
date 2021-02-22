@@ -5,20 +5,25 @@
     <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
     <form action="template/addNewSponsorQry.php" method="post">
         <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
+            <div class="form-row">
+                <div class="form-group col-md-6" >
                     <label>Sponsor Name</label>
                     <input class="form-control" type="text" name="sponsorName" placeholder="Enter Name">
-                    <br>
                 </div>
-                <div class="column col-md-6" >                    
+                <div class="form-group col-md-6" >                    
                     <label>Comment</label>
                     <input class="form-control" type="text" id="sponsorVisa" name="comment" placeholder="Enter Visa">
-                    <br>
                 </div>
             </div>
         </div>
-        <br>        
-        <input type="submit" value="Add">
+        <div class="form-group">        
+            <input style="width: auto; margin: auto" class="form-control" type="submit" value="Add">
+        </div>
 </div>
 </form>
+
+<script>
+    window.onload = function() {
+        $('#sponsorNav').addClass('active');
+    };
+</script>

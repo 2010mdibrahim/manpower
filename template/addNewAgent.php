@@ -2,34 +2,37 @@
     <div class="section-header">
         <h2>Add New Agent</h2>
     </div>
-    <h3 style="background-color: aliceblue; padding: 0.5%">Candidate Agent Information</h3>
+    <h3 style="background-color: aliceblue; padding: 0.5%">Agent Information</h3>
     <form action="template/addNewAgentQry.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
+            <div class="form-row">
+                <div class="form-group col-md-6" >
                     <label>Agent Name</label>
                     <input class="form-control" type="text" name="agentName" id="agentName" placeholder="Enter Name">
-                    <br>
+                </div>
+                <div class="form-group col-md-6" >  
                     <label for="sel1">Agent Email: <span class="samin danger" >Email Already Exists</span> </label>
                     <input class="form-control" type="email" name="agentEmail" placeholder="example@abc.com" id="agentEmail">
                 </div>
-                <div class="column col-md-6">
+                <div class="form-group col-md-6">
                     <label for="sel1">Phone:</label>
                     <input class="form-control" type="text" name="agentPhone" id="agentPhone" placeholder="Phone Number">
-                    <br>
-                    <label for="sel1">Photo:</label>
-                    <input class="form-control" type="file" name="agentImage" id="image" >
                 </div>
-                <div class="column col-md-6">
-                    <br>
+                <div class="form-group col-md-6">
+                    <label for="sel1">Passport Photo:</label>
+                    <input class="form-control-file" type="file" name="agentImage" id="image" >
+                </div>
+                <div class="form-group col-md-6">
                     <label for="sel1">Any Remarks:</label>
                     <input class="form-control" type="text" name="comment" id="comment" placeholder="comment">
                 </div>
             </div>
         </div>
-        <br>
         <div id="test"></div>
-        <input id="insert" type="submit" value="Add">
+        <div class="form-group">
+            <input style="width: auto; margin: auto;" class="form-control" id="insert" type="submit" value="Add">
+        </div>
+        
 </div>
     </form>
 </div>
@@ -54,4 +57,8 @@
             }
         });
     });
+
+    window.onload = function() {
+        $('#agentNav').addClass('active');
+    };
 </script>

@@ -70,3 +70,9 @@
     </div>
 </div>
 
+
+<script>
+    window.onload = function() {
+        $('#agentNav').addClass('active');
+    };
+</script>

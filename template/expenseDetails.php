@@ -1,6 +1,5 @@
 <?php
-$qry = "SELECT expense.amount,expense.paymode,expense.date,expense.remark,expenseheader.expenseName,expense.expenseId,expenseheader.expenseheadId FROM expense 
-            INNER JOIN expenseheader ON expense.expenseheadId=expenseheader.expenseheadId";
+$qry = "SELECT * from expense order by creationDate";
 $result = mysqli_query($conn,$qry);
 ?>
 <style>
@@ -18,28 +17,36 @@ $result = mysqli_query($conn,$qry);
         <table id="dataTableSeaum" class="table col-12" style="width:100%">
             <thead>
             <tr>
-                <th>Expense Header</th>
+                <th>Purpose</th>
                 <th>Amount</th>
-                <th>Issue Date</th>
-                <th>Paymode</th>
-                <th>Remark</th>
+                <th>Advance</th>                
+                <th>Balance</th>
+                <th>Pay Date</th>
+                <th>Comment</th>
                 <th>Alter</th>
             </tr>
             </thead>
             <?php
             while( $expense = mysqli_fetch_assoc($result) ){ ?>
                 <tr>
-                    <td><?php echo $expense['expenseName'];?></td>
+                    <td><?php echo $expense['purpose'];?></td>
                     <td><?php echo number_format($expense['amount']);?></td>
-                    <td><?php echo $expense['date'];?></td>
-                    <td><?php echo $expense['paymode'];?></td>
-                    <td><?php echo $expense['remark'];?></td>
+                    <td><?php echo $expense['advance'];?></td>
+                    <td><?php echo (intval($expense['amount']) - intval($expense['advance']));?></td>
+                    <td><?php
+                    if($expense['payDate'] == '0000-00-00'){
+                        echo 'No Date';
+                    }else{
+                        echo $expense['payDate'];
+                    }
+                     
+                    ?></td>
+                    <td><?php echo $expense['comment'];?></td>                    
                     <td>
                         <div class="flex-container">
                             <div style="padding-right: 2%">
                                 <form action="index.php" method="post">
                                     <input type="hidden" value="editExpense" name="pagePost">
-                                    <input type="hidden" value="<?php echo $expense['expenseheadId']; ?>" name="expenseheadId">
                                     <input type="hidden" value="<?php echo $expense['expenseId']; ?>" name="expenseId">
                                     <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
                                 </form>
@@ -71,3 +78,9 @@ $result = mysqli_query($conn,$qry);
     </div>
 </div>
 
+
+<script>
+    window.onload = function() {
+        $('#expenseNav').addClass('active');
+    };
+</script>

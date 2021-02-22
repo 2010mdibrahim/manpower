@@ -75,3 +75,9 @@
     </div>
 </div>
 
+<script>
+    window.onload = function() {
+        $('#ticketNav').addClass('active');
+    };
+</script>
+

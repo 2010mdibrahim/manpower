@@ -8,45 +8,46 @@ $result = mysqli_query($conn,$qry);
         <h2>Add New Expense</h2>
     </div>
     <form action="template/newExpenseQry.php" method="post">
+        
+        <input type="hidden" value="insert" name="alter">
+
         <div class="form-group">
-            <input type="hidden" value="insert" name="alter">
-            <label for="sel1">Select Type of Expense:</label>
-            <select class="form-control" id="expenseName" name="expenseName">
-                <option>Select Expense Type</option>
-                <?php while($expensehead = mysqli_fetch_assoc($result)){ ?>
-                    <option value="<?php echo $expensehead['expenseheadId'];?>"><?php echo $expensehead['expenseName']; ?></option>
-                <?php } ?>
-            </select>
+            <label for="sel1">Purpose:</label>
+            <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" required>
         </div>
-        <br>
+
         <h3 style="background-color: aliceblue; padding: 0.5%">Expense information</h3>
-        <div class="form-group flex-container"">
-        <br>
-        <div >
-            <label for="sel1">Enter Amount:</label>
-            <input class="form-control" type="number" name="amount" placeholder="BDT">
-        </div>
-        <br>
-        <div >
-            <label for="sel1">Receipt Date:</label>
-            <input class="form-control" type="date" name="date">
-        </div>
-        <br>
         <div class="form-group">
-            <label for="sel1">Paymode: </label>
-            <select class="form-control" id="paymode" name="paymode">
-                <option>Select Paymode</option>
-                <option>Cash</option>
-                <option>Cheque</option>
-            </select>
+            <div class="form-group">
+                <label for="sel1">Enter Amount:</label>
+                <input class="form-control" type="number" name="amount" placeholder="BDT" required>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="from-group col-md-6">                
+                        <label for="sel1">Advance:</label>
+                        <input class="form-control" type="number" name="advance" placeholder="Enter Amount">
+                    </div>
+                    <div class="from-group col-md-6">                
+                        <label for="sel1">Paydate:</label>
+                        <input class="form-control" type="date" name="payDate">
+                    </div>
+                </div> 
+            </div>                 
+            <div class="form-group">
+                <label for="sel1">Remark:</label>
+                <input class="form-control" type="text" name="remark" placeholder="Any Remark....">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="submit" value="Add" style="width:auto; margin: auto">
+            </div>
+            
         </div>
-        <br>
-        <div >
-            <label for="sel1">Remark:</label>
-            <input class="form-control" type="text" name="remark" placeholder="Any Remark....">
-        </div>
-        <br>
-        <input type="submit" value="Add">
+    </form>
 </div>
-</form>
-</div>
+
+<script>
+    window.onload = function() {
+        $('#expenseNav').addClass('active');
+    };
+</script>

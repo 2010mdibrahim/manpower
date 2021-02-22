@@ -1,4 +1,5 @@
 <?php
+
 $result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
 <div class="container" style="padding: 2%">
@@ -7,52 +8,48 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
     </div>
     
     <form action="template/addExpenseAgentQry.php" method="post">
-        <h3 style="background-color: aliceblue; padding: 0.5%">Agent List</h3>
-        <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
-                    <label>Select Agent Name</label>
-                    <select class="form-control" name="agentEmail">
-                        <option>--- Select Agent ---</option>
-                        <?php while($agent = mysqli_fetch_assoc($result)){?>
-                            <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
+        <div class="form-group col-md-6" >
+            <label>Select Agent Name</label>
+            <select class="form-control select2" name="agentEmail" id="agentEmail">
+                <option>--- Select Agent ---</option>
+                <?php while($agent = mysqli_fetch_assoc($result)){?>
+                    <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                <?php } ?>
+            </select>
         </div>
         <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
         <div class="form-group">
-            <div class="row">
-                <div class="column col-md-6" >
+            <div class="form-row">
+                <div class="form-group col-md-6">
                     <label>Full Amount</label>
                     <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount">
-                    <br>
+                </div>
+                <div class="form-group col-md-6">
                     <label>Advance</label>
                     <input class="form-control" type="number" name="advance" value="0">
-                    <br>
                 </div>
-                <div class="column col-md-6" >                    
+                <div class="form-group col-md-6">                    
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose">
-                    <!-- <select class="form-control" name="purpose">
-                        <option>----- Select Gender -----</option>
-                        <option>Receive</option>
-                        <option>Give</option>
-                    </select> -->
-                    <br>
+                </div>
+                <div class="form-group col-md-6">
                     <label>Pay Date</label>
                     <input class="form-control" type="date" name="paydate" >
                 </div>
-                <div class="column col-md-6" >
+                <div class="form-group col-md-6">
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" placeholder="Enter Remark">
-                    <br>
-
                 </div>
             </div>
         </div>
-        <br>        
-        <input type="submit" value="Add" name="agent">
+        <div class="form-group" >       
+            <input style="width: auto; margin: auto;" class="form-control" type="submit" value="Add" name="agent">
+        </div>
     </form>
 </div>
+
+<script>
+    window.onload = function() {
+        $('#agentNav').addClass('active');
+    };
+</script>

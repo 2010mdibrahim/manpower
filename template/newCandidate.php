@@ -14,105 +14,113 @@ $curDay = date('m-d');
     </div>
     <form action="template/newCandidateInsert.php" method="post" enctype="multipart/form-data" id="candidateForm">
         <h4 class="bg-light">Candidate Information</h4>
-        <div class="row">
-            <div class="column col-md-6">
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label>First Name</label>
-                <input type="text" class="form-control" required="required" name="fName"/>
-                <br>
+                <input type="text" class="form-control" required="required" name="fName" placeholder="Enter First Name"/>
+            </div>
+            <div class="form-group col-md-6">
                 <label>Gender <span id="genderDanger" style="font-size: small; display: none; color:red">Select Gender</span> </label>
                 <select class="form-control" name="gender" id="gender">
                     <option value="notSet">----- Select Gender -----</option>
                     <option>Male</option>
                     <option>Female</option>
                 </select>
-                <br>
             </div>
             <div class="column col-md-6">
                 <label>Last Name</label>
-                <input type="text" class="form-control" required="required" name="lName"/>
-                <br>
-                <label>Mobile No.</label>
-                <input type="text" class="form-control" required="required" name="mobNum"/>
+                <input type="text" class="form-control" required="required" name="lName" placeholder="Enter Last Name"/>
             </div>
-            <div class="column col-md-6">
+            <div class="form-group col-md-6">
+                <label>Mobile No.</label>
+                <input type="text" class="form-control" required="required" name="mobNum" placeholder="Enter Mobile Number"/>
+            </div>
+            <div class="form-group col-md-6">
                 <label>Date of Birth</label>
                 <input type="date" class="form-control" required="required" name="dob" min="<?php echo $minYear.'-'.$curDay;?>" max="<?php echo $maxYear.'-'.$curDay;?>"/>
             </div>
         </div>
-        <br>
         <h4 class="bg-light">Passport Information</h4>
-        <div class="row">
-            <div class="column col-md-6">
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label>Passport No.</label>
-                <input type="text" class="form-control" required="required" name="passportNum"/>
-                <br>
+                <input type="text" class="form-control" required="required" name="passportNum" placeholder="Enter Passport Number"/>
+            </div>
+            <div class="form-group col-md-6">
                 <label>Issue Date</label>
                 <input type="date" class="form-control" required="required" name="issuD" id="issuD"/>
-                <br>
             </div>
-            <div class="column col-md-6">
+            <div class="form-group col-md-6">
                 <label>Country</label>
-                <input type="text" class="form-control" required="required" name="country"/>
-                <br>
+                <input type="text" class="form-control" required="required" name="country" placeholder="Enter Country"/>
+            </div>
+            <div class="form-group col-md-6">
                 <label>Expiry Date</label>
                 <input type="date" class="form-control" required="required" name="expD" id="expDate"/>
-                <br>
             </div>
-            <div class="column col-md-6">
+            <div class="form-group col-md-6">
                 <label>Departure Date</label>
                 <input type="date" class="form-control" name="departureDate"/>
-                <br>
             </div>
-            <div class="column col-md-6">
+            <div class="form-group col-md-6">
                 <label>Arrival Date</label>
                 <input type="date" class="form-control" name="arrivalDate"/>
-                <br>
             </div>
-            <div class="column col-md-6">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Agent <span class="agentDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
+                <select class="form-control select2" name="agentEmail" id="agent">
+                    <option value="notSet">------ Select Option ------</option>
+                    <?php while($agent = mysqli_fetch_assoc($result)){?>
+                        <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Comment</label>
+                <input type="text" class="form-control" name="comment" placeholder="Anything to add..."/>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Office <span class="agentDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
+                <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label>Police Verification <span id="policeVerificationDanger" style="font-size: small; display: none; color:red">Select Verification</span> </label>
                 <select class="form-control" name="policeVerification" id="policeVerification">
                     <option value="notSet">------ Select Option ------</option>
                     <option value="yes">Provided</option>
                     <option value="no">Did not provide</option>
                 </select>
-                <br>
-                <div id="policeFile" style="display: none;">
+            </div>
+            <div class="form-group col-md-6" id="policeFile" style="display: none;">
+                <div>
                     <label>Police Verification File</label>
                     <input class="form-control" type="file" name="policeVerification">
                 </div>
-            </div>
-            <div class="column col-md-6">
+            </div> 
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label>Passport Size Photo <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
                 <select class="form-control" name="photo" required="required" id="photo">
                     <option value="notSet">------ Select Option ------</option>
                     <option value="yes">Submitted</option>
                     <option value="no">Did not submit</option>
                 </select>
-                <br>
-                <div id="photoFile" style="display: none;">
+            </div>
+                    
+            <div id="photoFile" class="form-group col-md-6" style="display: none;">
+                <div>
                     <label>Give Photo</label>
                     <input class="form-control" type="file" name="photoFile">
                 </div>
             </div>
-            <div class="column col-md-6">
-                <label>Agent <span id="agentDanger" style="font-size: small; display: none; color:red">Select Agent</span> </label>
-                <select class="form-control" name="agentEmail" id="agent">
-                    <option value="notSet">------ Select Option ------</option>
-                    <?php while($agent = mysqli_fetch_assoc($result)){?>
-                        <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
-                    <?php } ?>
-                </select>
-                <br>
-            </div>
-            <div class="column col-md-6">
-                <label>Comment</label>
-                <input type="text" class="form-control" name="comment"/>
-                <br>
-            </div>
-        </div>
-        <br>
-        <div>
-            <input class="form-control bg-primary" type="submit" style="margin: auto; width: 15%" value="Submit" id="submit">
+        </div>           
+        <div class="form-group">
+            <input class="form-control bg-primary" type="submit" style="margin: auto; width: auto; color: white" value="Submit" id="submit">
         </div>
     </form>
 </div>
@@ -125,6 +133,7 @@ $curDay = date('m-d');
         let gender = $('#gender').val()
         let policeVerification = $('#policeVerification').val()
         let agent = $('#agent').val()
+        let office = $('#office').val()
 
         if(photo == 'notSet'){
             $('#photoDanger').show();
@@ -135,8 +144,8 @@ $curDay = date('m-d');
         }else if(policeVerification == 'notSet'){
             $('#policeVerificationDanger').show();
             return false;
-        }else if(agent == 'notSet'){
-            $('#agentDanger').show();
+        }else if(agent == 'notSet' && office == ''){
+            $('.agentDanger').show();
             return false;
         }
     });
@@ -186,4 +195,9 @@ $curDay = date('m-d');
             }
         });
     });
+
+
+    window.onload = function() {
+        $('#candidateNav').addClass('active');
+    };
 </script>

@@ -23,13 +23,11 @@ if($alter == 'delete'){
     $expD = $_POST['expD'];
     $departureDate = $_POST['departureDate'];
     $arrivalDate = $_POST['arrivalDate'];
-    $policeVerification = $_POST['policeVerification'];
-    $photo = $_POST['photo'];
     $agentEmail = $_POST['agentEmail'];
     $comment = $_POST['comment'];
     $admin = $_SESSION['email'];
     $date = date("Y-m-d H:i:s");
-    $qry = "UPDATE passport SET fName='$fName',lName='$lName',mobNum='$mobNum',dob = '$dob',gender='$gender',issueDate='$issuD',expiryDate='$expD',departureDate='$departureDate',arrivalDate='$arrivalDate',policeClearance='$policeVerification',country='$country',passportPhoto='$photo',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE passportNum = '$passportNum'";
+    $qry = "UPDATE passport SET fName='$fName',lName='$lName',mobNum='$mobNum',dob = '$dob',gender='$gender',issueDate='$issuD',expiryDate='$expD',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE passportNum = '$passportNum'";
     $result = mysqli_query($conn,$qry);
     if($result){
         echo "<script>window.alert('Updated')</script>";

@@ -1,68 +1,50 @@
 <?php
 $expenseId = $_POST['expenseId'];
-$expenseheadId = $_POST['expenseheadId'];
-$qry = "select * from expenseheader where expenseheadId = $expenseheadId";
-$result = mysqli_query($conn,$qry);
-$expensehead = mysqli_fetch_assoc($result);
+$expense = mysqli_fetch_assoc($conn->query("SELECT * from expense where expenseId = $expenseId"));
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Edit Expense</h2>
+        <h2>Add New Expense</h2>
     </div>
     <form action="template/newExpenseQry.php" method="post">
+        <input type="hidden" name="expenseId" value="<?php echo $expenseId?>">
+        <input type="hidden" name="alter" value="update">
         <div class="form-group">
-            <input type="hidden" value="update" name="alter">
-            <input type="hidden" value="<?php echo $expenseId;?>" name="expenseId">
-            <label for="sel1">Select Type of Expense:</label>
-            <select class="form-control" id="expenseName" name="expenseName">
-                <option value="<?php echo $expensehead['expenseheadId'];?>"><?php echo $expensehead['expenseName']; ?></option>
-                <?php
-                $qry = "select * from expenseheader where expenseheadId != $expenseheadId";
-                $result = mysqli_query($conn,$qry);
-                while($expensehead = mysqli_fetch_assoc($result)){
-                ?>
+            <label for="sel1">Purpose:</label>
+            <input class="form-control" type="text" name="purpose" value="<?php echo $expense['purpose'];?>" required>
+            <!-- <select class="form-control" id="expenseName" name="expenseName">
+                <option>Select Expense Type</option>
+                <?php while($expensehead = mysqli_fetch_assoc($result)){ ?>
                     <option value="<?php echo $expensehead['expenseheadId'];?>"><?php echo $expensehead['expenseName']; ?></option>
                 <?php } ?>
-            </select>
+            </select> -->
         </div>
         <br>
-        <?php
-        $qry = "select * from expense where expenseId = $expenseId";
-        $result = mysqli_query($conn,$qry);
-        $expense = mysqli_fetch_assoc($result);
-        ?>
         <h3 style="background-color: aliceblue; padding: 0.5%">Expense information</h3>
-        <div class="form-group flex-container"">
-        <br>
-        <div >
-            <label for="sel1">Enter Amount:</label>
-            <input class="form-control" type="number" name="amount" value="<?php echo $expense['amount'];?>">
-        </div>
-        <br>
-        <div >
-            <label for="sel1">Receipt Date:</label>
-            <input class="form-control" type="date" name="date" value="<?php echo $expense['date'];?>">
-        </div>
-        <br>
         <div class="form-group">
-            <label for="sel1">Paymode: </label>
-            <select class="form-control" id="paymode" name="paymode">
-                <?php if($expense['paymode'] == 'Cash'){ ?>
-                    <option>Cash</option>
-                    <option>Cheque</option>
-                <?php }else{ ?>
-                    <option>Cheque</option>
-                    <option>Cash</option>
-                <?php } ?>
-            </select>
+            <div class="form-group">
+                <label for="sel1">Enter Amount:</label>
+                <input class="form-control" type="number" name="amount" value="<?php echo $expense['amount'];?>" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="from-group col-md-6">                
+                        <label for="sel1">Advance:</label>
+                        <input class="form-control" type="number" name="advance" value="<?php echo $expense['advance'];?>">
+                    </div>
+                    <div class="from-group col-md-6">                
+                        <label for="sel1">Paydate:</label>
+                        <input class="form-control" type="date" name="payDate" value="<?php echo $expense['payDate'];?>">
+                    </div>
+                </div>
+            </div>        
+            <div class="form-group">
+                <label for="sel1">Remark:</label>
+                <input class="form-control" type="text" name="remark" value="<?php echo $expense['comment'];?>">
+            </div>
+            <br>
+            <input class="form-control" type="submit" value="Update" style="width:auto; margin: auto">
         </div>
-        <br>
-        <div >
-            <label for="sel1">Remark:</label>
-            <input class="form-control" type="text" name="remark" value="<?php echo $expense['remark'];?>">
-        </div>
-        <br>
-        <input type="submit" value="Update">
-</div>
 </form>
 </div>

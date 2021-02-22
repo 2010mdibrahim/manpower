@@ -1,10 +1,15 @@
 <?php
 $result = $conn -> query("SELECT * from passport order by creationDate");
 ?>
+
 <style>
     .flex-container {
         display: flex;
         flex-direction: row;
+    }
+
+    html {
+        scroll-behavior: smooth;
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
@@ -147,8 +152,14 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
 
                 // ---------- DOB -----------
                 $age = intval(date("Y")) - intval($dateDiff['dobYear']) - 1;
+            
+              if($candidate['office'] == ''){ ?>
+                    <tr id="<?php echo $candidate['passportNum'];?>">
+            <?php }else{ ?>
+                    <tr id="<?php echo $candidate['passportNum'];?>" style="background-color: #b2dfdb">
+            <?php }
+                
             ?>
-                <tr>
                     <td><?php echo $candidate['passportNum'];?></td>
                     <td><?php echo $candidate['fName']." ".$candidate['lName'];?></td>
                     <td><?php echo $candidate['country'];?></td>                    
@@ -172,14 +183,18 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                     <!-- Experience Days -->
                     <td><?php 
                     if($expDays != 0){
-                        echo $expDays.' Days, ';
+                        if($expYears != 0){
+                            echo $expYears.' Years';
+                        }
+                        if($expMonths != 0){
+                            echo $expMonths.' Months, ';                        
+                        }
+                        echo $expDays.' Days.';                        
+                        
+                    }else{
+                        echo 'No Experience';
                     }                                        
-                    if($expMonths != 0){
-                        echo $expMonths.' Months, ';                        
-                    }
-                    if($expYears != 0){
-                        echo $expYears.' Years';
-                    }
+                    
                     ?></td>   
                     
                     <!-- Police Clearance -->
@@ -201,7 +216,13 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                     </td>
 
 
-                    <td><?php echo $candidate['comment'];?></td>
+                    <td><?php 
+                    if($candidate['comment'] == ''){
+                        echo 'No Comment';
+                    }else{
+                        echo $candidate['comment'];
+                    }                    
+                    ?></td>
 
                     <!-- Training Card -->
                     <td><?php 
@@ -323,6 +344,9 @@ $('body').on('click', '#photoFile', function(){
     // alert($("#trainingCard").val());
     $('#passportNumModalPhoto').val($("#photoFile").val());
 });
+window.onload = function() {
+    $('#candidateNav').addClass('active');
+};
 </script>
 
 

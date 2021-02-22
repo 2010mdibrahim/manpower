@@ -278,5 +278,9 @@ $('body').on('click', '#testMedicalFile', function(){
 $('body').on('click', '#finalMedicalFile', function(){
     $('#visaMedicalFinal').val($('#finalMedicalFile').val());
 });
+
+window.onload = function() {
+    $('#visaNav').addClass('active');
+};
 </script>
 

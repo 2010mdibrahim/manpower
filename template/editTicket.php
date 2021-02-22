@@ -81,7 +81,10 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
         </form>
 </div>
 <script>
-$('#passport').select2({
-  placeholder: 'Select an option'
-});
+    $('#passport').select2({
+        placeholder: 'Select an option'
+    });
+    window.onload = function() {
+        $('#ticketNav').addClass('active');
+    };
 </script>

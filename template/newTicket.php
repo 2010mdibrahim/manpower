@@ -8,13 +8,13 @@
         <form action="template/newTicketInsert.php" method="post">
             <div class="form-group">
                 <label for="sel1">Select Passport Number:</label>
-                <select class="form-control" id="passport" name="passportNum">
+                <select class="form-control select2" id="passport" name="passportNum">
                     <option>Select passport</option>
                     <?php 
-                    $result = $conn->query("SELECT passportNum from passport");
+                    $result = $conn->query("SELECT passportNum, fName, lName from passport");
                     while($passNo = mysqli_fetch_assoc($result)){ 
                     ?>
-                        <option><?php echo $passNo['passportNum']; ?></option>
+                        <option><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -22,18 +22,15 @@
 
             <h3 style="background-color: aliceblue; padding: 0.5%">Ticket information</h3>
             <div class="form-group flex-container">
-                <br>
-                <div >
+                <div class="form-group">
                     <label for="sel1">Select Airplane:</label>
                     <input class="form-control" type="text" name="airline" placeholder="Enter Airplane Name">
                 </div>
-                <br>
-                <div >
-                    <label for="sel1">Flight No:</label>
-                    <input class="form-control" type="text" name="flightNo" placeholder="Enter Flight No">
-                </div>
-                <br>
                 <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Flight No:</label>
+                        <input class="form-control" type="text" name="flightNo" placeholder="Enter Flight No">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">Flight Date:</label>
                         <input class="form-control col-md-12" type="date" name="flightDate" placeholder="Flight Date">
@@ -59,17 +56,16 @@
                             <label for="sel1">Comment:</label>
                             <input class="form-control" type="text" name="comment" placeholder="Remarks">
                         </div>
-                    </div>
-                    
+                    </div>                    
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="submit" value="submit" style="width: 50%; margin:auto">
+                    <input class="form-control" type="submit" value="Submit" style="width: auto; margin:auto">
                 </div>
             </div>
         </form>
 </div>
 <script>
-$('#passport').select2({
-  placeholder: 'Select an option'
-});
+    window.onload = function() {
+        $('#ticketNav').addClass('active');
+    };
 </script>

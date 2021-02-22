@@ -7,10 +7,9 @@ $result = $conn->query("SELECT sponsorName from sponsor");
     </div>
     
     <form action="template/visaSponsorQry.php" method="post">
-        <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor List</h3>
         <div class="form-group">
             <div class="row">
-                <div class="column col-md-6" >
+                <div class="form-group col-md-6" >
                     <label>Select Sponsor Name</label>
                     <select class="form-control" name="sponsorName">
                         <option>--- Select Sponsor ---</option>
@@ -24,27 +23,36 @@ $result = $conn->query("SELECT sponsorName from sponsor");
         <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
         <div class="form-group">
             <div class="row">
-                <div class="column col-md-6" >
+                <div class="form-group col-md-6" >
                     <label>VISA Amount</label>
                     <input class="form-control" type="number" name="visaAmount" placeholder="Enter Amount">
-                    <br>
+                </div>
+                <div class="form-group col-md-6" >
                     <label>Job Type</label>
                     <input class="form-control" type="text" name="jobType" placeholder="Enter Type">
                 </div>
-                <div class="column col-md-6" >                    
+                <div class="form-group col-md-6" >                    
                     <label>Visa Gender Type</label>
                     <select class="form-control" name="gender">
                         <option>----- Select Gender -----</option>
                         <option>Male</option>
                         <option>Female</option>
                     </select>
-                    <br>
+                </div>
+                <div class="form-group col-md-6" >
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" placeholder="Enter Remark">
                 </div>
             </div>
         </div>
-        <br>        
-        <input type="submit" value="Add" name="sponsor">
+        <div class="form-group" >        
+            <input style="width: auto; margin: auto" class="form-control" type="submit" value="Add" name="sponsor">
+        </div>
     </form>
 </div>
+
+<script>
+    window.onload = function() {
+        $('#sponsorNav').addClass('active');
+    };
+</script>

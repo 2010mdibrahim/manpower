@@ -12,7 +12,19 @@ $departureDate = $_POST['departureDate'];
 $arrivalDate = $_POST['arrivalDate'];
 $policeVerification = $_POST['policeVerification'];
 $photo = $_POST['photo'];
-$agentEmail = $_POST['agentEmail'];
+
+if(isset($_POST['agentEmail'])){
+    $agentEmail = $_POST['agentEmail'];
+}else{
+    $agentEmail = '';
+}
+
+if(isset($_POST['office'])){
+    $office = $_POST['office'];
+}else{
+    $office = '';
+}
+
 $comment = $_POST['comment'];
 $dob = $_POST['dob'];
 $admin = $_SESSION['email'];
@@ -55,10 +67,11 @@ if($existingPass['passCount'] > 0){
 }else{
     $policeFile = $target_dir."policeVerification"."-".$passportNum.".".$ext;
     $photoFile = $target_dir_photo."photo"."-".$passportNum.".".$photo_ext; 
+    
     $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, expiryDate, departureDate,
-                     arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, agentEmail, country,musanadReady, musanadEntry, comment, updatedBy, updatedOn, creationDate)
+                     arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, agentEmail, office, country,musanadReady, musanadEntry, comment, updatedBy, updatedOn, creationDate)
                     VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD','$expD','$departureDate','$arrivalDate',
-                    '$policeVerification', '$policeFile', '$photo', '$photoFile', '$agentEmail','$country', 'no', 'no','$comment','$admin','$date', '$date')");
+                    '$policeVerification', '$policeFile', '$photo', '$photoFile', '$agentEmail', '$office','$country', 'no', 'no','$comment','$admin','$date', '$date')");
     if($result){
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);

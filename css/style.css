@@ -1,10 +1,14 @@
 /*******************************/
 /********* General CSS *********/
 /*******************************/
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
 body {
     color: #666666;
     background: #ffffff;
-    font-family: 'Roboto', sans-serif;
+    
     font-weight: 400;
 }
 
@@ -14,7 +18,7 @@ h3,
 h4,
 h5, 
 h6 {
-    font-family: 'EB Garamond', serif;
+    font-family: 'Ubuntu', serif;
     font-weight: 600;
     font-style: italic;
     color: #121518;

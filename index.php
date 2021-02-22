@@ -22,20 +22,19 @@ if(!empty($_POST['pagePost'])){
     <?php include ('includes/meta.php');?>
     <?php include ('includes/link.php')?>
     <?php include ('includes/datatable.php')?>
+    <?php include ('includes/select2.php')?>
 </head>
 
 <script>
     $(document).ready(function() {
         $('#dataTableSeaum').DataTable({
-            scrollY:        "450px",
+            scrollY:        "550px",
             scrollX:        true,
             scrollCollapse: true,
             paging:         false,
             "autoWidth": false,
-            columnDefs: [
-                { width: 200, targets: 0 }
-            ],
-            fixedColumns: true
+            fixedColumns: true,
+            responsive: true
         });        
     } );
 </script>
@@ -46,17 +45,12 @@ if(!empty($_POST['pagePost'])){
 </style>
 <body>
 <div class="wrapper">
-    <form action="test.php" method="post">
-        <button type="button" value="ok" name="this_is_test">This is button</button>
-        <button type="submit">submit</button>
-    </form>
-
     <?php
     include ('template/database.php');
     if(isset($_SESSION['email']) === false){
         include 'template/login.php';
     }else{
-        include 'includes/topbar.php';
+        // include 'includes/topbar.php';
         include 'includes/navbar.php';
         if($page == 'newCandidate'){
             include ('template/newCandidate.php');
@@ -305,5 +299,10 @@ if(!empty($_POST['pagePost'])){
         // let href = $('button.book').attr('href');
         //
         // $('button.book').attr('href', href+'/'+check_in_date);
+    });
+
+    $('.select2').select2({
+        placeholder: 'Select an option',
+        width: '100%'
     });
 </script>

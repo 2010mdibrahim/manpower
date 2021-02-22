@@ -57,3 +57,9 @@
     </div>
 </div>
 
+<script>
+    window.onload = function() {
+        $('#sponsorNav').addClass('active');
+    };
+</script>
+

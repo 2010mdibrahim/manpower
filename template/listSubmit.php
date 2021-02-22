@@ -25,7 +25,7 @@ if(isset($_POST['mode'])){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate#$passportNum'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
@@ -53,7 +53,7 @@ if(isset($_POST['mode'])){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Updated')</script>";
-            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate#$passportNum'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
@@ -81,7 +81,7 @@ if(isset($_POST['mode'])){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Updated')</script>";
-            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate#$passportNum'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
