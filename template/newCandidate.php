@@ -45,14 +45,14 @@ $curDay = date('m-d');
             <div class="form-group col-md-6">
                 <label>Passport No.</label>
                 <input type="text" class="form-control" required="required" name="passportNum" placeholder="Enter Passport Number"/>
+            </div>            
+            <div class="form-group col-md-6">
+                <label>Country</label>
+                <input type="text" class="form-control" required="required" name="country" placeholder="Enter Country"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>
                 <input type="date" class="form-control" required="required" name="issuD" id="issuD"/>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Country</label>
-                <input type="text" class="form-control" required="required" name="country" placeholder="Enter Country"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Expiry Date</label>
@@ -78,12 +78,12 @@ $curDay = date('m-d');
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label>Comment</label>
-                <input type="text" class="form-control" name="comment" placeholder="Anything to add..."/>
-            </div>
-            <div class="form-group col-md-6">
                 <label>Office <span class="agentDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
                 <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Comment</label>
+                <input type="text" class="form-control" name="comment" placeholder="Anything to add..."/>
             </div>
         </div>
         <div class="form-row">

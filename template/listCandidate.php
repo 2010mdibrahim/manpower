@@ -11,6 +11,9 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
     html {
         scroll-behavior: smooth;
     }
+    .btn{
+        font-size: small;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
     <div class="section-header">
@@ -112,7 +115,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                 <th>Passport Photo</th>
                 <th>Comment</th>
                 <th>Training Card</th>
-                <th>Musanad</th>
+                <th hidden>Musanad</th>
                 <th>Musanad Entry</th>
                 <th>Edit</th>
             </tr>
@@ -215,7 +218,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                         <?php } ?>
                     </td>
 
-
+                    <!-- comment -->
                     <td><?php 
                     if($candidate['comment'] == ''){
                         echo 'No Comment';
@@ -233,12 +236,12 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                             <button class="btn btn-danger" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingCard" value="<?php echo $candidate['passportNum'];?>">Not Submitted</button> 
                         <?php }
                     }else{
-                        echo 'Not Requied';
+                        echo 'Not Required';
                     }
                     ?></td>
 
                     <!-- Musanad Ready -->
-                    <td>
+                    <td hidden>
                     <?php
                         if($candidate['policeClearance'] === 'yes' AND $candidate['passportPhoto'] === 'yes' AND $passportValidityYears >= 1){ 
                             if($expYears >= 1){ ?>
@@ -279,7 +282,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                         <?php }else{ ?>  
                             <form action="template/musanadEntry.php" method="post">
                                 <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
-                                <button type="submit" class="btn btn-success" value="no" name="musanadReady">Submitted</button>
+                                <button type="submit" class="btn btn-success" value="no" name="musanadReady">Entered</button>
                             </form>
                         <?php } ?>                      
                     <?php }else{ ?>
@@ -321,7 +324,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate");
                 <th>Passport Photo</th>
                 <th>Comment</th>
                 <th>Training Card</th>
-                <th>Musanad</th>
+                <th hidden>Musanad</th>
                 <th>Musanad Entry</th>
                 <th>Edit</th>
             </tr>

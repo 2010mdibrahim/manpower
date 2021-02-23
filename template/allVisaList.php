@@ -34,13 +34,25 @@ $result = $conn -> query("SELECT * from sponsorvisalist order by sponsorName");
                     <td><?php echo $visaList['sponsorName'];?></td>                    
                     <td><?php echo $visaList['comment'];?></td>                   
                     <td>
-                        <div style="padding-left: 2%">
-                            <form action="template/editCandidateQry.php" method="post">
-                                <input type="hidden" name="alter" value="delete">
-                                <input type="hidden" value="editCandidate" name="pagePost">
-                                <input type="hidden" value="<?php echo $candidate['candidateId']; ?>" name="candidateId">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
-                            </form>
+                        <div class="flex-container">
+                            <div style="padding-right: 2%">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="alter" value="update">
+                                    <input type="hidden" value="editSponsorVisa" name="pagePost">
+                                    <input type="hidden" value="<?php echo $visaList['visaGenderType']."-".$visaList['jobType']."-".$visaList['sponsorName']; ?>" name="sponsorVisa">
+                                    <button type="submit" class="btn btn-primary btn-sm">Add VISA</button>
+                                </form>
+                            </div>
+                            <div style="padding-left: 2%">
+                                <form action="template/addNewAgentQry.php" method="post">
+                                    <input type="hidden" name="alter" value="delete">
+                                    <input type="hidden" value="editAgent" name="pagePost">
+                                    <input type="hidden" value="<?php echo $agent['agentId']; ?>" name="agentId">
+                                    <input type="hidden" value="<?php echo $agent['agentType']; ?>" name="agentType">
+                                    <input type="hidden" value="<?php echo $agent['agentTypeId']; ?>" name="agentTypeId">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
+                                </form>
+                            </div>
                         </div>
                     </td>
                 </tr>

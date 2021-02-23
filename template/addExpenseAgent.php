@@ -17,7 +17,7 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
                 <?php } ?>
             </select>
         </div>
-        <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
+        <h3 style="background-color: aliceblue; padding: 0.5%">Agent Expense Information</h3>
         <div class="form-group">
             <div class="form-row">
                 <div class="form-group col-md-6">

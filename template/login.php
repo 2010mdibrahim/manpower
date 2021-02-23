@@ -18,19 +18,14 @@
         justify-content: center;
         align-items: center;
         height: 90vh; 
-        font-size: 16px;
-        
+        /* font-size: 16px; */
+        animation-name: scaleUp;
+        animation-duration: 1s;
     }
 
-    .container {
-        -webkit-animation: container 1s ease forwards;
-    }
-    .container{
-        transform: scale(1,1);;
-    }
-    @-webkit-keyframes container {
-        from { transform: scale(0.5,0.5); }
-        to {transform: scale(1,1); }
+    @keyframes scaleUp {
+        from { transform: translate(0px,-50px); }
+        to {transform: translate(0px,0px); }
     }
 </style>
 

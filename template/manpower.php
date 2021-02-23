@@ -17,9 +17,8 @@
                     <br>
                 </div>
             </div>
-        </div>
-        <br>        
-        <input type="submit" value="Add" name="manpower">
+        </div>      
+        <input style="margin: auto; width: auto" class="form-control" type="submit" value="Add" name="manpower">
 </div>
 </form>
 

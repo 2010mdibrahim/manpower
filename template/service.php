@@ -67,7 +67,7 @@ $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price fro
         <div style="text-align: center">
             <h2>Expenses Information</h2>
         </div>
-        <div class="row" style="padding: 2%">
+        <!-- <div class="row" style="padding: 2%">
             <div class="col-lg-4 col-md-6" style="display: block; margin-left: auto; margin-right: auto;">
                 <div class="service-item">
 
@@ -80,7 +80,7 @@ $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price fro
                     <a class="btn" href="?page=expenseDetails">Learn More</a>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- Service End -->

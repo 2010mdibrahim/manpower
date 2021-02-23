@@ -34,7 +34,8 @@ if(!empty($_POST['pagePost'])){
             paging:         false,
             "autoWidth": false,
             fixedColumns: true,
-            responsive: true
+            responsive: true,
+            "order": []
         });        
     } );
 </script>
@@ -272,6 +273,8 @@ if(!empty($_POST['pagePost'])){
             include('template/showAgentExpenseList.php');
         }else if($pagePost == 'editAgentExpense') {
             include('template/editAgentExpense.php');
+        }else if($pagePost == 'editSponsorVisa') {
+            include('template/editSponsorVisa.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';

@@ -2,7 +2,7 @@
 
 include ('includes/ajax.php');
 include ('includes/select2.php');
-$result = $conn->query("SELECT passportNum, fName, lName from passport");
+$result = $conn->query("SELECT passportNum, fName, lName from passport where musanadEntry = 'yes'");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">

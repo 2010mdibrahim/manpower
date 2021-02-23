@@ -3,6 +3,20 @@
         display: flex;
         flex-direction: row;
     }
+    .btn{
+        font-size: small;
+        /* width: 135px;
+        height: 30px; */
+    }
+    /* .first{
+        background-color: rgba(159, 168, 218, 0.9);
+    }
+    .second{
+        background-color: rgba(159, 168, 218, 0.7);
+    }
+    .third{
+        background-color: rgba(159, 168, 218, 0.4);
+    } */
 </style>
 <div class="container-fluid" style="padding: 2%">
     <div class="section-header">
@@ -80,14 +94,14 @@
             </tr>
             </thead>
             <?php
-            $result = $conn->query("SELECT * from visa order by creationDate");
+            $result = $conn->query("SELECT * from visa order by creationDate desc");
             $status = "pending";
             while($visa = mysqli_fetch_assoc($result)){ ?>
                 <tr>
                     <td><?php echo $visa['visaNo'];?></td>
 
                     <!-- Employee Request -->
-                    <td><?php 
+                    <td class="first"><?php 
                     if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
                     <form action="template/visaProcessing.php" method="post">
                         <input type="hidden" name="visaNo" value="<?php echo $visa['visaNo'];?>">
@@ -103,7 +117,7 @@
                     <?php } ?></td>
 
                     <!-- Foreign MOLE -->
-                    <td><?php
+                    <td class="first"><?php
                     if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
                     <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
@@ -121,7 +135,7 @@
                     <?php } ?></td>
 
                     <!-- Okala -->
-                    <td><?php
+                    <td class="first"><?php
                     if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
                     <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
@@ -139,7 +153,7 @@
                     <?php } ?></td>
 
                     <!-- MUFA -->
-                    <td><?php
+                    <td class="first"><?php
                     if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
                         <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
@@ -157,7 +171,7 @@
                     <?php } ?></td>
 
                     <!-- Test Medical -->
-                    <td>                    
+                    <td class="second">                    
                     <?php if(empty($visa['testMedical']) || $visa['testMedical']=='no'){ ?>
                         <button class="btn btn-secondary" value="<?php echo $visa['visaNo'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile">No</button>
                     <?php } else { ?>
@@ -165,7 +179,7 @@
                     <?php } ?></td>
 
                     <!-- Final Medical -->
-                    <td><?php
+                    <td class="second"><?php
                     if(empty($visa['testMedical']) || $visa['testMedical']=='no'){ ?>
                         <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['finalMedical']) || $visa['finalMedical']=='no'){ ?>
@@ -175,7 +189,7 @@
                     <?php } ?></td>
 
                     <!-- VISA Stamping -->
-                    <td><?php
+                    <td class="third"><?php
                     if(empty($visa['finalMedical']) || $visa['finalMedical']=='no' || empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
                     <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
@@ -193,7 +207,7 @@
                     <?php } ?></td>
 
                     <!-- Finger -->
-                    <td><?php
+                    <td class="third"><?php
                     if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
                     <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
                     <?php }else if(empty($visa['finger']) || $visa['finger']=='no'){ ?>
@@ -211,7 +225,7 @@
                     <?php } ?></td>
 
                     <!-- Departure Date -->
-                    <td><?php
+                    <td class="third"><?php
                     $ticket = mysqli_fetch_assoc($conn->query("SELECT *, count(ticketId) as existTicket from ticket where passportNum = '".$visa['passportNum']."'"));
                     if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                     <button class="btn btn-warning"><span style="font-size: small;">Do Previous Step</span></button>
