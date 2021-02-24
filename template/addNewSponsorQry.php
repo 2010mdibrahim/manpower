@@ -5,7 +5,7 @@ if(!empty($_POST['alter'])){
 }else{
     $alter = '';
 }
-$sponsorName = strtolower($_POST['sponsorName']);
+$sponsorName = $_POST['sponsorName'];
 if($alter == 'delete') {
     $qry = "DELETE from sponsor where sponsorName = '$sponsorName'";
     $result = mysqli_query($conn, $qry);

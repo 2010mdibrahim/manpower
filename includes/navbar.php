@@ -93,7 +93,7 @@
                             <a href="?page=manpowerList" class="dropdown-item">Office List</a>
                         </div>
                     </div>                    
-                    <a href="?page=report" class="nav-item nav-link">Report</a>
+                    <!-- <a href="?page=report" class="nav-item nav-link">Report</a> -->
                     <!-- <a href="?page=tmp" class="nav-item nav-link">Tmp</a> -->
                 </div>
                 <div class="ml-auto">

@@ -30,7 +30,13 @@ if(isset($_POST['agent'])){
         $date = date("Y-m-d");
         $creatDate = date("Y-m-d H:i:s");
         $paydate = $_POST['paydate'];
+        if(isset($_POST['adjustAmount'])){
+            $adjustAmount = $_POST['adjustAmount'];
+        }else{
+            $adjustAmount = 0;
+        }
         if($alter == 'update'){
+            $advance = intval($advance) + intval($adjustAmount);
             $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose',fullAmount=$fullAmount,paidAmount=$advance,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date' WHERE agentExpenseId=$agentExpenseId");
             if($result){
                 echo "<script>window.alert('Updated')</script>";

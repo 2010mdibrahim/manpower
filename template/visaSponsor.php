@@ -11,7 +11,7 @@ $result = $conn->query("SELECT sponsorName from sponsor");
             <div class="row">
                 <div class="form-group col-md-6" >
                     <label>Select Sponsor Name</label>
-                    <select class="form-control" name="sponsorName">
+                    <select class="form-control select2" name="sponsorName">
                         <option>--- Select Sponsor ---</option>
                         <?php while($sponsorName = mysqli_fetch_assoc($result)){?>
                             <option><?php echo $sponsorName['sponsorName'];?></option>

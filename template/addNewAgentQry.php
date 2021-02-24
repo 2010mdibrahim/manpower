@@ -5,11 +5,7 @@ if(!empty($_POST['alter'])){
 }else{
     $alter = '';
 }
-if(!empty($_POST['agentId'])){
-    $agentId = $_POST['agentId'];
-}else{
-    $agentId = '';
-}
+$agentEmail = $_POST['agentEmail'];
 
 //$agentType = $_POST['agentType'];
 //$address = $_POST['address'];
@@ -19,7 +15,7 @@ if(!empty($_POST['agentId'])){
 //$agentEmail = $_POST['agentEmail'];
 //$date = date("Y-m-d");
 if($alter == 'delete') {
-    $qry = "delete from agent where agentId = $agentId";
+    $qry = "DELETE from agent where agentEmail = '$agentEmail'";
     $result = mysqli_query($conn, $qry);
     if ($result) {
         echo "<script>window.alert('Deleted')</script>";
@@ -30,7 +26,6 @@ if($alter == 'delete') {
 }else {
     $admin = $_SESSION['email'];
     $agentName = $_POST['agentName'];
-    $agentEmail = $_POST['agentEmail'];
     $agentPhone = $_POST['agentPhone'];
     $comment = $_POST['comment'];
     $date = date("Y-m-d");

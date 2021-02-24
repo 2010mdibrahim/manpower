@@ -8,6 +8,7 @@ $maxYear = $curYear - 25;
 $curDay = date('m-d');
 ?>
 
+
 <div class="container">
     <div class="section-header">
         <h2>New Candidate Information</h2>
@@ -58,6 +59,27 @@ $curDay = date('m-d');
                 <label>Expiry Date</label>
                 <input type="date" class="form-control" required="required" name="expD" id="expDate"/>
             </div>
+        </div>
+        <label>Expiry Date</label>
+        <div class="form-group col-md-6">            
+            <div class="parking_container">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">Yes
+                            <input type="radio" name="payment" checked="checked" id="payment_full" value="full">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">No
+                            <input type="radio" name="payment" id="payment_half" value="half">
+                            <span class="checkmark"></span>
+                        </label> 
+                    </div>                
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Departure Date</label>
                 <input type="date" class="form-control" name="departureDate"/>
@@ -67,6 +89,7 @@ $curDay = date('m-d');
                 <input type="date" class="form-control" name="arrivalDate"/>
             </div>
         </div>
+        
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Agent <span class="agentDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>

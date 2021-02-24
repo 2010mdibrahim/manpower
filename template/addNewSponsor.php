@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group col-md-6" >                    
                     <label>Comment</label>
-                    <input class="form-control" type="text" id="sponsorVisa" name="comment" placeholder="Enter Visa">
+                    <input class="form-control" type="text" id="sponsorVisa" name="comment" placeholder="Any Remark...">
                 </div>
             </div>
         </div>
