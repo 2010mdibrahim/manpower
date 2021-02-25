@@ -14,11 +14,14 @@
     }
 
     .container {
+        width: 100%;
+        height: 100%;
+        display: absolute;
+        top: 0;
+        left: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 90vh; 
-        /* font-size: 16px; */
         animation-name: scaleUp;
         animation-duration: 1s;
     }

@@ -8,23 +8,31 @@
             <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Agent Name</label>
-                    <input class="form-control" type="text" name="agentName" id="agentName" placeholder="Enter Name">
+                    <input class="form-control" type="text" name="agentName" id="agentName" placeholder="Enter Name" required>
                 </div>
                 <div class="form-group col-md-6" >  
                     <label for="sel1">Agent Email: <span class="samin danger" >Email Already Exists</span> </label>
-                    <input class="form-control" type="email" name="agentEmail" placeholder="example@abc.com" id="agentEmail">
+                    <input class="form-control" type="email" name="agentEmail" placeholder="example@abc.com" id="agentEmail" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="sel1">Phone:</label>
-                    <input class="form-control" type="text" name="agentPhone" id="agentPhone" placeholder="Phone Number">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="sel1">Passport Photo:</label>
-                    <input class="form-control-file" type="file" name="agentImage" id="image" >
-                </div>
+                    <input class="form-control" type="text" name="agentPhone" id="agentPhone" placeholder="Phone Number" required>
+                </div>                
                 <div class="form-group col-md-6">
                     <label for="sel1">Any Remarks:</label>
                     <input class="form-control" type="text" name="comment" id="comment" placeholder="comment">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sel1">Photo:</label>
+                    <input class="form-control-file" type="file" name="agentImage" id="photo" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sel1">Passport Scan Copy:</label>
+                    <input class="form-control-file" type="file" name="agentPassport" id="passport" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="sel1">Police Clearance:</label>
+                    <input class="form-control-file" type="file" name="agentPolice" id="police" required>
                 </div>
             </div>
         </div>
@@ -32,8 +40,6 @@
         <div class="form-group">
             <input style="width: auto; margin: auto;" class="form-control" id="insert" type="submit" value="Add">
         </div>
-        
-</div>
     </form>
 </div>
 <script>

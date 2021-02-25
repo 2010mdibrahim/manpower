@@ -29,19 +29,36 @@ if($alter == 'delete') {
     $agentPhone = $_POST['agentPhone'];
     $comment = $_POST['comment'];
     $date = date("Y-m-d");
-    $path_filename_ext = '';
-    $temp_name = '';
-    $target_dir = '';
-    $ext = '';
+
     if (($_FILES['agentImage']['name'] != "")){
         // Where the file is going to be stored
         $base_dir = "C:/xampp/htdocs/mahfuza/";
-        $target_dir = "uploads/";
+        $photo_target_dir = "uploads/agent/agentPhoto/";
         $file = $_FILES['agentImage']['name'];
         $path = pathinfo($file);
-        $ext = $path['extension'];
-        $temp_name = $_FILES['agentImage']['tmp_name'];
-        $path_filename_ext = $base_dir.$target_dir.$agentEmail.".".$ext;
+        $photo_ext = $path['extension'];
+        $photo_temp_name = $_FILES['agentImage']['tmp_name'];
+        $photo_path_filename_ext = $base_dir.$photo_target_dir."photo_".$agentEmail.".".$photo_ext;
+    }
+    if (($_FILES['agentPassport']['name'] != "")){
+        // Where the file is going to be stored
+        $base_dir = "C:/xampp/htdocs/mahfuza/";
+        $passport_target_dir = "uploads/agent/agentPassport/";
+        $file = $_FILES['agentImage']['name'];
+        $path = pathinfo($file);
+        $passport_ext = $path['extension'];
+        $passport_temp_name = $_FILES['agentImage']['tmp_name'];
+        $passport_path_filename_ext = $base_dir.$passport_target_dir."passport_".$agentEmail.".".$passport_ext;
+    }
+    if (($_FILES['agentPolice']['name'] != "")){
+        // Where the file is going to be stored
+        $base_dir = "C:/xampp/htdocs/mahfuza/";
+        $police_target_dir = "uploads/agent/agentPolice/";
+        $file = $_FILES['agentImage']['name'];
+        $path = pathinfo($file);
+        $police_ext = $path['extension'];
+        $police_temp_name = $_FILES['agentImage']['tmp_name'];
+        $police_path_filename_ext = $base_dir.$police_target_dir."police_".$agentEmail.".".$police_ext;
     }
     if ($alter == 'update') {        
         $photo = $target_dir.$agentEmail.'.'.$ext;
@@ -58,24 +75,38 @@ if($alter == 'delete') {
         $result = mysqli_query($conn, $qry);
         if ($result) {
             if (($_FILES['agentImage']['name'] != "")){
-                move_uploaded_file($temp_name,$path_filename_ext);
+                move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
+            }
+            if (($_FILES['agentPassport']['name'] != "")){
+                move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
+            }
+            if (($_FILES['agentPolice']['name'] != "")){
+                move_uploaded_file($police_temp_name,$police_path_filename_ext);
             }
             echo "<script>window.alert('Updated')</script>";
-            echo "<script> window.location.href='../index.php?page=agentList'</script>";
+            // echo "<script> window.location.href='../index.php?page=agentList'</script>";
         } else {
             echo "<script>window.alert('Update Error')</script>";
         }
     } else {
-        $photo = $target_dir.$agentEmail.'.'.$ext;
-        $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, comment, updatedBy, updatedOn)
-                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$comment','$admin','$date')";
+        $photo = $photo_target_dir.$agentEmail."photo_".$photo_ext;
+        $passport = $passport_target_dir."passport_".$agentEmail.".".$passport_ext;
+        $police = $police_target_dir."police_".$agentEmail.".".$police_ext;
+        $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, agentPassport, agentPoliceClearance, comment, updatedBy, updatedOn)
+                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$passport','$police','$comment','$admin','$date')";
         $result = mysqli_query($conn, $qry);
         if ($result) {
-            if (($_FILES['agentImage']['name']!="")){
-                move_uploaded_file($temp_name,$path_filename_ext);
+            if (($_FILES['agentImage']['name'] != "")){
+                move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
+            }
+            if (($_FILES['agentPassport']['name'] != "")){
+                move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
+            }
+            if (($_FILES['agentPolice']['name'] != "")){
+                move_uploaded_file($police_temp_name,$police_path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=agentList'</script>";
+            // echo "<script> window.location.href='../index.php?page=agentList'</script>";
         } else {
             echo "<script>window.alert('Email Already Exists')</script>";
             echo "<script> window.location.href='../index.php?page=addNewAgent'</script>";

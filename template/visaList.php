@@ -21,60 +21,6 @@
 </style>
 <div class="container-fluid" style="padding: 2%">
     
-
-    <!-- Test Medical Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="testMedicalSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaSubmit.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give Test Medical Certificate</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="mode" value="testMedical">
-                        <input type="hidden" name="visaMedical" id="visaMedical" value="">
-                        <input class="form-control" type="file" name="testMedical">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Final Medical Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="finalMedicalSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaSubmit.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give Test Medical Certificate</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="mode" value="finalMedical">
-                        <input type="hidden" name="visaMedicalFinal" id="visaMedicalFinal" value="">
-                        <input class="form-control" type="file" name="finalMedical">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     <div class="card">
         <div class="card-header">
             <div class="section-header">
