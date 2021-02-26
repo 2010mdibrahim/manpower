@@ -59,6 +59,16 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="sponsorNav">Delegate</a>
+                        <div class="dropdown-menu">
+                            <a href="?page=addNewDelegate" class="dropdown-item">Add New Delegate</a>
+                            <a href="?page=delegateList" class="dropdown-item">Delegate List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=visaSponsor" class="dropdown-item">Add Visa to Sponsor</a>
+                            <a href="?page=allVisaList" class="dropdown-item">Show all visa list</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="sponsorNav">Sponsor</a>
                         <div class="dropdown-menu">
                             <a href="?page=addNewSponsor" class="dropdown-item">Add New Sponsor</a>

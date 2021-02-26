@@ -5,9 +5,6 @@
     }
     .btn{
         font-size: small;
-        size: 50%;
-        /* width: 135px;
-        height: 30px; */
     }
     /* .first{
         background-color: rgba(159, 168, 218, 0.9);
@@ -33,8 +30,11 @@
         <div class="table-responsive">
             <table id="dataTableSeaum" class="table table-bordered table-hover" style="width:100%">
                 <thead>
-                <tr>                
+                <tr>     
+                    <th>Passport Name</th>
+                    <th>Passport Number</th>                               
                     <th>Visa No</th>
+                    <th>ID No</th>
                     <th>Employee Request</th>
                     <th>Foreign Mole</th>
                     <th>Okala</th>
@@ -48,6 +48,7 @@
                 </tr>
                 </thead>
                 <?php
+                $result = $conn->query("SELECT passport.passportNum, passport.fName, passport.lName, sponsorvisalist.sponsorName FROM passport INNER JOIN sponsorvisalist USING (sponsorVisaAmountId)");
                 $result = $conn->query("SELECT * from visa order by creationDate desc");
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>

@@ -20,11 +20,12 @@
                         <th>Agent Email</th>
                         <th>Agent Name</th>
                         <th>Agent Phone</th>
+                        <th>Document</th>
                         <th>Remarks</th>
                     </tr>
                     </thead>
                     <?php
-                    $qry = "SELECT agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent";
+                    $qry = "SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent order by creationDate desc";
                     $result = mysqli_query($conn,$qry);
                     while($agent = mysqli_fetch_assoc($result)){ ?>
                         <tr>
@@ -36,6 +37,10 @@
                             <td><?php echo $agent['agentEmail'];?></td>
                             <td><?php echo $agent['agentName'];?></td>
                             <td><?php echo $agent['agentPhone'];?></td>
+                            <td>
+                            <a href="<?php echo $agent['agentPassport'];?>" target="_blank"><button class="btn btn-warning">Passport</button></a>
+                            <a href="<?php echo $agent['agentPoliceClearance'];?>" target="_blank" ><button class="btn btn-info">Clearance</button></a>
+                            </td>
                             <td>
                                 <div class="flex-container">
                                     <div style="padding-right: 2%">

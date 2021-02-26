@@ -44,52 +44,55 @@ if($alter == 'delete') {
         // Where the file is going to be stored
         $base_dir = "C:/xampp/htdocs/mahfuza/";
         $passport_target_dir = "uploads/agent/agentPassport/";
-        $file = $_FILES['agentImage']['name'];
+        $file = $_FILES['agentPassport']['name'];
         $path = pathinfo($file);
         $passport_ext = $path['extension'];
-        $passport_temp_name = $_FILES['agentImage']['tmp_name'];
+        $passport_temp_name = $_FILES['agentPassport']['tmp_name'];
         $passport_path_filename_ext = $base_dir.$passport_target_dir."passport_".$agentEmail.".".$passport_ext;
     }
     if (($_FILES['agentPolice']['name'] != "")){
         // Where the file is going to be stored
         $base_dir = "C:/xampp/htdocs/mahfuza/";
         $police_target_dir = "uploads/agent/agentPolice/";
-        $file = $_FILES['agentImage']['name'];
+        $file = $_FILES['agentPolice']['name'];
         $path = pathinfo($file);
         $police_ext = $path['extension'];
-        $police_temp_name = $_FILES['agentImage']['tmp_name'];
+        $police_temp_name = $_FILES['agentPolice']['tmp_name'];
         $police_path_filename_ext = $base_dir.$police_target_dir."police_".$agentEmail.".".$police_ext;
     }
     if ($alter == 'update') {        
-        $photo = $target_dir.$agentEmail.'.'.$ext;
-        if (($_FILES['agentImage']['name'] != "")){
-            $qry = "UPDATE agent SET agentEmail='$agentEmail',agentName='$agentName',agentPhone='$agentPhone',agentPhoto ='$photo', comment='$comment'
-               ,updatedBy='$admin',updatedOn='$date'
-                WHERE agentEmail='$agentEmail'";
-        }else{
-            $qry = "UPDATE agent SET agentEmail='$agentEmail',agentName='$agentName',agentPhone='$agentPhone', comment='$comment'
-               ,updatedBy='$admin',updatedOn='$date'
-                WHERE agentEmail='$agentEmail'";
-        }
         
-        $result = mysqli_query($conn, $qry);
-        if ($result) {
-            if (($_FILES['agentImage']['name'] != "")){
+        $qry = $conn->query("UPDATE agent SET agentName='$agentName',agentPhone='$agentPhone', comment='$comment' ,updatedBy='$admin',updatedOn='$date' WHERE agentEmail='$agentEmail'");
+        if (($_FILES['agentImage']['name'] != "")){        
+            $photo = $photo_target_dir."photo_".$agentEmail.".".$photo_ext;
+            $qry = $conn->query("UPDATE agent SET agentPhoto = '$photo' WHERE agentEmail='$agentEmail'");
+            if($qry){
                 move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
             }
-            if (($_FILES['agentPassport']['name'] != "")){
+        }
+        if (($_FILES['agentPassport']['name'] != "")){
+            $passport = $passport_target_dir."passport_".$agentEmail.".".$passport_ext;
+            $qry = $conn->query("UPDATE agent SET agentPassport = '$passport' WHERE agentEmail='$agentEmail'");
+            if($qry){
                 move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
             }
-            if (($_FILES['agentPolice']['name'] != "")){
+        }
+        if (($_FILES['agentPolice']['name'] != "")){
+            $police = $police_target_dir."police_".$agentEmail.".".$police_ext;
+            $qry = $conn->query("UPDATE agent SET agentPoliceClearance = '$police' WHERE agentEmail='$agentEmail'");
+            if($qry){
                 move_uploaded_file($police_temp_name,$police_path_filename_ext);
             }
+        }   
+
+        if ($qry) {
             echo "<script>window.alert('Updated')</script>";
-            // echo "<script> window.location.href='../index.php?page=agentList'</script>";
+            echo "<script> window.location.href='../index.php?page=agentList'</script>";
         } else {
             echo "<script>window.alert('Update Error')</script>";
         }
     } else {
-        $photo = $photo_target_dir.$agentEmail."photo_".$photo_ext;
+        $photo = $photo_target_dir."photo_".$agentEmail.".".$photo_ext;
         $passport = $passport_target_dir."passport_".$agentEmail.".".$passport_ext;
         $police = $police_target_dir."police_".$agentEmail.".".$police_ext;
         $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, agentPassport, agentPoliceClearance, comment, updatedBy, updatedOn)
@@ -97,6 +100,7 @@ if($alter == 'delete') {
         $result = mysqli_query($conn, $qry);
         if ($result) {
             if (($_FILES['agentImage']['name'] != "")){
+                print_r("entered");
                 move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
             }
             if (($_FILES['agentPassport']['name'] != "")){
@@ -106,7 +110,7 @@ if($alter == 'delete') {
                 move_uploaded_file($police_temp_name,$police_path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            // echo "<script> window.location.href='../index.php?page=agentList'</script>";
+            echo "<script> window.location.href='../index.php?page=agentList'</script>";
         } else {
             echo "<script>window.alert('Email Already Exists')</script>";
             echo "<script> window.location.href='../index.php?page=addNewAgent'</script>";

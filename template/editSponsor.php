@@ -1,8 +1,6 @@
 <?php
-$sponsorName = $_POST['sponsorName'];
-$qry = "select * from sponsor where sponsorName = '$sponsorName'";
-$result = mysqli_query($conn,$qry);
-$sponsor = mysqli_fetch_assoc($result);
+$sponsorNid = $_POST['sponsorNid'];
+$sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorNID = '$sponsorNid'"));
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -10,23 +8,27 @@ $sponsor = mysqli_fetch_assoc($result);
     </div>
     <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
     <form action="template/addNewSponsorQry.php" method="post">
-        <input type="hidden" value="<?php echo $sponsorName['sponsorName']; ?>" name="sponsorName">
         <input type="hidden" name="alter" value="update">
-        <div class="form-row">
-            <div class="form-group col-md-6" >
-                <label>Sponsor Name</label>
-                <input class="form-control" type="text" name="sponsorName" value="<?php echo $sponsor['sponsorName'];?>" readonly>
-                <br>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="form-group col-md-6" >
+                    <label>Sponsor Name</label>
+                    <input class="form-control" type="text" name="sponsorName" value="<?php echo $sponsor['sponsorName']; ?>" required>
+                </div>
+                <div class="form-group col-md-6" >
+                    <label>Sponsor NID</label>
+                    <input class="form-control" type="text" name="sponsorNid" value="<?php echo $sponsor['sponsorNID']; ?>" readonly>
+                </div>
             </div>
-            <div class="form-group col-md-6" >
-                <label>Comment</label>
-                <input class="form-control" type="text" name="comment" value="<?php echo $sponsor['comment']; ?>">
-                <br>
+            <div class="form-row">
+                <div class="form-group col-md-6" >                    
+                    <label>Comment</label>
+                    <input class="form-control" type="text" id="sponsorVisa" name="comment" value="<?php echo $sponsor['comment']; ?>">
+                </div>
             </div>
-        </div>   
-        <div class="form-group">     
-            <input class="form-control" type="submit" value="Update" name="alter">
         </div>
-</div>
-</form>
+        <div class="form-group">        
+            <input style="width: auto; margin: auto" class="form-control" type="submit" value="Update">
+        </div>
+    </form>
 </div>

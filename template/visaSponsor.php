@@ -1,5 +1,5 @@
 <?php
-$result = $conn->query("SELECT sponsorName from sponsor");
+$result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -11,10 +11,10 @@ $result = $conn->query("SELECT sponsorName from sponsor");
             <div class="row">
                 <div class="form-group col-md-6" >
                     <label>Select Sponsor Name</label>
-                    <select class="form-control select2" name="sponsorName">
+                    <select class="form-control select2" name="sponsorNid">
                         <option>--- Select Sponsor ---</option>
                         <?php while($sponsorName = mysqli_fetch_assoc($result)){?>
-                            <option><?php echo $sponsorName['sponsorName'];?></option>
+                            <option value="<?php echo $sponsorName['sponsorNID'];?>"><?php echo $sponsorName['sponsorName']." - ".$sponsorName['sponsorNID'];?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -23,6 +23,10 @@ $result = $conn->query("SELECT sponsorName from sponsor");
         <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
         <div class="form-group">
             <div class="row">
+                <div class="form-group col-md-6" >
+                    <label>VISA No.</label>
+                    <input class="form-control" type="text" name="visaNo" placeholder="Enter VISA No.">
+                </div>
                 <div class="form-group col-md-6" >
                     <label>VISA Amount</label>
                     <input class="form-control" type="number" name="visaAmount" placeholder="Enter Amount">

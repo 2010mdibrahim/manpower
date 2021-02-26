@@ -22,12 +22,13 @@ if(!empty($_POST['pagePost'])){
     <?php include ('includes/meta.php');?>
     <?php include ('includes/link.php')?>
     <?php include ('includes/datatable.php')?>
-    <?php include ('includes/select2.php')?>
 </head>
 
 <script>
+
     $(document).ready(function() {
         $('#dataTableSeaum').DataTable({
+            fixedHeader: true,
             "paging": true,
             "lengthChange": true,
             "lengthMenu": [
@@ -40,12 +41,17 @@ if(!empty($_POST['pagePost'])){
             "autoWidth": true,
             "responsive": true,
             "order": []
-        });        
+        });
+
+              
     } );
 </script>
 <style>
     h4{
         padding: 0.5%;
+    }
+    .btn{
+        font-size: 11px;        
     }
 </style>
 <body>
@@ -279,6 +285,10 @@ if(!empty($_POST['pagePost'])){
             include('template/editAgentExpense.php');
         }else if($pagePost == 'editSponsorVisa') {
             include('template/editSponsorVisa.php');
+        }else if($page == 'addNewDelegate') {
+            include('template/addNewDelegate.php');
+        }else if($page == 'delegateList') {
+            include('template/delegateList.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
@@ -292,24 +302,23 @@ if(!empty($_POST['pagePost'])){
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </div>
 <?php include 'includes/script.php'?>
+<?php include ('includes/select2.php')?>
 </body>
 </html>
 
 
 <script>
-    $('body').on('click', 'button.date', function (){
-        let str = "this is string";
-        let end = str.length - 4;
-        str = str.slice(0,end);
-        alert(str);
-        // let check_in_date = $(this).attr('value');
-        // let href = $('button.book').attr('href');
-        //
-        // $('button.book').attr('href', href+'/'+check_in_date);
-    });
 
     $('.select2').select2({
         placeholder: 'Select an option',
         width: '100%'
     });
+
+    // $.fn.datepicker.defaults.format = "yyyy/mm/dd";
+    // $('.datepicker').datepicker({
+    //     format: "yyyy/mm/dd"
+    // }); 
+
+
+    
 </script>

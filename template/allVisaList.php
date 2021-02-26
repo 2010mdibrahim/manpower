@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT * from sponsorvisalist order by sponsorName");
+$result = $conn -> query("SELECT sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID)");
 ?>
 <style>
     .flex-container {
@@ -19,10 +19,12 @@ $result = $conn -> query("SELECT * from sponsorvisalist order by sponsorName");
                 <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
+                        <th>Sponsor Name</th>
+                        <th>Sponsor NID</th>
+                        <th>VISA No.</th>
                         <th>VISA Amount</th>
                         <th>Gender</th> 
                         <th>Job Type</th>               
-                        <th>Sponsor Name</th>
                         <th>Comment</th>
                         <th>Edit</th>
                     </tr>
@@ -32,10 +34,12 @@ $result = $conn -> query("SELECT * from sponsorvisalist order by sponsorName");
                     while( $visaList = mysqli_fetch_assoc($result) ){                
                     ?>
                         <tr>
+                            <td><?php echo $visaList['sponsorName'];?></td>
+                            <td><?php echo $visaList['sponsorNID'];?></td>
+                            <td><?php echo $visaList['sponsorVisa'];?></td>
                             <td><?php echo $visaList['visaAmount'];?></td>
                             <td><?php echo $visaList['visaGenderType'];?></td>
-                            <td><?php echo $visaList['jobType'];?></td>                    
-                            <td><?php echo $visaList['sponsorName'];?></td>                    
+                            <td><?php echo $visaList['jobType'];?></td>                        
                             <td><?php echo $visaList['comment'];?></td>                   
                             <td>
                                 <div class="flex-container">

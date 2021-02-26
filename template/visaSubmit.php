@@ -3,11 +3,7 @@ include ('database.php');
 if(isset($_POST['mode'])){
     $mode = $_POST['mode'];
     if($mode == 'testMedical'){
-        $visaMedical = $_POST['visaMedical'];
-        $path_filename_ext = '';
-        $temp_name = '';
-        $target_dir = '';
-        $ext = '';
+        $passportMedical = $_POST['passportMedical'];
         if (($_FILES['testMedical']['name'] != "")){
             // Where the file is going to be stored
             $base_dir = "C:/xampp/htdocs/mahfuza/";
@@ -16,26 +12,22 @@ if(isset($_POST['mode'])){
             $path = pathinfo($file);
             $ext = $path['extension'];
             $temp_name = $_FILES['testMedical']['tmp_name'];
-            $path_filename_ext = $base_dir.$target_dir."testMedical"."-".$visaMedical.".".$ext;
+            $path_filename_ext = $base_dir.$target_dir."testMedical"."_".$passportMedical.".".$ext;
         }
-        $testPath = $target_dir."testMedical"."-".$visaMedical.".".$ext;
-        $result = $conn->query("UPDATE visa set testMedical = 'yes', testMedicalFile = '$testPath' where visaNo = '$visaMedical'");
+        $testPath = $target_dir."testMedical"."_".$passportMedical.".".$ext;
+        $result = $conn->query("UPDATE passport set testMedical = 'yes', testMedicalFile = '$testPath' where passportNum = '$passportMedical'");
         if($result){
             if (($_FILES['testMedical']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=visaList'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
-            echo "<script> window.location.href='../index.php?page=visaList'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }        
     }else if($mode == 'finalMedical'){
-        $visaMedical = $_POST['visaMedicalFinal'];
-        $path_filename_ext = '';
-        $temp_name = '';
-        $target_dir = '';
-        $ext = '';
+        $passportMedicalFinal = $_POST['passportMedicalFinal'];
         if (($_FILES['finalMedical']['name'] != "")){
             // Where the file is going to be stored
             $base_dir = "C:/xampp/htdocs/mahfuza/";
@@ -44,20 +36,19 @@ if(isset($_POST['mode'])){
             $path = pathinfo($file);
             $ext = $path['extension'];
             $temp_name = $_FILES['finalMedical']['tmp_name'];
-            $path_filename_ext = $base_dir.$target_dir."finalMedical"."-".$visaMedical.".".$ext;
+            $path_filename_ext = $base_dir.$target_dir."finalMedical"."_".$passportMedicalFinal.".".$ext;
         }
-        $testPath = $target_dir."finalMedical"."-".$visaMedical.".".$ext;
-        $result = $conn->query("UPDATE visa set finalMedical = 'yes', finalMedicalFile = '$testPath' where visaNo = '$visaMedical'");
+        $testPath = $target_dir."finalMedical"."_".$passportMedicalFinal.".".$ext;
+        $result = $conn->query("UPDATE passport set finalMedical = 'yes', finalMedicalFile = '$testPath' where passportNum = '$passportMedicalFinal'");
         if($result){
             if (($_FILES['finalMedical']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=visaList'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
-            echo "<script> window.location.href='../index.php?page=visaList'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         } 
     }
-
 }

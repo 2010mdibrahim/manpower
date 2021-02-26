@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT * from passport order by creationDate desc");
+$result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from passport order by creationDate desc");
 ?>
 
 <style>
@@ -11,9 +11,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
     html {
         scroll-behavior: smooth;
     }
-    .btn{
-        font-size: small;
-    }
+    
 </style>
 <div class="container-fluid" style="padding: 2%">
     <!-- Final Medical Modal -->
@@ -30,7 +28,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
                     <div class="modal-body">
 
                         <input type="hidden" name="mode" value="finalMedical">
-                        <input type="hidden" name="visaMedicalFinal" id="visaMedicalFinal" value="">
+                        <input type="hidden" name="passportMedicalFinal" id="passportMedicalFinal" value="">
                         <input class="form-control" type="file" name="finalMedical">
                         
                     </div>
@@ -57,7 +55,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
                     <div class="modal-body">
 
                         <input type="hidden" name="mode" value="testMedical">
-                        <input type="hidden" name="visaMedical" id="visaMedical" value="">
+                        <input type="hidden" name="passportMedical" id="passportMedical" value="">
                         <input class="form-control" type="file" name="testMedical">
                         
                     </div>
@@ -71,7 +69,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
     </div>
     
 
-
+    <!-- Police Clearance Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="policeClearanceFileSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
@@ -99,6 +97,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
     </div>
 
 
+    <!-- Training Card Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="trainingCardFileSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
@@ -125,7 +124,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
         </div>
     </div>
 
-
+    <!-- Passport Photo Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="photoFileSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/listSubmit.php" method="post" enctype="multipart/form-data">
@@ -166,7 +165,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
                         <th>Candidate Name</th> 
                         <th>Country</th>               
                         <th>Mobile No</th>
-                        <th>DOB</th>
+                        <th>Age</th>
                         <th>Passport Validity</th>
                         <th>Amount of experience</th>
                         <th>Police Clearance</th>
@@ -270,11 +269,13 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
                         </td>
 
                         <!-- Test Medical -->
-                        <td class="second">                    
-                        <?php if(empty($visa['testMedical']) || $visa['testMedical']=='no'){ ?>
-                            <button class="btn btn-secondary btn-sm" value="<?php echo $visa['visaNo'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile">No</button>
+                        <td class="second">  
+                        <?php if($candidate['policeClearance'] != 'yes' || $candidate['passportPhoto'] != 'yes'){ ?>     
+                            <button class="btn btn-warning btn-sm">Do Previous</button>             
+                        <?php }else if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
+                            <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile">No</button>
                         <?php } else { ?>
-                            <a href="<?php echo $visa['testMedicalFile'];?>" target="_blank"><button class="btn btn-primary btn-sm">OK</button></a>
+                            <a href="<?php echo $candidate['testMedicalFile'];?>" target="_blank"><button class="btn btn-primary btn-sm">OK</button></a>
                         <?php } ?></td>
 
                         <!-- Training Card -->
@@ -293,36 +294,37 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
 
                         <!-- Final Medical -->
                         <td class="second"><?php
-                        if(empty($visa['testMedical']) || $visa['testMedical']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous Step</span></button>
-                        <?php }else if(empty($visa['finalMedical']) || $visa['finalMedical']=='no'){ ?>
-                            <button class="btn btn-secondary btn-sm" value="<?php echo $visa['visaNo'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile">No</button>
+                        if(empty($candidate['testMedical']) || $candidate['testMedical']=='no' || $candidate['policeClearance'] != 'yes' || $candidate['passportPhoto'] != 'yes'){ ?>
+                            <button class="btn btn-warning btn-sm">Do Previous</button>
+                        <?php }else if(empty($candidate['finalMedical']) || $candidate['finalMedical']=='no'){ ?>
+                            <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile">No</button>
                         <?php } else { ?>
-                            <a href="<?php echo $visa['finalMedicalFile'];?>" target="_blank"><button class="btn btn-primary btn-sm">OK</button></a>
+                            <a href="<?php echo $candidate['finalMedicalFile'];?>" target="_blank"><button class="btn btn-primary btn-sm">OK</button></a>
                         <?php } ?></td>
 
+                        <td><?php echo $candidate['creationDate'];?></td>
 
-                            <td><?php echo $candidate['creationDate'];?></td>
-                            <td>
-                                <div class="flex-container">
-                                    <div style="padding-right: 2%">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="alter" value="update">
-                                            <input type="hidden" value="editCandidate" name="pagePost">
-                                            <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
-                                        </form>
-                                    </div>
-                                    <div style="padding-left: 2%">
-                                        <form action="template/editCandidateQry.php" method="post">
-                                            <input type="hidden" name="alter" value="delete">
-                                            <input type="hidden" value="editCandidate" name="pagePost">
-                                            <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
-                                        </form>
-                                    </div>
+                        <!-- Edit Section -->
+                        <td>
+                            <div class="flex-container">
+                                <div style="padding-right: 2%">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="alter" value="update">
+                                        <input type="hidden" value="editCandidate" name="pagePost">
+                                        <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                        <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
+                                    </form>
                                 </div>
-                            </td>
+                                <div style="padding-left: 2%">
+                                    <form action="template/editCandidateQry.php" method="post">
+                                        <input type="hidden" name="alter" value="delete">
+                                        <input type="hidden" value="editCandidate" name="pagePost">
+                                        <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
                         </tr>
                     <?php } ?>
                     <tfoot>
@@ -331,7 +333,7 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
                         <th>Candidate Name</th> 
                         <th>Country</th>               
                         <th>Mobile No</th>
-                        <th>DOB</th>
+                        <th>Age</th>
                         <th>Passport Validity</th>
                         <th>Amount of experience</th>
                         <th>Police Clearance</th>
@@ -351,6 +353,14 @@ $result = $conn -> query("SELECT * from passport order by creationDate desc");
 </div>
 
 <script>
+$('body').on('click', '#testMedicalFile', function(){
+    $('#passportMedical').val($('#testMedicalFile').val());
+});
+
+$('body').on('click', '#finalMedicalFile', function(){
+    $('#passportMedicalFinal').val($('#finalMedicalFile').val());
+});
+
 $('body').on('click', '#policeClearancePassport', function(){
     // alert($("#policeClearancePassport").val());
     $('#modalPassportPolice').val($("#policeClearancePassport").val());

@@ -8,8 +8,14 @@
             <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Sponsor Name</label>
-                    <input class="form-control" type="text" name="sponsorName" placeholder="Enter Name">
+                    <input class="form-control" type="text" name="sponsorName" placeholder="Enter Name" required>
                 </div>
+                <div class="form-group col-md-6" >
+                    <label>Sponsor NID</label>
+                    <input class="form-control" type="text" name="sponsorNid" placeholder="Enter NID" required>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6" >                    
                     <label>Comment</label>
                     <input class="form-control" type="text" id="sponsorVisa" name="comment" placeholder="Any Remark...">
@@ -19,8 +25,9 @@
         <div class="form-group">        
             <input style="width: auto; margin: auto" class="form-control" type="submit" value="Add">
         </div>
+    </form>
 </div>
-</form>
+
 
 <script>
     window.onload = function() {

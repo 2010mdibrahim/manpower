@@ -1,8 +1,8 @@
 <?php
 
+// include ('includes/select2.php');
 include ('includes/ajax.php');
-include ('includes/select2.php');
-$result = $conn->query("SELECT passportNum, fName, lName from passport where musanadEntry = 'yes'");
+$result = $conn->query("SELECT passportNum, fName, lName from passport where finalMedical = 'yes'");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -34,7 +34,7 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport where mus
             </div>
         </div>
         <!-- VISA Information -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <h4 class="bg-light">Visa Information</h4>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -64,7 +64,7 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport where mus
                     <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment"/>
                 </div>
             </div>                
-        </div>
+        </div> -->
         <div class="form-group">
             <input style="margin: auto; width: auto" class="form-control" type="submit" value="Add Visa">
         </div>        

@@ -18,7 +18,7 @@
     // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 90) {
-            $('.nav-bar').addClass('nav-sticky');
+            // $('.nav-bar').addClass('nav-sticky');
             $('.carousel, .page-header').css("margin-top", "73px");
         } else {
             $('.nav-bar').removeClass('nav-sticky');

@@ -43,7 +43,13 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input type="date" class="form-control" required="required" name="dob"/>
+                <input data-provide="datepicker" type="text" class="form-control" required="required" name="dob"/>
+                <!-- <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div> -->
             </div>
         </div>
         <h4 class="bg-light">Passport Information</h4>

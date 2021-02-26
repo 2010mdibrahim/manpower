@@ -1849,3 +1849,13 @@ a:focus {
 }
 
 /* End Check Box */
+
+
+th { 
+    font-size: 16px; 
+}
+td { 
+    font-size: 13px; 
+    font-weight: 550;
+}
+
