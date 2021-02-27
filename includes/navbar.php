@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="sponsorNav">Delegate</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="delegateNav">Delegate</a>
                         <div class="dropdown-menu">
                             <a href="?page=addNewDelegate" class="dropdown-item">Add New Delegate</a>
                             <a href="?page=delegateList" class="dropdown-item">Delegate List</a>

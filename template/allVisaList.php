@@ -47,14 +47,14 @@ $result = $conn -> query("SELECT sponsor.sponsorName, sponsor.sponsorNID, sponso
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editSponsorVisa" name="pagePost">
-                                            <input type="hidden" value="<?php echo $visaList['visaGenderType']."-".$visaList['jobType']."-".$visaList['sponsorName']; ?>" name="sponsorVisa">
+                                            <input type="hidden" value="<?php echo $visaList['sponsorVisa']; ?>" name="sponsorVisa">
                                             <button type="submit" class="btn btn-primary btn-sm">Add VISA</button>
                                         </form>
                                     </div>
                                     <div style="padding-left: 2%">
                                         <form action="template/visaSponsorEditQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
-                                            <input type="hidden" value="<?php echo $visaList['visaGenderType']."-".$visaList['jobType']."-".$visaList['sponsorName']; ?>" name="sponsorVisa">
+                                            <input type="hidden" value="<?php echo $visaList['sponsorVisa']; ?>" name="sponsorVisa">
                                             <button type="submit" class="btn btn-danger btn-sm" name="sponsorVisaEdit">Delete</></button>
                                         </form>
                                     </div>

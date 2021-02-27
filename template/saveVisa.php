@@ -4,24 +4,25 @@ if(isset($_POST['check1'])){
     print ($_POST['check1']);
 }
 $passportNum = $_POST['passportNum'];
-$sponsorInfo = $_POST['sponsorInfo'];
+$sponsorInfo = explode('-',$_POST['sponsorInfo']);
 $sponsorVisa = $sponsorInfo[0];
 $visaAmount = intval($sponsorInfo[1]);
-
+$comment = $_POST['comment'];
 
 $date = date("Y-m-d");
 $admin = $_SESSION['email'];
 // $comment = $_POST['comment'];
 $creatDate = date("Y-m-d H:i:s");
-
-$result = $conn->query("INSERT into processing (passportNum, sponsorVisa) values ('$passportNum', '$sponsorVisa')");
+// print_r("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment')");
+$result = $conn->query("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment')");
 if($result){
    $visaAmount -= 1;
-   $deduct_visa = "UPDATE sponosrvisalist set visaAmount = $visaAmount where sponsorVisa = '$sponsorVisa'";
+   $deduct_visa = $conn->query("UPDATE sponsorvisalist set visaAmount = $visaAmount where sponsorVisa = '$sponsorVisa'");
    echo "<script> window.alert('Saved')</script>";
-   
+   echo "<script> window.location.href='../index.php?page=visaList'</script>";
 }else{
    echo "<script> window.alert('Failed')</script>";
+   echo "<script> window.location.href='../index.php?page=newVisa'</script>";
 }
 
 // $existingVisa = mysqli_fetch_assoc($conn->query("SELECT count(visaNo) as visaCount from visa where visaNo = '$visaNo'"));

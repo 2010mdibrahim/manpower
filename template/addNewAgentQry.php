@@ -95,8 +95,9 @@ if($alter == 'delete') {
         $photo = $photo_target_dir."photo_".$agentEmail.".".$photo_ext;
         $passport = $passport_target_dir."passport_".$agentEmail.".".$passport_ext;
         $police = $police_target_dir."police_".$agentEmail.".".$police_ext;
-        $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, agentPassport, agentPoliceClearance, comment, updatedBy, updatedOn)
-                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$passport','$police','$comment','$admin','$date')";
+        $creatDate = date("Y-m-d h:i:s");
+        $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, agentPassport, agentPoliceClearance, comment, updatedBy, updatedOn, creationDate)
+                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$passport','$police','$comment','$admin','$date','$creatDate')";
         $result = mysqli_query($conn, $qry);
         if ($result) {
             if (($_FILES['agentImage']['name'] != "")){

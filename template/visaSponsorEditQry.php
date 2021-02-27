@@ -1,14 +1,15 @@
 <?php
 include ("database.php");
 if(isset($_POST['sponsorVisaEdit'])){
-  $alter = $_POST['alter'];
-  if($alter == 'delete'){
-    $sponsorVisa = explode('-',$_POST['sponsorVisa']);
-    $sponsorName = $sponsorVisa[2];
-    $jobType = $sponsorVisa[1];
-    $gender = $sponsorVisa[0];
-
-    $result = $conn->query("DELETE from sponsorvisalist where visaGenderType = '$gender' AND jobType = '$jobType' AND sponsorName = '$sponsorName'");
+  if(isset($_POST['alter'])){
+    $alter = $_POST['alter'];
+  }else{
+    $alter = '';
+  }
+  
+  $sponsorVisa = $_POST['sponsorVisa'];
+  if($alter == 'delete'){   
+    $result = $conn->query("DELETE from sponsorvisalist where sponsorVisa = '$sponsorVisa'");
 
     if($result){
       echo "<script> window.alert('Deleted')</script>";
@@ -18,19 +19,14 @@ if(isset($_POST['sponsorVisaEdit'])){
         echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
     }
   }else{
-    $sponsorName = $_POST['sponsorName'];
-    $jobType = $_POST['jobType'];
-    $gender = $_POST['gender'];
-
-    $comment = $_POST['comment'];
     $addAmount = $_POST['addAmount'];
     $existAmount = $_POST['visaAmount'];
     $newAmount = $addAmount + $existAmount;
 
-    $result = $conn->query("UPDATE sponsorvisalist set visaAmount = $newAmount where visaGenderType = '$gender' AND jobType = '$jobType' AND sponsorName = '$sponsorName'");
+    $result = $conn->query("UPDATE sponsorvisalist set visaAmount = $newAmount where sponsorVisa = '$sponsorVisa'");
 
     if($result){
-      echo "<script> window.alert('Added')</script>";
+      echo "<script> window.alert('Updated')</script>";
       echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
     }else{
         echo "<script> window.alert('Failed')</script>";

@@ -4,106 +4,323 @@ if(isset($_POST['passportNum'])){
 }else{
     $passportNum = '';
 }
-$candidate = mysqli_fetch_assoc($conn -> query("select * from passport where passportNum = '".$passportNum."'"));
-$result = $conn->query("select agentEmail, agentName from agent");
-$curYear = date("Y");
-$minYear = $curYear - 38;
-$maxYear = $curYear - 25;
-$curDay = date('m-d');
+$candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where passportNum = '$passportNum'"));
 ?>
+
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
+
+<?php
+$result = $conn->query("select agentEmail, agentName from agent");
+?>
+
+<style>
+    span.danger{
+        display: none;
+        color: red;
+        font-size: small;
+    }
+    
+</style>
+
 
 <div class="container">
     <div class="section-header">
         <h2>New Candidate Information</h2>
     </div>
-    <form action="template/editCandidateQry.php" method="post">
+    <form action="template/editCandidateQry.php" method="post" enctype="multipart/form-data" id="candidateForm">
         <input type="hidden" name="alter" value="update">
         <h4 class="bg-light">Candidate Information</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>First Name</label>
-                <input type="text" class="form-control" required="required" name="fName" value="<?php echo $candidate['fName']?>"/>
+                <input type="text" class="form-control" required="required" name="fName" value="<?php echo $candidate['fName'];?>"/>
             </div>
             <div class="form-group col-md-6">
-                <label>Gender</label>
-                <select class="form-control" name="gender">
-                    <?php if($candidate['gender'] === 'Male'){?>
+                <label>Gender <span class="danger" id="genderDanger">Select Gender</span> </label>
+                <select class="form-control" name="gender" id="gender">
+                    <?php if($candidate['gender'] == 'male'){ ?>
                         <option selected>Male</option>
                         <option>Female</option>
-                    <?php }else{ ?>
+                    <?php }else{ ?>                        
                         <option>Male</option>
                         <option selected>Female</option>
                     <?php } ?>
                 </select>
             </div>
-            <div class="form-group col-md-6">
+            <div class="column col-md-6">
                 <label>Last Name</label>
-                <input type="text" class="form-control" required="required" name="lName" value="<?php echo $candidate['lName']?>"/>
+                <input type="text" class="form-control" required="required" name="lName" value="<?php echo $candidate['lName'];?>"/>
             </div>
-            <div class="form-group col-md-6">
-                <label>Mobile No.</label>
-                <input type="text" class="form-control" required="required" name="mobNum" value="<?php echo $candidate['mobNum']?>"/>
+            <div class="form-group col-md-6 date_error">
+                <label>Mobile No. <span class="danger" id="mobNum_danger" >Enter propur number</span> </label>
+                <input type="text" class="form-control" required="required" name="mobNum" id="mobNum" value="<?php echo $candidate['mobNum'];?>"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input type="date" class="form-control" required="required" name="dob" value="<?php echo $candidate['dob']?>" min="<?php echo $minYear.'-'.$curDay;?>" max="<?php echo $maxYear.'-'.$curDay;?>"/>
+                <input type="date" class="form-control" required="required" name="dob" value="<?php echo $candidate['dob'];?>"/>
+                <!-- <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div> -->
             </div>
         </div>
         <h4 class="bg-light">Passport Information</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Passport No.</label>
-                <input type="text" class="form-control" required="required" name="passportNum" value="<?php echo $candidate['passportNum']?>" readonly/>
-            </div>
+                <input type="text" class="form-control" required="required" name="passportNum" value="<?php echo $candidate['passportNum'];?>" readonly/>
+            </div>            
             <div class="form-group col-md-6">
                 <label>Country</label>
-                <input type="text" class="form-control" name="country" value="<?php echo $candidate['country']?>"/>
+                <input type="text" class="form-control" required="required" name="country" value="<?php echo $candidate['country'];?>"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>
-                <input type="date" class="form-control" required="required" name="issuD" value="<?php echo $candidate['issueDate']?>"/>
-            </div>            
-            <div class="form-group col-md-6">
-                <label>Expiry Date</label>
-                <input type="date" class="form-control" required="required" name="expD" value="<?php echo $candidate['expiryDate']?>"/>
+                <input type="date" class="form-control" required="required" name="issuD" id="issuD" value="<?php echo $candidate['issueDate'];?>"/>
             </div>
-            <div class="form-group col-md-6">
-                <label>Departure Date</label>
-                <input type="date" class="form-control" name="departureDate" value="<?php echo $candidate['departureDate']?>"/>
+            <div class="form-group col-md-6" style="text-align: center;">
+                <label>Validity Year</label>
+                <div class="form-group">
+                <?php if($candidate['validity'] == 5){?>
+                    <label class="parking_label">5 Years
+                        <input type="radio" name="validityYear" id="validityYear" value="5" checked required>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="parking_label">10 Years
+                        <input type="radio" name="validityYear" id="validityYear" value="10" required>
+                        <span class="checkmark"></span>
+                    </label>
+                <?php }else{ ?>
+                    <label class="parking_label">5 Years
+                        <input type="radio" name="validityYear" id="validityYear" value="5" required>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="parking_label">10 Years
+                        <input type="radio" name="validityYear" id="validityYear" value="10" checked required>
+                        <span class="checkmark"></span>
+                    </label>
+                <?php } ?>
+                </div>
             </div>
+        </div>
+        <label>New or Experienced</label>
+        <div class="form-group">            
+            <div class="parking_container">
+                <div class="form-row">
+                <?php if($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00'){?>
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">New
+                            <input type="radio" name="experience" value="no" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">Experienced
+                            <input type="radio" name="experience" value="yes" required>
+                            <span class="checkmark"></span>
+                        </label> 
+                    </div> 
+                <?php }else{ ?>
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">New
+                            <input type="radio" name="experience" value="no" required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">Experienced
+                            <input type="radio" name="experience" value="yes" checked required>
+                            <span class="checkmark"></span>
+                        </label> 
+                    </div> 
+                <?php } ?>
+                </div>
+                <div class="form-row" id="experienced" style="display: <?php echo ($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00') ? 'none' : 'static';?>;">
+                    <div class="form-group col-md-6">
+                        <label>Departure Date</label>
+                        <input type="date" class="form-control experience_dates" name="departureDate" value="<?php echo $candidate['departureDate'];?>"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Arrival Date</label>
+                        <input type="date" class="form-control experience_dates" name="arrivalDate" value="<?php echo $candidate['arrivalDate'];?>"/>
+                    </div>               
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Agent or Office <span class="agentOrOfficeDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
+                    <div class="form-group">
+                        <label class="parking_label">Agent
+                            <input type="radio" name="agentOrOffice" value="agent" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <!-- <label class="parking_label">Office
+                            <input type="radio" name="agentOrOffice" value="office" required>
+                            <span class="checkmark"></span>
+                        </label> -->
+                    </div>
+                </div>
+                <div class="form-group col-md-6" id="agentNotOffice">
+                    <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
+                    <select class="form-control select2" name="agentEmail" id="agent">
+                        <option value="notSet">------ Select Option ------</option>
+                        <?php while($agent = mysqli_fetch_assoc($result)){?>
+                            <?php if($candidate['agentEmail'] == $agent['agentEmail']){?>
+                                <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
+                            <?php }else{ ?>
+                                <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-6" id="officeNotAgent" style="display: none;">
+                    <label>Office <span class="danger" id="office_validation">Enter Office</span> </label>
+                    <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
+                </div> 
+            </div>                       
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Arrival Date</label>
-                <input type="date" class="form-control" name="arrivalDate" value="<?php echo $candidate['arrivalDate']?>"/>
+                <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
+                <select class="form-control select2" id="manpower" name="manpower">
+                    <option value="notSet">----- Select Office ------</option>
+                    <?php
+                    $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
+                    while($manpower = mysqli_fetch_assoc($result)){
+                    ?>
+                        <?php if($candidate['manpowerOfficeName'] == $manpower['manpowerOfficeName']){ ?>
+                            <option selected><?php echo $manpower['manpowerOfficeName']; ?></option>
+                        <?php }else{ ?>
+                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Comment</label>
                 <input type="text" class="form-control" name="comment" value="<?php echo $candidate['comment'];?>"/>
             </div>
-            <div class="form-group col-md-6">
-                <label>Agent</label>
-                <select class="form-control" name="agentEmail">
-                    <?php while($agent = mysqli_fetch_assoc($result)){
-                        if($agent['agentEmail'] === $candidate['agentEmail']){ ?>
-                            <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
-                        <?php }else{?>
-                            <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
-                    <?php }
-                    } ?>
-                </select>
-            </div>            
+        </div>
+        <h4 class="bg-light">Documents</h4>
+        <div class="form-row">            
+            <div class="form-group col-md-6" id="passportScanFile">
+                <div>
+                    <label>Passport Scanned Copy</label>
+                    <input class="form-control" type="file" name="passportScan">
+                </div>
+            </div> 
         </div>
         <div class="form-group">
-            <input class="form-control bg-primary" type="submit" style="margin: auto; width: 15%" value="Update">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Police Verification <span id="policeVerificationDanger" style="font-size: small; display: none; color:red">Select Verification</span> </label>
+                    <?php if($candidate['policeClearance'] == 'yes'){ ?>
+                    <div class="form-group">
+                        <label class="parking_label">Provided
+                            <input type="radio" name="policeVerification" value="yes" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="policeVerification" value="no" required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div> 
+                    <?php }else{ ?>  
+                    <div class="form-group">
+                        <label class="parking_label">Provided
+                            <input type="radio" name="policeVerification" value="yes" required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="policeVerification" value="no" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>   
+                    <?php } ?>              
+                </div>
+                <div class="form-group col-md-6" id="policeFile" style="display: <?php echo ($candidate['policeClearance'] == 'yes') ? 'static' : 'none';?>;">
+                    <div>
+                        <label>Police Verification File</label>
+                        <input class="form-control" type="file" name="policeVerificationFile" id="policeVerificationFile">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label>Passport Size Photo <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
+                    <div class="form-group">
+                    <?php if($candidate['passportPhoto'] == 'yes'){ ?>
+                        <label class="parking_label">Provided
+                            <input type="radio" name="passportPhoto" value="yes" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="passportPhoto" value="no" required>
+                            <span class="checkmark"></span>
+                        </label>
+                    <?php }else{ ?>
+                        <label class="parking_label">Provided
+                            <input type="radio" name="passportPhoto" value="yes" required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="passportPhoto" value="no" checked required>
+                            <span class="checkmark"></span>
+                        </label>
+                    <?php } ?>
+                    </div>                 
+                </div>
+                <div id="photoFile" class="form-group col-md-6" style="display: <?php echo ($candidate['passportPhoto'] == 'yes') ? 'static' : 'none';?>;">
+                    <div>
+                        <label>Give Photo</label>
+                        <input class="form-control" type="file" name="photoFile" id="photoFile_input">
+                    </div>
+                </div>
+            </div>
+        </div>          
+        <div class="form-group">
+            <input class="form-control bg-primary" type="submit" style="margin: auto; width: auto; color: white" value="Update" id="submit">
         </div>
     </form>
 </div>
 <script>
-$('body').on('change', '#policeVerification', function(){
-    let policeVerification = $('#policeVerification').val();
-    if(policeVerification == 'yes'){
+// radio toggle
+$('body').on('click', "input[type='radio']", function(){
+    const experience = $("input[name='experience']:checked").val();
+    const policeVerification = $("input[name='policeVerification']:checked").val();
+    const passportPhoto = $("input[name='passportPhoto']:checked").val();
+    const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
+
+    if(experience === 'yes'){
+        $('#experienced').show();
+    }else if(experience === 'no'){
+        $('#experienced').hide();
+    }
+
+    if(policeVerification === 'yes'){
         $('#policeFile').show();
-    }else{
+    }else if(policeVerification === 'no'){
         $('#policeFile').hide();
+    }
+
+    if(passportPhoto === 'yes'){
+        $('#photoFile').show();
+    }else if(passportPhoto === 'no'){
+        $('#photoFile').hide();
+    }
+
+    if(agentOrOffice === 'office'){
+        $('#agentNotOffice').hide();
+        $('#officeNotAgent').show();
+    }else if(agentOrOffice === 'agent'){
+        $('#agentNotOffice').show();
+        $('#officeNotAgent').hide();
     }
 });
 </script>

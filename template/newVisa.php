@@ -1,7 +1,6 @@
 <?php
-
 // include ('includes/select2.php');
-include ('includes/ajax.php');
+// include ('includes/ajax.php');
 $result = $conn->query("SELECT passportNum, fName, lName from passport where finalMedical = 'yes'");
 ?>
 <div class="container" style="padding: 2%">
@@ -30,6 +29,12 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport where fin
                     <select class="form-control select2" id="sponsorInfo" name="sponsorInfo">
                         <option>Select Passport First</option>
                     </select>                  
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6" >
+                    <label> Comment </label>
+                    <input class="form-control" type="text" name="comment" placeholder="Any Comment...">                 
                 </div>
             </div>
         </div>

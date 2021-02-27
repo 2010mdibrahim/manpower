@@ -1,6 +1,7 @@
 <?php
 $sponsorNid = $_POST['sponsorNid'];
 $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorNID = '$sponsorNid'"));
+$result = $conn->query("SELECT * from delegate order by creationDate")
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -12,15 +13,26 @@ $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorN
         <div class="form-group">
             <div class="form-row">
                 <div class="form-group col-md-6" >
+                    <label>Delegate</label>
+                    <select class="form-control" name="delegateId" id="delegateId">
+                    <?php while($delegate = mysqli_fetch_assoc($result)){
+                            if($delegate['delegateId'] == $sponsor['delegateId']){ ?>
+                                <option value="<?php echo $delegate['delegateId']?>" selected><?php echo $delegate['delegateName'];?></option>
+                            <?php }else{ ?>
+                                <option value="<?php echo $delegate['delegateId']?>"><?php echo $delegate['delegateName'];?></option>
+                    <?php } } ?>
+                    </select>                  
+                </div>
+                <div class="form-group col-md-6" >
                     <label>Sponsor Name</label>
                     <input class="form-control" type="text" name="sponsorName" value="<?php echo $sponsor['sponsorName']; ?>" required>
-                </div>
+                </div>                
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Sponsor NID</label>
                     <input class="form-control" type="text" name="sponsorNid" value="<?php echo $sponsor['sponsorNID']; ?>" readonly>
                 </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-6" >                    
                     <label>Comment</label>
                     <input class="form-control" type="text" id="sponsorVisa" name="comment" value="<?php echo $sponsor['comment']; ?>">

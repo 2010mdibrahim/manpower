@@ -43,7 +43,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input data-provide="datepicker" type="text" class="form-control" required="required" name="dob"/>
+                <input type="date" class="form-control" required="required" name="dob"/>
                 <!-- <div class="input-group date" data-provide="datepicker">
                     <input type="text" class="form-control">
                     <div class="input-group-addon">
@@ -118,10 +118,10 @@ $result = $conn->query("select agentEmail, agentName from agent");
                             <input type="radio" name="agentOrOffice" value="agent" checked required>
                             <span class="checkmark"></span>
                         </label>
-                        <label class="parking_label">Office
+                        <!-- <label class="parking_label">Office
                             <input type="radio" name="agentOrOffice" value="office" required>
                             <span class="checkmark"></span>
-                        </label>
+                        </label> -->
                     </div>
                 </div>
                 <div class="form-group col-md-6" id="agentNotOffice">

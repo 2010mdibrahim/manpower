@@ -16,6 +16,7 @@
                 <table id="dataTableSeaum" class="table table-bordered table-hover" style="width:100%">
                     <thead>
                     <tr>
+                        <th>Delegate Name</th>
                         <th>Sponsor NID</th>
                         <th>Sponsor Name</th>
                         <th>Comment</th>
@@ -23,10 +24,11 @@
                     </tr>
                     </thead>
                     <?php
-                    $qry = "SELECT * from sponsor order by creationDate desc";
+                    $qry = "SELECT delegate.delegateName, sponsor.* from sponsor inner join delegate using(delegateId) order by creationDate desc";
                     $result = mysqli_query($conn,$qry);
                     while($sponsor = mysqli_fetch_assoc($result)){ ?>
                         <tr>
+                            <td><?php echo $sponsor['delegateName'];?></td>
                             <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td><?php echo $sponsor['sponsorName'];?></td>
                             <td><?php echo $sponsor['comment'];?></td>

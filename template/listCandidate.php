@@ -186,23 +186,23 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from pass
                         
                         // ------- validity days -------
                         $expiryDate = new DateTime($candidate['issueDate']); // will add validity to this date thats why it is expiry date
-                        $issueDate = new DateTime($candidate['issueDate']);
+                        $today = new DateTime(date('Y-m-d'));
                         $format = "P".$candidate['validity']."Y";
                         $expiryDate->add(new DateInterval($format));
-                        $validity = $expiryDate->diff($issueDate);
+                        $validity = $expiryDate->diff($today);
 
                         // ---------- DOB -----------
                         $today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                     
-                        if($candidate['office'] == ''){ ?>
-                                <tr id="<?php echo $candidate['passportNum'];?>">
+                        if($age->y < 25){ ?>
+                            <tr style="background-color: #e8f5e9;">
+                        <?php }else if($age->y > 38){ ?>
+                            <tr style="background-color: #fffde7;">
                         <?php }else{ ?>
-                                <tr id="<?php echo $candidate['passportNum'];?>" style="background-color: #b2dfdb">
-                        <?php }
-                            
-                        ?>
+                            <tr>
+                        <?php } ?>
                         <td><?php echo $candidate['passportNum'];?></td>
                         <td><?php echo $candidate['fName']." ".$candidate['lName'];?></td>
                         <td><?php echo $candidate['country'];?></td>                    

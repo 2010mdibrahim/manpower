@@ -93,15 +93,8 @@ if($existingPass['passCount'] > 0){
     }else{
         $passportFile = '';
     }   
-    $qry = "INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate,
-    arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, manpowerOfficeName, office, country, comment, updatedBy, updatedOn, creationDate)
-   VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate',
-   '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail','$manpowerOfficeName', '$office','$country','$comment','$admin','$date', '$date')";
-   print_r($qry);
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate,
-                     arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, office, country, comment, updatedBy, updatedOn, creationDate)
-                    VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate',
-                    '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail', '$office','$country','$comment','$admin','$date', '$date')");
+    
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, office, manpowerOfficeName, country, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail', '$office', '$manpowerOfficeName','$country','$comment','$admin','$date', '$date')");
     if($result){    
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
@@ -113,12 +106,12 @@ if($existingPass['passCount'] > 0){
             move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
         }
         echo "<script>window.alert('Inserted')</script>";
-        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         print_r($err);
         echo "<script>window.alert('".$err."')</script>";
-        // echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }
 }
 

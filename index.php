@@ -289,6 +289,8 @@ if(!empty($_POST['pagePost'])){
             include('template/addNewDelegate.php');
         }else if($page == 'delegateList') {
             include('template/delegateList.php');
+        }else if($pagePost == 'editDelegate') {
+            include('template/editDelegate.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
