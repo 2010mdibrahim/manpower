@@ -291,6 +291,10 @@ if(!empty($_POST['pagePost'])){
             include('template/delegateList.php');
         }else if($pagePost == 'editDelegate') {
             include('template/editDelegate.php');
+        }else if($page == 'tN') {  //ticket info
+            include('template/ticketInfo.php');
+        }else if($page == 'jobs') {
+            include('template/jobs.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
@@ -310,6 +314,12 @@ if(!empty($_POST['pagePost'])){
 
 
 <script>
+
+    $('.datepicker').datepicker({
+        format: 'yyyy/mm/dd',
+        todayHighlight:'TRUE',
+        autoclose: true,
+    })
 
     $('.select2').select2({
         placeholder: 'Select an option',

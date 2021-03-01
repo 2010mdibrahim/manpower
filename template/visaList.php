@@ -32,7 +32,6 @@
                     <div class="modal-body">
 
                         <input type="hidden" name="passportNum" id="passportNumCard">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisaCard">
                         <input type="hidden" name="mode" value="trainingCardMode">
                         <input class="form-control" type="file" name="trainingCard">
                         
@@ -129,7 +128,7 @@
                                 <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
                                 <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
                                 <input type="hidden" name="mode" value="empRqstMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="empRqst">Yes</button>
+                                <button class="btn btn-primary btn-sm" value="no" name="empRqst">Done</button>
                             </form>
                         <?php } ?></td>
 
@@ -149,7 +148,7 @@
                                 <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
                                 <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
                                 <input type="hidden" name="mode" value="foreignMoleMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="foreignMole">Approved</button>
+                                <button class="btn btn-primary btn-sm" value="no" name="foreignMole">Done</button>
                             </form>
                         <?php } ?></td>
 
@@ -169,7 +168,7 @@
                             <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
                             <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
                             <input type="hidden" name="mode" value="okalaMode">
-                            <button class="btn btn-primary btn-sm" value="no" name="okala">Confirmed</button>
+                            <button class="btn btn-primary btn-sm" value="no" name="okala">Done</button>
                         </form>
                         <?php } ?></td>
 
@@ -218,7 +217,7 @@
                         if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
                             <button class="btn btn-warning btn-sm"><span style="font-size: 11px;">Do Previous Step</span></button>
                         <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
-                            <button class="btn btn-info btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>">Enter Date</button>
+                            <button class="btn btn-info btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)">Enter Date</button>
                         <?php } else { ?>
                             <p><?php echo $visa['visaStampingDate'];?></p>
                         <?php } ?></td>
@@ -245,36 +244,39 @@
 
                         <!-- Training Card -->
                         <td>
-                        <?php if($visa['visaGenderType'] == 'female' AND $visa['jobType'] == 'housekeep'){ ?>
-                            <a href="<?php echo $visa['trainingCardFile'];?>"><button class="btn btn-warning btn-sm">Card</button></a>
-                        <?php }else{ ?>
-                                <?php if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
-                                        <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous</span></button>
-                                <?php }else if(empty($visa['trainingCard']) || $visa['trainingCard'] == 'no'){ ?>
-                                        <button class="btn btn-secondary btn-sm" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" id="enterCard" data-target="#trainingCardFileSubmit" data-toggle="modal">Enter Card</button>                                
-                                <?php }else{ ?>
-                                        <a href="<?php echo $visa['trainingCardFile'];?>" target="_blank"><button class="btn btn-warning btn-sm">Card</button></a>
-                                <?php } ?>
-                        <?php } ?>
+                            <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile from passport where passportNum = '".$visa['passportNum']."'"));?>
+                            <?php if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
+                                    <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous</span></button>
+                            <?php }else if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no'){ ?>
+                                    <button class="btn btn-secondary btn-sm" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" id="enterCard" data-target="#trainingCardFileSubmit" data-toggle="modal" onclick="trainingCard(this.value)">Enter Card</button>                                
+                            <?php }else{ ?>
+                                    <a href="<?php echo $trainingCard['trainingCardFile'];?>" target="_blank"><button class="btn btn-warning btn-sm">Card</button></a>
+                            <?php } ?>
                         </td>
 
+                        <!-- Ticket information -->
                         <td class="third"><?php
-                        $ticket = mysqli_fetch_assoc($conn->query("SELECT *, count(ticketId) as existTicket from ticket where passportNum = '".$visa['passportNum']."'"));
-                        if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
-                        <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous Step</span></button>
-                        <?php }else if($ticket['existTicket'] == 0){ ?>
-                        <button class="btn btn-secondary btn-sm"><span style="font-size: small;">No Ticket Assigned</span></button>
-                        <?php } else { 
-                            echo $ticket['flightDate'];
-                        } ?></td>
+                            $ticket = mysqli_fetch_assoc($conn->query("SELECT ticketId, flightDate, count(ticketId) as existTicket from ticket where passportNum = '".$visa['passportNum']."'"));
+                            if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
+                                <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous Step</span></button>
+                            <?php }else if($ticket['existTicket'] == 0){ ?>
+                                <button class="btn btn-secondary btn-sm"><span style="font-size: small;">No Ticket Assigned</span></button>
+                            <?php } else { 
+                                $ticketId = base64_encode($ticket['ticketId']);
+                            ?>
+                            <!-- <form action="index.php" method="post"> -->
+                            <input type="hidden" name="pagePost" value="ticketInfo">
+                            <a href="?page=tN&tI=<?php echo $ticketId; ?>" target="_blank"><button class="btn btn-info btn-sm"><?php echo $ticket['flightDate']; ?></button></a>    
+                            <!-- </form> -->
+                        <?php } ?></td>
 
 
-                        <td><?php 
+                        <!-- <td><?php 
                         if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
                         <button class="btn btn-secondary btn-sm">No</button>
                         <?php } else { ?>
                         <button class="btn btn-primary btn-sm">Yes</button>
-                        <?php } ?></td>                    
+                        <?php } ?></td>                     -->
                         <!-- <td>
                             <div class="flex-container">
                                 <div style="padding-right: 2%">
@@ -322,17 +324,16 @@
 </div>
 
 <script>
-$('body').on('click', '#enterCard', function(){
-    let info = $('#enterCard').val().split('-');
-    $('#passportNumCard').val(info[0]);
-    $('#sponsorVisaCard').val(info[1]);
-});
+function trainingCard(info){
+    let info_split = info.split('-');
+    $('#passportNumCard').val(info_split[0]);
+}
 
-$('body').on('click', '#stampingButton', function(){
-    let info = $('#stampingButton').val().split('-');
-    $('#passportNum').val(info[0]);
-    $('#sponsorVisa').val(info[1]);
-});
+function visaStamping(info){
+    let info_split = info.split('-');
+    $('#passportNum').val(info_split[0]);
+    $('#sponsorVisa').val(info_split[1]);
+}
 
 $('body').on('click', '#testMedicalFile', function(){
     $('#visaMedical').val($('#testMedicalFile').val());

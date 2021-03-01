@@ -3,7 +3,7 @@ $result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add VISA to Sponsor</h2>
+        <h2>Add Sponsor's VISA</h2>
     </div>
     
     <form action="template/visaSponsorQry.php" method="post">
@@ -26,6 +26,10 @@ $result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
                 <div class="form-group col-md-6" >
                     <label>VISA No.</label>
                     <input class="form-control" type="text" name="visaNo" placeholder="Enter VISA No.">
+                </div>
+                <div class="form-group col-md-6" >
+                    <label>Issue Date</label>
+                    <input class="form-control datepicker" autocomplete="off" type="text" name="visaNo" placeholder="Enter VISA No.">
                 </div>
                 <div class="form-group col-md-6" >
                     <label>VISA Amount</label>

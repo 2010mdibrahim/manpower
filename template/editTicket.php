@@ -1,5 +1,4 @@
 <?php 
-include('includes/select2.php'); 
 if(isset($_POST['ticketId'])){
     $ticketId = $_POST['ticketId'];
 }else{
@@ -13,15 +12,15 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
     <div class="section-header">
         <h2>New Ticket</h2>
     </div>
-        <form action="template/editTIcketQry.php" method="post">
+        <form action="template/editTIcketQry.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="hidden" name="ticketId" value="<?php echo $ticketId;?>">
                 <input type="hidden" name="alter" value="update">
                 <label for="sel1">Select Passport Number:</label>
-                <select class="form-control" id="passport" name="passportNum">
+                <select class="form-control select2" id="passport" name="passportNum">
                     <option>Select passport</option>
                     <?php 
-                    $result = $conn->query("SELECT passportNum from passport");
+                    $result = $conn->query("SELECT passportNum from passport order by creationDate desc");
                     while($passNo = mysqli_fetch_assoc($result)){ 
                         if($ticket['passportNum'] == $passNo['passportNum']){ ?>
                             <option selected><?php echo $passNo['passportNum']; ?></option>
@@ -33,46 +32,70 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
             <br>
 
             <h3 style="background-color: aliceblue; padding: 0.5%">Ticket information</h3>
-            <div class="form-group flex-container">
-                <br>
-                <div >
-                    <label for="sel1">Select Airplane:</label>
-                    <input class="form-control" type="text" name="airline" value="<?php echo $ticket['airline'];?>">
-                </div>
-                <br>
-                <div >
-                    <label for="sel1">Flight No:</label>
-                    <input class="form-control" type="text" name="flightNo" value="<?php echo $ticket['flightNo'];?>">
-                </div>
-                <br>
+            <div class="form-group">                
                 <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Select Airplane:</label>
+                        <input class="form-control" type="text" name="airline" value="<?php echo $ticket['airline'];?>">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Flight No:</label>
+                        <input class="form-control" type="text" name="flightNo" value="<?php echo $ticket['flightNo'];?>">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">Flight Date:</label>
-                        <input class="form-control col-md-12" type="date" name="flightDate" value="<?php echo $ticket['flightDate'];?>">
+                        <input class="form-control datepicker" type="text" autocomplete="off" name="flightDate" value="<?php echo $ticket['flightDate'];?>">
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3" style="text-align: center;">
+                        <label>Transit</label>
+                        <?php if($ticket['transit'] != 0.0){?>
+                            <div class="form-group">
+                                <label class="parking_label">Yes
+                                    <input type="radio" name="transit" id="transit" value="yes" checked required>
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="parking_label">No
+                                    <input type="radio" name="transit" id="transit" value="no" required>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        <?php }else{ ?>
+                            <div class="form-group">
+                                <label class="parking_label">Yes
+                                    <input type="radio" name="transit" id="transit" value="yes" required>
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="parking_label">No
+                                    <input type="radio" name="transit" id="transit" value="no" checked required>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="form-group col-md-3" id="transitHourDiv" style="display: <?php echo ($ticket['transit'] == 0.0) ? 'none' : 'static';?>;">
+                        <label for="sel1">Transit:</label>
+                        <input class="form-control col-md-12" type="number" name="transitHour" placeholder="Transit Hours" step="any">
+                    </div>
+                    <!-- <div class="form-group col-md-6">
                         <label for="sel1">From:</label>
-                        <input class="form-control col-md-12" type="text" name="fromPlace" value="<?php echo $ticket['flightFrom'];?>">
-                    </div>
+                        <input class="form-control col-md-12" type="text" name="fromPlace" placeholder="Enter From">
+                    </div> -->
                     <div class="form-group col-md-6">
                         <label for="sel1">To:</label>
                         <input class="form-control col-md-12" type="text" name="toPlace" value="<?php echo $ticket['flightTo'];?>">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="sel1">Amount:</label>
-                            <input class="form-control" type="number" name="amount" value="<?php echo $ticket['ticketPrice'];?>">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="sel1">Comment:</label>
-                            <input class="form-control" type="text" name="comment" value="<?php echo $ticket['comment'];?>">
-                        </div>
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Amount:</label>
+                        <input class="form-control" type="number" name="amount" value="<?php echo $ticket['ticketPrice'];?>">
                     </div>
-                    
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Ticket Copy:</label>
+                        <input class="form-control-file" type="file" name="ticketCopy">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Comment:</label>
+                        <input class="form-control" type="text" name="comment" value="<?php echo $ticket['comment'];?>">
+                    </div>
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="submit" value="Update" style="width: 50%; margin:auto">
@@ -81,9 +104,16 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
         </form>
 </div>
 <script>
-    $('#passport').select2({
-        placeholder: 'Select an option'
+    $('body').on('click', "input[type='radio']", function(){
+        const transit = $("input[name='transit']:checked").val();
+        if(transit == 'yes'){
+            $('#transitHourDiv').show();
+        }else{
+            $('#transitHourDiv').hide();
+        }
+        
     });
+
     window.onload = function() {
         $('#ticketNav').addClass('active');
     };

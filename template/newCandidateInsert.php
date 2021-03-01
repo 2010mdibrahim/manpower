@@ -14,6 +14,7 @@ $policeVerification = $_POST['policeVerification'];
 $photo = $_POST['passportPhoto'];
 $validityYear = $_POST['validityYear'];
 $manpowerOfficeName = $_POST['manpower'];
+$jobType = $_POST['jobType'];
 
 if(isset($_POST['agentEmail'])){
     $agentEmail = $_POST['agentEmail'];
@@ -94,7 +95,7 @@ if($existingPass['passCount'] > 0){
         $passportFile = '';
     }   
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, office, manpowerOfficeName, country, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail', '$office', '$manpowerOfficeName','$country','$comment','$admin','$date', '$date')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, office, manpowerOfficeName, country, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail', '$office', '$manpowerOfficeName','$country','$comment','$admin','$date', '$date')");
     if($result){    
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);

@@ -24,7 +24,8 @@ if(isset($_POST['agent'])){
         $agentEmail = $_POST['agentEmail'];
         $fullAmount = $_POST['fullAmount'];
         $advance = $_POST['advance'];
-        $purpose = $_POST['purpose'];        
+        $purpose = $_POST['purpose'];   
+        $expenseMode = $_POST['expenseMode'];      
         $comment = $_POST['comment'];
         $admin = $_SESSION['email'];
         $date = date("Y-m-d");
@@ -37,7 +38,7 @@ if(isset($_POST['agent'])){
         }
         if($alter == 'update'){
             $advance = intval($advance) + intval($adjustAmount);
-            $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose',fullAmount=$fullAmount,paidAmount=$advance,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date' WHERE agentExpenseId=$agentExpenseId");
+            $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,paidAmount=$advance,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date' WHERE agentExpenseId=$agentExpenseId");
             if($result){
                 echo "<script>window.alert('Updated')</script>";
                 echo "<script> window.location.href='../index.php?page=expenseAgentList'</script>";
@@ -46,8 +47,8 @@ if(isset($_POST['agent'])){
                 echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
             }
         }else{
-            $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, fullAmount, paidAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo) 
-                                    VALUES ('$purpose', '$fullAmount', '$advance', '$paydate', '$agentEmail', '$creatDate', '$comment', '$admin', '$date')");
+            $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, paidAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo) 
+                                    VALUES ('$purpose', '$expenseMode', '$fullAmount', '$advance', '$paydate', '$agentEmail', '$creatDate', '$comment', '$admin', '$date')");
             
             if($result){
                 echo "<script>window.alert('Added')</script>";

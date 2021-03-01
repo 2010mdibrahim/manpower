@@ -24,18 +24,31 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
                     <label>Full Amount</label>
                     <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount">
                 </div>
+                <div class="form-group col-md-6" style="text-align: center;">
+                    <label>Mode</label>
+                    <div class="form-group">
+                        <label class="parking_label">Receive
+                            <input type="radio" name="expenseMode" value="receive" required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Lend
+                            <input type="radio" name="expenseMode" value="lend" required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group col-md-6">
                     <label>Advance</label>
-                    <input class="form-control" type="number" name="advance" value="0">
+                    <input class="form-control" type="number" name="advance" placeholder="BDT">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Advance Pay Date</label>
+                    <input class="form-control datepicker" type="text" name="paydate" placeholder="yyyy/mm/dd">
                 </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Pay Date</label>
-                    <input class="form-control" type="date" name="paydate" >
-                </div>
+                </div>                
                 <div class="form-group col-md-6">
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" placeholder="Enter Remark">

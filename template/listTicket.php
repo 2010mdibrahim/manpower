@@ -21,26 +21,43 @@
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
-                        <th>From</th>
+                        <th>Transit</th>
                         <th>To</th>
                         <th>Amount</th>
-                        <th>Comment</th>
+                        <th>Comment</th>                        
+                        <th>Ticket Copy</th>
                         <th>Alter</th>
                     </tr>
                     </thead>
                     <?php
                     $agent = $_SESSION['email'];
-                    $result = $conn->query("select * from ticket");
+                    $result = $conn->query("SELECT * from ticket order by creationDate desc");
                     while($ticket = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><?php echo $ticket['passportNum'];?></td>
                             <td><?php  echo $ticket['airline'];?></td>
                             <td><?php  echo $ticket['flightNo'];?></td>
                             <td><?php  echo $ticket['flightDate'];?></td>
-                            <td><?php  echo $ticket['flightFrom'];?></td>
+                            <td>
+                            <?php  
+                            if($ticket['transit'] == 0.0){
+                                echo "No Transit";
+                            }else{
+                                echo $ticket['transit']." Hours";
+                            }
+                            ?></td>
                             <td><?php  echo $ticket['flightTo'];?></td>
                             <td><?php  echo $ticket['ticketPrice'];?></td>
-                            <td><?php  echo $ticket['comment'];?></td>
+                            <td>
+                            <?php  
+                            if(empty($ticket['comment'])){
+                                echo 'No Comment';
+                            }else{
+                                echo $ticket['comment'];
+                            }
+                            
+                            ?></td>
+                            <td><a href="<?php echo $ticket['ticketCopy']; ?>" target="_blank"><button class="btn btn-info btn-sm">Copy</button></a></td>
                             <td>
                                 <div class="flex-container">
                                     <div style="padding-right: 2%">

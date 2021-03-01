@@ -74,7 +74,7 @@
                             <a href="?page=addNewSponsor" class="dropdown-item">Add New Sponsor</a>
                             <a href="?page=sponsorList" class="dropdown-item">Sponsor List</a>
                             <div class="dropdown-divider"></div>
-                            <a href="?page=visaSponsor" class="dropdown-item">Add Visa to Sponsor</a>
+                            <a href="?page=visaSponsor" class="dropdown-item">Add Sponsor's VISA</a>
                             <a href="?page=allVisaList" class="dropdown-item">Show all visa list</a>
                         </div>
                     </div>
@@ -102,7 +102,14 @@
                             <a href="?page=manpower" class="dropdown-item">Add Office</a>
                             <a href="?page=manpowerList" class="dropdown-item">Office List</a>
                         </div>
-                    </div>                    
+                    </div>  
+                    <div class="nav-item dropdown">
+                        <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
+                        <!-- <div class="dropdown-menu">
+                            <a href="?page=addNewJob" class="dropdown-item">Add New Job</a>
+                            <a href="?page=jobList" class="dropdown-item">Job List</a>
+                        </div> -->
+                    </div>                  
                     <!-- <a href="?page=report" class="nav-item nav-link">Report</a> -->
                     <!-- <a href="?page=tmp" class="nav-item nav-link">Tmp</a> -->
                 </div>

@@ -2,7 +2,12 @@
 include ('database.php');
 $mode = $_POST['mode'];
 $passportNum = $_POST['passportNum'];
-$sponsorVisa = $_POST['sponsorVisa'];
+if(isset($_POST['sponsorVisa'])){
+    $sponsorVisa = $_POST['sponsorVisa'];
+}else{
+    $sponsorVisa = '';
+}
+
 if ($mode == 'empRqstMode') {
     $empVal = $_POST['empRqst'];
     if($empVal == 'no'){
@@ -74,6 +79,7 @@ if ($mode == 'empRqstMode') {
         echo "<script>window.alert('Error')</script>";
     }
 }else if($mode == 'trainingCardMode'){
+
     if (($_FILES['trainingCard']['name'] != "")){
         // Where the file is going to be stored
         $base_dir = "C:/xampp/htdocs/mahfuza/";
@@ -85,7 +91,7 @@ if ($mode == 'empRqstMode') {
         $path_filename_ext = $base_dir.$target_dir."trainingCard"."_".$passportNum.".".$ext;
     }
     $card_path = $target_dir."trainingCard"."_".$passportNum.".".$ext;
-    $result = $conn -> query("UPDATE processing set trainingCardFile = '$card_path', trainingCard = 'yes' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");    
+    $result = $conn -> query("UPDATE passport set trainingCardFile = '$card_path', trainingCard = 'yes' where passportNum  = '$passportNum'");    
     if($result){
         if (($_FILES['trainingCard']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
