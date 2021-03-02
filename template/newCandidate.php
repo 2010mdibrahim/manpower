@@ -1,16 +1,11 @@
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
 
-<?php
-$result = $conn->query("select agentEmail, agentName from agent");
-?>
-
 <style>
     span.danger{
         display: none;
         color: red;
         font-size: small;
-    }
-    
+    }    
 </style>
 
 
@@ -43,11 +38,11 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input type="text" class="form-control datepicker" required="required" name="dob" autocomplete="off" placeholder="Enter Date of Birth"/>
+                <input type="text" class="form-control datepicker" required="required" name="dob" autocomplete="off" placeholder="yyyy/mm/dd"/>
             </div>
             <div class="form-group col-md-6 date_error">
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
-                <select class="form-control" name="jobType" id="jobType">
+                <select class="form-control select2" name="jobType" id="jobType">
                 <?php $result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");?>
                     <option value="notSet">----- Select Job Type -----</option>
                     <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
@@ -64,11 +59,17 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>            
             <div class="form-group col-md-6">
                 <label>Country</label>
-                <input type="text" class="form-control" required="required" name="country" placeholder="Enter Country"/>
+                <select class="form-control select2" name="country" id="country" required>
+                <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
+                    <option value=""></option>
+                    <?php while($country = mysqli_fetch_assoc($result)){ ?>
+                        <option><?php echo $country['country'];?></option>
+                    <?php } ?>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>
-                <input type="date" class="form-control" required="required" name="issuD" id="issuD"/>
+                <input type="text" class="form-control datepicker" required="required" name="issuD" id="issuD" placeholder="yyyy/mm/dd"/>
             </div>
             <div class="form-group col-md-6" style="text-align: center;">
                 <label>Validity Year</label>
@@ -104,11 +105,11 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <div class="form-row" id="experienced" style="display: none;">
                     <div class="form-group col-md-6">
                         <label>Departure Date</label>
-                        <input type="date" class="form-control experience_dates" name="departureDate"/>
+                        <input type="text" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Arrival Date</label>
-                        <input type="date" class="form-control experience_dates" name="arrivalDate"/>
+                        <input type="date" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
                     </div>               
                 </div>
             </div>
@@ -132,7 +133,10 @@ $result = $conn->query("select agentEmail, agentName from agent");
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
                     <select class="form-control select2" name="agentEmail" id="agent">
                         <option value="notSet">------ Select Option ------</option>
-                        <?php while($agent = mysqli_fetch_assoc($result)){?>
+                        <?php 
+                        $result = $conn->query("select agentEmail, agentName from agent");
+                        while($agent = mysqli_fetch_assoc($result)){
+                        ?>
                             <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
                         <?php } ?>
                     </select>

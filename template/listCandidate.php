@@ -168,12 +168,12 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from pass
                         <th>Mobile No</th>
                         <th>Age</th>
                         <th>Passport expire date</th>
-                        <th>Candidare previuse status</th>
+                        <th>Candidare previouse status</th>
                         <th>Applying for Country</th>               
                         <th>Test Medical</th>
                         <th>Final Medical</th>
                         <th>Police Clearance</th>
-                        <th>Training Card</th>                        
+                        <th>Training Card</th>                       
                         <th>Edit</th>
                     </tr>
                     </thead>
@@ -281,10 +281,6 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from pass
                             <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">Not Submitted</button>
                         <?php } ?>
                         </td>
-                           
-                        
-                        
-
                         <!-- Passport Photo -->
                         <!-- <td>
                             <?php if($candidate['passportPhoto'] == 'yes'){ ?>

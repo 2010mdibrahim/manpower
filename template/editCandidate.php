@@ -74,7 +74,16 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>            
             <div class="form-group col-md-6">
                 <label>Country</label>
-                <input type="text" class="form-control" required="required" name="country" value="<?php echo $candidate['country'];?>"/>
+                <select class="form-control select2" name="country" id="country" required>
+                <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
+                    <?php while($country = mysqli_fetch_assoc($result)){ ?>
+                        <?php if($country == $candidate['country']){?>
+                            <option selected><?php echo $country['country'];?></option>
+                        <?php }else{ ?>
+                            <option><?php echo $country['country'];?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>

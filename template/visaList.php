@@ -4,7 +4,7 @@
         flex-direction: row;
     }
     .btn{
-        font-size: small;
+        font-size: 11px;
     }
     /* .first{
         background-color: rgba(159, 168, 218, 0.9);
@@ -62,7 +62,7 @@
                         <input type="hidden" name="passportNum" id="passportNum">
                         <input type="hidden" name="sponsorVisa" id="sponsorVisa">
                         <input type="hidden" name="mode" value="stampingDateMode">
-                        <input type="date" name="stampingDate">
+                        <input class="datepicker" type="text" name="stampingDate">
                         
                     </div>
                     <div class="modal-footer">
@@ -100,11 +100,12 @@
                     <th>Finger</th>
                     <th>Training Card</th>
                     <th>Flight Date</th>
+                    <th>Add Expense</th>
                 </tr>
                 </thead>
                 <?php
                 // $result = $conn->query("SELECT passport.passportNum, passport.fName, passport.lName, sponsorvisalist.sponsorName FROM passport INNER JOIN sponsorvisalist USING (sponsorVisaAmountId)");
-                $result = $conn->query("SELECT passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobType , processing.* from processing INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
+                $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , processing.* from processing INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
@@ -250,7 +251,7 @@
                             <?php }else if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no'){ ?>
                                     <button class="btn btn-secondary btn-sm" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" id="enterCard" data-target="#trainingCardFileSubmit" data-toggle="modal" onclick="trainingCard(this.value)">Enter Card</button>                                
                             <?php }else{ ?>
-                                    <a href="<?php echo $trainingCard['trainingCardFile'];?>" target="_blank"><button class="btn btn-warning btn-sm">Card</button></a>
+                                    <a href="<?php echo $trainingCard['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm">Card</button></a>
                             <?php } ?>
                         </td>
 
@@ -266,9 +267,36 @@
                             ?>
                             <!-- <form action="index.php" method="post"> -->
                             <input type="hidden" name="pagePost" value="ticketInfo">
-                            <a href="?page=tN&tI=<?php echo $ticketId; ?>" target="_blank"><button class="btn btn-info btn-sm"><?php echo $ticket['flightDate']; ?></button></a>    
+                            <a href="?page=tN&tI=<?php echo $ticketId; ?>" target="_blank">
+                                <button class="btn btn-info btn-sm">
+                                    <?php 
+                                    echo $ticket['flightDate']; 
+                                    ?>
+                                </button>
+                            </a>    
                             <!-- </form> -->
                         <?php } ?></td>
+
+                        <!-- add payment -->
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                    <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                    <input type="hidden" name="visaNo" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <button class="btn btn-sm btn-info" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                </form>
+                                </div>
+                                <div class="col-sm-3">
+                                <form action="">
+                                    <button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-search" aria-hidden="true"></span></button>
+                                </form>
+                                </div>
+                            </div>
+                        </td>
 
 
                         <!-- <td><?php 

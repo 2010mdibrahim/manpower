@@ -28,7 +28,7 @@ if(!empty($_POST['pagePost'])){
 
     $(document).ready(function() {
         $('#dataTableSeaum').DataTable({
-            fixedHeader: true,
+            "fixedHeader": true,
             "paging": true,
             "lengthChange": true,
             "lengthMenu": [
@@ -40,7 +40,7 @@ if(!empty($_POST['pagePost'])){
             "info": true,
             "autoWidth": true,
             "responsive": true,
-            "order": []
+            "order": [],
         });
 
               
@@ -295,6 +295,10 @@ if(!empty($_POST['pagePost'])){
             include('template/ticketInfo.php');
         }else if($page == 'jobs') {
             include('template/jobs.php');
+        }else if($pagePost == 'editVisaData') {
+            include('template/editVisaData.php');
+        }else if($pagePost == 'addCandidatePayment') {
+            include('template/addCandidatePayment.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
