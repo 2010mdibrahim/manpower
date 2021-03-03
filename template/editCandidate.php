@@ -9,9 +9,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
 
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
 
-<?php
-$result = $conn->query("select agentEmail, agentName from agent");
-?>
+
 
 <style>
     span.danger{
@@ -25,7 +23,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
 
 <div class="container">
     <div class="section-header">
-        <h2>New Candidate Information</h2>
+        <h2>Edit Candidate Information</h2>
     </div>
     <form action="template/editCandidateQry.php" method="post" enctype="multipart/form-data" id="candidateForm">
         <input type="hidden" name="alter" value="update">
@@ -57,13 +55,20 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input type="date" class="form-control" required="required" name="dob" value="<?php echo $candidate['dob'];?>"/>
-                <!-- <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control">
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div> -->
+                <input type="text" class="form-control datepicker" required="required" name="dob" value="<?php echo $candidate['dob'];?>"/>
+            </div>
+            <div class="form-group col-md-6 date_error">
+                <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
+                <select class="form-control select2" name="jobType" id="jobType" required>
+                <?php $result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");?>
+                    <option value="">----- Select Job Type -----</option>
+                    <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
+                    <?php if($candidate['jobId'] == $jobs['jobId']){?>
+                            <option value="<?php echo $jobs['jobId'];?>" selected><?php echo $jobs['jobType'];?></option>
+                        <? }else{ ?>
+                            <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType'];?></option>
+                    <?php } } ?>
+                </select>
             </div>
         </div>
         <h4 class="bg-light">Passport Information</h4>
@@ -87,7 +92,7 @@ $result = $conn->query("select agentEmail, agentName from agent");
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>
-                <input type="date" class="form-control" required="required" name="issuD" id="issuD" value="<?php echo $candidate['issueDate'];?>"/>
+                <input type="text" class="form-control datepicker" required="required" name="issuD" id="issuD" value="<?php echo $candidate['issueDate'];?>"/>
             </div>
             <div class="form-group col-md-6" style="text-align: center;">
                 <label>Validity Year</label>
@@ -149,11 +154,11 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <div class="form-row" id="experienced" style="display: <?php echo ($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00') ? 'none' : 'static';?>;">
                     <div class="form-group col-md-6">
                         <label>Departure Date</label>
-                        <input type="date" class="form-control experience_dates" name="departureDate" value="<?php echo $candidate['departureDate'];?>"/>
+                        <input type="text" class="form-control experience_dates datepicker" name="departureDate" value="<?php echo $candidate['departureDate'];?>"/>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Arrival Date</label>
-                        <input type="date" class="form-control experience_dates" name="arrivalDate" value="<?php echo $candidate['arrivalDate'];?>"/>
+                        <input type="text" class="form-control experience_dates datepicker" name="arrivalDate" value="<?php echo $candidate['arrivalDate'];?>"/>
                     </div>               
                 </div>
             </div>
@@ -176,9 +181,10 @@ $result = $conn->query("select agentEmail, agentName from agent");
                 <div class="form-group col-md-6" id="agentNotOffice">
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
                     <select class="form-control select2" name="agentEmail" id="agent">
-                        <option value="notSet">------ Select Option ------</option>
-                        <?php while($agent = mysqli_fetch_assoc($result)){?>
-                            <?php if($candidate['agentEmail'] == $agent['agentEmail']){?>
+                        <option value=""></option>
+                        <?php $result = $conn->query("select agentEmail, agentName from agent"); 
+                            while($agent = mysqli_fetch_assoc($result)){
+                                if($candidate['agentEmail'] == $agent['agentEmail']){?>
                                 <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
                             <?php }else{ ?>
                                 <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>

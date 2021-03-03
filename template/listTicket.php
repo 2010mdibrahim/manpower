@@ -72,7 +72,7 @@
                                         <form action="template/editTicketQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editTicket" name="pagePost">
-                                            <input type="hidden" value="<?php echo $candidate['ticketId']; ?>" name="ticketId">
+                                            <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
                                             <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
                                         </form>
                                     </div>

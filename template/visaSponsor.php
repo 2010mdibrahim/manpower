@@ -7,6 +7,7 @@ $result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
         color: red;
         font-size: small;
     }    
+    
 </style>
 
 

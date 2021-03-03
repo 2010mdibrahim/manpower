@@ -12,14 +12,15 @@ $comment = $_POST['comment'];
 $date = date("Y-m-d");
 $admin = $_SESSION['email'];
 // $comment = $_POST['comment'];
-$creatDate = date("Y-m-d H:i:s");
+$curdate = date("Y/m/d H:i:s");
+$creatDate = date("Y-m-d H:i:s", strtotime('+3 hours', strtotime($curdate)));
 // print_r("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment')");
-$result = $conn->query("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment')");
+$result = $conn->query("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
 if($result){
    $visaAmount -= 1;
    $deduct_visa = $conn->query("UPDATE sponsorvisalist set visaAmount = $visaAmount where sponsorVisa = '$sponsorVisa'");
    echo "<script> window.alert('Saved')</script>";
-   echo "<script> window.location.href='../index.php?page=visaList'</script>";
+   // echo "<script> window.location.href='../index.php?page=visaList'</script>";
 }else{
    echo "<script> window.alert('Failed')</script>";
    echo "<script> window.location.href='../index.php?page=newVisa'</script>";

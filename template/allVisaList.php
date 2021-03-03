@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId)");
+$result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) where visaAmount != 0");
 ?>
 <style>
     .flex-container {

@@ -20,10 +20,10 @@ if(isset($_POST['jobs'])){
     }else{
         $jobType = $_POST['jobType'];
         $admin = $_SESSION['email'];
-        $createDate = date("Y-m-d H:i:s");
-        $date = date("Y-m-d h:i:s", strtotime('-9 hours', strtotime($createDate)));
+        $curdate = date("Y/m/d H:i:s");
+        $createDate = date("Y-m-d H:i:s", strtotime('+3 hours', strtotime($curdate)));
 
-        $result = $conn->query("INSERT into jobs (jobType, updatedBy, creationDate) values ('$jobType', '$admin', '$date')");
+        $result = $conn->query("INSERT into jobs (jobType, updatedBy, creationDate) values ('$jobType', '$admin', '$createDate')");
 
         if($result){
             echo "<script>window.alert('Added')</script>";

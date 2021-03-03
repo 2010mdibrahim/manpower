@@ -2,11 +2,49 @@
 .container{
     margin-bottom: 2%;
 }
+
+#custom_alert_seaum {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    font-size: 21px;
+    text-align: center;
+
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
 </style>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Jobs</h2>
     </div>
+    
     <div class="container">
         <form action="template/addNewJobQry.php" method="post">
             <div class="form-row align-items-end">
@@ -15,7 +53,7 @@
                     <input class="form-control" type="text" name="jobType" placeholder="Enter Name">
                 </div>
                 <div class="form-group" >
-                    <input class="form-control" type="submit" value="Add" name="jobs">
+                    <input class="form-control" type="button" value="Add" name="jobs" onclick="custom_alert()">
                 </div>
             </div>    
         </form>
@@ -71,8 +109,15 @@
 </div>
 
 
-<script>
 
+<script>
+    function custom_alert(){
+        let alert = '<div id="custom_alert_seaum" style="position: absolute; background-color: rgba(0,0,0,0.2);"><div style="position: relative; top: 50%; left: 50%; background-color: red; width: 50%; height: 50%;"> this is test </div></div>';
+        setTimeout(function(){
+            $('#custom_alert_seaum').remove();
+        },1000);
+        $('#seaum_alert').append(alert);        
+    }
 
     window.onload = function() {
         $('#jobsNav').addClass('active');

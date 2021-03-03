@@ -41,6 +41,7 @@ if(!empty($_POST['pagePost'])){
             "autoWidth": true,
             "responsive": true,
             "order": [],
+            "scrollX": false
         });
 
               
@@ -53,8 +54,11 @@ if(!empty($_POST['pagePost'])){
     .btn{
         font-size: 11px;        
     }
+
 </style>
 <body>
+<div id="seaum_alert">
+
 <div class="wrapper">
     <?php
     include ('template/database.php');
@@ -299,6 +303,10 @@ if(!empty($_POST['pagePost'])){
             include('template/editVisaData.php');
         }else if($pagePost == 'addCandidatePayment') {
             include('template/addCandidatePayment.php');
+        }else if($pagePost == 'showCandidatePayment') {
+            include('template/showCandidatePayment.php');
+        }else if($page == 'ce') {
+            include('template/showCandidatePayment.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
@@ -311,8 +319,11 @@ if(!empty($_POST['pagePost'])){
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </div>
+
+
 <?php include 'includes/script.php'?>
 <?php include ('includes/select2.php')?>
+</div>
 </body>
 </html>
 
@@ -326,7 +337,6 @@ if(!empty($_POST['pagePost'])){
     })
 
     $('.select2').select2({
-        placeholder: 'Select an option',
         width: '100%'
     });
 

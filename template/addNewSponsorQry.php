@@ -32,7 +32,8 @@ if($alter == 'delete') {
         }
 
     } else {
-        $creationDate = date("Y-m-d h:i:s");
+        $curdate = date("Y/m/d h:i:s");
+        $creationDate = date("Y-m-d h:i:s", strtotime('+3 hours', strtotime($curdate)));
         $sponsorCount = mysqli_fetch_assoc($conn -> query("SELECT count(sponsorNID) as sponsorCount from sponsor where sponsorNID = '$sponsorNid'"));
         if($sponsorCount['sponsorCount'] == 0){
             $result = $conn->query("INSERT INTO sponsor(sponsorNID, sponsorName, comment, delegateId, updatedBy, updatedOn, creationDate) VALUES ('$sponsorNid', '$sponsorName','$comment', $delegateId,'$admin','$date','$creationDate')");

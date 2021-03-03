@@ -3,7 +3,7 @@ include ('database.php');
 $alter = $_POST['alter'];
 $ticketId = $_POST['ticketId'];
 if($alter == 'delete'){
-    $qry = "delete from ticket where ticketId = $ticketId";
+    $qry = "DELETE from ticket where ticketId = $ticketId";
     $result = mysqli_query($conn,$qry);
     if($result)
     {

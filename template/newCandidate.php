@@ -42,9 +42,9 @@
             </div>
             <div class="form-group col-md-6 date_error">
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
-                <select class="form-control select2" name="jobType" id="jobType">
+                <select class="form-control select2" name="jobType" id="jobType" required>
                 <?php $result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");?>
-                    <option value="notSet">----- Select Job Type -----</option>
+                    <option value="">----- Select Job Type -----</option>
                     <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
                         <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType'];?></option>
                     <?php } ?>

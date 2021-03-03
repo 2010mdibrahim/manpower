@@ -15,12 +15,13 @@ if(isset($_POST['mode'])){
             $path_filename_ext = $base_dir.$target_dir."testMedical"."_".$passportMedical.".".$ext;
         }
         $testPath = $target_dir."testMedical"."_".$passportMedical.".".$ext;
+        print_r("UPDATE passport set testMedical = 'yes', testMedicalFile = '$testPath' where passportNum = '$passportMedical'");
         $result = $conn->query("UPDATE passport set testMedical = 'yes', testMedicalFile = '$testPath' where passportNum = '$passportMedical'");
         if($result){
             if (($_FILES['testMedical']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
-            echo "<script>window.alert('Inserted')</script>";
+            // echo "<script>window.alert('Inserted')</script>";
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
