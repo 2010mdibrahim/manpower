@@ -1,12 +1,12 @@
 <?php
 include ('database.php');
 if(isset($_POST['mode'])){
+	$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
     $mode = $_POST['mode'];
     if($mode == 'testMedical'){
         $passportMedical = $_POST['passportMedical'];
         if (($_FILES['testMedical']['name'] != "")){
             // Where the file is going to be stored
-            $base_dir = "C:/xampp/htdocs/mahfuza/";
             $target_dir = "uploads/medical/";
             $file = $_FILES['testMedical']['name'];
             $path = pathinfo($file);
@@ -31,7 +31,6 @@ if(isset($_POST['mode'])){
         $passportMedicalFinal = $_POST['passportMedicalFinal'];
         if (($_FILES['finalMedical']['name'] != "")){
             // Where the file is going to be stored
-            $base_dir = "C:/xampp/htdocs/mahfuza/";
             $target_dir = "uploads/medical/";
             $file = $_FILES['finalMedical']['name'];
             $path = pathinfo($file);

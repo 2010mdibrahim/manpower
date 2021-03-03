@@ -4,7 +4,7 @@ $passport = $_POST['passportNum'];
 $airplane = $_POST['airline'];
 $flightNo = $_POST['flightNo'];
 $flightDate = $_POST['flightDate'];
-
+$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 if(isset($_POST['fromPlace'])){
     $fromPlace = $_POST['fromPlace'];
 }else{
@@ -27,7 +27,6 @@ $date = date("Y-m-d");
 $createDate = date("Y-m-d h:i:s");
 
 if($_FILES['ticketCopy']['name'] != ''){
-    $base_dir = 'C:/xampp/htdocs/mahfuza/';
     $target_dir = 'uploads/ticket/';
     $file = $_FILES['ticketCopy']['name'];
     $path = pathinfo($file);

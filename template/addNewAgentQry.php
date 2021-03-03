@@ -5,15 +5,8 @@ if(!empty($_POST['alter'])){
 }else{
     $alter = '';
 }
+$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 $agentEmail = $_POST['agentEmail'];
-
-//$agentType = $_POST['agentType'];
-//$address = $_POST['address'];
-//$country= $_POST['country'];
-//$city = $_POST['city'];
-//$phnNumber = $_POST['phnNumber'];
-//$agentEmail = $_POST['agentEmail'];
-//$date = date("Y-m-d");
 if($alter == 'delete') {
     $qry = "DELETE from agent where agentEmail = '$agentEmail'";
     $result = mysqli_query($conn, $qry);
@@ -32,7 +25,6 @@ if($alter == 'delete') {
 
     if (($_FILES['agentImage']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $photo_target_dir = "uploads/agent/agentPhoto/";
         $file = $_FILES['agentImage']['name'];
         $path = pathinfo($file);
@@ -42,7 +34,6 @@ if($alter == 'delete') {
     }
     if (($_FILES['agentPassport']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $passport_target_dir = "uploads/agent/agentPassport/";
         $file = $_FILES['agentPassport']['name'];
         $path = pathinfo($file);
@@ -52,7 +43,6 @@ if($alter == 'delete') {
     }
     if (($_FILES['agentPolice']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $police_target_dir = "uploads/agent/agentPolice/";
         $file = $_FILES['agentPolice']['name'];
         $path = pathinfo($file);

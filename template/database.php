@@ -2,7 +2,7 @@
 session_start();
 $server='localhost';
 $user='root';
-$password='';
+$password='!@#$%databaseserveradmin2020';
 $dbname='samin_erp';
 $conn=mysqli_connect($server,$user,$password,$dbname);
 if(!$conn){

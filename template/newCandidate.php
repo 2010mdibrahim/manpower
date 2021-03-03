@@ -61,7 +61,7 @@
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="country" required>
                 <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
-                    <option value=""></option>
+                    <option value="">Select Country</option>
                     <?php while($country = mysqli_fetch_assoc($result)){ ?>
                         <option><?php echo $country['country'];?></option>
                     <?php } ?>

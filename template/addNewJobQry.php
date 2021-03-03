@@ -21,9 +21,9 @@ if(isset($_POST['jobs'])){
         $jobType = $_POST['jobType'];
         $admin = $_SESSION['email'];
         $curdate = date("Y-m-d H:i:s");
-        $createDate = date("Y-m-d H:i:s", strtotime('+3 hours', strtotime($curdate)));
+        //$createDate = date("Y-m-d H:i:s", strtotime('-9 hours', strtotime($curdate)));
 
-        $result = $conn->query("INSERT into jobs (jobType, updatedBy, creationDate) values ('$jobType', '$admin', '$createDate')");
+        $result = $conn->query("INSERT into jobs (jobType, updatedBy, creationDate) values ('$jobType', '$admin', '$curdate')");
 
         if($result){
             // echo "<script>window.alert('Added')</script>";
