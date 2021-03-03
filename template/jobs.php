@@ -53,7 +53,7 @@
                     <input class="form-control" type="text" name="jobType" placeholder="Enter Name">
                 </div>
                 <div class="form-group" >
-                    <input class="form-control" type="button" value="Add" name="jobs" onclick="custom_alert()">
+                    <input class="form-control" type="submit" value="Add" name="jobs" onclick="custom_alert()">
                 </div>
             </div>    
         </form>
@@ -111,13 +111,13 @@
 
 
 <script>
-    function custom_alert(){
-        let alert = '<div id="custom_alert_seaum" style="position: absolute; background-color: rgba(0,0,0,0.2);"><div style="position: relative; top: 50%; left: 50%; background-color: red; width: 50%; height: 50%;"> this is test </div></div>';
-        setTimeout(function(){
-            $('#custom_alert_seaum').remove();
-        },1000);
-        $('#seaum_alert').append(alert);        
-    }
+    // function custom_alert(){
+    //     let alert = '<div id="custom_alert_seaum" style="position: absolute; background-color: rgba(0,0,0,0.2);"><div style="position: relative; top: 50%; left: 50%; background-color: red; width: 50%; height: 50%;"> this is test </div></div>';
+    //     setTimeout(function(){
+    //         $('#custom_alert_seaum').remove();
+    //     },1000);
+    //     $('#seaum_alert').append(alert);        
+    // }
 
     window.onload = function() {
         $('#jobsNav').addClass('active');

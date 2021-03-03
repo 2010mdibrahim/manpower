@@ -86,10 +86,11 @@
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
-                        <th>From</th>
+                        <th>Transit</th>
                         <th>To</th>
                         <th>Amount</th>
-                        <th>Comment</th>
+                        <th>Comment</th>                        
+                        <th>Ticket Copy</th>
                         <th>Alter</th>
                     </tr>
                     </tfoot>

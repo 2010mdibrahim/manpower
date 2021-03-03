@@ -75,10 +75,13 @@ $result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.spon
                     </tbody>
                     <tfoot>
                     <tr hidden>
+                        <th>Sponsor Name</th>
+                        <th>Sponsor NID</th>
+                        <th>VISA No.</th>
+                        <th>Issue Date</th>
                         <th>VISA Amount</th>
                         <th>Gender</th> 
                         <th>Job Type</th>               
-                        <th>Sponsor Name</th>
                         <th>Comment</th>
                         <th>Edit</th>
                     </tr>

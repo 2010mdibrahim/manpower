@@ -31,8 +31,8 @@ if(isset($_POST['office'])){
 $comment = $_POST['comment'];
 $dob = $_POST['dob'];
 $admin = $_SESSION['email'];
-$curdate = date("Y/m/d h:i:s");
-$date = date("Y-m-d h:i:s", strtotime('+3 hours', strtotime($curdate)));
+$curdate = date("Y/m/d H:i:s");
+$date = date("Y-m-d H:i:s", strtotime('-9 hours', strtotime($curdate)));
 $update = date("Y/m/d");
 
 // Scanned police verification file directory set - upload code inside result true if statement

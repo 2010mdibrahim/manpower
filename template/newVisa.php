@@ -38,38 +38,6 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport where fin
                 </div>
             </div>
         </div>
-        <!-- VISA Information -->
-        <!-- <div class="form-group">
-            <h4 class="bg-light">Visa Information</h4>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label> VISA No </label>
-                    <input type="text" class="form-control" required="required" name="visaNo" placeholder="ENTER VISA"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label> Manpower Office </label>
-                    <select class="form-control select2" id="manpower" name="manpower">
-                        <option>Select Office</option>
-                        <?php
-                        $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
-                        while($manpower = mysqli_fetch_assoc($result)){
-                        ?>
-                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label>Job Id</label>
-                    <input type="text" class="form-control" required="required" name="jobId" id="jobId" placeholder="ENTER JOB ID"/>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Comment</label>
-                    <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment"/>
-                </div>
-            </div>                
-        </div> -->
         <div class="form-group">
             <input style="margin: auto; width: auto" class="form-control" type="submit" value="Add Visa">
         </div>        

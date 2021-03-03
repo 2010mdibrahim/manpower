@@ -305,6 +305,8 @@ if(!empty($_POST['pagePost'])){
             include('template/addCandidatePayment.php');
         }else if($pagePost == 'showCandidatePayment') {
             include('template/showCandidatePayment.php');
+        }else if($pagePost == 'exchangeVisa') {
+            include('template/exchangeVisa.php');
         }else if($page == 'ce') {
             include('template/showCandidatePayment.php');
         }else{

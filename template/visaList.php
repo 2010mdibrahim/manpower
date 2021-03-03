@@ -133,6 +133,39 @@
         </div>
     </div>
 
+    <!-- Stamping Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="visaExchange">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="passportNum" id="passportNum">
+                        <input type="hidden" name="sponsorVisa" id="sponsorVisa">
+                        <input type="hidden" name="mode" value="stampingMode">
+                        <div class="form-group">
+                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
+                        </div>
+                        <div>
+                            <input class="form-control-file" type="file" name="visaFile">
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Stamping Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="visaStamping">
@@ -196,11 +229,12 @@
                     <th>Manpower Card</th>
                     <th>Flight Date</th>
                     <th>Add Expense</th>
+                    <th>Alter</th>
                 </tr>
                 </thead>
                 <?php
                 // $result = $conn->query("SELECT passport.passportNum, passport.fName, passport.lName, sponsorvisalist.sponsorName FROM passport INNER JOIN sponsorvisalist USING (sponsorVisaAmountId)");
-                $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , processing.* from processing INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
+                $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount , processing.* from processing INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
@@ -251,7 +285,7 @@
                         <!-- Okala -->
                         <td class="first">
                         <?php if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
-                            <button class="btn btn-warning"><span style="font-size: small;">Do Previous</span></button>
+                            <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous</span></button>
                         <?php }else if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
                             <button class="btn btn-secondary btn-sm" type="button" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa']."-".$visa['okala'];?>" name="okala" data-toggle="modal" data-target="#okalaFileSubmit" onclick="okalaFileSubmit(this.value)">No</button>
                         <?php } else { ?>
@@ -309,14 +343,16 @@
                         <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
                             <button class="btn btn-secondary btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
                         <?php } else { ?>
+                            <!-- <button class="btn btn-danger btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)"><span class="fas fa-redo"></span></button>
+                            <a href="<?php echo $visa['visaFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a> -->
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <button class="btn btn-danger btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)"><span class="fas fa-redo"></span></button>                                                                        
+                                    <button class="btn btn-danger btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)"><span class="fas fa-redo"></span></button>
                                 </div>
                                 <div class="col-sm-3">
-                                    <a href="<?php echo $visa['visaFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>                                                      
+                                    <a href="<?php echo $visa['visaFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
                                 </div>
-                            </div>                            
+                            </div>
                         <?php } ?></td>
 
                         <!-- Finger -->
@@ -371,7 +407,7 @@
                                             <button class="btn btn-danger btn-sm" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa']."-".$visa['manpowerCard'];?>" id="enterCard" data-target="#manpowerFileSubmit" data-toggle="modal" onclick="manpowerFileSubmit(this.value)"><span class="fas fa-redo"></span></button>
                                         </div>
                                         <div class="col-sm-3">
-                                            <a href="<?php echo $visa['manpowerCardFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>                                                      
+                                            <a href="<?php echo $visa['manpowerCardFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>
                                         </div>
                                     </div>
                             <?php } ?>
@@ -381,9 +417,9 @@
                         <td class="third"><?php
                             $ticket = mysqli_fetch_assoc($conn->query("SELECT ticketId, flightDate, count(ticketId) as existTicket from ticket where passportNum = '".$visa['passportNum']."'"));
                             if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
-                                <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous Step</span></button>
+                                <button class="btn btn-warning btn-sm"><span style="font-size: small;">Do Previous</span></button>
                             <?php }else if($ticket['existTicket'] == 0){ ?>
-                                <button class="btn btn-secondary btn-sm"><span style="font-size: small;">No Ticket Assigned</span></button>
+                                <button class="btn btn-secondary btn-sm"><span style="font-size: small;">No Ticket</span></button>
                             <?php } else { 
                                 $ticketId = base64_encode($ticket['ticketId']);
                             ?>
@@ -414,6 +450,24 @@
                                 </div>
                             </div>
                         </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="pagePost" value="exchangeVisa">
+                                        <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
+                                        <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
+                                    </form>                                    
+                                </div>
+                                <div class="col-sm-3">
+                                    <form action="template/saveVisa.php" method="post">
+                                        <input type="hidden" name="alter" value="delete">
+                                        <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
+                                        <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 <?php } ?>
                 <tfoot hidden>
@@ -433,6 +487,7 @@
                     <th>Manpower Card</th>
                     <th>Flight Date</th>
                     <th>Add Expense</th>
+                    <th>Alter</th>
                 </tr>
                 </tfoot>
             </table>

@@ -69,7 +69,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label>Issue Date</label>
-                <input type="text" class="form-control datepicker" required="required" name="issuD" id="issuD" placeholder="yyyy/mm/dd"/>
+                <input type="text" class="form-control datepicker" autocomplete="off" required="required" name="issuD" id="issuD" placeholder="yyyy/mm/dd"/>
             </div>
             <div class="form-group col-md-6" style="text-align: center;">
                 <label>Validity Year</label>
