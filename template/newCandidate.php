@@ -10,6 +10,7 @@
 
 
 <div class="container">
+<p>this is pull test</p>
     <div class="section-header">
         <h2>New Candidate Information</h2>
     </div>
@@ -116,19 +117,19 @@
         </div>
         <div class="form-group">
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <!-- <div class="form-group col-md-6">
                     <label>Agent or Office <span class="agentOrOfficeDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
                     <div class="form-group">
                         <label class="parking_label">Agent
                             <input type="radio" name="agentOrOffice" value="agent" checked required>
                             <span class="checkmark"></span>
                         </label>
-                        <!-- <label class="parking_label">Office
+                        <label class="parking_label">Office
                             <input type="radio" name="agentOrOffice" value="office" required>
                             <span class="checkmark"></span>
-                        </label> -->
+                        </label>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group col-md-6" id="agentNotOffice">
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
                     <select class="form-control select2" name="agentEmail" id="agent">
@@ -141,14 +142,11 @@
                         <?php } ?>
                     </select>
                 </div>
-                <div class="form-group col-md-6" id="officeNotAgent" style="display: none;">
+                <!-- <div class="form-group col-md-6" id="officeNotAgent" style="display: none;">
                     <label>Office <span class="danger" id="office_validation">Enter Office</span> </label>
                     <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
-                </div> 
-            </div>                       
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+                </div> -->
+                <div class="form-group col-md-6">
                 <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
                 <select class="form-control select2" id="manpower" name="manpower">
                     <option value="notSet">----- Select Office ------</option>
@@ -159,7 +157,11 @@
                         <option><?php echo $manpower['manpowerOfficeName']; ?></option>
                     <?php } ?>
                 </select>
-            </div>
+            </div> 
+            </div>                       
+        </div>
+        <div class="form-row">
+            
             <div class="form-group col-md-6">
                 <label>Comment</label>
                 <input type="text" class="form-control" name="comment" placeholder="Anything to add..."/>
