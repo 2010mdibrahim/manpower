@@ -117,11 +117,11 @@
                     </div>
                     <div class="col-md-6">
                         <label>Departure Date</label>
-                        <input type="text" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
+                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
                     </div>
                     <div class="col-md-6">
                         <label>Arrival Date</label>
-                        <input type="text" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
+                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
                     </div>               
                 </div>
             </div>

@@ -8,6 +8,8 @@ if(isset($_POST['sponsorVisa'])){
     $sponsorVisa = '';
 }
 
+print_r($passportNum." ".$sponsorVisa);
+
 if ($mode == 'empRqstMode') {
     $empVal = $_POST['empRqst'];
     if($empVal == 'no'){
@@ -36,7 +38,6 @@ if ($mode == 'empRqstMode') {
     $okala = $_POST['okala'];   
     if (($_FILES['okalaCard']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/okala/";
         $file = $_FILES['okalaCard']['name'];
         $path = pathinfo($file);
@@ -58,7 +59,6 @@ if ($mode == 'empRqstMode') {
     $mufa = $_POST['mufa'];
     if (($_FILES['mufaCard']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/okala/";
         $file = $_FILES['mufaCard']['name'];
         $path = pathinfo($file);
@@ -93,7 +93,6 @@ if ($mode == 'empRqstMode') {
     $stampingDate = $_POST['stampingDate'];
     if (($_FILES['visaFile']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/visa/";
         $file = $_FILES['visaFile']['name'];
         $path = pathinfo($file);
@@ -117,10 +116,8 @@ if ($mode == 'empRqstMode') {
     }else{
         $from = '';
     }
-
     if (($_FILES['trainingCard']['name'] != "")){
-        // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
+        // Where the file is going to be store
         $target_dir = "uploads/trainingCard/";
         $file = $_FILES['trainingCard']['name'];
         $path = pathinfo($file);
@@ -134,7 +131,7 @@ if ($mode == 'empRqstMode') {
         if (($_FILES['trainingCard']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
         }
-        if($from = 'candidateList'){
+        if($from == 'candidateList'){
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }else{
             echo "<script> window.location.href='../index.php?page=visaList'</script>";
@@ -156,7 +153,6 @@ if ($mode == 'empRqstMode') {
 
     if (($_FILES['manpowerCard']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/trainingCard/";
         $file = $_FILES['manpowerCard']['name'];
         $path = pathinfo($file);

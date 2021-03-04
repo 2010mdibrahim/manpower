@@ -49,6 +49,7 @@ $result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lNam
                     <th>Amount</th>
                     <th>Pay Date</th>
                     <th>Comment</th>
+                    <th>Edit</th>
                 </tr>
                 </thead>
                 <!-- did this because had to take candidate name agent name from the same mysql query -->
@@ -56,7 +57,8 @@ $result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lNam
                     <td><?php echo $candidateExpense['purpose'];?></td>                        
                     <td><?php echo $candidateExpense['amount'];?></td>
                     <td><?php echo $candidateExpense['creationDate'];?></td>
-                    <td><?php echo $candidateExpense['comment'];?></td>                    
+                    <td><?php echo $candidateExpense['comment'];?></td>   
+                    <td></td>                 
                 </tr>
                                 
                 <?php while($candidateExpense = mysqli_fetch_assoc($result)){ ?>
@@ -73,6 +75,7 @@ $result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lNam
                     <th>Amount</th>
                     <th>Pay Date</th>
                     <th>Comment</th>
+                    <th>Edit</th>
                 </tr>
                 </tfoot>
             </table>

@@ -43,8 +43,7 @@
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Jobs</h2>
-    </div>
-    
+    </div>    
     <div class="container">
         <form action="template/addNewJobQry.php" method="post">
             <div class="form-row align-items-end">

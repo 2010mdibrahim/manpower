@@ -1,5 +1,11 @@
 <?php
-$result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport order by creationDate desc");
+if(isset($_GET['pp'])){
+    $passportNum = base64_decode($_GET['pp']);
+    $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport where passportNum = '$passportNum' order by creationDate desc");
+}else{
+    $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport order by creationDate desc");
+}
+
 ?>
 
 <style>
@@ -20,7 +26,7 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
             <form action="template/visaSubmit.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Give Test Medical Certificate</h5>
+                        <h5 class="modal-title">Give Final Medical Certificate</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -208,7 +214,10 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
 
                         <!-- Creation Date -->
                         <td><?php echo $candidate['creationDateShow'];?></td>
-                        <td><a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum']);?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a></td>
+                        <td>
+                        <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum']);?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a>
+                        <p>(<?php echo $candidate['gender'];?>)</p>
+                        </td>
                         <td><?php echo $candidate['passportNum'];?></td>                  
                         <td><?php echo $candidate['mobNum'];?></td>                      
                         <td><?php printf('%d years', $age->y);?></td>
