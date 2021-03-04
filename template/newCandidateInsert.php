@@ -32,13 +32,11 @@ $comment = $_POST['comment'];
 $dob = $_POST['dob'];
 $admin = $_SESSION['email'];
 $date = date("Y/m/d H:i:s");
-// $date = date("Y-m-d H:i:s", strtotime('-9 hours', strtotime($curdate)));
 $update = date("Y/m/d");
 
 // Scanned police verification file directory set - upload code inside result true if statement
 if (($_FILES['policeVerification']['name'] != "")){
     // Where the file is going to be stored
-    
     $target_dir = "uploads/policeVerification/";    
     $file = $_FILES['policeVerification']['name'];
     $path = pathinfo($file);
@@ -191,67 +189,11 @@ if($existingPass['passCount'] > 0){
             move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);
         }
         echo "<script>window.alert('Inserted')</script>";
-        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         print_r($err);
         echo "<script>window.alert('".$err."')</script>";
-        // echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }
 }
-
-
-    // $a1 = mysqli_query($conn,"INSERT INTO candidate (fName, lName, fathName, mob, dob, pob, profId, addrs, count, state, city) VALUES ('$fName','$lName','$fathName','$mbNo','$dob','$pob',$profId,'$add','$count','$state','$city')");
-    // $qry = "select max(candidateId) as lastCandidate from candidate";
-    // $result = mysqli_query($conn, $qry);
-    // $tmp = mysqli_fetch_assoc($result);
-    // $lastId = $tmp['lastCandidate'];
-    // $a2 = mysqli_query($conn,"INSERT INTO passport (passNo, issuPlace, issuDate, expDate, type, candidateId) VALUES ('$passNo','$issuPlace','$issuDate','$expDate','$type',$lastId)");
-    // if ($a1 and $a2) {
-    //     mysqli_query($conn,"COMMIT");
-    //     echo "<script>window.alert('Saved')</script>";
-    //     echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
-    // } else {
-    //     mysqli_query($conn,"ROLLBACK");
-    //     echo "<script>window.alert('Error')</script>";
-    //     echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
-    // }
-//    try {
-//        // First of all, let's begin a transaction
-//        $qry->beginTransaction();
-//
-//        // A set of queries; if one fails, an exception should be thrown
-//        $qry->query("INSERT INTO candidate (fName, lName, fathName, mob, dob, pob, profId, addrs, count, state, city) VALUES ('$fName','$lName','$fathName','$mbNo','$dob','$pob',$profId,'$add','$count','$state','$city')");
-//        $last_id = $qry->insert_id;
-//        $qry->query("INSERT INTO passport (passNo, issuPlace, issuDate, expDate, type, candidateId) VALUES ('$passNo','$issuPlace','$issuDate','$expDate','$type',$last_id)");
-//        // If we arrive here, it means that no exception was thrown
-//        // i.e. no query has failed, and we can commit the transaction
-//        $qry->commit();
-//        echo "<script>window.alert('Saved')</script>";
-//        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
-//    } catch (\Throwable $e) {
-//        // An exception has been thrown
-//        // We must rollback the transaction
-//        $qry->rollback();
-//
-//        echo "<script>window.alert(".$e->getMessage().")</script>";
-//        echo "<script> window.location.href='../index.php'</script>";
-//    }
-//    $rslt = mysqli_query($conn,$qry);
-//    if($rslt){
-//        $qry = "select candidateId from candidate where mob = $mbNo";
-//        $result = mysqli_query($conn,$qry);
-//        $candidate = mysqli_fetch_assoc($result);
-//        $candidateId = $candidate['candidateId'];
-//        $qry = "INSERT INTO passport VALUES ('$passNo','$issuPlace','$issuDate','$expDate','$type',$candidateId)";
-//        $result = mysqli_query($conn,$qry);
-//        echo "<script>window.alert('Saved')</script>";
-//        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
-//    }else{
-//        echo "<script>window.alert('Error')</script>";
-//        echo "<script> window.location.href='../index.php'</script>";
-//    }
-// }
-
-
-

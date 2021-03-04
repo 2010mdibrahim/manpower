@@ -1,5 +1,6 @@
 <?php
 include ('database.php');
+$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 $mode = $_POST['mode'];
 $passportNum = $_POST['passportNum'];
 if(isset($_POST['sponsorVisa'])){
@@ -117,7 +118,7 @@ if ($mode == 'empRqstMode') {
         $from = '';
     }
     if (($_FILES['trainingCard']['name'] != "")){
-        // Where the file is going to be store
+        // Where the file is going to be stored=
         $target_dir = "uploads/trainingCard/";
         $file = $_FILES['trainingCard']['name'];
         $path = pathinfo($file);
