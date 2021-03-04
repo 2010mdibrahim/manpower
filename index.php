@@ -309,6 +309,8 @@ if(!empty($_POST['pagePost'])){
             include('template/exchangeVisa.php');
         }else if($page == 'ce') {
             include('template/showCandidatePayment.php');
+        }else if($page == 'cI') {
+            include('template/candidateDocumentInfo.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
