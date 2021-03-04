@@ -268,7 +268,7 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
                                 <div class="col-sm-3">
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                        <input type="hidden" name="purpose" value="testMedical">
+                                        <input type="hidden" name="purpose" value="Test Medical">
                                         <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
                                         <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
                                         <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
@@ -299,7 +299,7 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
                                     <div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                            <input type="hidden" name="purpose" value="finalMedical">
+                                            <input type="hidden" name="purpose" value="Final Medical">
                                             <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
                                             <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
                                             <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
@@ -328,7 +328,7 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
                             <div class="col-sm-3">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                    <input type="hidden" name="purpose" value="policeClearance">
+                                    <input type="hidden" name="purpose" value="Police Clearance">
                                     <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
                                     <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
                                     <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
@@ -356,7 +356,7 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from 
                             <div class="col-sm-3">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                    <input type="hidden" name="purpose" value="trainingCard">
+                                    <input type="hidden" name="purpose" value="Training Card">
                                     <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
                                     <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
                                     <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
