@@ -61,11 +61,7 @@
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="country" required>
                 <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
-<<<<<<< HEAD
-                    <option value="">Select Country</option>
-=======
-                    <option value=""> --- Select Country --- </option>
->>>>>>> c9b7def60cddf3dccbd1ac00b3c0ee90fd4f11be
+					<option value=""> --- Select Country --- </option>
                     <?php while($country = mysqli_fetch_assoc($result)){ ?>
                         <option><?php echo $country['country'];?></option>
                     <?php } ?>
@@ -121,11 +117,11 @@
                     </div>
                     <div class="col-md-6">
                         <label>Departure Date</label>
-                        <input type="text" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
+                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
                     </div>
                     <div class="col-md-6">
                         <label>Arrival Date</label>
-                        <input type="text" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
+                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
                     </div>               
                 </div>
             </div>

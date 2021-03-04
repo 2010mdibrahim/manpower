@@ -1,5 +1,4 @@
-<?php
-$GLOBALS['base_url'] = "C:/xampp/htdocs/mahfuza/";
+<?php 
 if(!empty($_GET['page'])){
     $page = $_GET['page'];
 }else{

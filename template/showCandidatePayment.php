@@ -21,20 +21,20 @@ $result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lNam
         <div class="card-group">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Candidate Name</h5>
-                <p class="card-text"><?php echo $candidateExpense['fName']." ".$candidateExpense['lName'];?></p>
+                <label class="card-title">Candidate Name</label>
+                <h4><?php echo $candidateExpense['fName']." ".$candidateExpense['lName'];?></h4></span>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
-            <h5 class="card-title">Passport Number</h5>
-            <p class="card-text"><?php echo $candidateExpense['passportNum'];?></p>
+            <label class="card-title">Passport Number</label>
+            <h4><?php echo $candidateExpense['passportNum'];?></h4>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
-            <h5 class="card-title">Agent Name</h5>
-            <p class="card-text"><?php echo $candidateExpense['agentName'];?></p>
+            <label class="card-title">Agent Name</label>
+            <h4><?php echo $candidateExpense['agentName'];?></h4>
             </div>
         </div>
         </div>
@@ -47,42 +47,35 @@ $result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lNam
                 <tr>
                     <th>Purpose</th>
                     <th>Amount</th>
-                    <th>Advance</th>
-                    <th>Balance</th>
                     <th>Pay Date</th>
                     <th>Comment</th>
+                    <th>Edit</th>
                 </tr>
                 </thead>
+                <!-- did this because had to take candidate name agent name from the same mysql query -->
                 <tr>                    
                     <td><?php echo $candidateExpense['purpose'];?></td>                        
                     <td><?php echo $candidateExpense['amount'];?></td>
-                    <td><?php echo $candidateExpense['advance'];?></td>
-                    <td><?php echo intval($candidateExpense['amount']) - intval($candidateExpense['advance']);?></td>
-                    <td><?php echo $candidateExpense['payDate'];?></td>
-                    <td><?php echo $candidateExpense['comment'];?></td>                    
+                    <td><?php echo $candidateExpense['creationDate'];?></td>
+                    <td><?php echo $candidateExpense['comment'];?></td>   
+                    <td></td>                 
                 </tr>
-                
+                                
                 <?php while($candidateExpense = mysqli_fetch_assoc($result)){ ?>
                 <tr>                    
                     <td><?php echo $candidateExpense['purpose'];?></td>                        
                     <td><?php echo $candidateExpense['amount'];?></td>
-                    <td><?php echo $candidateExpense['advance'];?></td>
-                    <td><?php echo intval($candidateExpense['amount']) - intval($candidateExpense['advance']);?></td>
-                    <td><?php echo $candidateExpense['payDate'];?></td>
+                    <td><?php echo $candidateExpense['creationDate'];?></td>
                     <td><?php echo $candidateExpense['comment'];?></td>                    
                 </tr>
                 <?php } ?>
                 <tfoot hidden>
                 <tr>
-                    <th>Passport Name</th>
-                    <th>Passport Number</th>                               
-                    <th>Agent Name</th>
                     <th>Purpose</th>
                     <th>Amount</th>
-                    <th>Advance</th>
-                    <th>Balance</th>
                     <th>Pay Date</th>
                     <th>Comment</th>
+                    <th>Edit</th>
                 </tr>
                 </tfoot>
             </table>

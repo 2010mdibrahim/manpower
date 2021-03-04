@@ -1,6 +1,5 @@
 <?php
 include ('database.php');
-$base_dir = "C:/xampp/htdocs/mahfuza/";
 $fName = $_POST['fName'];
 $lName = $_POST['lName'];
 $gender = $_POST['gender'];
@@ -16,7 +15,6 @@ $photo = $_POST['passportPhoto'];
 $validityYear = $_POST['validityYear'];
 $manpowerOfficeName = $_POST['manpower'];
 $jobType = $_POST['jobType'];
-$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 
 if(isset($_POST['agentEmail'])){
     $agentEmail = $_POST['agentEmail'];
@@ -34,7 +32,6 @@ $comment = $_POST['comment'];
 $dob = $_POST['dob'];
 $admin = $_SESSION['email'];
 $date = date("Y/m/d H:i:s");
-//$date = date("Y-m-d H:i:s", strtotime('-9 hours', strtotime($curdate)));
 $update = date("Y/m/d");
 
 // Scanned police verification file directory set - upload code inside result true if statement
@@ -197,6 +194,6 @@ if($existingPass['passCount'] > 0){
         $err = mysqli_error($conn);
         print_r($err);
         echo "<script>window.alert('".$err."')</script>";
-        //echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }
 }

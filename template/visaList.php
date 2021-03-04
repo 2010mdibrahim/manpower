@@ -180,8 +180,8 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="passportNum" id="passportNum">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisa">
+                        <input type="hidden" name="passportNum" id="passportNumStamping">
+                        <input type="hidden" name="sponsorVisa" id="sponsorVisaStamping">
                         <input type="hidden" name="mode" value="stampingMode">
                         <div class="form-group">
                             <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
@@ -239,7 +239,7 @@
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
                         <td><?php echo $visa['fName']." ".$visa['lName'];?></td>
-                        <td><?php echo $visa['passportNum'];?></td>
+                        <td><a href="?page=listCandidate&pp=<?php echo base64_encode($visa['passportNum']);?>"><?php echo $visa['passportNum'];?></a></td>
                         <td><?php echo $visa['sponsorVisa'];?></td>
                         <td><?php echo $visa['sponsorNID'];?></td>
                         
@@ -342,14 +342,14 @@
                             <button class="btn btn-warning btn-sm">Do Previous</button>
                         <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
                             <button class="btn btn-secondary btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
-                        <?php } else { ?>
-                            <!-- <button class="btn btn-danger btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)"><span class="fas fa-redo"></span></button>
-                            <a href="<?php echo $visa['visaFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a> -->
-                            <div class="row">
-                                <div class="col-sm-3">
+                        <?php } else { ?>                            
+                            <div class="row justify-content-md-center">
+                                <div class="col">
                                     <button class="btn btn-danger btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['passportNum']."-".$visa['sponsorVisa'];?>" onclick="visaStamping(this.value)"><span class="fas fa-redo"></span></button>
-                                </div>
-                                <div class="col-sm-3">
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
                                     <a href="<?php echo $visa['visaFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
                                 </div>
                             </div>
@@ -526,8 +526,8 @@ function trainingCard(info){
 
 function visaStamping(info){
     let info_split = info.split('-');
-    $('#passportNum').val(info_split[0]);
-    $('#sponsorVisa').val(info_split[1]);
+    $('#passportNumStamping').val(info_split[0]);
+    $('#sponsorVisaStamping').val(info_split[1]);
 }
 
 $('body').on('click', '#testMedicalFile', function(){

@@ -1,7 +1,6 @@
 <?php
 include ('database.php');
 if(isset($_POST['mode'])){
-	$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
     $mode = $_POST['mode'];
     if($mode == 'testMedical'){
         $passportMedical = $_POST['passportMedical'];
