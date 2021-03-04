@@ -1,5 +1,6 @@
 <?php
 include ('database.php');
+$base_dir = "C:/xampp/htdocs/mahfuza/";
 $fName = $_POST['fName'];
 $lName = $_POST['lName'];
 $gender = $_POST['gender'];
@@ -70,6 +71,50 @@ if (($_FILES['passportScan']['name'] != "")){
     $passport_path_filename_ext = $base_dir.$passport_target_dir."passport"."_".$passportNum.".".$passport_ext;
 }
 
+// Scanned passport file directory set - upload code inside result true if statement;
+if (($_FILES['departureSealFile']['name'] != "")){
+    // Where the file is going to be stored
+    $departureSeal_target_dir = "uploads/departureSeal/";
+    $file = $_FILES['departureSealFile']['name'];
+    $path = pathinfo($file);
+    $departureSeal_ext = $path['extension'];
+    $departureSeal_temp_name = $_FILES['departureSealFile']['tmp_name'];
+    $departureSeal_path_filename_ext = $base_dir.$departureSeal_target_dir."departureSeal"."_".$passportNum.".".$departureSeal_ext;
+}
+
+// Scanned passport file directory set - upload code inside result true if statement;
+if (($_FILES['arrivalSealFile']['name'] != "")){
+    // Where the file is going to be stored
+    $arrivalSeal_target_dir = "uploads/arrivalSeal/";
+    $file = $_FILES['arrivalSealFile']['name'];
+    $path = pathinfo($file);
+    $arrivalSeal_ext = $path['extension'];
+    $arrivalSeal_temp_name = $_FILES['arrivalSealFile']['tmp_name'];
+    $arrivalSeal_path_filename_ext = $base_dir.$arrivalSeal_target_dir."arrivalSeal"."_".$passportNum.".".$arrivalSeal_ext;
+}
+
+// Scanned passport file directory set - upload code inside result true if statement;
+if (($_FILES['traningCardFile']['name'] != "")){
+    // Where the file is going to be stored
+    $trainingCard_target_dir = "uploads/trainingCard/";
+    $file = $_FILES['traningCardFile']['name'];
+    $path = pathinfo($file);
+    $trainingCard_ext = $path['extension'];
+    $trainingCard_temp_name = $_FILES['traningCardFile']['tmp_name'];
+    $trainingCard_path_filename_ext = $base_dir.$trainingCard_target_dir."trainingCard"."_".$passportNum.".".$trainingCard_ext;
+}
+
+// Scanned passport file directory set - upload code inside result true if statement;
+if (($_FILES['oldVisaFile']['name'] != "")){
+    // Where the file is going to be stored
+    $oldVisa_target_dir = "uploads/oldVisa/";
+    $file = $_FILES['oldVisaFile']['name'];
+    $path = pathinfo($file);
+    $oldVisa_ext = $path['extension'];
+    $oldVisa_temp_name = $_FILES['oldVisaFile']['tmp_name'];
+    $oldVisa_path_filename_ext = $base_dir.$oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext;
+}
+
 $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
 if($existingPass['passCount'] > 0){
     echo "<script>window.alert('Passport Already Exists')</script>";
@@ -92,8 +137,38 @@ if($existingPass['passCount'] > 0){
     }else{
         $passportFile = '';
     }   
+
+    if (($_FILES['departureSealFile']['name'] != "")){
+        $departureSeal = 'yes';
+        $departureSealFile = $departureSeal_target_dir."departureSeal"."_".$passportNum.".".$departureSeal_ext; 
+    }else{
+        $departureSeal = 'no';
+        $departureSealFile = '';
+    }  
+    if (($_FILES['arrivalSealFile']['name'] != "")){
+        $arrivalSeal = 'yes'; 
+        $arrivalSealFile = $arrivalSeal_target_dir."arrivalSeal"."_".$passportNum.".".$arrivalSeal_ext; 
+    }else{
+        $arrivalSeal = 'no';
+        $arrivalSealFile = '';
+    }  
+    if (($_FILES['oldVisaFile']['name'] != "")){
+        $oldVisa = 'yes'; 
+        $oldVisaFile = $oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext; 
+    }else{
+        $oldVisa = 'no';
+        $oldVisaFile = '';
+    }  
+    if (($_FILES['traningCardFile']['name'] != "")){
+        $traningCard = 'yes'; 
+        $traningCardFile = $trainingCard_target_dir."trainingCard"."_".$passportNum.".".$trainingCard_ext; 
+    }else{
+        $traningCard = 'no';
+        $traningCardFile = '';
+    } 
+
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, agentEmail, office, manpowerOfficeName, country, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$agentEmail', '$office', '$manpowerOfficeName','$country','$comment','$admin','$date', '$date')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, oldVisa, oldVisaFile, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$oldVisa','$oldVisaFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date')");
     if($result){    
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
@@ -104,12 +179,24 @@ if($existingPass['passCount'] > 0){
         if (($_FILES['passportScan']['name'] != "")){
             move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
         }
+        if (($_FILES['departureSealFile']['name'] != "")){
+            move_uploaded_file($departureSeal_temp_name,$departureSeal_path_filename_ext);
+        }
+        if (($_FILES['arrivalSealFile']['name'] != "")){
+            move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
+        }
+        if (($_FILES['oldVisaFile']['name'] != "")){
+            move_uploaded_file($oldVisa_temp_name,$oldVisa_path_filename_ext);
+        }
+        if (($_FILES['traningCardFile']['name'] != "")){
+            move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);
+        }
         echo "<script>window.alert('Inserted')</script>";
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         print_r($err);
         echo "<script>window.alert('".$err."')</script>";
-        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
+        //echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }
 }

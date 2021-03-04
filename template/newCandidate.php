@@ -10,7 +10,6 @@
 
 
 <div class="container">
-<p>this is pull test</p>
     <div class="section-header">
         <h2>New Candidate Information</h2>
     </div>
@@ -62,7 +61,11 @@
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="country" required>
                 <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
+<<<<<<< HEAD
                     <option value="">Select Country</option>
+=======
+                    <option value=""> --- Select Country --- </option>
+>>>>>>> c9b7def60cddf3dccbd1ac00b3c0ee90fd4f11be
                     <?php while($country = mysqli_fetch_assoc($result)){ ?>
                         <option><?php echo $country['country'];?></option>
                     <?php } ?>
@@ -103,33 +106,32 @@
                         </label> 
                     </div> 
                 </div>
-                <div class="form-row" id="experienced" style="display: none;">
-                    <div class="form-group col-md-6">
+                <div class="form-row" id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
+                    <div class="col-md-4">
+                        <label>Old Visa Copy</label>
+                        <input class="form-control-file" type="file" name="oldVisaFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Departure Seal</label>
+                        <input class="form-control-file" type="file" name="departureSealFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Arrival Seal</label>
+                        <input class="form-control-file" type="file" name="arrivalSealFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-6">
                         <label>Departure Date</label>
                         <input type="text" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="col-md-6">
                         <label>Arrival Date</label>
-                        <input type="date" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
+                        <input type="text" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
                     </div>               
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="form-row">
-                <!-- <div class="form-group col-md-6">
-                    <label>Agent or Office <span class="agentOrOfficeDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
-                    <div class="form-group">
-                        <label class="parking_label">Agent
-                            <input type="radio" name="agentOrOffice" value="agent" checked required>
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="parking_label">Office
-                            <input type="radio" name="agentOrOffice" value="office" required>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div> -->
                 <div class="form-group col-md-6" id="agentNotOffice">
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
                     <select class="form-control select2" name="agentEmail" id="agent">
@@ -142,10 +144,6 @@
                         <?php } ?>
                     </select>
                 </div>
-                <!-- <div class="form-group col-md-6" id="officeNotAgent" style="display: none;">
-                    <label>Office <span class="danger" id="office_validation">Enter Office</span> </label>
-                    <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
-                </div> -->
                 <div class="form-group col-md-6">
                 <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
                 <select class="form-control select2" id="manpower" name="manpower">
@@ -221,7 +219,15 @@
                     </div>
                 </div>
             </div>
-        </div>          
+        </div>  
+        <div class="form-group" style="display: none;" id="trainingCard_div">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Give Traning Card</label>
+                    <input class="form-control" type="file" name="traningCardFile" id="traningCardFile">
+                </div>
+            </div>
+        </div>        
         <div class="form-group">
             <input class="form-control bg-primary" type="submit" style="margin: auto; width: auto; color: white" value="Submit" id="submit">
         </div>
@@ -240,8 +246,10 @@
 
         if(experience === 'yes'){
             $('#experienced').show();
+            $('#trainingCard_div').hide();
         }else if(experience === 'no'){
             $('#experienced').hide();
+            $('#trainingCard_div').show();
         }
 
         if(policeVerification === 'yes'){

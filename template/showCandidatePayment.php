@@ -1,7 +1,7 @@
 <?php
 $passportNum = base64_decode($_GET['pn']);
 $sponsorVisa = base64_decode($_GET['sv']);
-$result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lName, agent.agentName FROM candidateexpense INNER JOIN passport USING (passportNum) INNER JOIN agent on candidateexpense.agentEmail = agent.agentEmail where candidateexpense.passportNum = '$passportNum' AND candidateexpense.sponsorVisa = '$sponsorVisa'");
+$result = $conn->query("SELECT candidateexpense.*, passport.fName, passport.lName, agent.agentName FROM candidateexpense INNER JOIN passport USING (passportNum) INNER JOIN agent on candidateexpense.agentEmail = agent.agentEmail where candidateexpense.passportNum = '$passportNum'");
 ?>
 
 <style>

@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from passport order by creationDate desc");
+$result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport order by creationDate desc");
 ?>
 
 <style>
@@ -207,8 +207,8 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from pass
                         <?php } ?>
 
                         <!-- Creation Date -->
-                        <td><?php echo $candidate['creationDate'];?></td>
-                        <td><?php echo $candidate['fName']." ".$candidate['lName'];?></td>
+                        <td><?php echo $candidate['creationDateShow'];?></td>
+                        <td><a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum']);?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a></td>
                         <td><?php echo $candidate['passportNum'];?></td>                  
                         <td><?php echo $candidate['mobNum'];?></td>                      
                         <td><?php printf('%d years', $age->y);?></td>
@@ -251,76 +251,120 @@ $result = $conn -> query("SELECT *, DATE(creationDate) as creationDate from pass
                         } ?></td>
                         <td><?php echo $candidate['country'];?></td>
                         <!-- Test Medical -->
-                        <td class="second">              
-                        <?php if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
-                            <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)">No</button>
-                        <?php } else { ?>
-                            <div class="row">
+                        <td class="second">
+                        <div class="row">              
+                            <?php if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)">No</button>
+                                </div>                            
+                            <?php } else { ?>                            
                                 <div class="col-sm-3">
                                     <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)"><span class="fas fa-redo"></span></button>
                                 </div>
                                 <div class="col-sm-3">    
                                     <a href="<?php echo $candidate['testMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                </div>                                                        
+                            <?php } ?>
+                                <div class="col-sm-3">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                        <input type="hidden" name="purpose" value="testMedical">
+                                        <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                        <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    </form>
                                 </div>
-                            </div>
-                            
-                        <?php } ?></td>
+                        </div></td>
                         <!-- Final Medical -->
-                        <td class="second"><?php
-                        if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else if(empty($candidate['finalMedical']) || $candidate['finalMedical']=='no'){ ?>
-                            <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)">No</button>
-                        <?php } else { ?>
+                        <td class="second">
+                        
+                        <?php                        
+                            if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
+                                <button class="btn btn-warning btn-sm">Do Previous</button>
+                            <?php }else{ ?>
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)"><span class="fas fa-redo"></span></button>
+                                <?php if(empty($candidate['finalMedical']) || $candidate['finalMedical']=='no'){ ?>                                
+                                    <div class="col-sm-3">
+                                        <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)">No</button>
+                                    </div>
+                                <?php } else { ?>                            
+                                        <div class="col-sm-3">
+                                            <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum'];?>" name="testMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)"><span class="fas fa-redo"></span></button>
+                                        </div>
+                                        <div class="col-sm-3"> 
+                                            <a href="<?php echo $candidate['finalMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                        </div>                                                        
+                                <?php } ?>
+                                    <div class="col-sm-3">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="finalMedical">
+                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                            <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3"> 
-                                    <a href="<?php echo $candidate['finalMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                                </div>
-                            </div>                            
-                        <?php } ?></td>
+                            <?php } ?>
+                        </td>
                         <!-- Police Clearance -->
-                        <td><?php 
-                        if($candidate['policeClearance'] == 'yes'){ ?>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>" onclick="policeClearance(this.value)"><span class="fas fa-redo"></span></button>
-                                </div>
-                                <div class="col-sm-3"> 
-                                    <a href="<?php echo $candidate['policeClearanceFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                                </div>
-                            </div>                            
-                        <?php }else{ ?>
-                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>" onclick="policeClearance(this.value)">Not Submitted</button>                            
-                        <?php } ?>
+                        <td>                        
+                        <div class="row">
+                            <?php 
+                            if($candidate['policeClearance'] == 'yes'){ ?>
+                                    <div class="col-sm-3">
+                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>" onclick="policeClearance(this.value)"><span class="fas fa-redo"></span></button>
+                                    </div>
+                                    <div class="col-sm-3"> 
+                                        <a href="<?php echo $candidate['policeClearanceFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                    </div>                            
+                            <?php }else{ ?>
+                            <div class="col-sm-3">
+                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>" onclick="policeClearance(this.value)">No</button>                            
+                            </div>
+                            <?php } ?>
+                            <div class="col-sm-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                    <input type="hidden" name="purpose" value="policeClearance">
+                                    <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                    <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                    <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                </form>
+                            </div>
+                        </div>
                         </td>
                         <!-- Training Card -->
-                        <td><?php 
+                        <td>
+                        <div class="row">
+                        <?php 
                         if($candidate['trainingCard'] == 'yes'){ ?>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
-                                </div>
-                                <div class="col-sm-3"> 
-                                    <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                                </div>
+                            <div class="col-sm-3">
+                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
                             </div>
-                            
+                            <div class="col-sm-3"> 
+                                <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                            </div>                            
                         <?php }else{ ?>
-                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">Not Submitted</button>
-                        <?php } ?>
+                            <div class="col-sm-3"> 
+                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">No</button>
+                            </div>                            
+                        <?php } ?> 
+                            <div class="col-sm-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                    <input type="hidden" name="purpose" value="trainingCard">
+                                    <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                    <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                    <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                </form>
+                            </div>                       
+                        </div>
                         </td>
-                        <!-- Passport Photo -->
-                        <!-- <td>
-                            <?php if($candidate['passportPhoto'] == 'yes'){ ?>
-                                <a href="<?php echo $candidate['passportPhotoFile'];?>" target="_blank"><button class="btn btn-success btn-sm">Submitted</button></a>
-                            <?php }else{ ?>
-                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#photoFileSubmit" id="photoFile" value="<?php echo $candidate['passportNum'];?>">Not Submitted</button> 
-                            <?php } ?>
-                        </td> -->
-                        <!-- Edit Section -->
                         <td>
                             <div class="flex-container">
                                 <div style="padding-right: 2%">
