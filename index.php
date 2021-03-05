@@ -24,7 +24,6 @@ if(!empty($_POST['pagePost'])){
 </head>
 
 <script>
-
     $(document).ready(function() {
         $('#dataTableSeaum').DataTable({
             "fixedHeader": true,
@@ -41,10 +40,8 @@ if(!empty($_POST['pagePost'])){
             "responsive": true,
             "order": [],
             "scrollX": false
-        });
-
-              
-    } );
+        });              
+    });
 </script>
 <style>
     h4{
@@ -310,6 +307,8 @@ if(!empty($_POST['pagePost'])){
             include('template/showCandidatePayment.php');
         }else if($page == 'cI') {
             include('template/candidateDocumentInfo.php');
+        }else if($pagePost == 'editCandidatePayment') {
+            include('template/editCandidatePayment.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';

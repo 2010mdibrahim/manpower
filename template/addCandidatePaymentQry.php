@@ -22,7 +22,9 @@ $admin = $_SESSION['email'];
 $date = date("Y-m-d");
 $create_date = date("Y-m-d H:i:s");
 
-$result = $conn->query("INSERT INTO candidateexpense(amount, advance, payDate, purpose, payMode, passportNum, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, $advance, '$paydate', '$purpose', '$paymentMethod', '$passportNum', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
+$result = $conn->query("INSERT INTO candidateexpense(amount, purpose, payMode, passportNum, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, '$purpose', '$paymentMethod', '$passportNum', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
+$expenseId = mysqli_fetch_assoc($conn->query("SELECT max(expenseId) as expenseId from candidateexpense"));
+$result = $conn->query("INSERT INTO advance(advanceAmount, payDate, expenseId, updatedBy, updatedOn) VALUES ($advance, '$paydate', ".$expenseId['expenseId'].", '$admin', '$date')");
 if($result){
     echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
 }else{

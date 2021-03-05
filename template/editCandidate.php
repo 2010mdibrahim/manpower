@@ -26,6 +26,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
         <h2>Edit Candidate Information</h2>
     </div>
     <form action="template/editCandidateQry.php" method="post" enctype="multipart/form-data" id="candidateForm">
+        <input type="hidden" name="currentPassport" value="<?php echo $candidate['passportNum'];?>">
         <input type="hidden" name="alter" value="update">
         <h4 class="bg-light">Candidate Information</h4>
         <div class="form-row">
@@ -75,7 +76,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Passport No.</label>
-                <input type="text" class="form-control" required="required" name="passportNum" value="<?php echo $candidate['passportNum'];?>" readonly/>
+                <input type="text" class="form-control" required="required" name="passportNum" value="<?php echo $candidate['passportNum'];?>"/>
             </div>            
             <div class="form-group col-md-6">
                 <label>Country</label>

@@ -3,9 +3,8 @@ if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport where passportNum = '$passportNum' order by creationDate desc");
 }else{
-    $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport order by creationDate desc");
+    $result = $conn -> query("SELECT IF(candidateexpense.purpose = 'Comission', 'yes', 'no') AS comission, passport.*, DATE(passport.creationDate) as creationDateShow from passport LEFT OUTER JOIN candidateexpense USING (passportNum) GROUP by passport.passportNum order by passport.creationDate desc");
 }
-
 ?>
 
 <style>
@@ -13,11 +12,9 @@ if(isset($_GET['pp'])){
         display: flex;
         flex-direction: row;
     }
-
     html {
         scroll-behavior: smooth;
-    }
-    
+    }    
 </style>
 <div class="container-fluid" style="padding: 2%">
     <!-- Final Medical Modal -->
@@ -375,22 +372,42 @@ if(isset($_GET['pp'])){
                         </div>
                         </td>
                         <td>
-                            <div class="flex-container">
-                                <div style="padding-right: 2%">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="alter" value="update">
-                                        <input type="hidden" value="editCandidate" name="pagePost">
-                                        <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
-                                        <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
-                                    </form>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="alter" value="update">
+                                            <input type="hidden" value="editCandidate" name="pagePost">
+                                            <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                            <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-3">
+                                        <form action="template/editCandidateQry.php" method="post">
+                                            <input type="hidden" name="alter" value="delete">
+                                            <input type="hidden" value="editCandidate" name="pagePost">
+                                            <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                            <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div style="padding-left: 2%">
-                                    <form action="template/editCandidateQry.php" method="post">
-                                        <input type="hidden" name="alter" value="delete">
-                                        <input type="hidden" value="editCandidate" name="pagePost">
-                                        <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
-                                    </form>
+                                <div class="row">                                    
+                                    <?php if($candidate['comission'] == 'no'){?>
+                                        <div class="col-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="Comission">
+                                                <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                                <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                                <input type="hidden" name="visaNo" value="<?php echo $candidate['sponsorVisa'];?>">
+                                                <button class="btn btn-sm btn-info" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
+                                    <div class="col-3">                                    
+                                        <a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
+                                    </div>
                                 </div>
                             </div>
                         </td>

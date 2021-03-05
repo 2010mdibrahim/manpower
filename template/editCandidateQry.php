@@ -12,6 +12,7 @@ if($alter == 'delete'){
         echo "<script> window.location.href='../listCandidate.php'</script>";
     }
 }else{
+    $currentPassport = $_POST['currentPassport'];
     $fName = $_POST['fName'];
     $lName = $_POST['lName'];
     $gender = $_POST['gender'];
@@ -104,7 +105,7 @@ if($alter == 'delete'){
         $result = $conn->query("UPDATE passport set passportScannedCopy = '$photoFile' where passportNum = '$passportNum'");
     } 
 
-    $qry = "UPDATE passport SET fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$date' where passportNum='$passportNum'";
+    $qry = "UPDATE passport SET passportNum = '$passportNum', fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$date' where passport.passportNum='$currentPassport'";
     $result = mysqli_query($conn,$qry);
     if($result){
 

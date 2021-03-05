@@ -1,6 +1,5 @@
 <?php
 include ('database.php');
-$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 $mode = $_POST['mode'];
 $passportNum = $_POST['passportNum'];
 if(isset($_POST['sponsorVisa'])){
@@ -8,8 +7,6 @@ if(isset($_POST['sponsorVisa'])){
 }else{
     $sponsorVisa = '';
 }
-
-print_r($passportNum." ".$sponsorVisa);
 
 if ($mode == 'empRqstMode') {
     $empVal = $_POST['empRqst'];
@@ -26,7 +23,7 @@ if ($mode == 'empRqstMode') {
 }else if($mode == 'foreignMoleMode'){
     $foreignMole = $_POST['foreignMole'];
     if($foreignMole == 'no'){
-        $result = $conn -> query("UPDATE processing set medicalUpdate = '$updateMedical', foreignMole = '$foreignMole', okala = '$foreignMole', mufa = '$foreignMole', visaStamping = '$foreignMole', finger = '$foreignMole' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
+        $result = $conn -> query("UPDATE processing set medicalUpdate = '$foreignMole', foreignMole = '$foreignMole', okala = '$foreignMole', mufa = '$foreignMole', visaStamping = '$foreignMole', finger = '$foreignMole' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
     }else{
         $result = $conn -> query("UPDATE processing set foreignMole = '$foreignMole' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
     }    

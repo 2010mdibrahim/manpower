@@ -47,7 +47,7 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" <?php echo ($purpose != '') ? 'value="'.$purpose.'" readonly' : '';?> >
                 </div>
-                <?php if($purpose == 'Comission' || $purpose == ''){?>
+                <?php if($purpose == ''){?>
                     <div class="form-group col-md-6">
                         <label>Advance</label>
                         <input class="form-control" type="number" name="advance" placeholder="BDT">

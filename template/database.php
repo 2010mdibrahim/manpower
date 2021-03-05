@@ -2,7 +2,7 @@
 session_start();
 $server='localhost';
 $user='root';
-$password='!@#$%databaseserveradmin2020';
+$password='';
 $dbname='samin_erp';
 $conn=mysqli_connect($server,$user,$password,$dbname);
 $path = 'C:/xampp/htdocs/mahfuza/';
