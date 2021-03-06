@@ -12,6 +12,16 @@ if(isset($_POST['purpose'])){
 }else{
     $purpose = '';
 }
+if(isset($_POST['comission_amount'])){
+    $comission_amount = $_POST['comission_amount'];
+}else{
+    $comission_amount = 0;
+}
+if(isset($_POST['comission_id'])){
+    $comission_id = $_POST['comission_id'];
+}else{
+    $comission_id = -1;
+}
 $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agentEmail = '$agentEmail'"));
 ?>
 <div class="container" style="padding: 2%">
@@ -20,6 +30,7 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
     </div>
     
     <form action="template/addCandidatePaymentQry.php" method="post">
+        <input type="hidden" name="comission_id" value="<?php echo $comission_id?>">
         <input type="hidden" name="visaNo" value="<?php echo $visaNo; ?>">
         <div class="form-row">
             <div class="form-group col-md-6" >
@@ -41,7 +52,7 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Full Amount</label>
-                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount">
+                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" <?php echo ($comission_id >= 0) ? 'value="'.$comission_amount.'" readonly' : '';?>>
                 </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>

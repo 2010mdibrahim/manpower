@@ -1,11 +1,13 @@
 <?php
 $passportNum = base64_decode($_GET['pn']);
-// $sponsorVisa = base64_decode($_GET['sv']);
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT count(candidateexpense.expenseId) as expenseCount, passport.fName, passport.lName, agent.agentName FROM candidateexpense INNER JOIN passport USING (passportNum) INNER JOIN agent on passport.agentEmail = agent.agentEmail where candidateexpense.passportNum = '$passportNum'"));
+// this is candidateinfo
+$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN agent USING (agentEmail) where passport.passportNum = '$passportNum'"));
+// this this candidate expenseces
+$result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum'");
+// this is candidate expenseces sum
 $expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from candidateexpense where passportNum = '$passportNum' and purpose != 'Comission'"));
-$comission_count = mysqli_fetch_assoc($conn->query("SELECT count(candidateexpense.expenseId) as expenseCount FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.purpose = 'Comission'"));
-$result_comission = $conn->query("SELECT candidateexpense.amount, advance.payDate, advance.advanceAmount FROM candidateexpense LEFT JOIN advance USING (expenseId) where candidateexpense.passportNum = '$passportNum' AND purpose = 'Comission'");
-$result = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' and purpose != 'Comission'");
+// this is comission and advances
+$result_comission = $conn->query("SELECT agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission RIGHT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum'");
 $total = 0;
 $amount = 0;
 ?>
@@ -14,8 +16,41 @@ $amount = 0;
     .btn{
         font-size: 11px;
     }
+    .comission-box{
+        border-left: 1px solid gray;
+    }
+    .list-group-item.advance{
+        background-color: #e3f2fd;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
+<!-- Stamping Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="comissionAmount">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/editComission.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Comission</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="comissionId" id="comissionId">
+                        <input type="hidden" name="passportNum" id="passportNum">
+                        <input class="form-control" type="number" name="amount" placeholder="Enter New Amount">
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-header">
@@ -45,102 +80,209 @@ $amount = 0;
         </div>
         <?php $comission = mysqli_fetch_assoc($result_comission);?>
         <div class="card-group">
-            <div class="card" style="width: 10rem;">
-                <div class="card-header text-center">
-                    Comission
-                </div>
-                <?php if($comission_count['expenseCount'] != 0 ){?>
-                <ul class="list-group list-group-flush">                    
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <span style="font-weight: 100; font-style: italic;">Total Amount: </span>
-                            </div>
-                            <div class="col-sm">
-                                <?php echo  number_format($comission['amount'])." BDT"; $amount = intval($comission['amount']);?>
-                            </div>
-                        </div>                        
-                    </li>
-                </ul>
-                <ul class="list-group list-group-flush" style="height: 100px; overflow: auto;">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <span style="font-weight: 100; font-style: italic;">Advance Amount: </span>
-                                    </div>
-                                    <div class="col-sm">
-                                        <?php echo (!is_null($comission['advanceAmount'])) ? number_format($comission['advanceAmount'])." BDT" : 'Not Paid'; $total += (!is_null($comission['advanceAmount'])) ? intval($comission['advanceAmount']) : 0;?>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <span style="font-weight: 100; font-style: italic;">Pay Date: </span>
-                                    </div>
-                                    <div class="col-sm">
-                                        <?php echo (!is_null($comission['payDate'])) ? $comission['payDate'] : 'Not Paid';?>
-                                    </div>
-                                </div>  
-                            </div>                            
-                        </div>                        
-                    </li>
-                    <?php while($comission = mysqli_fetch_assoc($result_comission)){?>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <span style="font-weight: 100; font-style: italic;">Advance Amount: </span>
-                                    </div>
-                                    <div class="col-sm">
-                                    <?php echo (!is_null($comission['advanceAmount'])) ? number_format($comission['advanceAmount'])." BDT" : 'Not Paid'; $total += (!is_null($comission['advanceAmount'])) ? intval($comission['advanceAmount']) : 0;?>
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div class="col">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <span style="font-weight: 100; font-style: italic;">Pay Date: </span>
-                                    </div>
-                                    <div class="col-sm">
-                                        <?php echo (!is_null($comission['payDate'])) ? $comission['payDate'] : 'Not Paid';?>
-                                    </div>
-                                </div>  
-                            </div>                            
+            <div class="row" style="width: 100%; margin:0;">
+                <div class="col-sm-8" style="padding: 0;">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Comission
                         </div>
-                    </li>
+                        <?php if(!is_null($comission)){?>
+                        <ul class="list-group list-group-flush">                    
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <span style="font-weight: 100; font-style: italic;">Total Amount: </span>
+                                            </div>
+                                            <div class="col-sm">
+                                                <?php echo  number_format($comission['amount'])." BDT"; $amount = intval($comission['amount']);?>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <form action="index.php" method="post">
+                                                    <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
+                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="agentEmail" value="<?php echo $comission['agentEmail'];?>">
+                                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                    <input type="hidden" name="purpose" value="Comission">
+                                                    <input type="hidden" name="comission_amount" value="<?php echo $amount;?>">
+                                                    <input type="hidden" name="comission_id" value="<?php echo $comission['comissionId'];?>">
+                                                    <button class="btn btn-sm">Add Advance</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-sm">
+                                                <button class="btn btn-sm">Full Payment</button>
+                                            </div>
+                                            <div class="col-sm">
+                                                <form action="index.php" method="post">
+                                                    <button class="btn btn-sm" type='button' data-target="#comissionAmount" data-toggle="modal" onclick="comissionAmount(this.value)" value="<?php echo $comission['comissionId']."-".$passportNum; ?>">Edit</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                        
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-flush" style="height: 100px; overflow: auto;">
+                            <li class="list-group-item advance">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <span style="font-weight: 100; font-style: italic;">Advance Amount: </span>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <?php echo (!is_null($comission['advanceAmount'])) ? number_format($comission['advanceAmount'])." BDT" : 'Not Paid'; $total += (!is_null($comission['advanceAmount'])) ? intval($comission['advanceAmount']) : 0;?>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="col-sm-3 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <span style="font-weight: 100; font-style: italic;">Pay Mode: </span>
+                                            </div>
+                                            <div class="col-sm">
+                                                <?php echo (!is_null($comission['advancePayMode'])) ? $comission['advancePayMode'] : 'Not Paid';?>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-sm-3 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <span style="font-weight: 100; font-style: italic;">Pay Date: </span>
+                                            </div>
+                                            <div class="col-sm">
+                                                <?php echo (!is_null($comission['payDate'])) ? $comission['payDate'] : 'Not Paid';?>
+                                            </div>
+                                        </div>  
+                                    </div> 
+                                    <div class="col-sm-2 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <form action="index.php" method="post">
+                                                    <input type="hidden" name="pagePost" value="editCandidatePayment">
+                                                    <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
+                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
+                                                    <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
+                                                    <input type="hidden" name="purpose" value="Comission">
+                                                    <input type="hidden" name="amount" value="<?php echo $comission['amount'];?>">
+                                                    <input type="hidden" name="advanceAmount" value="<?php echo $comission['advanceAmount'];?>">
+                                                    <input type="hidden" name="advancePayMode" value="<?php echo $comission['advancePayMode'];?>">
+                                                    <input type="hidden" name="payDate" value="<?php echo $comission['payDate'];?>">
+                                                    <button class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
+                                                </form> 
+                                            </div>
+                                            <div class="col-sm">
+                                                <form action="template/addCandidatePaymentQry.php" method="post">
+                                                    <input type="hidden" name="alter" value="delete">
+                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
+                                                    <button class="btn btn-danger btn-sm"><span class="fa fa-close"></span></button>
+                                                </form> 
+                                            </div>
+                                        </div>
+                                    </div>                           
+                                </div>                        
+                            </li>
+                            <?php while($comission = mysqli_fetch_assoc($result_comission)){?>
+                            <li class="list-group-item advance">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <span style="font-weight: 100; font-style: italic;">Advance Amount: </span>
+                                            </div>
+                                            <div class="col-sm-4">
+                                            <?php echo (!is_null($comission['advanceAmount'])) ? number_format($comission['advanceAmount'])." BDT" : 'Not Paid'; $total += (!is_null($comission['advanceAmount'])) ? intval($comission['advanceAmount']) : 0;?>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="col-sm-3 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <span style="font-weight: 100; font-style: italic;">Pay Mode: </span>
+                                            </div>
+                                            <div class="col-sm">
+                                                <?php echo (!is_null($comission['advancePayMode'])) ? $comission['advancePayMode'] : 'Not Paid';?>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-sm-3 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <span style="font-weight: 100; font-style: italic;">Pay Date: </span>
+                                            </div>
+                                            <div class="col-sm">
+                                                <?php echo (!is_null($comission['payDate'])) ? $comission['payDate'] : 'Not Paid';?>
+                                            </div>
+                                        </div>  
+                                    </div> 
+                                    <div class="col-sm-2 comission-box">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <form action="index.php" method="post">
+                                                    <input type="hidden" name="pagePost" value="editCandidatePayment">
+                                                    <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
+                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
+                                                    <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
+                                                    <input type="hidden" name="purpose" value="Comission">
+                                                    <input type="hidden" name="amount" value="<?php echo $comission['amount'];?>">
+                                                    <input type="hidden" name="advanceAmount" value="<?php echo $comission['advanceAmount'];?>">
+                                                    <input type="hidden" name="advancePayMode" value="<?php echo $comission['advancePayMode'];?>">
+                                                    <input type="hidden" name="payDate" value="<?php echo $comission['payDate'];?>">
+                                                    <button class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
+                                                </form>
+                                            </div>
+                                            <div class="col-sm">
+                                                <form action="template/addCandidatePaymentQry.php" method="post">
+                                                    <input type="hidden" name="alter" value="delete">
+                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
+                                                    <button class="btn btn-danger btn-sm"><span class="fa fa-close"></span></button>
+                                                </form> 
+                                            </div>
+                                        </div>
+                                    </div>                           
+                                </div>
+                            </li>
+                            <?php } ?>
+                        </ul>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span style="font-weight: 100; font-style: italic;">Balance: </span>
+                                    </div>
+                                    <div class="col-sm">
+                                        <?php echo number_format($amount - $total)." BDT";?>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <?php }else{?>
+                        <div class="card-body text-center">
+                            Not Specified
+                        </div>
                     <?php } ?>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <span style="font-weight: 100; font-style: italic;">Balance: </span>
-                            </div>
-                            <div class="col-sm">
-                                <?php echo number_format($amount - $total)." BDT";?>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <?php }else{?>
-                    <div class="card-body text-center">
-                        Not Specified
                     </div>
-                <?php } ?>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                <label class="card-title">Total Expense</label>
-                <h4><?php echo number_format($expense_sum['expense_sum'])." BDT";?></h4>
+                </div>
+                <div class="col-sm-4" style="padding: 0;">
+                    <div class="card" style="height: 100%;">
+                        <div class="card-body">
+                            <label class="card-title">Total Expense</label>
+                            <h4><?php echo number_format($expense_sum['expense_sum'])." BDT";?></h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card-body">
-        
+        <div class="card-body">        
         <div class="table-responsive">
             <table id="dataTableSeaum" class="table table-bordered table-hover" style="width:100%">
                 <thead>
@@ -148,16 +290,17 @@ $amount = 0;
                     <th>Purpose</th>
                     <th>Amount</th>
                     <th>Pay Date</th>
+                    <th>Pay Mode</th>
                     <th>Comment</th>
                     <th>Edit</th>
                 </tr>
-                </thead>   
-                <?php if($candidateInfo['expenseCount'] != 0){ ?>                          
-                    <?php while($candidateExpense = mysqli_fetch_assoc($result)){ ?>
+                </thead>                            
+                <?php while($candidateExpense = mysqli_fetch_assoc($result_candidate_expense)){ ?>
                     <tr>                    
                         <td><?php echo $candidateExpense['purpose'];?></td>                        
                         <td><?php echo number_format($candidateExpense['amount']);?></td>
                         <td><?php echo $candidateExpense['creationDate'];?></td>
+                        <td><?php echo $candidateExpense['payMode'];?></td>
                         <td><?php echo $candidateExpense['comment'];?></td>  
                         <td>
                             <div class="row">
@@ -166,27 +309,32 @@ $amount = 0;
                                         <input type="hidden" name="pagePost" value="editCandidatePayment">
                                         <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
                                         <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
-                                        <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentName'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
+                                        <input type="hidden" name="expenseId" value="<?php echo $candidateExpense['expenseId'];?>">
+                                        <input type="hidden" name="purpose" value="<?php echo $candidateExpense['purpose'];?>">
+                                        <input type="hidden" name="amount" value="<?php echo $candidateExpense['amount'];?>">
+                                        <input type="hidden" name="payMode" value="<?php echo $candidateExpense['payMode'];?>">
                                         <button class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
                                     </form>                                    
                                 </div>
                                 <div class="col-sm-3">
-                                    <form action="template/saveVisa.php" method="post">
-                                        <input type="hidden" name="alter" value="delete">
-                                        <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
+                                    <form action="template/addCandidatePaymentQry.php" method="post">
+                                        <input type="hidden" name="alter" value="delete">                                        
+                                        <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                        <input type="hidden" name="expenseId" value="<?php echo $candidateExpense['expenseId'];?>">
                                         <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
                                     </form>
                                 </div>
                             </div>
                         </td>                  
                     </tr>
-                    <?php } ?>                
                 <?php } ?> 
                 <tfoot hidden>
                 <tr>
                     <th>Purpose</th>
                     <th>Amount</th>
                     <th>Pay Date</th>
+                    <th>Pay Mode</th>
                     <th>Comment</th>
                     <th>Edit</th>
                 </tr>
@@ -198,6 +346,12 @@ $amount = 0;
 </div>
 
 <script>
+function comissionAmount(info){
+    let info_split = info.split('-');
+    $('#comissionId').val(info_split[0]);
+    $('#passportNum').val(info_split[1]);
+}
+
 function trainingCard(info){
     let info_split = info.split('-');
     $('#passportNumCard').val(info_split[0]);
