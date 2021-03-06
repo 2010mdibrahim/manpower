@@ -5,7 +5,6 @@ if(!empty($_POST['alter'])){
 }else{
     $alter = '';
 }
-$base_dir = "//10.100.105.200/g/xampp/htdocs/mahfuza/";
 $agentEmail = $_POST['agentEmail'];
 if($alter == 'delete') {
     $qry = "DELETE from agent where agentEmail = '$agentEmail'";

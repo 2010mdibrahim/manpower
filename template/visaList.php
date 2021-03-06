@@ -233,7 +233,7 @@
                 </tr>
                 </thead>
                 <?php
-                $result = $conn->query("SELECT IF(candidateexpense.purpose = 'Comission', 'yes', 'no') AS comission, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount , processing.* from processing INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) LEFT OUTER JOIN candidateexpense USING (passportNum) group by processing.passportNum order by creationDate desc");
+                $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agentcomission.comissionId, processing.* from processing LEFT JOIN agentcomission using (passportNum) INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) LEFT OUTER JOIN candidateexpense USING (passportNum) group by processing.passportNum order by creationDate desc");
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
@@ -485,19 +485,19 @@
                         <!-- add payment -->
                         <td>
                             <div class="row">
-                                <?php if($visa['comission'] == 'no'){?>
-                                    <div class="col-sm-3">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                            <input type="hidden" name="purpose" value="Comission">
-                                            <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                            <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                            <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                            <input type="hidden" name="visaNo" value="<?php echo $visa['sponsorVisa'];?>">
-                                            <button class="btn btn-sm btn-info" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                        </form>
-                                    </div>
-                                <?php } ?>
+                                <div class="col-sm-3">
+                                    <?php if(is_null($visa['comissionId'])){?>
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                        <input type="hidden" name="purpose" value="Comission">
+                                        <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                        <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                        <input type="hidden" name="visaNo" value="<?php echo $visa['sponsorVisa'];?>">
+                                        <button class="btn btn-sm btn-info" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    </form>
+                                    <?php } ?>
+                                </div>
                                 <div class="col-sm-3">                                    
                                     <a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&sv=".base64_encode($visa['sponsorVisa']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
                                 </div>

@@ -3,7 +3,7 @@ if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport where passportNum = '$passportNum' order by creationDate desc");
 }else{
-    $result = $conn -> query("SELECT IF(candidateexpense.purpose = 'Comission', 'yes', 'no') AS comission, passport.*, DATE(passport.creationDate) as creationDateShow from passport LEFT OUTER JOIN candidateexpense USING (passportNum) GROUP by passport.passportNum order by passport.creationDate desc");
+    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow, agentcomission.comissionId from passport LEFT OUTER JOIN agentcomission USING (passportNum) order by passport.creationDate desc");
 }
 ?>
 
@@ -392,7 +392,7 @@ if(isset($_GET['pp'])){
                                     </div>
                                 </div>
                                 <div class="row">                                    
-                                    <?php if($candidate['comission'] == 'no'){?>
+                                    <?php if(is_null($candidate['comissionId'])){?>
                                         <div class="col-3">
                                             <form action="index.php" method="post">
                                                 <input type="hidden" name="pagePost" value="addCandidatePayment">
