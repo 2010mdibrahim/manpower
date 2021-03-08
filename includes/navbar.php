@@ -55,7 +55,6 @@
                             <a href="?page=agentList" class="dropdown-item">Agent List</a>
                             <div class="dropdown-divider"></div>
                             <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense</a>
-                            <a href="?page=expenseAgentList" class="dropdown-item">Agent Expense List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -63,9 +62,6 @@
                         <div class="dropdown-menu">
                             <a href="?page=addNewDelegate" class="dropdown-item">Add New Delegate</a>
                             <a href="?page=delegateList" class="dropdown-item">Delegate List</a>
-                            <!-- <div class="dropdown-divider"></div>
-                            <a href="?page=visaSponsor" class="dropdown-item">Add Visa to Sponsor</a>
-                            <a href="?page=allVisaList" class="dropdown-item">Show all visa list</a> -->
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -78,24 +74,6 @@
                             <a href="?page=allVisaList" class="dropdown-item">Show all visa list</a>
                         </div>
                     </div>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">MOFA</a>
-                        <div class="dropdown-menu">
-                            <a href="?page=addMofa" class="dropdown-item">Add MOFA</a>
-                        </div>
-                    </div> -->
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Update Stages</a>
-                        <div class="dropdown-menu">
-                            <a href="?page=selectStageVisa&stage=medical" class="dropdown-item">Medical Stage</a>
-                            <a href="?page=selectStageVisa&stage=emigration" class="dropdown-item">Emigration Stage</a>
-                            <a href="?page=selectStageVisa&stage=stamping" class="dropdown-item">Visa Stamping</a>
-                            <a href="?page=selectStageVisa&stage=payment" class="dropdown-item">Visa Payment Update</a>
-                            <a href="?page=selectPassport&stage=mofa" class="dropdown-item">MOFA Update</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="?page=completeCandidate" class="dropdown-item">Candidates Update Stage</a>
-                        </div>
-                    </div> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="manpowerNav">Manpower</a>
                         <div class="dropdown-menu">
@@ -105,13 +83,8 @@
                     </div>  
                     <div class="nav-item dropdown">
                         <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
-                        <!-- <div class="dropdown-menu">
-                            <a href="?page=addNewJob" class="dropdown-item">Add New Job</a>
-                            <a href="?page=jobList" class="dropdown-item">Job List</a>
-                        </div> -->
                     </div>                  
-                    <!-- <a href="?page=report" class="nav-item nav-link">Report</a> -->
-                    <!-- <a href="?page=tmp" class="nav-item nav-link">Tmp</a> -->
+                    <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
                 </div>
                 <div class="ml-auto">
                     <a class="btn" href="includes/logout.php">Logout</a>

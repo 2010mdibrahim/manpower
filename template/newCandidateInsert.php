@@ -189,7 +189,8 @@ if($existingPass['passCount'] > 0){
             move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);
         }
         echo "<script>window.alert('Inserted')</script>";
-        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        print_r("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, oldVisa, oldVisaFile, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$oldVisa','$oldVisaFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date')");
+        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         print_r($err);

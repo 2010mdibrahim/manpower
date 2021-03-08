@@ -233,7 +233,13 @@
                 </tr>
                 </thead>
                 <?php
-                $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agentcomission.comissionId, processing.* from processing LEFT JOIN agentcomission using (passportNum) INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) LEFT OUTER JOIN candidateexpense USING (passportNum) group by processing.passportNum order by creationDate desc");
+                if(isset($_GET['sv'])){
+                    $sponsorVisa = base64_decode($_GET['sv']);
+                    $passportNum = base64_decode($_GET['pp']);
+                    $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agentcomission.comissionId, processing.* from processing LEFT JOIN agentcomission using (passportNum) INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) LEFT OUTER JOIN candidateexpense USING (passportNum) where processing.passportNum = '$passportNum' AND processing.sponsorVisa = '$sponsorVisa' group by processing.passportNum order by creationDate desc");
+                }else{
+                    $result = $conn->query("SELECT passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agentcomission.comissionId, processing.* from processing LEFT JOIN agentcomission using (passportNum) INNER JOIN passport USING (passportNum) INNER JOIN sponsorvisalist USING (sponsorVisa) LEFT OUTER JOIN candidateexpense USING (passportNum) group by processing.passportNum order by creationDate desc");
+                }
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>

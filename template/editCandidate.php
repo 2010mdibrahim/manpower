@@ -152,15 +152,27 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                     </div> 
                 <?php } ?>
                 </div>
-                <div class="form-row" id="experienced" style="display: <?php echo ($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00') ? 'none' : 'static';?>;">
-                    <div class="form-group col-md-6">
+                <div class="form-row" id="experienced" style="display: <?php echo ($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00') ? 'none' : 'static';?>;background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
+                    <div class="col-md-4">
+                        <label>Old Visa Copy</label>
+                        <input class="form-control-file" type="file" name="oldVisaFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Departure Seal</label>
+                        <input class="form-control-file" type="file" name="departureSealFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Arrival Seal</label>
+                        <input class="form-control-file" type="file" name="arrivalSealFile" id="traningCardFile">
+                    </div>
+                    <div class="col-md-6">
                         <label>Departure Date</label>
                         <input type="text" class="form-control experience_dates datepicker" name="departureDate" value="<?php echo $candidate['departureDate'];?>"/>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="col-md-6">
                         <label>Arrival Date</label>
                         <input type="text" class="form-control experience_dates datepicker" name="arrivalDate" value="<?php echo $candidate['arrivalDate'];?>"/>
-                    </div>               
+                    </div>                                    
                 </div>
             </div>
         </div>

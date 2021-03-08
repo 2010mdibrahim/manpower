@@ -1,40 +1,75 @@
 <?php
 $by = $_GET['by'];
-$qry = "select * from expenseheader";
-$result = mysqli_query($conn,$qry);
+$result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
-<div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Expense Report</h2>
+        <h2>Agent Report by Name</h2>
     </div>
-    <form action="index.php" method="post">
+<div class="container" style="padding: 2%;">
+    <form action="index.php" method="get">
         <div class="form-group">
-            <input type="hidden" value="expenseReport" name="pagePost">
-            <input type="hidden" name="reportType" value="reportByNameDate">
-            <input type="hidden" value="<?php echo $by; ?>" name="by">
+            <input type="hidden" value="agentReport" name="page">
             <div class="row">
-                <div class="col-md-12">
-                    <label for="sel1">Select Expense:</label>
-                    <select class="form-control" id="expenseHead" name="expenseHead">
-                        <option>Expenses Name</option>
-                        <?php while($expenseHeader = mysqli_fetch_assoc($result)){ ?>
-                            <option value="<?php echo $expenseHeader['expenseheadId']; ?>"><?php echo $expenseHeader['expenseName']; ?></option>
+                <div class="col-sm">
+                    <label for="sel1">Select Agent:</label>
+                    <select class="form-control select2" id="agentInfo" name="agentInfo">
+                        <option value="">Select Agent Name</option>
+                        <?php while($agent = mysqli_fetch_assoc($result)){ ?>
+                            <option value="<?php echo $agent['agentName']."-".$agent['agentEmail']; ?>"><?php echo $agent['agentName']; ?></option>
                         <?php } ?>
                     </select>
-                    <br>
                 </div>
-                <div class="col-md-4">
-                    <label for="dateFrom">From:</label>
-                    <input type="date" name="dateFrom">
+                <div class="col-sm">
+                    <label for="date_from">Date From</label>
+                    <input class="form-control datepicker" autocomplete="off" type="text" name="date_from" id="date_from" placeholder="Select Date From">
                 </div>
-                <div class="col-md-4">
-                    <label for="dateTo">to:</label>
-                    <input type="date" name="dateTo">
+                <div class="col-sm">
+                    <label for="date_to">Date To</label>
+                    <input class="form-control datepicker" autocomplete="off" type="text" name="date_to" id="date_to" placeholder="Select Date From">
                 </div>
             </div>
+            
         </div>
         <br>
-        <input type="submit" value="Search">
-</div>
-</form>
-</div>
+        <input type="button" value="Search" id="agentShow" onclick="showReport()">
+    </form> 
+    <div id="showReportDiv" style="margin-top: 5px;">
+    </div>
+</div>    
+
+
+<script>
+function showReport(){    
+    const agentInfo = $('#agentInfo').val();
+    const date_from = $('#date_from').val();
+    const date_to = $('#date_to').val();
+    $.ajax({
+        url: 'template/reports/agentReportNameDate.php',
+        data: {
+            agentInfo: agentInfo,
+            date_from: date_from,
+            date_to: date_to
+        },
+        type: 'post',
+        success: function(response){
+            $('#showReportDiv').html(response);
+            $('#dataTableSeaum').DataTable({
+                "fixedHeader": true,
+                "paging": true,
+                "lengthChange": true,
+                "lengthMenu": [
+                    [10, 25, 50, 100, 500],
+                    [10, 25, 50, 100, 500]
+                ],
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+                "order": [],
+                "scrollX": false
+            });  
+        }
+    });
+}
+</script>

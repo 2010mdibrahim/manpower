@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
-    $result = $conn -> query("SELECT *, DATE(creationDate) as creationDateShow from passport where passportNum = '$passportNum' order by creationDate desc");
+    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow, agentcomission.comissionId from passport LEFT OUTER JOIN agentcomission USING (passportNum) where passportNum = '$passportNum' order by passport.creationDate desc");
 }else{
     $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow, agentcomission.comissionId from passport LEFT OUTER JOIN agentcomission USING (passportNum) order by passport.creationDate desc");
 }
@@ -212,7 +212,7 @@ if(isset($_GET['pp'])){
                         <!-- Creation Date -->
                         <td><?php echo $candidate['creationDateShow'];?></td>
                         <td>
-                        <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum']);?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a>
+                        <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum'])."&t=".time();?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a>
                         <p>(<?php echo $candidate['gender'];?>)</p>
                         </td>
                         <td><?php echo $candidate['passportNum'];?></td>                  
@@ -346,19 +346,20 @@ if(isset($_GET['pp'])){
                         <!-- Training Card -->
                         <td>
                         <div class="row">
-                        <?php 
-                        if($candidate['trainingCard'] == 'yes'){ ?>
-                            <div class="col-sm-3">
-                                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
-                            </div>
-                            <div class="col-sm-3"> 
-                                <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                            </div>                            
-                        <?php }else{ ?>
-                            <div class="col-sm-3"> 
-                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">No</button>
-                            </div>                            
-                        <?php } ?> 
+                        <?php
+                        if($candidate['oldVisa'] == 'no'){ 
+                            if($candidate['trainingCard'] == 'yes'){ ?>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
+                                </div>
+                                <div class="col-sm-3"> 
+                                    <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                </div>                            
+                            <?php }else{ ?>
+                                <div class="col-sm-3"> 
+                                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">No</button>
+                                </div>                            
+                            <?php } ?>
                             <div class="col-sm-3">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
@@ -369,6 +370,11 @@ if(isset($_GET['pp'])){
                                     <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                 </form>
                             </div>                       
+                        <?php }else{ ?>
+                            <div class="col-sm">
+                                <p class="text-center">Experienced</p>
+                            </div>
+                        <?php } ?>
                         </div>
                         </td>
                         <td>

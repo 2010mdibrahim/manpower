@@ -1,5 +1,9 @@
 <?php
-
+if(isset($_GET['ag'])){
+    $agentEmail = base64_decode($_GET['ag']);
+}else{
+    $agentEmail = '';
+}
 $result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
 <div class="container" style="padding: 2%">
@@ -10,10 +14,14 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
     <form action="template/addExpenseAgentQry.php" method="post">
         <div class="form-group col-md-6" >
             <label>Select Agent Name</label>
-            <select class="form-control select2" name="agentEmail" id="agentEmail">
-                <option>--- Select Agent ---</option>
+            <select class="form-control select2" name="agentEmail" id="agentEmail" required>
+                <option value="">--- Select Agent ---</option>
                 <?php while($agent = mysqli_fetch_assoc($result)){?>
-                    <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                    <?php if($agent['agentEmail'] == $agentEmail){?>
+                        <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
+                    <?php }else{ ?>
+                        <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                    <?php } ?>
                 <?php } ?>
             </select>
         </div>
@@ -22,33 +30,24 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Full Amount</label>
-                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount">
-                </div>
-                <div class="form-group col-md-6" style="text-align: center;">
-                    <label>Mode</label>
-                    <div class="form-group">
-                        <label class="parking_label">Receive
-                            <input type="radio" name="expenseMode" value="receive" required>
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="parking_label">Lend
-                            <input type="radio" name="expenseMode" value="lend" required>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Advance</label>
-                    <input class="form-control" type="number" name="advance" placeholder="BDT">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Advance Pay Date</label>
-                    <input class="form-control datepicker" type="text" name="paydate" placeholder="yyyy/mm/dd">
+                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" required>
                 </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>
-                    <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose">
-                </div>                
+                    <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" required>
+                </div>       
+                <div class="form-group col-md-6">                    
+                    <label>Pay Date</label>
+                    <input class="form-control datepicker" type="text" autocomplete="off" name="paydate" placeholder="Enter Payment Date" required>
+                </div> 
+                <div class="form-group col-md-6">                    
+                    <label>Payment Mode</label>
+                    <select class="form-control" name="payMode" id="" required>
+                        <option value="">Select Payment Mode</option>
+                        <option>Cash</option>
+                        <option>Bkash</option>
+                    </select>
+                </div>          
                 <div class="form-group col-md-6">
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" placeholder="Enter Remark">

@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="display table table-sm table-bordered table table-striped" style="width:100%">
+                <table id="dataTableSeaum" class="display table table-sm table-bordered table table-striped text-center" style="width:100%">
                     <thead>
                     <tr>
                         <th>Photo</th>
@@ -21,7 +21,8 @@
                         <th>Agent Name</th>
                         <th>Agent Phone</th>
                         <th>Document</th>
-                        <th>Remarks</th>
+                        <th>Expense</th>
+                        <th>Alter</th>
                     </tr>
                     </thead>
                     <?php
@@ -40,6 +41,11 @@
                             <td>
                             <a href="<?php echo $agent['agentPassport'];?>" target="_blank"><button class="btn btn-warning">Passport</button></a>
                             <a href="<?php echo $agent['agentPoliceClearance'];?>" target="_blank" ><button class="btn btn-info">Clearance</button></a>
+                            </td>
+                            <td>
+                                <a href="?page=addExpenseAgent&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><span class="fas fa-plus"></span></button></a>
+                                <a href="?page=showAgentExpenseList&ag=<?php echo base64_encode($agent['agentEmail']);?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-dollar"></span></button></a>
+
                             </td>
                             <td>
                                 <div class="flex-container">
@@ -69,7 +75,8 @@
                         <th>Agent Email</th>
                         <th>Agent Name</th>
                         <th>Agent Phone</th>
-                        <th>Remarks</th>
+                        <th>Expense</th>
+                        <th>Alter</th>
                     </tr>
                     </tfoot>
 

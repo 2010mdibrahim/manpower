@@ -6,8 +6,7 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
         <h2>Add Expense for Agent</h2>
     </div>
     
-    <form action="index.php" method="post">
-        <input type="hidden" name="pagePost" value="showAgentExpenseList">
+    
         <h3 style="background-color: aliceblue; padding: 0.5%">Agent List</h3>
         <div class="form-group">
             <div class="row">
@@ -23,8 +22,7 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
             </div>
         </div>
         <br>        
-        <input class="form-control" type="submit" value="Show" name="agent" style="margin: auto; width: auto;">
-    </form>
+        <button class="form-control" type="button" value="Show" name="agent" style="margin: auto; width: auto;">
 </div>
 
 <script>

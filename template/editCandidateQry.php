@@ -57,6 +57,11 @@ if($alter == 'delete'){
         $ext = $path['extension'];
         $temp_name = $_FILES['policeVerificationFile']['tmp_name'];
         $path_filename_ext = $base_dir.$target_dir."policeVerification"."_".$passportNum.".".$ext;
+        $policeFile = $target_dir."policeVerification"."_".$passportNum.".".$ext;
+        $result = $conn->query("UPDATE passport set policeClearance = 'yes', policeClearanceFile = '$policeFile' where passportNum = '$passportNum'");
+        if ($result){
+            move_uploaded_file($temp_name,$path_filename_ext);
+        }
     }
 
     // Scanned photo file directory set - upload code inside result true if statement
@@ -69,6 +74,11 @@ if($alter == 'delete'){
         $photo_ext = $path_photo['extension'];
         $photo_temp_name = $_FILES['photoFile']['tmp_name'];
         $photo_path_filename_ext = $base_dir.$target_dir_photo."photo"."_".$passportNum.".".$photo_ext;
+        $photoFile = $target_dir_photo."photo"."_".$passportNum.".".$photo_ext; 
+        $result = $conn->query("UPDATE passport set passportPhoto = 'yes', passportPhotoFile = '$photoFile' where passportNum = '$passportNum'");
+        if ($result){
+            move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
+        }
     }
 
 
@@ -82,28 +92,60 @@ if($alter == 'delete'){
         $passport_ext = $path['extension'];
         $passport_temp_name = $_FILES['passportScan']['tmp_name'];
         $passport_path_filename_ext = $base_dir.$passport_target_dir."passport"."_".$passportNum.".".$passport_ext;
-    }
-
-    if (($_FILES['policeVerificationFile']['name'] != "")){
-        $policeFile = $target_dir."policeVerification"."_".$passportNum.".".$ext;
-        $result = $conn->query("UPDATE passport set policeClearance = 'yes', policeClearanceFile = '$policeFile' where passportNum = '$passportNum'");
-        if (($_FILES['policeVerificationFile']['name'] != "")){
-            move_uploaded_file($temp_name,$path_filename_ext);
-        }
-    }
-
-    if (($_FILES['photoFile']['name'] != "")){
-        $photoFile = $target_dir_photo."photo"."_".$passportNum.".".$photo_ext; 
-        $result = $conn->query("UPDATE passport set passportPhoto = 'yes', passportPhotoFile = '$photoFile' where passportNum = '$passportNum'");
-        if (($_FILES['photoFile']['name'] != "")){
+        $passportFile = $passport_target_dir."passport"."_".$passportNum.".".$passport_ext; 
+        $result = $conn->query("UPDATE passport set passportScannedCopy = '$photoFile' where passportNum = '$passportNum'");
+        if ($result){
             move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
         }
     }
 
-    if (($_FILES['passportScan']['name'] != "")){
-        $passportFile = $passport_target_dir."passport"."_".$passportNum.".".$passport_ext; 
-        $result = $conn->query("UPDATE passport set passportScannedCopy = '$photoFile' where passportNum = '$passportNum'");
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['departureSealFile']['name'] != "")){
+        // Where the file is going to be stored
+        $departureSeal_target_dir = "uploads/departureSeal/";
+        $file = $_FILES['departureSealFile']['name'];
+        $path = pathinfo($file);
+        $departureSeal_ext = $path['extension'];
+        $departureSeal_temp_name = $_FILES['departureSealFile']['tmp_name'];
+        $departureSeal_path_filename_ext = $base_dir.$departureSeal_target_dir."departureSeal"."_".$passportNum.".".$departureSeal_ext;
+        $departureFile = $departureSeal_target_dir."departureSeal"."_".$passportNum.".".$departureSeal_ext;
+        $result = $conn->query("UPDATE passport set departureSeal = 'yes', departureSealFile = '$departureFile' where passportNum = '$passportNum'");
+        if($result){
+            move_uploaded_file($departureSeal_temp_name,$departureSeal_path_filename_ext);
+        }
+    }
+
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['arrivalSealFile']['name'] != "")){
+        // Where the file is going to be stored
+        $arrivalSeal_target_dir = "uploads/arrivalSeal/";
+        $file = $_FILES['arrivalSealFile']['name'];
+        $path = pathinfo($file);
+        $arrivalSeal_ext = $path['extension'];
+        $arrivalSeal_temp_name = $_FILES['arrivalSealFile']['tmp_name'];
+        $arrivalSeal_path_filename_ext = $base_dir.$arrivalSeal_target_dir."arrivalSeal"."_".$passportNum.".".$arrivalSeal_ext;
+        $arrivalFile = $arrivalSeal_target_dir."arrivalSeal"."_".$passportNum.".".$arrivalSeal_ext;
+        $result = $conn->query("UPDATE passport set arrivalSeal = 'yes', arrivalSealFile = '$arrivalFile' where passportNum = '$passportNum'");
+        if($result){
+            move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
+        }
     } 
+
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['oldVisaFile']['name'] != "")){
+        // Where the file is going to be stored
+        $oldVisa_target_dir = "uploads/oldVisa/";
+        $file = $_FILES['oldVisaFile']['name'];
+        $path = pathinfo($file);
+        $oldVisa_ext = $path['extension'];
+        $oldVisa_temp_name = $_FILES['oldVisaFile']['tmp_name'];
+        $oldVisa_path_filename_ext = $base_dir.$oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext;
+        $oldVisaFile = $oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext;
+        $result = $conn->query("UPDATE passport set oldVisa = 'yes', oldVisaFile = '$oldVisaFile' where passportNum = '$passportNum'");
+        if($result){
+            move_uploaded_file($oldVisa_temp_name,$oldVisa_path_filename_ext);
+        }
+    }
 
     $qry = "UPDATE passport SET passportNum = '$passportNum', fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$date' where passport.passportNum='$currentPassport'";
     $result = mysqli_query($conn,$qry);

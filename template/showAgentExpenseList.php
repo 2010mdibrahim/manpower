@@ -1,11 +1,11 @@
 <?php
-if(isset($_POST['agentEmail'])){
-    $agentEmail = $_POST['agentEmail'];
+if(isset($_GET['ag'])){
+    $agentEmail = base64_decode($_GET['ag']);
     $agentName = mysqli_fetch_assoc($conn -> query("SELECT agentName from agent where agentEmail = '$agentEmail'"));
 }else{
     $agentEmail = '';
 }
-$receiveAmount = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum, SUM(paidAmount) as paidSum from agentexpense where agentEmail = '$agentEmail' AND expenseMode = 'receive'"));
+$totalAmount = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum from agentexpense where agentEmail = '$agentEmail'"));
 $lendAmount = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum, SUM(paidAmount) as paidSum from agentexpense where agentEmail = '$agentEmail' AND expenseMode = 'lend'"));
 $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentEmail'");
 
@@ -29,37 +29,20 @@ $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentE
                     Total Amount
                 </div>
                 <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format($sumAmount['fullSum'])." Taka";?></p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header text-center">
-                    Total Received Amount
-                </div>
-                <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format($sumAmount['paidSum'])." Taka";?></p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header text-center">
-                    Total Due Amount
-                </div>
-                <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format(intval($sumAmount['fullSum']) - intval($sumAmount['paidSum']))." Taka";?></p>
+                    <p class="card-text"><?php echo number_format($totalAmount['fullSum'])." Taka";?></p>
                 </div>
             </div>
         </div>
         <div class="card w-100">    
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
+                    <table id="dataTableSeaum" class="table table-bordered table-hover text-center"  style="width:100%">
                         <thead>
                         <tr>
+                            <th>Amount</th>  
                             <th>Expense Purpose</th>
-                            <th>Full Amount</th> 
-                            <th>Paid Amount</th>                
-                            <th>Due Amount</th>
                             <th>Pay Date</th>
+                            <th>Pay Mode</th>
                             <th>Comment</th> 
                             <th>Alter</th>
                         </tr>
@@ -68,17 +51,10 @@ $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentE
                         while( $expense = mysqli_fetch_assoc($result) ){                
                         ?>
                             <tr>
-                                <td><?php echo $expense['expensePurposeAgent'];?></td>
                                 <td><?php echo number_format($expense['fullAmount']);?></td>
-                                <td><?php echo number_format($expense['paidAmount']);?></td>
-                                <td><span style="color: red;"><?php echo number_format((intval($expense['fullAmount']) - intval($expense['paidAmount'])));?></span></td>
-                                <td>
-                                <?php if($expense['payDate'] == '0000-00-00'){ ?>
-                                            'No Date'
-                                <?php   }else{ 
-                                            echo $expense['payDate'];
-                                        } ?>
-                                </td>
+                                <td><?php echo $expense['expensePurposeAgent'];?></td>
+                                <td><?php echo $expense['payDate'];?></td>
+                                <td><?php echo $expense['expenseMode'];?></td>
                                 <td><?php echo $expense['comment'];?></td>
                                 <td>
                                     <div class="flex-container">
@@ -91,9 +67,10 @@ $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentE
                                             </form>
                                         </div>
                                         <div style="padding-left: 2%">
-                                            <form action="template/manpowerQry.php" method="post">
+                                            <form action="template/addExpenseAgentQry.php" method="post">
                                                 <input type="hidden" name="alter" value="delete">
-                                                <input type="hidden" value="<?php echo $expense['agentExpenseId ']; ?>" name="agentExpenseId ">
+                                                <input type="hidden" value="<?php echo $expense['agentExpenseId']; ?>" name="agentExpenseId">
+                                                <input type="hidden" value="<?php echo $expense['agentEmail']; ?>" name="agentEmail">
                                                 <button type="submit" class="btn btn-danger btn-sm" name="manpower">Delete</></button>
                                             </form>
                                         </div>
@@ -103,12 +80,12 @@ $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentE
                         <?php } ?>
                         <tfoot>
                         <tr hidden>
+                            <th>Amount</th>  
                             <th>Expense Purpose</th>
-                            <th>Full Amount</th> 
-                            <th>Paid Amount</th>                
-                            <th>Balance</th>
                             <th>Pay Date</th>
-                            <th>Comment</th>
+                            <th>Pay Mode</th>
+                            <th>Comment</th> 
+                            <th>Alter</th>
                         </tr>
                         </tfoot>
 

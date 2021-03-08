@@ -147,11 +147,9 @@ if(!empty($_POST['pagePost'])){
             include ('template/reports/selectReportByNameDate.php');
         }else if($page == 'selectAgentByTicket'){
             include ('template/reports/selectAgentByTicket.php');
-        }else if($pagePost == 'agentReportWithTicket'){
-            include ('template/reports/agentReport.php');
         }else if($page == 'stageWiseCandidateReport'){
             include ('template/reports/candidateReportByStage.php');
-        }else if($pagePost == 'candidateReport'){
+        }else if($page == 'candidateReport'){
             include ('template/reports/candidateReport.php');
         }else if($page == 'visaReportBySponsor'){
             include ('template/reports/visaReportBySponsor.php');
@@ -279,7 +277,7 @@ if(!empty($_POST['pagePost'])){
             include('template/addExpenseAgent.php');
         }else if($page == 'expenseAgentList') {
             include('template/expenseAgentList.php');
-        }else if($pagePost == 'showAgentExpenseList') {
+        }else if($page == 'showAgentExpenseList') {
             include('template/showAgentExpenseList.php');
         }else if($pagePost == 'editAgentExpense') {
             include('template/editAgentExpense.php');
@@ -309,6 +307,8 @@ if(!empty($_POST['pagePost'])){
             include('template/candidateDocumentInfo.php');
         }else if($pagePost == 'editCandidatePayment') {
             include('template/editCandidatePayment.php');
+        }else if($page == 'agentReport') {
+            include('template/reports/agentReport.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';

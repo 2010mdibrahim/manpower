@@ -3,6 +3,8 @@ include ('../database.php');
 $agent_info = explode('-',$_POST['agentInfo']);
 $agentName = $agent_info[0];
 $agentEmail = $agent_info[1];
+$date_from = $_POST['date_from'];
+$date_to = $_POST['date_to'];
 
 $html = '<div class="card">
         <div class="card-header">
@@ -27,7 +29,7 @@ $html .=            '</span></p>
                     <th>Advance Comission</th>
                 </tr>
                 </thead>';
-$result = $conn->query("SELECT passport.passportNum, passport.fName, passport.lName, processing.sponsorVisa, (SELECT SUM(candidateexpense.amount) FROM candidateexpense WHERE candidateexpense.passportNum = passport.passportNum) as candidate_expense, (SELECT SUM(advance.advanceAmount) from advance WHERE advance.comissionId = agentcomission.comissionId) as advance_sum, agentcomission.amount FROM agent INNER JOIN passport USING (agentEmail) LEFT JOIN processing USING (passportNum) LEFT JOIN agentcomission ON passport.passportNum = agentcomission.passportNum WHERE agent.agentEmail = '$agentEmail' order by passport.creationDate desc");
+$result = $conn->query("SELECT passport.passportNum, passport.fName, passport.lName, processing.sponsorVisa, (SELECT SUM(candidateexpense.amount) FROM candidateexpense WHERE candidateexpense.passportNum = passport.passportNum) as candidate_expense, (SELECT SUM(advance.advanceAmount) from advance WHERE advance.comissionId = agentcomission.comissionId) as advance_sum, agentcomission.amount FROM agent INNER JOIN passport USING (agentEmail) LEFT JOIN processing USING (passportNum) LEFT JOIN agentcomission ON passport.passportNum = agentcomission.passportNum WHERE agent.agentEmail = '$agentEmail' AND date(passport.creationDate) between '$date_from' and '$date_to' order by passport.creationDate desc");
 while($agent = mysqli_fetch_assoc($result)){
 $html .=        '<tr>';
 $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
