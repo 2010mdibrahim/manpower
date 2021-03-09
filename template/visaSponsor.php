@@ -1,6 +1,3 @@
-<?php
-$result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
-?>
 <style>
     span.danger{
         display: none;
@@ -23,8 +20,11 @@ $result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");
                     <label>Select Sponsor Name <span class="danger" id="sponsor_name_danger">Enter Sponsor Name</span> </label>
                     <select class="form-control select2" name="sponsorNid" id="sponsorNid">
                         <option value="notSet">--- Select Sponsor ---</option>
-                        <?php while($sponsorName = mysqli_fetch_assoc($result)){?>
-                            <option value="<?php echo $sponsorName['sponsorNID'];?>"><?php echo $sponsorName['sponsorName']." - ".$sponsorName['sponsorNID'];?></option>
+                        <?php
+                        $result = $conn->query("SELECT delegate.country, sponsor.sponsorNID, sponsor.sponsorName from sponsor inner join delegate using (delegateId)");
+                        while($sponsorName = mysqli_fetch_assoc($result)){
+                        ?>
+                            <option value="<?php echo $sponsorName['sponsorNID'];?>"><?php echo $sponsorName['sponsorName']." - ".$sponsorName['sponsorNID']." - ".$sponsorName['country'];?></option>
                         <?php } ?>
                     </select>
                 </div>

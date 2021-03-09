@@ -1,13 +1,14 @@
 <?php
 $passportNum = base64_decode($_GET['pn']);
+$creationDate = base64_decode($_GET['cd']);
 // this is candidateinfo
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN agent USING (agentEmail) where passport.passportNum = '$passportNum'"));
+$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN agent USING (agentEmail) where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
 // this this candidate expenseces
-$result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum'");
+$result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
 // this is candidate expenseces sum
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from candidateexpense where passportNum = '$passportNum' and purpose != 'Comission'"));
+$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from candidateexpense where passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
 // this is comission and advances
-$result_comission = $conn->query("SELECT agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission RIGHT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum'");
+$result_comission = $conn->query("SELECT agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission LEFT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
 $amount = 0;
 ?>
@@ -105,7 +106,7 @@ $amount = 0;
                                             <div class="col-sm">
                                                 <form action="index.php" method="post">
                                                     <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
-                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="agentEmail" value="<?php echo $comission['agentEmail'];?>">
                                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
                                                     <input type="hidden" name="purpose" value="Comission">
@@ -166,7 +167,7 @@ $amount = 0;
                                                 <form action="index.php" method="post">
                                                     <input type="hidden" name="pagePost" value="editCandidatePayment">
                                                     <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
-                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
                                                     <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
                                                     <input type="hidden" name="purpose" value="Comission">
@@ -180,7 +181,7 @@ $amount = 0;
                                             <div class="col-sm">
                                                 <form action="template/addCandidatePaymentQry.php" method="post">
                                                     <input type="hidden" name="alter" value="delete">
-                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
                                                     <button class="btn btn-danger btn-sm"><span class="fa fa-close"></span></button>
                                                 </form> 
@@ -228,7 +229,7 @@ $amount = 0;
                                                 <form action="index.php" method="post">
                                                     <input type="hidden" name="pagePost" value="editCandidatePayment">
                                                     <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
-                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
                                                     <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
                                                     <input type="hidden" name="purpose" value="Comission">
@@ -242,7 +243,7 @@ $amount = 0;
                                             <div class="col-sm">
                                                 <form action="template/addCandidatePaymentQry.php" method="post">
                                                     <input type="hidden" name="alter" value="delete">
-                                                    <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="advanceId" value="<?php echo $comission['advanceId'];?>">
                                                     <button class="btn btn-danger btn-sm"><span class="fa fa-close"></span></button>
                                                 </form> 
@@ -278,6 +279,10 @@ $amount = 0;
                             <label class="card-title">Total Expense</label>
                             <h4><?php echo number_format($expense_sum['expense_sum'])." BDT";?></h4>
                         </div>
+                        <div class="card-body">
+                            <label class="card-title">Net Payable</label>
+                            <h4><?php echo number_format(($amount - $total) - $expense_sum['expense_sum'])." BDT";?></h4>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -308,7 +313,7 @@ $amount = 0;
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="pagePost" value="editCandidatePayment">
                                         <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
-                                        <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                        <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                         <input type="hidden" name="agentEmail" value="<?php echo $candidateInfo['agentEmail'];?>">
                                         <input type="hidden" name="expenseId" value="<?php echo $candidateExpense['expenseId'];?>">
                                         <input type="hidden" name="purpose" value="<?php echo $candidateExpense['purpose'];?>">
@@ -320,7 +325,7 @@ $amount = 0;
                                 <div class="col-sm-3">
                                     <form action="template/addCandidatePaymentQry.php" method="post">
                                         <input type="hidden" name="alter" value="delete">                                        
-                                        <input type="hidden" name="passportNum" value="<?php echo $passportNum;?>">
+                                        <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                         <input type="hidden" name="expenseId" value="<?php echo $candidateExpense['expenseId'];?>">
                                         <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
                                     </form>

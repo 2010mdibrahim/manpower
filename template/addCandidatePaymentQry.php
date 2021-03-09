@@ -20,19 +20,21 @@ if(isset($_POST['advanceId'])){
 }else{
     $advanceId = -1;
 }
-$passportNum = $_POST['passportNum'];
+$passport_info = explode("_",$_POST['passport_info']);
+$passportNum = $passport_info[0];
+$passportCreationDate = $passport_info[1];
 if($alter == 'delete'){
     if($expenseId > 0){
         $result = $conn->query("DELETE from candidateexpense where expenseId = $expenseId");
         if($result){
-            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."'</script>";
+            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
         }else{
             echo mysqli_error($conn);
         }
     }else if($advanceId > 0){
         $result = $conn->query("DELETE from advance where advanceId = $advanceId");
         if($result){
-            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."'</script>";
+            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
         }else{
             echo mysqli_error($conn);
         }
@@ -70,7 +72,7 @@ if($alter == 'delete'){
             if($comission_id_existing > 0){                
                 $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance, '$paydate', '$paymentMethod', $comission_id_existing, '$admin', '$date')");
             }else{
-                $result = $conn->query("INSERT INTO agentcomission(amount, passportNum, agentEmail, comment, creationDate, updatedBy, updatedOn) VALUES ($fullAmount, '$passportNum', '$agentEmail',  '$comment', '$create_date', '$admin', '$date')");
+                $result = $conn->query("INSERT INTO agentcomission(amount, passportNum, passportCreationDate, agentEmail, comment, creationDate, updatedBy, updatedOn) VALUES ($fullAmount, '$passportNum', '$passportCreationDate', '$agentEmail',  '$comment', '$create_date', '$admin', '$date')");
                 $comissionId = mysqli_fetch_assoc($conn->query("SELECT max(comissionId) as comissionId from agentcomission"));
                 $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance, '$paydate', '$paydate', ".$comissionId['comissionId'].", '$admin', '$date')");
             } 
@@ -79,12 +81,12 @@ if($alter == 'delete'){
         if($alter == 'update'){
             $result = $conn->query("UPDATE candidateexpense set amount = $fullAmount, payMode = '$paymentMethod', updatedBy = '$admin', updatedOn = '$date', comment = '$comment' where expenseId = $expenseId");
         }else{
-            $result = $conn->query("INSERT INTO candidateexpense(amount, purpose, payMode, passportNum, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, '$purpose', '$paymentMethod', '$passportNum', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
+            $result = $conn->query("INSERT INTO candidateexpense(amount, purpose, payMode, passportNum, passportCreationDate, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, '$purpose', '$paymentMethod', '$passportNum', '$passportCreationDate', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
         }
     }
 
     if($result){
-        echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."'</script>";
+            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
     }else{
         echo mysqli_error($conn);
     }   

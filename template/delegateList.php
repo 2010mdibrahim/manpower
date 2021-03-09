@@ -26,6 +26,7 @@ $result = mysqli_query($conn,$qry);
                         <th>State</th>                
                         <th>Office</th>
                         <th>Comment</th>
+                        <th>Expense</th>
                         <th>Alter</th>
                     </tr>
                     </thead>
@@ -37,6 +38,10 @@ $result = mysqli_query($conn,$qry);
                             <td><?php echo $delegate['delegateState'];?></td>
                             <td><?php echo $delegate['office'];?></td>
                             <td><?php echo $delegate['comment'];?></td>                    
+                            <td class="text-center">
+                                <a href="?page=addDelegateExpense&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-plus"></span></button></a>
+                                <a href="?page=dlel&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                            </td>
                             <td>
                                 <div class="flex-container">
                                     <div style="padding-right: 2%">
@@ -64,6 +69,7 @@ $result = mysqli_query($conn,$qry);
                         <th>Issue Date</th>
                         <th>Paymode</th>
                         <th>Remark</th>
+                        <th>Expense</th>
                         <th>Alter</th>
                     </tr>
                     </tfoot>

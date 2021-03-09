@@ -1,26 +1,26 @@
 <?php
-if(isset($_GET['ag'])){
-    $agentEmail = base64_decode($_GET['ag']);
+if(isset($_GET['dl'])){
+    $delegate_id = base64_decode($_GET['dl']);
 }else{
-    $agentEmail = '';
+    $delegate_id = 0;
 }
-$result = $conn->query("SELECT agentName, agentEmail from agent");
+$result = $conn->query("SELECT delegateId, delegateName from delegate");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add Expense for Agent</h2>
     </div>
     
-    <form action="template/addExpenseAgentQry.php" method="post">
+    <form action="template/addDelegateExpenseQry.php" method="post">
         <div class="form-group col-md-6" >
-            <label>Select Agent Name</label>
-            <select class="form-control select2" name="agentEmail" id="agentEmail" required>
-                <option value="">--- Select Agent ---</option>
-                <?php while($agent = mysqli_fetch_assoc($result)){?>
-                    <?php if($agent['agentEmail'] == $agentEmail){?>
-                        <option value="<?php echo $agent['agentEmail'];?>" selected><?php echo $agent['agentName'];?></option>
+            <label>Select Delegate Name</label>
+            <select class="form-control select2" name="delegateId" id="delegateId" required>
+                <option value="">--- Select Delegate ---</option>
+                <?php while($delegate = mysqli_fetch_assoc($result)){?>
+                    <?php if($delegate['delegateId'] == $delegate_id){?>
+                        <option value="<?php echo $delegate['delegateId'];?>" selected><?php echo $delegate['delegateName'];?></option>
                     <?php }else{ ?>
-                        <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
+                        <option value="<?php echo $delegate['delegateId'];?>"><?php echo $delegate['delegateName'];?></option>
                     <?php } ?>
                 <?php } ?>
             </select>
@@ -29,12 +29,12 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
         <div class="form-group">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label>Full Amount</label>
-                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" required>
+                    <label>Number of Candidates</label>
+                    <input class="form-control" type="number" name="candidateNumber" placeholder="Enter Candidate Number" required>
                 </div>
                 <div class="form-group col-md-6">                    
-                    <label>Purpose</label>
-                    <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" required>
+                    <label>Amount</label>
+                    <input class="form-control" type="number" name="amount" placeholder="Enter Amount" required>
                 </div>       
                 <div class="form-group col-md-6">                    
                     <label>Pay Date</label>
@@ -65,6 +65,6 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
 
 <script>
     window.onload = function() {
-        $('#agentNav').addClass('active');
+        $('#delegateNav').addClass('active');
     };
 </script>

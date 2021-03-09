@@ -1,6 +1,8 @@
 <?php
 $candidateName = $_POST['candidateName'];
-$passportNum = $_POST['passportNum'];
+$passport_info = explode("_",$_POST['passport_info']);
+$passportNum = $passport_info[0];
+$passportCreationDate = $passport_info[1];
 $agentEmail = $_POST['agentEmail'];
 if(isset($_POST['visaNo'])){
     $visaNo = $_POST['visaNo'];
@@ -41,8 +43,8 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
             </div>
             <div class="form-group col-md-6" >
                 <label>Candidate Name</label>
-                <select class="form-control" name="passportNum" id="" readonly>
-                    <option value="<?php echo $passportNum?>"><?php echo $candidateName?></option>
+                <select class="form-control" name="passport_info" id="" readonly>
+                    <option value="<?php echo $passportNum."_".$passportCreationDate?>"><?php echo $candidateName?></option>
                 </select>
             </div>
         </div>
@@ -72,8 +74,11 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
                         <label>Payment Method</label>
                         <select class="form-control" name="paymentMethod" id="">
                             <option value="">-- Select PM Method --</option>
-                            <option>Cash</option>
-                            <option>Bkash</option>
+                            <?php
+                            $result = $conn->query("SELECT paymentMode from paymentmethod");
+                            while($payMode = mysqli_fetch_assoc($result)){ ?>
+                                <option><?php echo $payMode['paymentMode'];?></option>
+                            <?php } ?>
                         </select>
                     </div>  
                            

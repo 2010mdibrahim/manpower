@@ -22,8 +22,8 @@
             </div>
             <div class="form-group col-md-6">
                 <label>Gender <span class="danger" id="genderDanger">Select Gender</span> </label>
-                <select class="form-control" name="gender" id="gender">
-                    <option value="notSet">----- Select Gender -----</option>
+                <select class="form-control" name="gender" id="gender" required>
+                    <option value="">----- Select Gender -----</option>
                     <option>Male</option>
                     <option>Female</option>
                 </select>
@@ -54,8 +54,8 @@
         <h4 class="bg-light">Passport Information</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Passport No.</label>
-                <input type="text" class="form-control" required="required" name="passportNum" placeholder="Enter Passport Number"/>
+                <label>Passport No. <span id="pass_danger" style="color: red;display:none">Passport Already Exists</span></label>
+                <input type="text" class="form-control" required="required" name="passportNum" id="passportNum" placeholder="Enter Passport Number"/>
             </div>            
             <div class="form-group col-md-6">
                 <label>Country</label>
@@ -105,15 +105,15 @@
                 <div class="form-row" id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
                     <div class="col-md-4">
                         <label>Old Visa Copy</label>
-                        <input class="form-control-file" type="file" name="oldVisaFile" id="traningCardFile">
+                        <input class="form-control-file" type="file" name="oldVisaFile" id="oldVisaFile">
                     </div>
                     <div class="col-md-4">
                         <label>Departure Seal</label>
-                        <input class="form-control-file" type="file" name="departureSealFile" id="traningCardFile">
+                        <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
                     </div>
                     <div class="col-md-4">
                         <label>Arrival Seal</label>
-                        <input class="form-control-file" type="file" name="arrivalSealFile" id="traningCardFile">
+                        <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
                     </div>
                     <div class="col-md-6">
                         <label>Departure Date</label>
@@ -128,10 +128,24 @@
         </div>
         <div class="form-group">
             <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
+                    <select class="form-control select2" id="manpower" name="manpower" required>
+                        <option value="">----- Select Office ------</option>
+                        <?php
+                        $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
+                        while($manpower = mysqli_fetch_assoc($result)){
+                        ?>
+                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-6" id="agentNotOffice">
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
-                    <select class="form-control select2" name="agentEmail" id="agent">
-                        <option value="notSet">------ Select Option ------</option>
+                    <select class="form-control select2" name="agentEmail" id="agent" required>
+                        <option value="">------ Select Option ------</option>
                         <?php 
                         $result = $conn->query("select agentEmail, agentName from agent");
                         while($agent = mysqli_fetch_assoc($result)){
@@ -139,23 +153,52 @@
                             <option value="<?php echo $agent['agentEmail'];?>"><?php echo $agent['agentName'];?></option>
                         <?php } ?>
                     </select>
-                </div>
-                <div class="form-group col-md-6">
-                <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
-                <select class="form-control select2" id="manpower" name="manpower">
-                    <option value="notSet">----- Select Office ------</option>
-                    <?php
-                    $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
-                    while($manpower = mysqli_fetch_assoc($result)){
-                    ?>
-                        <option><?php echo $manpower['manpowerOfficeName']; ?></option>
-                    <?php } ?>
-                </select>
-            </div> 
+                </div>                 
             </div>                       
         </div>
-        <div class="form-row">
+        <div class="form-row"> 
+            <div class="form-group col-md-6">
+                <label>Comission</label>
+                <input class="form-control" type="number" name="comission" placeholder="Enter Amount" required>
+            </div>
             
+            <div class="col-md-6 text-center">
+                <label for="">Advance</label>
+                <div class="form-group">
+                    <label class="parking_label">Yes
+                        <input type="radio" name="advance" id="advance_yes" value="yes" required>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="parking_label">No
+                        <input type="radio" name="advance" id="advance_no" value="no" checked required>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>                
+            </div>
+            
+        </div>
+        <div class="form-row" id="advance_take" style="display: none;">
+            <div class="form-group col-md-6">                    
+                <label>Advance</label>
+                <input class="form-control" type="number" name="advance_amount" id="advance_amount" placeholder="Enter Amount">
+            </div>       
+            <div class="form-group col-md-6">                    
+                <label>Pay Date</label>
+                <input class="form-control datepicker" type="text" autocomplete="off" name="payDate" id="payDate" placeholder="Enter Payment Date">
+            </div> 
+            <div class="form-group col-md-6">                    
+                <label>Payment Mode</label>
+                <select class="form-control" name="payMode" id="payMode">
+                    <option value="">Select Payment Mode</option>
+                    <?php
+                    $result = $conn->query("SELECT paymentMode from paymentmethod");
+                    while($payMode = mysqli_fetch_assoc($result)){ ?>
+                        <option><?php echo $payMode['paymentMode'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">            
             <div class="form-group col-md-6">
                 <label>Comment</label>
                 <input type="text" class="form-control" name="comment" placeholder="Anything to add..."/>
@@ -233,112 +276,87 @@
 
 <script>
 
+    $('body').on('change', '#passportNum', function(){
+        const passportNum = $('#passportNum').val();
+        $.ajax({
+            url: 'template/checkPassport.php',
+            type: 'post',
+            data: {passportNum: passportNum},
+            success: function(exist){
+                if(exist === 'yes'){
+                    $('#pass_danger').show();
+                }else{
+                    $('#pass_danger').hide();
+                }
+            }
+        });
+    });
+
     // radio toggle
     $('body').on('click', "input[type='radio']", function(){
         const experience = $("input[name='experience']:checked").val();
         const policeVerification = $("input[name='policeVerification']:checked").val();
         const passportPhoto = $("input[name='passportPhoto']:checked").val();
         const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
+        const advance = $("input[name='advance']:checked").val();
+        
+        if(advance === 'yes'){
+            $('#advance_amount').prop('required',true);
+            $('#payDate').prop('required',true);
+            $('#payMode').prop('required',true);
+            $('#advance_take').show();
+        }else if(advance === 'no'){
+            $('#advance_take').hide();
+            $('#advance_amount').prop('required',false);
+            $('#payDate').prop('required',false);
+            $('#payMode').prop('required',false);
+        }
 
         if(experience === 'yes'){
             $('#experienced').show();
             $('#trainingCard_div').hide();
+            $('#oldVisaFile').prop('required',true);
+            $('#departureSealFile').prop('required',true);
+            $('#arrivalSealFile').prop('required',true);
+            $('#departureDate').prop('required',true);
+            $('#arrivalDate').prop('required',true);
+            $('#traningCardFile').prop('required',false);
         }else if(experience === 'no'){
             $('#experienced').hide();
             $('#trainingCard_div').show();
+            $('#oldVisaFile').prop('required',false);
+            $('#departureSealFile').prop('required',false);
+            $('#arrivalSealFile').prop('required',false);
+            $('#departureDate').prop('required',false);
+            $('#arrivalDate').prop('required',false);
+            $('#traningCardFile').prop('required',true);
         }
 
         if(policeVerification === 'yes'){
+            $('#policeVerification').prop('required',true);
             $('#policeFile').show();
         }else if(policeVerification === 'no'){
+            $('#policeVerification').prop('required',false);
             $('#policeFile').hide();
         }
 
         if(passportPhoto === 'yes'){
+            $('#photoFile_input').prop('required',true);
             $('#photoFile').show();
         }else if(passportPhoto === 'no'){
+            $('#photoFile_input').prop('required',false);
             $('#photoFile').hide();
-        }
-
-        if(agentOrOffice === 'office'){
-            $('#agentNotOffice').hide();
-            $('#officeNotAgent').show();
-        }else if(agentOrOffice === 'agent'){
-            $('#agentNotOffice').show();
-            $('#officeNotAgent').hide();
         }
     });
     
     // form validation
-    $('body').on('submit', '#candidateForm', function(){       
-        let gender = $('#gender').val();
-        let agent = $('#agent').val();
-        let office = $('#office').val();
-        let mobNum = $('#mobNum').val();
-        let jobType = $('#jobType').val();
-        const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
-        const experience = $("input[name='experience']:checked").val();
-        const policeVerification = $("input[name='policeVerification']:checked").val();
-        const photo = $("input[name='passportPhoto']:checked").val();
-        const manpower = $('#manpower').val();
-        
-        if(jobType == 'notSet'){
-            $('#jobType_danger').show();
-            $('html, body').animate({
-                scrollTop: ($('.date_error').offset().top - 300)
-            }, 500);
-            return false;
-        }
-
-        if(experience === 'yes'){
-            $('.experience_dates').prop('required', true);
-        }
-
-        if(policeVerification === 'yes'){
-            $('#policeVerification').prop('required', true);
-        }
-
-        if(photo === 'yes'){
-            $('#photoFile_input').prop('required', true);
-        }
-        
+    $('body').on('submit', '#candidateForm', function(){
+        let mobNum = $('#mobNum').val();        
 
         if(mobNum.length != 11){
             $('#mobNum_danger').show();
             $('html, body').animate({
                 scrollTop: ($('.date_error').offset().top - 300)
-            }, 500);
-            return false;
-        }
-        if(gender == 'notSet'){
-            $('#genderDanger').show();
-            $('html, body').animate({
-                scrollTop: ($('.date_error').offset().top - 300)
-            }, 500);
-            return false;
-        }
-        if(agentOrOffice == 'agent'){
-            if(agent == 'notSet'){
-                $('#agent_validation').show();
-                $('html, body').animate({
-                    scrollTop: ($('.date_error').offset().top)
-                }, 500);
-                return false;
-            }
-        }
-        if(agentOrOffice == 'office'){
-            if(office == ''){
-                $('#office_validation').show();
-                $('html, body').animate({
-                    scrollTop: ($('.date_error').offset().top)
-                }, 500);
-                return false;
-            }
-        }  
-        if(manpower == 'notSet'){
-            $('#manpower_danger').show();
-            $('html, body').animate({
-                scrollTop: ($('.date_error').offset().top)
             }, 500);
             return false;
         }      

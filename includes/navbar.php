@@ -62,6 +62,8 @@
                         <div class="dropdown-menu">
                             <a href="?page=addNewDelegate" class="dropdown-item">Add New Delegate</a>
                             <a href="?page=delegateList" class="dropdown-item">Delegate List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=addDelegateExpense" class="dropdown-item">Add delegate expense</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -81,9 +83,8 @@
                             <a href="?page=manpowerList" class="dropdown-item">Office List</a>
                         </div>
                     </div>  
-                    <div class="nav-item dropdown">
-                        <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
-                    </div>                  
+                    <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
+                    <a href="?page=payMode" class="nav-item nav-link"  id="jobsNav">Pay Mode</a>                
                     <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
                 </div>
                 <div class="ml-auto">

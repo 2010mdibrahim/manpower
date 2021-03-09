@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) where visaAmount != 0");
+$result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegate on sponsor.delegateId = delegate.delegateId where visaAmount != 0");
 ?>
 <style>
     .flex-container {
@@ -22,6 +22,7 @@ $result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.spon
                         <th>Sponsor Name</th>
                         <th>Sponsor NID</th>
                         <th>VISA No.</th>
+                        <th>Country</th>
                         <th>Issue Date</th>
                         <th>VISA Amount</th>
                         <th>Gender</th> 
@@ -38,6 +39,7 @@ $result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.spon
                             <td><?php echo $visaList['sponsorName'];?></td>
                             <td><?php echo $visaList['sponsorNID'];?></td>
                             <td><?php echo $visaList['sponsorVisa'];?></td>
+                            <td><?php echo $visaList['country'];?></td>
                             <td><?php echo $visaList['issueDate'];?></td>
                             <td><?php echo $visaList['visaAmount'];?></td>
                             <td><?php echo $visaList['visaGenderType'];?></td>
@@ -78,6 +80,7 @@ $result = $conn -> query("SELECT jobs.jobType, sponsor.sponsorName, sponsor.spon
                         <th>Sponsor Name</th>
                         <th>Sponsor NID</th>
                         <th>VISA No.</th>
+                        <th>Country</th>
                         <th>Issue Date</th>
                         <th>VISA Amount</th>
                         <th>Gender</th> 

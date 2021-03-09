@@ -1,7 +1,7 @@
 <?php
 // include ('includes/select2.php');
 // include ('includes/ajax.php');
-$result = $conn->query("SELECT passportNum, fName, lName from passport where finalMedical = 'yes'");
+$result = $conn->query("SELECT passportNum, creationDate, fName, lName from passport where finalMedical = 'yes'");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -14,12 +14,12 @@ $result = $conn->query("SELECT passportNum, fName, lName from passport where fin
                 <!-- PASSPORT INFORMATION -->
                 <div class="form-group col-md-6">
                     <label> Passport </label>
-                    <select class="form-control select2" id="passport" name="passportNum">
+                    <select class="form-control select2" id="passport" name="passport_info">
                         <option>Select Passport</option>
                         <?php
                         while($passport = mysqli_fetch_assoc($result)){
                         ?>
-                            <option value="<?php echo $passport['passportNum']; ?>"><?php echo $passport['fName']." ".$passport['lName']." - ".$passport['passportNum']; ?></option>
+                            <option value="<?php echo $passport['passportNum']."_".$passport['creationDate']; ?>"><?php echo $passport['fName']." ".$passport['lName']." - ".$passport['passportNum']; ?></option>
                         <?php } ?>
                     </select>                    
                 </div>  

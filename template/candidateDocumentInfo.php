@@ -1,6 +1,7 @@
 <?php
 $passportNum = base64_decode($_GET['p']);
-$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,oldVisa, oldVisaFile, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passport where passportNum = '$passportNum'"));
+$creationDate = base64_decode($_GET['cd']);
+$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,oldVisa, oldVisaFile, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
 <style>

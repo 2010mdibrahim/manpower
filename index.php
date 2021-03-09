@@ -309,6 +309,12 @@ if(!empty($_POST['pagePost'])){
             include('template/editCandidatePayment.php');
         }else if($page == 'agentReport') {
             include('template/reports/agentReport.php');
+        }else if($page == 'payMode') {
+            include('template/payMode.php');
+        }else if($page == 'addDelegateExpense') {
+            include('template/addDelegateExpense.php');
+        }else if($page == 'dlel') {
+            include('template/delegateExpenseList.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
@@ -341,12 +347,6 @@ if(!empty($_POST['pagePost'])){
     $('.select2').select2({
         width: '100%'
     });
-
-    // $.fn.datepicker.defaults.format = "yyyy/mm/dd";
-    // $('.datepicker').datepicker({
-    //     format: "yyyy/mm/dd"
-    // }); 
-
 
     
 </script>

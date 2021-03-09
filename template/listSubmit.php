@@ -3,7 +3,9 @@ include ('database.php');
 if(isset($_POST['mode'])){    
     $mode = $_POST['mode'];
     if($mode == 'policeVerification'){
-        $passportNum = $_POST['modalPassportPolice'];
+        $passportNum_info = explode("_",$_POST['modalPassportPolice']);
+        $passportNum = $passportNum_info[0];
+        $passportCreationDate = $passportNum_info[1];
         $path_filename_ext = '';
         $temp_name = '';
         $target_dir = '';
@@ -16,10 +18,10 @@ if(isset($_POST['mode'])){
             $path = pathinfo($file);
             $ext = $path['extension'];
             $temp_name = $_FILES['policeClearance']['tmp_name'];
-            $path_filename_ext = $base_dir.$target_dir."policeVerification"."-".$passportNum.".".$ext;
+            $path_filename_ext = $base_dir.$target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $passportCreationDate).".".$ext;
         }
-        $fileName = $target_dir."policeVerification"."-".$passportNum.".".$ext;
-        $result = $conn->query("UPDATE passport set policeClearanceFile = '$fileName', policeClearance = 'yes' where passportNum = '$passportNum'");
+        $fileName = $target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $passportCreationDate).".".$ext;
+        $result = $conn->query("UPDATE passport set policeClearanceFile = '$fileName', policeClearance = 'yes' where passportNum = '$passportNum' AND creationDate = '$passportCreationDate'");
         if($result){
             if (($_FILES['policeClearance']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);

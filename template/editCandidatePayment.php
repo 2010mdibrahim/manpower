@@ -1,6 +1,8 @@
 <?php
 $candidateName = $_POST['candidateName'];
-$passportNum = $_POST['passportNum'];
+$passport_info = explode("_",$_POST['passport_info']);
+$passportNum = $passport_info[0];
+$passportCreationDate = $passport_info[1];
 $agentEmail = $_POST['agentEmail'];
 
 if(isset($_POST['expenseId'])){
@@ -40,7 +42,6 @@ if(isset($_POST['advancePayMode'])){
 }else{
     $payMode = '';
 }
-print_r($payMode);
 $amount = $_POST['amount'];
 $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agentEmail = '$agentEmail'"));
 ?>
@@ -48,7 +49,6 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
     <div class="section-header">
         <h2>Edit Expense</h2>
     </div>
-    <?php echo $advanceAmount.":";?>
     <form action="template/addCandidatePaymentQry.php" method="post">
         <input type="hidden" name="advanceId" value="<?php echo $advanceId; ?>">
         <input type="hidden" name="expenseId" value="<?php echo $expenseId; ?>">
@@ -63,8 +63,8 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
             </div>
             <div class="form-group col-md-6" >
                 <label>Candidate Name</label>
-                <select class="form-control" name="passportNum" id="" readonly>
-                    <option value="<?php echo $passportNum?>"><?php echo $candidateName?></option>
+                <select class="form-control" name="passport_info" id="" readonly>
+                    <option value="<?php echo $passportNum."_".$passportCreationDate?>"><?php echo $candidateName?></option>
                 </select>
             </div>
         </div>

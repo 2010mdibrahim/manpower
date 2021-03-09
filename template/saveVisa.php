@@ -16,7 +16,9 @@ if($alter == 'delete'){
       echo "<script> window.location.href='../index.php?page=visaList'</script>";
    }
 }else{
-   $passportNum = $_POST['passportNum'];
+   $passport_info = explode("_",$_POST['passport_info']);
+   $passportNum = $passport_info[0];
+   $passportCreationDate = $passport_info[1];
    $sponsorInfo = explode('-',$_POST['sponsorInfo']);
    $sponsorVisa = $sponsorInfo[0];
    $visaAmount = intval($sponsorInfo[1]);
@@ -24,11 +26,8 @@ if($alter == 'delete'){
 
    $date = date("Y-m-d");
    $admin = $_SESSION['email'];
-   // $comment = $_POST['comment'];
    $curdate = date("Y/m/d H:i:s");
-   $creatDate = date("Y-m-d H:i:s", strtotime('+3 hours', strtotime($curdate)));
-   // print_r("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment')");
-   $result = $conn->query("INSERT into processing (passportNum, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$sponsorVisa', '$admin', '$date', '$creatDate', '$comment', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
+   $result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$passportCreationDate', '$sponsorVisa', '$admin', '$date', '$curdate', '$comment', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
    if($result){
       $visaAmount -= 1;
       $deduct_visa = $conn->query("UPDATE sponsorvisalist set visaAmount = $visaAmount where sponsorVisa = '$sponsorVisa'");
