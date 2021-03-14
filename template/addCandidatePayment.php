@@ -31,7 +31,7 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
         <h2>Add Expense</h2>
     </div>
     
-    <form action="template/addCandidatePaymentQry.php" method="post">
+    <form action="template/addCandidatePaymentQry.php" method="post" id="paymentForm">
         <input type="hidden" name="comission_id" value="<?php echo $comission_id?>">
         <input type="hidden" name="visaNo" value="<?php echo $visaNo; ?>">
         <div class="form-row">
@@ -54,25 +54,25 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Full Amount</label>
-                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" <?php echo ($comission_id >= 0) ? 'value="'.$comission_amount.'" readonly' : '';?>>
+                    <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" <?php echo ($comission_id >= 0) ? 'value="'.$comission_amount.'" readonly' : '';?> required>
                 </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>
-                    <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" <?php echo ($purpose != '') ? 'value="'.$purpose.'" readonly' : '';?> >
+                    <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" <?php echo ($purpose != '') ? 'value="'.$purpose.'" readonly' : '';?> required>
                 </div>
                 <?php if($purpose == 'Comission' || $purpose == ''){?>
                     <div class="form-group col-md-6">
                         <label>Advance</label>
-                        <input class="form-control" type="number" name="advance" placeholder="BDT">
+                        <input class="form-control" type="number" name="advance" id="advance" placeholder="BDT">
                     </div>                
                     <div class="form-group col-md-6">
                         <label>Advance Pay Date</label>
-                        <input class="form-control datepicker" autocomplete="off" type="text" name="paydate" placeholder="yyyy/mm/dd">
+                        <input class="form-control datepicker" autocomplete="off" type="text" name="paydate" id="paydate" placeholder="yyyy/mm/dd">
                     </div> 
                 <?php } ?>  
                     <div class="form-group col-md-6">
                         <label>Payment Method</label>
-                        <select class="form-control" name="paymentMethod" id="">
+                        <select class="form-control" name="paymentMethod" id="" required>
                             <option value="">-- Select PM Method --</option>
                             <?php
                             $result = $conn->query("SELECT paymentMode from paymentmethod");
@@ -95,6 +95,15 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
 </div>
 
 <script>
+    $(document).ready(function(){
+        $("#paymentForm input[name='advance']").blur(function(){
+            if($("input[name='advance']").val() === ''){
+                $('#paydate').prop('required', false);
+            }else{
+                $('#paydate').prop('required', true);
+            }
+        });
+    });
     window.onload = function() {
         $('#agentNav').addClass('active');
     };

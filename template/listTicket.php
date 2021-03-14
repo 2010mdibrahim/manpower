@@ -35,9 +35,9 @@
                     while($ticket = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><?php echo $ticket['passportNum'];?></td>
-                            <td><?php  echo $ticket['airline'];?></td>
-                            <td><?php  echo $ticket['flightNo'];?></td>
-                            <td><?php  echo $ticket['flightDate'];?></td>
+                            <td><?php echo $ticket['airline'];?></td>
+                            <td><?php echo $ticket['flightNo'];?></td>
+                            <td><?php echo $ticket['flightDate'];?></td>
                             <td>
                             <?php  
                             if($ticket['transit'] == 0.0){

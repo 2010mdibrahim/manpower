@@ -4,7 +4,8 @@ if(isset($_POST['passportNum'])){
 }else{
     $passportNum = '';
 }
-$candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where passportNum = '$passportNum'"));
+$creationDate = $_POST['creationDate'];
+$candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
@@ -27,6 +28,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
     </div>
     <form action="template/editCandidateQry.php" method="post" enctype="multipart/form-data" id="candidateForm">
         <input type="hidden" name="currentPassport" value="<?php echo $candidate['passportNum'];?>">
+        <input type="hidden" name="currentCreationDate" value="<?php echo $creationDate;?>">
         <input type="hidden" name="alter" value="update">
         <h4 class="bg-light">Candidate Information</h4>
         <div class="form-row">

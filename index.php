@@ -53,11 +53,29 @@ if(!empty($_POST['pagePost'])){
 
 </style>
 <body>
+<?php include ('template/database.php'); ?>
 <div id="seaum_alert">
-
+<?php
+$result_count = mysqli_fetch_assoc($conn->query("SELECT count(ticketId) as count_ticket from ticket where ticket.notified != 'yes'"));
+$result = $conn->query("SELECT passport.fName, passport.lName, ticket.flightDate, ticket.ticketId from ticket inner join passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where ticket.notified != 'yes'");
+$today = new DateTime(date('Y-m-d'));
+if($result_count['count_ticket'] > 0){
+    echo"   <script>function showNotification() {
+                icon = 'image-url';";
+    while($ticket = mysqli_fetch_assoc($result)){
+        $flightDate = new DateTime($ticket['flightDate']);
+        $dateDiff = $flightDate->diff($today);
+        if($dateDiff->d < 3){
+            $update_notify = $conn->query("UPDATE ticket set notified = 'yes' where ticketId = ".$ticket['ticketId']);
+            echo "var body = '".$ticket['fName']." ".$ticket['lName']." remaining day: ".$dateDiff->d."';";
+            echo "var notification = new Notification('Ticket Alert', {body,icon});";
+        }
+    }
+    echo "  } </script>";
+}
+?>
 <div class="wrapper">
     <?php
-    include ('template/database.php');
     if(isset($_SESSION['email']) === false){
         include 'template/login.php';
     }else{
@@ -315,15 +333,16 @@ if(!empty($_POST['pagePost'])){
             include('template/addDelegateExpense.php');
         }else if($page == 'dlel') {
             include('template/delegateExpenseList.php');
+        }else if($page == 'svf') {
+            include('template/showVisaStampingFiles.php');
+        }else if($page == 'demo') {
+            include('template/demo.php');
         }else{
             include ('template/service.php');
             include 'includes/newsletter.php';
         }
         include 'includes/footer.php';
     } ?>
-
-
-
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </div>
@@ -347,6 +366,15 @@ if(!empty($_POST['pagePost'])){
     $('.select2').select2({
         width: '100%'
     });
+
+    let permission = Notification.permission;
+    if(permission === 'default'){
+        Notification.requestPermission();
+    }
+
+    window.onload = showNotification();
+
+
 
     
 </script>

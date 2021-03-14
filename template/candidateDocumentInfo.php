@@ -21,11 +21,17 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
         <div class="card-header text-center"> Passport Information </div>
         <div class="card-body text-center">
             <p><?php echo $candidate['fName']." ".$candidate['lName'] ?></p>
-            <?php if($candidate['passportPhoto'] == 'yes'){?>
-                <img src="<?php echo $candidate['passportPhotoFile'];?>" alt="No photo" height="100" width="100">
-            <?php }else{ ?>
-                <p style="color: red;">No Photo Uploaded</p>
-            <?php } ?>
+            <div class="row">
+                <?php if($candidate['passportPhoto'] == 'yes'){?>
+                    <div class="col-sm">
+                        <img src="<?php echo $candidate['passportPhotoFile'];?>" alt="No photo" height="100" width="100">
+                    </div>
+                <?php }else{ ?>
+                    <div class="col-sm">
+                        <p style="color: red;">No Photo Uploaded</p>
+                    </div>
+                <?php } ?>
+            </div>
         </div>
         <hr>
         <div class="card-body">

@@ -1,3 +1,12 @@
+<?php
+if(isset($_GET['p'])){
+    $selectedPassport = base64_decode($_GET['p']);
+    $selectedCreationDate = base64_decode($_GET['cd']);
+}else{
+    $selectedPassport = '';
+    $selectedCreationDate = '';
+}
+?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>New Ticket</h2>
@@ -5,14 +14,17 @@
         <form action="template/newTicketInsert.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="sel1">Select Passport Number:</label>
-                <select class="form-control select2" id="passport" name="passportNum">
+                <select class="form-control select2" id="passport" name="passport_info">
                     <option>Select passport</option>
                     <?php 
-                    $result = $conn->query("SELECT passportNum, fName, lName from passport order by creationDate desc");
+                    $result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
                     while($passNo = mysqli_fetch_assoc($result)){ 
+                        if($passNo['passportNum'] == $selectedPassport && $passNo['creationDate'] == $selectedCreationDate){
                     ?>
-                        <option value="<?php echo $passNo['passportNum']; ?>"><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
-                    <?php } ?>
+                        <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate']; ?>" selected><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
+                    <?php }else{ ?>
+                        <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate']; ?>"><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
+                    <?php } } ?>
                 </select>
             </div>
             <br>

@@ -9,7 +9,7 @@
                 <a href="?page=selectReportByNameDate&by=nameDate">Agent Report By Name and Date</a>
             </div>
             <div>
-                <a href="">Income Expense Report</a>
+                <a href="?page=demo">Income Expense Report</a>
             </div>
         </div>
         <div class="column col-md-6" style="padding: 2%">

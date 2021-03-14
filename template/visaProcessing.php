@@ -1,11 +1,20 @@
 <?php
 include ('database.php');
 $mode = $_POST['mode'];
-$passportNum = $_POST['passportNum'];
+if(isset($_POST['passportNum'])){
+    $passportNum = $_POST['passportNum'];
+}else{
+    $passportNum = '';
+}
 if(isset($_POST['sponsorVisa'])){
     $sponsorVisa = $_POST['sponsorVisa'];
 }else{
     $sponsorVisa = '';
+}
+if(isset($_POST['processingId'])){
+    $processingId = $_POST['processingId'];
+}else{
+    $processingId = '';
 }
 
 if ($mode == 'empRqstMode') {
@@ -32,8 +41,7 @@ if ($mode == 'empRqstMode') {
     }else{
         echo "<script>window.alert('Error')</script>";
     }
-}else if($mode == 'okalaMode'){
-    $okala = $_POST['okala'];   
+}else if($mode == 'okalaMode'){  
     if (($_FILES['okalaCard']['name'] != "")){
         // Where the file is going to be stored
         $target_dir = "uploads/okala/";
@@ -41,10 +49,10 @@ if ($mode == 'empRqstMode') {
         $path = pathinfo($file);
         $ext = $path['extension'];
         $temp_name = $_FILES['okalaCard']['tmp_name'];
-        $okalaFile = $target_dir."okala"."_".$passportNum."_".$sponsorVisa.".".$ext;
-        $path_filename_ext = $base_dir.$target_dir."okala"."_".$passportNum."_".$sponsorVisa.".".$ext;
+        $okalaFile = $target_dir."okala"."_".$processingId.".".$ext;
+        $path_filename_ext = $base_dir.$target_dir."okala"."_".$processingId.".".$ext;
     }
-    $result = $conn -> query("UPDATE processing set okala = 'yes', okalaFile = '$okalaFile' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
+    $result = $conn -> query("UPDATE processing set okala = 'yes', okalaFile = '$okalaFile' where processingId = $processingId");
     if($result){
         if (($_FILES['okalaCard']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
@@ -62,10 +70,10 @@ if ($mode == 'empRqstMode') {
         $path = pathinfo($file);
         $ext = $path['extension'];
         $temp_name = $_FILES['mufaCard']['tmp_name'];
-        $mufaFile = $target_dir."mufa"."_".$passportNum."_".$sponsorVisa.".".$ext;
-        $path_filename_ext = $base_dir.$target_dir."mufa"."_".$passportNum."_".$sponsorVisa.".".$ext;
+        $mufaFile = $target_dir."mufa"."_".$processingId.".".$ext;
+        $path_filename_ext = $base_dir.$target_dir."mufa"."_".$processingId.".".$ext;
     }
-    $result = $conn -> query("UPDATE processing set mufa = 'yes', mufaFile = '$mufaFile' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
+    $result = $conn -> query("UPDATE processing set mufa = 'yes', mufaFile = '$mufaFile' where processingId = $processingId");
     if($result){
         if (($_FILES['mufaCard']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
@@ -88,25 +96,53 @@ if ($mode == 'empRqstMode') {
         echo "<script>window.alert('Error')</script>";
     }
 }else if($mode == 'stampingMode'){
-    $stampingDate = $_POST['stampingDate'];
-    if (($_FILES['visaFile']['name'] != "")){
-        // Where the file is going to be stored
-        $target_dir = "uploads/visa/";
-        $file = $_FILES['visaFile']['name'];
-        $path = pathinfo($file);
-        $ext = $path['extension'];
-        $temp_name = $_FILES['visaFile']['tmp_name'];
-        $visaFile = $target_dir."visaFile"."_".$passportNum."_".$sponsorVisa.".".$ext;
-        $path_filename_ext = $base_dir.$target_dir."visaFile"."_".$passportNum."_".$sponsorVisa.".".$ext;
-    }
-    $result = $conn -> query("UPDATE processing set visaFile = '$visaFile', visaStampingDate = '$stampingDate', visaStamping = 'yes' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");    
-    if($result){
-        if (($_FILES['visaFile']['name'] != "")){
-            move_uploaded_file($temp_name,$path_filename_ext);
+    if(isset($_POST['alter'])){ //delete
+        $visaFileId = $_POST['visaFileId'];
+        $result = $conn -> query("DELETE from visafile where visaFileId = $visaFileId");
+        if($result){
+            echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
+        }else{
+            echo mysqli_error($conn);
         }
-        echo "<script> window.location.href='../index.php?page=visaList'</script>";
-    }else{
-        echo "<script>window.alert('Error')</script>";
+    }else{ //insert & update
+        if(isset($_POST['stampingDate'])){
+            $stampingDate = $_POST['stampingDate'];
+            $result = $conn->query("UPDATE processing set visaStamping = 'yes', visaStampingDate = '$stampingDate' where processingId = $processingId");
+        }
+        foreach ( $_FILES as $name ) {
+            $count = count($name['name']);
+            for($i = 0; $i < $count ; $i++){
+                $target_dir = "uploads/visa/";
+                $temp_name = $name['tmp_name'][$i];
+                $path = pathinfo($name['name'][$i]);
+                $ext = $path['extension'];
+                $path_filename_ext = $base_dir.$target_dir."visaFile_".$i."_".$processingId."_".".".$ext;
+                $data_path = $target_dir."visaFile_".$i."_".$processingId."_".".".$ext;
+                if(isset($_POST['visaFileId'])){
+                    $file_serial = $_POST['file_serial'];
+                    $path_filename_ext = $base_dir.$target_dir."visaFile_".$file_serial."_".$processingId."_".".".$ext;
+                    $data_path = $target_dir."visaFile_".$file_serial."_".$processingId."_".".".$ext;
+                    $visaFileId = $_POST['visaFileId'];   
+                    $result = $conn -> query("UPDATE visafile set visaFile = '$data_path' where visaFileId = $visaFileId");
+                    if($result){
+                        move_uploaded_file($temp_name,$path_filename_ext);
+                        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."&t=".rand(0,10)."'</script>";
+                    }else{
+                        echo mysqli_error($conn);
+                    }
+                }else{
+                    $result = $conn -> query("INSERT into visaFile (visaFile, processingId) values ('$data_path',$processingId)");
+                    if($result){
+                        move_uploaded_file($temp_name,$path_filename_ext);
+                        echo "<script> window.location.href='../index.php?page=visaList'</script>";
+                    }else{
+                        echo mysqli_error($conn);
+                    }
+                }
+                
+            }
+        }
+        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
     }
 }else if($mode == 'trainingCardMode'){
     if(isset($_POST['from'])){
@@ -156,11 +192,10 @@ if ($mode == 'empRqstMode') {
         $path = pathinfo($file);
         $ext = $path['extension'];
         $temp_name = $_FILES['manpowerCard']['tmp_name'];
-        $manpower = $target_dir."manpower"."_".$passportNum."_".$sponsorVisa.".".$ext;
-        $path_filename_ext = $base_dir.$target_dir."manpower"."_".$passportNum."_".$sponsorVisa.".".$ext;
+        $manpower = $target_dir."manpower"."_".$processingId.".".$ext;
+        $path_filename_ext = $base_dir.$target_dir."manpower"."_".$processingId.".".$ext;
     }
-    print_r("UPDATE processing set manpowerCardFile = '$manpower', manpowerCard = 'yes' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");
-    $result = $conn -> query("UPDATE processing set manpowerCardFile = '$manpower', manpowerCard = 'yes' where passportNum  = '$passportNum' AND sponsorVisa = '$sponsorVisa'");    
+    $result = $conn -> query("UPDATE processing set manpowerCardFile = '$manpower', manpowerCard = 'yes' where processingId = $processingId");    
     if($result){
         if (($_FILES['manpowerCard']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);

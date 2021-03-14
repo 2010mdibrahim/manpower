@@ -17,7 +17,7 @@
                 <div class="form-group col-md-6">
                     <label for="sel1">Country:</label>
                     <input class="form-control" type="text" name="delegateCountry" id="delegateCountry" placeholder="Country" required>
-                </div> 
+                </div>
                 <div class="form-group col-md-6">
                     <label for="sel1">State:</label>
                     <input class="form-control" type="text" name="delegateState" id="delegateState" placeholder="State" required>

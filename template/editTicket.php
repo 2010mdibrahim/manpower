@@ -74,7 +74,7 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
                     </div>
                     <div class="form-group col-md-3" id="transitHourDiv" style="display: <?php echo ($ticket['transit'] == 0.0) ? 'none' : 'static';?>;">
                         <label for="sel1">Transit:</label>
-                        <input class="form-control col-md-12" type="number" name="transitHour" placeholder="Transit Hours" step="any">
+                        <input class="form-control col-md-12" type="number" name="transitHour" value="<?php echo $ticket['transit']; ?>" step="any">
                     </div>
                     <!-- <div class="form-group col-md-6">
                         <label for="sel1">From:</label>

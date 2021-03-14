@@ -1,7 +1,8 @@
 <?php
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
-    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow from passport where passportNum = '$passportNum' order by passport.creationDate desc");
+    $creationDate = base64_decode($_GET['cd']);
+    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow from passport where passportNum = '$passportNum' and creationDate = '$creationDate'");
 }else{
     $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow from passport order by passport.creationDate desc");
 }
@@ -346,7 +347,7 @@ if(isset($_GET['pp'])){
                         <td>
                         <div class="row">
                         <?php
-                        if($candidate['oldVisa'] == 'no'){ 
+                        if($candidate['oldVisa'] == 'no'){
                             if($candidate['trainingCard'] == 'yes'){ ?>
                                 <div class="col-sm-3">
                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
@@ -384,6 +385,7 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                            <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button>
                                         </form>
                                     </div>
@@ -392,6 +394,7 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
+                                            <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button>
                                         </form>
                                     </div>

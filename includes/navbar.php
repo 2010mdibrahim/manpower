@@ -10,14 +10,11 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
                     <a href="?page=" class="nav-item nav-link">Home</a>
-                    <!-- <a href="?page=admin" class="nav-item nav-link">Admin</a> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="candidateNav">Candidate</a>
                         <div class="dropdown-menu">
                             <a href="?page=newCandidate" class="dropdown-item">New Candidate</a>
                             <a href="?page=listCandidate" class="dropdown-item">Candidate List</a>
-                            <!-- <div class="dropdown-divider"></div> -->
-                            <!-- <a href="?page=candidateVisaList" class="dropdown-item">Candidate VISA List</a> -->
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -25,9 +22,6 @@
                         <div class="dropdown-menu">
                             <a href="?page=newVisa" class="dropdown-item">New Visa</a>
                             <a href="?page=visaList" class="dropdown-item">Visa List</a>
-                            <!-- <div class="dropdown-divider"></div>
-                            <a href="?page=transferVisa" class="dropdown-item">Transfer Visa</a>
-                            <a href="?page=addVisaPayment" class="dropdown-item">Add Visa Payment</a> -->
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -35,17 +29,6 @@
                         <div class="dropdown-menu">
                             <a href="?page=newTicket" class="dropdown-item">New Ticket</a>
                             <a href="?page=listTicket" class="dropdown-item">Candidate Ticket List</a>
-                            <!-- <div class="dropdown-divider"></div>
-                            <a href="?page=selectTicket" class="dropdown-item">Ticket Payment</a> -->
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="expenseNav">Expense</a>
-                        <div class="dropdown-menu">
-                            <a href="?page=newExpense" class="dropdown-item">New Expense</a>
-                            <a href="?page=expenseDetails" class="dropdown-item">Expense Detail</a>
-                            <!-- <div class="dropdown-divider"></div>
-                            <a href="?page=expenseHeader" class="dropdown-item">Expense Header</a> -->
                         </div>
                     </div>
                     <div class="nav-item dropdown">
