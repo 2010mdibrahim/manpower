@@ -278,7 +278,7 @@
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
                         <td><?php echo $visa['fName']." ".$visa['lName'];?></td>
-                        <td><a href="?page=listCandidate&pp=<?php echo base64_encode($visa['passportNum']);?>"><?php echo $visa['passportNum'];?></a></td>
+                        <td><a href="?page=listCandidate&pp=<?php echo base64_encode($visa['passportNum']);?>&cd=<?php echo base64_encode($visa['passportCreationDate']);?>"><?php echo $visa['passportNum'];?></a></td>
                         <td><?php echo $visa['sponsorVisa'];?></td>
                         <td><?php echo $visa['sponsorNID'];?></td>
                         

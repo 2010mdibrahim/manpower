@@ -339,9 +339,7 @@ if($result_count['count_ticket'] > 0){
             include('template/demo.php');
         }else{
             include ('template/service.php');
-            include 'includes/newsletter.php';
         }
-        include 'includes/footer.php';
     } ?>
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
