@@ -203,8 +203,8 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         if (($_FILES['traningCardFile']['name'] != "")){
             move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);
         }        
-        echo "<script>window.alert('Inserted')</script>";        
-        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        // echo "<script>window.alert('Inserted')</script>";      
+        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         echo "<script>window.alert('".$err."')</script>";
