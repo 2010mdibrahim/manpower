@@ -23,7 +23,5 @@
 </form>
 
 <script>
-    window.onload = function() {
-        $('#manpowerNav').addClass('active');
-    };
+    $('#manpowerNav').addClass('active');
 </script>

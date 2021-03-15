@@ -98,8 +98,5 @@ if(isset($_GET['p'])){
         }
         
     });
-
-    window.onload = function() {
-        $('#ticketNav').addClass('active');
-    };
+    $('#ticketNav').addClass('active');
 </script>

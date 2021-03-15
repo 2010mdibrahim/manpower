@@ -59,7 +59,7 @@ $amount = 0;
             <form action="template/editComission.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Adjust Full Comission</h5>
+                        <h5 class="modal-title">Make Full Payment</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -146,6 +146,7 @@ $amount = 0;
                                         <div class="row">
                                             <div class="col-sm">
                                                 <form action="index.php" method="post">
+                                                    <input type="hidden" name="redir" value="<?php echo "ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($creationDate);?>">
                                                     <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
                                                     <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">
                                                     <input type="hidden" name="agentEmail" value="<?php echo $comission['agentEmail'];?>">
@@ -461,7 +462,6 @@ function comissionAmount(info){
 }
 function adjustComissionAmount(info){
     let info_split = info.split('_');
-    alert(info_split);
     $('#comissionIdAdjust').val(info_split[0]);
     $('#passportNumAdjust').val(info_split[1]);
     $('#creationDateAdjust').val(info_split[2]);

@@ -210,4 +210,3 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         echo "<script>window.alert('".$err."')</script>";
         echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }
-// }

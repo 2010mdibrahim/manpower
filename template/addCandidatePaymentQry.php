@@ -5,6 +5,11 @@ if(isset($_POST['alter'])){
 }else{
     $alter = '';
 }
+if(isset($_POST['redir'])){
+    $redir = $_POST['redir'];
+}else{
+    $redir = '';
+}
 if(isset($_POST['advanceId'])){
     $advanceId = $_POST['advanceId'];
 }else{
@@ -86,7 +91,11 @@ if($alter == 'delete'){
     }
 
     if($result){
-            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
+        if($redir != ''){
+            echo "<script> window.location.href='../index.php?page=$redir'</script>";
+        }else{
+            echo "<script> window.location.href='../index.php?page=visaList'</script>";
+        }
     }else{
         echo mysqli_error($conn);
     }   

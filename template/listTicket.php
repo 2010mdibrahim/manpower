@@ -101,8 +101,6 @@
 </div>
 
 <script>
-    window.onload = function() {
-        $('#ticketNav').addClass('active');
-    };
+    $('#ticketNav').addClass('active');
 </script>
 

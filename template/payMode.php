@@ -56,3 +56,7 @@
         </table>
     </div>
 </div>
+
+<script>
+$('#payModeNav').addClass('active');
+</script>

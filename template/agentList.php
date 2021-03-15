@@ -88,7 +88,5 @@
 
 
 <script>
-    window.onload = function() {
-        $('#agentNav').addClass('active');
-    };
+    $('#agentNav').addClass('active');
 </script>

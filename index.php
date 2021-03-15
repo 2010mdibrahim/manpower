@@ -53,6 +53,7 @@ if(!empty($_POST['pagePost'])){
 
 </style>
 <body>
+<div id="data-loading"></div>
 <?php include ('template/database.php'); ?>
 <div id="seaum_alert">
 <?php
@@ -74,6 +75,9 @@ if($result_count['count_ticket'] > 0){
     echo "  } </script>";
 }
 ?>
+<script>
+    var data_loading = '<div style="position: fixed; z-index: 99999; top: 0%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"><center><img src="<?="img/loading.gif";?>" style="margin-top:16%;border-radius:50px 5px 50px 5px;"/></center></div>';
+</script>
 <div class="wrapper">
     <?php
     if(isset($_SESSION['email']) === false){
@@ -323,6 +327,8 @@ if($result_count['count_ticket'] > 0){
             include('template/showCandidatePayment.php');
         }else if($page == 'cI') {
             include('template/candidateDocumentInfo.php');
+        }else if($page == 'ccI') {
+            include('template/completeCandidateDocumentInfo.php');
         }else if($pagePost == 'editCandidatePayment') {
             include('template/editCandidatePayment.php');
         }else if($page == 'agentReport') {
@@ -335,8 +341,22 @@ if($result_count['count_ticket'] > 0){
             include('template/delegateExpenseList.php');
         }else if($page == 'svf') {
             include('template/showVisaStampingFiles.php');
+        }else if($page == 'svfc') {
+            include('template/showVisaStampingFilesComplete.php');
         }else if($page == 'demo') {
             include('template/demo.php');
+        }else if($page == 'completeListCandidate') {
+            include('template/completeListCandidate.php');
+        }else if($page == 'completeVisaList') {
+            include('template/completeVisaList.php');
+        }else if($page == 'cec') {
+            include('template/showCandidatePaymentCompleted.php');
+        }else if($page == 'delegateOfficeExpense') {
+            include('template/delegateOfficeExpense.php');
+        }else if($page == 'delegateOfficeExpenseList') {
+            include('template/delegateOfficeExpenseList.php');
+        }else if($pagePost == 'delegateOfficeExpenseListEdit') {
+            include('template/delegateOfficeExpenseListEdit.php');
         }else{
             include ('template/service.php');
         }

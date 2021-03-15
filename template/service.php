@@ -1,19 +1,4 @@
 <?php
-// $qry = "select SUM(amount) as sumTotal from ticket";
-// $result = mysqli_query($conn,$qry);
-// $ticketInfo = mysqli_fetch_assoc($result);
-// $totalTicketAmount = $ticketInfo['sumTotal'];
-// $qry = "select SUM(paid) as paidTotal from ticket";
-// $result = mysqli_query($conn,$qry);
-// $ticketInfo = mysqli_fetch_assoc($result);
-// $totalPaidTicketAmount = $ticketInfo['paidTotal'];
-// $totalDueTicketAmount = $totalTicketAmount - $totalPaidTicketAmount;
-// $qry = "select SUM(amount) as expenseTotal from expense";
-// $result = mysqli_query($conn,$qry);
-// $expenseInfo = mysqli_fetch_assoc($result);
-// $totalExpenseAmount = $expenseInfo['expenseTotal'];
-
-
 $ticketAmount = mysqli_fetch_assoc($conn->query("SELECT sum(ticketPrice) as price from ticket"));
 $agentAmount = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as price from agentexpense"));
 $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price from expense"));
@@ -84,3 +69,7 @@ $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price fro
     </div>
 </div>
 <!-- Service End -->
+
+<script>
+    $('#home_nav').addClass('active');
+</script>

@@ -3,11 +3,19 @@ include ('database.php');
 $alter = $_POST['alter'];
 $passportNum = $_POST['passportNum'];
 if($alter == 'delete'){
-    $creationDate = $_POST['creationDate'];       
-    $result = $conn -> query("DELETE FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
+    $creationDate = $_POST['creationDate'];    
+    if(isset($_POST['completed'])){
+        $result = $conn -> query("DELETE FROM passportcompleted WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
+    }else{
+        $result = $conn -> query("DELETE FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
+    } 
     if($result){
         echo "<script>window.alert('Deleted')</script>";
-        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        if(isset($_POST['completed'])){
+            echo "<script> window.location.href='../index.php?page=completeListCandidate'</script>";
+        }else{
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        } 
     }else{
         echo "<script>window.alert('Error')</script>";
         echo "<script> window.location.href='../listCandidate.php'</script>";

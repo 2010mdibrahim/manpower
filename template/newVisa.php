@@ -58,9 +58,6 @@ $result = $conn->query("SELECT passportNum, creationDate, fName, lName from pass
             }
         });
     });
-
-    window.onload = function() {
-        $('#visaNav').addClass('active');
-    };
+    $('#visaNav').addClass('active');
 
 </script>

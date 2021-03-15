@@ -97,9 +97,7 @@ $result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsor
 </div>
 
 <script>
-    window.onload = function() {
-        $('#sponsorNav').addClass('active');
-    };
+    $('#sponsorNav').addClass('active');
 </script>
 
 
