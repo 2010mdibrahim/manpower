@@ -68,9 +68,7 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
 </div>
 
 <script>
-    window.onload = function() {
-        $('#manpowerNav').addClass('active');
-    };
+    $('#manpowerNav').addClass('active');
 </script>
 
 

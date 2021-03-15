@@ -112,10 +112,7 @@
     function initHijrDatePickerDefault() {
         $(".hijri-date-input").hijriDatePicker();
     }
-
-    window.onload = function() {
-        $('#sponsorNav').addClass('active');
-    };
+    $('#sponsorNav').addClass('active');       
 
     $('#add_visa').click(function(){
         $.ajax({

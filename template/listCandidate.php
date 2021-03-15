@@ -2,9 +2,9 @@
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
-    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow from passport where passportNum = '$passportNum' and creationDate = '$creationDate'");
+    $result = $conn -> query("SELECT jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport inner join jobs using (jobId) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT passport.*, DATE(passport.creationDate) as creationDateShow from passport order by passport.creationDate desc");
+    $result = $conn -> query("SELECT jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport inner join jobs using (jobId) order by passport.creationDate desc");
 }
 ?>
 
@@ -87,7 +87,7 @@ if(isset($_GET['pp'])){
                     <div class="modal-body">
 
                         <input type="hidden" name="mode" value="policeVerification">
-                        <input type="hidden" name="modalPassportPolice" id="modalPassportPolice" value="">
+                        <input type="hidden" name="modalPassportPolice" id="modalPassportPolice">
                         <input class="form-control" type="file" name="policeClearance">
                         
                     </div>
@@ -256,7 +256,10 @@ if(isset($_GET['pp'])){
                         if($noExp){
                             echo 'New';
                         } ?></td>
-                        <td><?php echo $candidate['country'];?></td>
+                        <td>
+                        <?php echo $candidate['country'];?>
+                        <p style="font-size: 11px;">(<?php echo $candidate['jobType'];?>)</p>
+                        </td>
                         <!-- Test Medical -->
                         <td class="second">
                         <div class="row">              
@@ -274,6 +277,7 @@ if(isset($_GET['pp'])){
                             <?php } ?>
                                 <div class="col-sm-3">
                                     <form action="index.php" method="post">
+                                        <input type="hidden" name="redir" value="listCandidate">
                                         <input type="hidden" name="pagePost" value="addCandidatePayment">
                                         <input type="hidden" name="purpose" value="Test Medical">
                                         <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
@@ -304,6 +308,7 @@ if(isset($_GET['pp'])){
                                 <?php } ?>
                                     <div class="col-sm-3">
                                         <form action="index.php" method="post">
+                                            <input type="hidden" name="redir" value="listCandidate">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="Final Medical">
                                             <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
@@ -328,11 +333,12 @@ if(isset($_GET['pp'])){
                                     </div>                            
                             <?php }else{ ?>
                             <div class="col-sm-3">
-                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum'];?>" onclick="policeClearance(this.value)">No</button>                            
+                                <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="policeClearance(this.value)">No</button>                            
                             </div>
                             <?php } ?>
                             <div class="col-sm-3">
                                 <form action="index.php" method="post">
+                                    <input type="hidden" name="redir" value="listCandidate">
                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
                                     <input type="hidden" name="purpose" value="Police Clearance">
                                     <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
@@ -362,6 +368,7 @@ if(isset($_GET['pp'])){
                             <?php } ?>
                             <div class="col-sm-3">
                                 <form action="index.php" method="post">
+                                    <input type="hidden" name="redir" value="listCandidate">
                                     <input type="hidden" name="pagePost" value="addCandidatePayment">
                                     <input type="hidden" name="purpose" value="Training Card">
                                     <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
@@ -372,7 +379,7 @@ if(isset($_GET['pp'])){
                             </div>                       
                         <?php }else{ ?>
                             <div class="col-sm">
-                                <p class="text-center">Experienced</p>
+                                <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum'])."&cd=.".base64_encode($candidate['creationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
                             </div>
                         <?php } ?>
                         </div>
@@ -448,10 +455,7 @@ function policeClearance(passport_info){
     $('#modalPassportPolice').val(passport_info);
 }
 
-
-window.onload = function() {
-    $('#candidateNav').addClass('active');
-};
+$('#candidateNav').addClass('active');
 </script>
 
 

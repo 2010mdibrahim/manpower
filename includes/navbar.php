@@ -9,12 +9,14 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
-                    <a href="?page=" class="nav-item nav-link">Home</a>
+                    <a href="?page=" class="nav-item nav-link" id="home_nav">Home</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="candidateNav">Candidate</a>
                         <div class="dropdown-menu">
                             <a href="?page=newCandidate" class="dropdown-item">New Candidate</a>
                             <a href="?page=listCandidate" class="dropdown-item">Candidate List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=completeListCandidate" class="dropdown-item">Completed Candidate List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -22,6 +24,8 @@
                         <div class="dropdown-menu">
                             <a href="?page=newVisa" class="dropdown-item">New Visa</a>
                             <a href="?page=visaList" class="dropdown-item">Visa List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=completeVisaList" class="dropdown-item">Completed Visa List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -47,6 +51,9 @@
                             <a href="?page=delegateList" class="dropdown-item">Delegate List</a>
                             <div class="dropdown-divider"></div>
                             <a href="?page=addDelegateExpense" class="dropdown-item">Add delegate expense</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=delegateOfficeExpense" class="dropdown-item">Delegate Office expense</a>
+                            <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Office expense List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -67,7 +74,7 @@
                         </div>
                     </div>  
                     <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
-                    <a href="?page=payMode" class="nav-item nav-link"  id="jobsNav">Pay Mode</a>                
+                    <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
                     <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
                 </div>
                 <div class="ml-auto">

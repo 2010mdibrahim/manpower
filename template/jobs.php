@@ -110,15 +110,5 @@
 
 
 <script>
-    // function custom_alert(){
-    //     let alert = '<div id="custom_alert_seaum" style="position: absolute; background-color: rgba(0,0,0,0.2);"><div style="position: relative; top: 50%; left: 50%; background-color: red; width: 50%; height: 50%;"> this is test </div></div>';
-    //     setTimeout(function(){
-    //         $('#custom_alert_seaum').remove();
-    //     },1000);
-    //     $('#seaum_alert').append(alert);        
-    // }
-
-    window.onload = function() {
-        $('#jobsNav').addClass('active');
-    };
+    $('#jobsNav').addClass('active');
 </script>

@@ -64,7 +64,5 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
 </div>
 
 <script>
-    window.onload = function() {
-        $('#agentNav').addClass('active');
-    };
+    $('#agentNav').addClass('active');
 </script>

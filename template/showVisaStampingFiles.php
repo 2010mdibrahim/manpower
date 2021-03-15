@@ -116,7 +116,5 @@ function sendData(visaId){
 function sendDateData(processingId){
     $('#processingIdDate').val(processingId);
 };
-window.onload = function() {
-    $('#visaNav').addClass('active');
-};
+$('#visaNav').addClass('active');
 </script>

@@ -35,8 +35,5 @@
     </form>
 </div>
 <script>
-
-    window.onload = function() {
-        $('#delegateNav').addClass('active');
-    };
+    $('#delegateNav').addClass('active');
 </script>

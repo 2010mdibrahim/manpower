@@ -6,13 +6,7 @@ if(isset($_POST['mode'])){
         $passportNum_info = explode("_",$_POST['modalPassportPolice']);
         $passportNum = $passportNum_info[0];
         $passportCreationDate = $passportNum_info[1];
-        $path_filename_ext = '';
-        $temp_name = '';
-        $target_dir = '';
-        $ext = '';
         if (($_FILES['policeClearance']['name'] != "")){
-            // Where the file is going to be stored
-            $base_dir = "C:/xampp/htdocs/mahfuza/";
             $target_dir = "uploads/policeVerification/";
             $file = $_FILES['policeClearance']['name'];
             $path = pathinfo($file);
@@ -27,7 +21,7 @@ if(isset($_POST['mode'])){
                 move_uploaded_file($temp_name,$path_filename_ext);
             }
             echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=listCandidate#$passportNum'</script>";
+            echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
         }else{
             echo "<script>window.alert('Failed')</script>";
             echo "<script> window.location.href='../index.php?page=listCandidate'</script>";

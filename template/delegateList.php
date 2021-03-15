@@ -83,7 +83,5 @@ $result = mysqli_query($conn,$qry);
 
 
 <script>
-    window.onload = function() {
-        $('#delegateNav').addClass('active');
-    };
+    $('#delegateNav').addClass('active');
 </script>

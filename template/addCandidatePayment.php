@@ -1,4 +1,5 @@
 <?php
+
 $candidateName = $_POST['candidateName'];
 $passport_info = explode("_",$_POST['passport_info']);
 $passportNum = $passport_info[0];
@@ -32,6 +33,9 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
     </div>
     
     <form action="template/addCandidatePaymentQry.php" method="post" id="paymentForm">
+        <?php if(isset($_POST['redir'])){ ?>
+            <input type="hidden" name="redir" value="<?php echo $_POST['redir'];?>">
+        <?php }?>
         <input type="hidden" name="comission_id" value="<?php echo $comission_id?>">
         <input type="hidden" name="visaNo" value="<?php echo $visaNo; ?>">
         <div class="form-row">

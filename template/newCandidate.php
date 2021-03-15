@@ -394,9 +394,5 @@
             }
         });
     });
-
-
-    window.onload = function() {
-        $('#candidateNav').addClass('active');
-    };
+    $('#candidateNav').addClass('active');
 </script>

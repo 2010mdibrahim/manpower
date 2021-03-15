@@ -29,7 +29,8 @@ $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense wh
                 </div>
             </div>
         </form>
-    </div>      
+    </div>    
+    <!-- <div class="container loader"></div>   -->
     <div class="card">
         <div class="card-header"><p class="text-center" style="font-size: 18px;">Expense Information of: <span style="font-size: 25px;"><?php echo $delegateName['delegateName'];?></span></p></div>
         <div class="card-body">

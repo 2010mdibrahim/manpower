@@ -2,8 +2,7 @@
 include ('database.php');
 $passport_info = explode("_",$_POST['passport_info']);
 $passport = $passport_info[0];
-$passportCreationDate = $passport_info[1];
-print_r($passport."-".$passportCreationDate);   
+$passportCreationDate = $passport_info[1];  
 $airplane = $_POST['airline'];
 $flightNo = $_POST['flightNo'];
 $flightDate = $_POST['flightDate'];
@@ -51,7 +50,6 @@ if($result)
     echo "<script> window.location.href='../index.php?page=listTicket'</script>";
 }
 else{
-    print_r(mysqli_error($conn));
     echo "<script> window.alert('Error')</script>";
     echo "<script> window.location.href='../index.php?page=newTicket'</script>";
 }

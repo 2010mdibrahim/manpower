@@ -182,7 +182,7 @@
                         <input type="hidden" name="processingId" id="processingIdModalOne">
                         <input type="hidden" name="mode" value="stampingMode">
                         <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
+                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate" placeholder="Enter Visa Stamping Date">
                         </div>
                         <div>
                             <input class="form-control-file" type="file" name="visaFile[]">
@@ -269,7 +269,6 @@
                 <?php
                 if(isset($_GET['pi'])){
                     $processingId = base64_decode($_GET['pi']);
-                    print_r($processingId);
                     $result = $conn->query("SELECT passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) where processing.processingId = $processingId");
                 }else{
                     $result = $conn->query("SELECT passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
@@ -445,9 +444,9 @@
 
                         <!-- Training Card -->
                         <td>
-                        <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, oldVisa from passport where passportNum = '".$visa['passportNum']."'"));?>
+                        <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, oldVisa from passport where passportNum = '".$visa['passportNum']."' AND creationDate = '".$visa['passportCreationDate']."'"));?>
                         <?php if( $trainingCard['oldVisa'] == 'yes'){ ?>
-                            <p>Experienced</p>
+                            <a href="?page=cI&p=<?php echo base64_encode($visa['passportNum'])."&cd=.".base64_encode($visa['passportCreationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
                         <?php }else{ ?>
                             <?php if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
@@ -625,7 +624,6 @@ function trainingCard(info){
 }
 
 function visaStamping(processingId){
-    alert(processingId);
     $('#processingIdModalOne').val(processingId);
     $('#processingIdModalThree').val(processingId);
 }
@@ -637,9 +635,6 @@ $('body').on('click', '#testMedicalFile', function(){
 $('body').on('click', '#finalMedicalFile', function(){
     $('#visaMedicalFinal').val($('#finalMedicalFile').val());
 });
-
-window.onload = function() {
-    $('#visaNav').addClass('active');
-};
+$('#visaNav').addClass('active');
 </script>
 

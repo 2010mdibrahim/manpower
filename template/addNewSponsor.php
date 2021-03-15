@@ -1,4 +1,4 @@
-<?php $result = $conn->query("SELECT delegateId, delegateName from delegate order by creationDate desc"); ?>
+<?php $result = $conn->query("SELECT delegateId, delegateName, country from delegate order by creationDate desc"); ?>
 
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -13,7 +13,7 @@
                     <select class="form-control" name="delegateId" id="delegateId">
                     <option value="notSet">------ Select Delegate -------</option>
                     <?php while($delegate = mysqli_fetch_assoc($result)){ ?>
-                        <option value="<?php echo $delegate['delegateId']?>"><?php echo $delegate['delegateName']?></option>
+                        <option value="<?php echo $delegate['delegateId']?>"><?php echo $delegate['delegateName']." - (".$delegate['country'].")"?></option>
                     <?php } ?>
                     </select>
                 </div>
@@ -41,7 +41,5 @@
 
 
 <script>
-    window.onload = function() {
-        $('#sponsorNav').addClass('active');
-    };
+    $('#sponsorNav').addClass('active');
 </script>
