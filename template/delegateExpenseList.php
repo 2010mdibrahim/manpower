@@ -62,9 +62,10 @@ $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense wh
                                     </form>
                                 </div> -->
                                 <div style="padding-left: 2%">
-                                    <form action="template/addNewJobQry.php" method="post">
+                                    <form action="template/addDelegateExpenseQry.php" method="post">
                                         <input type="hidden" name="alter" value="delete">
-                                        <input type="hidden" value="<?php echo $jobs['jobId']; ?>" name="jobId">
+                                        <input type="hidden" value="<?php echo $delegateId; ?>" name="delegateId">
+                                        <input type="hidden" value="<?php echo $delegateExpense['delegateExpenseId']; ?>" name="delegateExpenseId">
                                         <button type="submit" class="btn btn-danger btn-sm" name="jobs">Delete</></button>
                                     </form>
                                 </div>
