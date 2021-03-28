@@ -258,7 +258,7 @@ if(isset($_GET['pp'])){
                         } ?></td>
                         <td>
                         <?php echo $candidate['country'];?>
-                        <p style="font-size: 11px;">(<?php echo $candidate['jobType'];?>)</p>
+                        <p style="font-size: 11px;">(<?php echo (!is_null($candidate['jobType'])) ? $candidate['jobType'] : 'Not Assigned';?>)</p>
                         </td>
                         <!-- Test Medical -->
                         <td class="second">
