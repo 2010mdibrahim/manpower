@@ -8,7 +8,7 @@ $result = $conn->query("SELECT delegateId, delegateName from delegate");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add Expense for Agent</h2>
+        <h2>Add Delegate Expense for Candidates</h2>
     </div>
     
     <form action="template/addDelegateExpenseQry.php" method="post">

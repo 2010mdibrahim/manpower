@@ -8,10 +8,6 @@ $creationDate = $_POST['creationDate'];
 $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script> -->
-
-
-
 <style>
     span.danger{
         display: none;
@@ -20,7 +16,6 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
     }
     
 </style>
-
 
 <div class="container">
     <div class="section-header">
@@ -156,10 +151,6 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 </div>
                 <div class="form-row" id="experienced" style="display: <?php echo ($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00') ? 'none' : 'static';?>;background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
                     <div class="col-md-4">
-                        <label>Old Visa Copy</label>
-                        <input class="form-control-file" type="file" name="oldVisaFile" id="traningCardFile">
-                    </div>
-                    <div class="col-md-4">
                         <label>Departure Seal</label>
                         <input class="form-control-file" type="file" name="departureSealFile" id="traningCardFile">
                     </div>
@@ -187,10 +178,6 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                             <input type="radio" name="agentOrOffice" value="agent" checked required>
                             <span class="checkmark"></span>
                         </label>
-                        <!-- <label class="parking_label">Office
-                            <input type="radio" name="agentOrOffice" value="office" required>
-                            <span class="checkmark"></span>
-                        </label> -->
                     </div>
                 </div>
                 <div class="form-group col-md-6" id="agentNotOffice">

@@ -1,8 +1,8 @@
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add New Agent</h2>
+        <h2>Add New Delegate</h2>
     </div>
-    <h3 style="background-color: aliceblue; padding: 0.5%">Agent Information</h3>
+    <h3 style="background-color: aliceblue; padding: 0.5%">Delegate Information</h3>
     <form action="template/addNewDelegateQry.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="form-row">

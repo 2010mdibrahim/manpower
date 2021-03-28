@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeName");
+$result = $conn -> query("SELECT * from office");
 ?>
 <style>
     .flex-container {
@@ -11,7 +11,7 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Manpower Office List</h2>
+                <h2>Office List</h2>
             </div>
         </div>
         <div class="card-body">
@@ -25,17 +25,25 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                     </tr>
                     </thead>
                     <?php
-                    while( $manpower = mysqli_fetch_assoc($result) ){                
+                    while( $office = mysqli_fetch_assoc($result) ){                
                     ?>
                         <tr>
-                            <td><?php echo $manpower['manpowerOfficeName'];?></td>
-                            <td><?php echo $manpower['comment'];?></td>                 
+                            <td><?php echo $office['officeName'];?></td>
+                            <td><?php echo $office['comment'];?></td>                 
                             <td>
-                                <div class="flex-container">
+                                <div class="flex-container"> 
                                     <div style="padding-left: 2%">
-                                        <form action="template/manpowerQry.php" method="post">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="alter" value="edit">
+                                            <input type="hidden" name="pagePost" value="editOffice">
+                                            <input type="hidden" value="<?php echo $office['officeId']; ?>" name="officeId">
+                                            <button type="submit" class="btn btn-primary btn-sm" name="manpower">Edit</></button>
+                                        </form>
+                                    </div>
+                                    <div style="padding-left: 2%">
+                                        <form action="template/newOfficeQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
-                                            <input type="hidden" value="<?php echo $manpower['manpowerOfficeName']; ?>" name="officeName">
+                                            <input type="hidden" value="<?php echo $office['officeId']; ?>" name="officeId">
                                             <button type="submit" class="btn btn-danger btn-sm" name="manpower">Delete</></button>
                                         </form>
                                     </div>
@@ -58,7 +66,7 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
 </div>
 
 <script>
-    $('#manpowerNav').addClass('active');
+    $('#officeNav').addClass('active');
 </script>
 
 
