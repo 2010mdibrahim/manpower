@@ -101,22 +101,7 @@ if (($_FILES['traningCardFile']['name'] != "")){
     $trainingCard_path_filename_ext = $base_dir.$trainingCard_target_dir."trainingCard"."_".$passportNum."_".str_replace(":", "", $date).".".$trainingCard_ext;
 }
 
-// Scanned passport file directory set - upload code inside result true if statement;
-if (($_FILES['oldVisaFile']['name'] != "")){
-    // Where the file is going to be stored
-    $oldVisa_target_dir = "uploads/oldVisa/";
-    $file = $_FILES['oldVisaFile']['name'];
-    $path = pathinfo($file);
-    $oldVisa_ext = $path['extension'];
-    $oldVisa_temp_name = $_FILES['oldVisaFile']['tmp_name'];
-    $oldVisa_path_filename_ext = $base_dir.$oldVisa_target_dir."oldVisa"."_".$passportNum."_".str_replace(":", "", $date).".".$oldVisa_ext;
-}
-
 $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
-// if($existingPass['passCount'] > 0){
-//     echo "<script>window.alert('Passport Already Exists')</script>";
-//     echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
-// }else{
     if (($_FILES['policeVerification']['name'] != "")){
         $policeFile = $target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
     }else{
@@ -149,13 +134,6 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         $arrivalSeal = 'no';
         $arrivalSealFile = '';
     }  
-    if (($_FILES['oldVisaFile']['name'] != "")){
-        $oldVisa = 'yes'; 
-        $oldVisaFile = $oldVisa_target_dir."oldVisa"."_".$passportNum."_".str_replace(":", "", $date).".".$oldVisa_ext; 
-    }else{
-        $oldVisa = 'no';
-        $oldVisaFile = '';
-    }  
     if (($_FILES['traningCardFile']['name'] != "")){
         $traningCard = 'yes'; 
         $traningCardFile = $trainingCard_target_dir."trainingCard"."_".$passportNum."_".str_replace(":", "", $date).".".$trainingCard_ext; 
@@ -169,7 +147,7 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     $comission = $_POST['comission'];
     
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, oldVisa, oldVisaFile, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile', '$oldVisa','$oldVisaFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date')");
     if($result){
         $result = $conn->query("INSERT INTO agentcomission(amount, passportNum, passportCreationDate, agentEmail, creationDate, updatedBy, updatedOn) VALUES ($comission, '$passportNum', '$date', '$agentEmail', '$date', '$admin', '$date')");
         if($advance == 'yes'){
@@ -196,9 +174,6 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         }
         if (($_FILES['arrivalSealFile']['name'] != "")){
             move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
-        }
-        if (($_FILES['oldVisaFile']['name'] != "")){
-            move_uploaded_file($oldVisa_temp_name,$oldVisa_path_filename_ext);
         }
         if (($_FILES['traningCardFile']['name'] != "")){
             move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);

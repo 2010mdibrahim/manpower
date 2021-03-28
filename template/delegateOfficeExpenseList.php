@@ -13,7 +13,7 @@ $result = mysqli_query($conn,$qry);
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Expense Details</h2>
+                <h2>Delegate Manpower Office Expense Details</h2>
             </div>
         </div>
         <div class="card-body text-center">

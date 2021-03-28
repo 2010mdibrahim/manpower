@@ -1,6 +1,4 @@
 <?php
-// include ('includes/select2.php');
-// include ('includes/ajax.php');
 $result = $conn->query("SELECT passportNum, creationDate, fName, lName from passport where finalMedical = 'yes'");
 ?>
 <div class="container" style="padding: 2%">

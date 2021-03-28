@@ -5,14 +5,14 @@
             <div>
                 <a href="?page=selectReportByName&by=name">Agent Report By Name</a>
             </div>
-            <div>
+            <!-- <div>
                 <a href="?page=selectReportByNameDate&by=nameDate">Agent Report By Name and Date</a>
             </div>
             <div>
                 <a href="?page=demo">Income Expense Report</a>
-            </div>
+            </div> -->
         </div>
-        <div class="column col-md-6" style="padding: 2%">
+        <!-- <div class="column col-md-6" style="padding: 2%">
             <h5 style="background-color: aliceblue; padding: 0.5%">Agent Report</h5>
             <div>
                 <a href="?page=selectAgentByTicket&by=ticket">Ticket Agent Report</a>
@@ -56,6 +56,6 @@
             <div>
                 <a href="?page=reportByDate&reportType=mofa">MOFA report</a>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

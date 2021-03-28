@@ -75,14 +75,6 @@
                     <!-- Edit Section -->
                     <td>
                         <div class="flex-container">
-                            <!-- <div style="padding-right: 2%">
-                                <form action="index.php" method="post">
-                                    <input type="hidden" name="alter" value="update">
-                                    <input type="hidden" value="editCandidate" name="pagePost">
-                                    <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
-                                    <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
-                                </form>
-                            </div> -->
                             <div style="padding-left: 2%">
                                 <form action="template/addNewJobQry.php" method="post">
                                     <input type="hidden" name="alter" value="delete">

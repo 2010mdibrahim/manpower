@@ -357,6 +357,14 @@ if($result_count['count_ticket'] > 0){
             include('template/delegateOfficeExpenseList.php');
         }else if($pagePost == 'delegateOfficeExpenseListEdit') {
             include('template/delegateOfficeExpenseListEdit.php');
+        }else if($page == 'newOffice') {
+            include('template/newOffice.php');
+        }else if($page == 'officeList') {
+            include('template/officeList.php');
+        }else if($pagePost == 'editOffice') {
+            include('template/editOffice.php');
+        }else if($page == 'delegateAllOfficeExpense') {
+            include('template/delegateAllOfficeExpense.php');
         }else{
             include ('template/service.php');
         }

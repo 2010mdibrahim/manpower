@@ -103,15 +103,11 @@
                     </div> 
                 </div>
                 <div class="form-row" id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
-                    <div class="col-md-4">
-                        <label>Old Visa Copy</label>
-                        <input class="form-control-file" type="file" name="oldVisaFile" id="oldVisaFile">
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>Departure Seal</label>
                         <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label>Arrival Seal</label>
                         <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
                     </div>

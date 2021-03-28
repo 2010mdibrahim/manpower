@@ -2,7 +2,7 @@
 $by = $_GET['by'];
 $result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
-<div class="container" style="padding: 2%">
+<div class="container-fluid" style="padding: 2%">
     <div class="section-header">
         <h2>Agent Report by Name</h2>
     </div>
@@ -48,8 +48,13 @@ function showReport(){
                 "responsive": true,
                 "order": [],
                 "scrollX": false
-            });  
+            });
         }
     });
+}
+function test(){
+    let test = $('#okTesting').val;
+    alert(test);
+    // $('#thisIsTest').val(test);
 }
 </script>

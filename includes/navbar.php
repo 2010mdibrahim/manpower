@@ -22,7 +22,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="visaNav">Visa</a>
                         <div class="dropdown-menu">
-                            <a href="?page=newVisa" class="dropdown-item">New Visa</a>
+                            <a href="?page=newVisa" class="dropdown-item">Assign Visa</a>
                             <a href="?page=visaList" class="dropdown-item">Visa List</a>
                             <div class="dropdown-divider"></div>
                             <a href="?page=completeVisaList" class="dropdown-item">Completed Visa List</a>
@@ -52,8 +52,10 @@
                             <div class="dropdown-divider"></div>
                             <a href="?page=addDelegateExpense" class="dropdown-item">Add delegate expense</a>
                             <div class="dropdown-divider"></div>
-                            <a href="?page=delegateOfficeExpense" class="dropdown-item">Delegate Office expense</a>
-                            <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Office expense List</a>
+                            <a href="?page=delegateOfficeExpense" class="dropdown-item">Delegate Mapower-Office expense</a>
+                            <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Mapower-Office expense List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=delegateAllOfficeExpense" class="dropdown-item">Add Delegate Office expense</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -73,6 +75,13 @@
                             <a href="?page=manpowerList" class="dropdown-item">Office List</a>
                         </div>
                     </div>  
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="officeNav">Office</a>
+                        <div class="dropdown-menu">
+                            <a href="?page=newOffice" class="dropdown-item">Add New Office</a>
+                            <a href="?page=officeList" class="dropdown-item">Office List</a>
+                        </div>
+                    </div>
                     <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
                     <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
                     <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
