@@ -365,6 +365,8 @@ if($result_count['count_ticket'] > 0){
             include('template/editOffice.php');
         }else if($page == 'delegateAllOfficeExpense') {
             include('template/delegateAllOfficeExpense.php');
+        }else if($pagePost == 'editManpowerOffice') {
+            include('template/editManpowerOffice.php');
         }else{
             include ('template/service.php');
         }

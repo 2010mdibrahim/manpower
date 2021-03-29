@@ -13,21 +13,23 @@ if(isset($_GET['p'])){
     </div>
         <form action="template/newTicketInsert.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="sel1">Select Passport Number:</label>
-                <select class="form-control select2" id="passport" name="passport_info">
-                    <option>Select passport</option>
-                    <?php 
-                    $result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
-                    while($passNo = mysqli_fetch_assoc($result)){ 
-                        if($passNo['passportNum'] == $selectedPassport && $passNo['creationDate'] == $selectedCreationDate){
-                    ?>
-                        <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate']; ?>" selected><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
-                    <?php }else{ ?>
-                        <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate']; ?>"><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum']; ?></option>
-                    <?php } } ?>
-                </select>
+                <label style="margin-right: 5px;">Validity Year: </label>
+                <label class="parking_label">Inhouse Candidate
+                    <input type="radio" name="candidateSelect" value="inhouse" required>
+                    <span class="checkmark"></span>
+                </label>
+                <label class="parking_label">New Outside Candidate
+                    <input type="radio" name="candidateSelect" value="new" required>
+                    <span class="checkmark"></span>
+                </label>
+                <label class="parking_label">Existing Outside Candidate
+                    <input type="radio" name="candidateSelect" value="existing" required>
+                    <span class="checkmark"></span>
+                </label>
             </div>
-            <br>
+            <div class="form-group" id="ticketInfoDiv">
+                
+            </div>
 
             <h3 style="background-color: aliceblue; padding: 0.5%">Ticket information</h3>
             <div class="form-group">                
@@ -91,6 +93,58 @@ if(isset($_GET['p'])){
 <script>
     $('body').on('click', "input[type='radio']", function(){
         const transit = $("input[name='transit']:checked").val();
+        const candidateSelect = $("input[name='candidateSelect']:checked").val();
+
+        if(candidateSelect === 'inhouse'){
+            $.ajax({
+                type: 'post',
+                url: 'template/fetchTicketInfo.php',
+                data: {candidateSelect : candidateSelect},
+                success: function (response){
+                    $('#ticketInfoDiv').html(response);
+                    $('.select2').select2({
+                        width: '100%'
+                    });
+                    $('.datepicker').datepicker({
+                        format: 'yyyy/mm/dd',
+                        todayHighlight:'TRUE',
+                        autoclose: true,
+                    })
+                }
+            });
+        }else if(candidateSelect === 'new'){
+            $.ajax({
+                type: 'post',
+                url: 'template/fetchTicketInfo.php',
+                data: {candidateSelect : candidateSelect},
+                success: function (response){
+                    $('#ticketInfoDiv').html(response);
+                    $('.datepicker').datepicker({
+                        format: 'yyyy/mm/dd',
+                        todayHighlight:'TRUE',
+                        autoclose: true,
+                    })
+                }
+            });
+        }else{
+            $.ajax({
+                type: 'post',
+                url: 'template/fetchTicketInfo.php',
+                data: {candidateSelect : candidateSelect},
+                success: function (response){
+                    $('#ticketInfoDiv').html(response);
+                    $('.select2').select2({
+                        width: '100%'
+                    });
+                    $('.datepicker').datepicker({
+                        format: 'yyyy/mm/dd',
+                        todayHighlight:'TRUE',
+                        autoclose: true,
+                    })
+                }
+            });
+        }
+
         if(transit == 'yes'){
             $('#transitHourDiv').show();
         }else{

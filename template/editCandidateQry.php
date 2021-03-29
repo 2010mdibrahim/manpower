@@ -37,6 +37,7 @@ if($alter == 'delete'){
     $photo = $_POST['passportPhoto'];
     $validityYear = $_POST['validityYear'];
     $manpowerOfficeName = $_POST['manpower'];
+    $jobType = $_POST['jobType'];
 
     if(isset($_POST['agentEmail'])){
         $agentEmail = $_POST['agentEmail'];
@@ -137,25 +138,9 @@ if($alter == 'delete'){
         if($result){
             move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
         }
-    } 
-
-    // Scanned passport file directory set - upload code inside result true if statement;
-    if (($_FILES['oldVisaFile']['name'] != "")){
-        // Where the file is going to be stored
-        $oldVisa_target_dir = "uploads/oldVisa/";
-        $file = $_FILES['oldVisaFile']['name'];
-        $path = pathinfo($file);
-        $oldVisa_ext = $path['extension'];
-        $oldVisa_temp_name = $_FILES['oldVisaFile']['tmp_name'];
-        $oldVisa_path_filename_ext = $base_dir.$oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext;
-        $oldVisaFile = $oldVisa_target_dir."oldVisa"."_".$passportNum.".".$oldVisa_ext;
-        $result = $conn->query("UPDATE passport set oldVisa = 'yes', oldVisaFile = '$oldVisaFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
-        if($result){
-            move_uploaded_file($oldVisa_temp_name,$oldVisa_path_filename_ext);
-        }
     }
 
-    $qry = "UPDATE passport SET passportNum = '$passportNum', fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$$update' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
+    $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',departureDate='$departureDate',arrivalDate='$arrivalDate',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
     $result = mysqli_query($conn,$qry);
     if($result){
 

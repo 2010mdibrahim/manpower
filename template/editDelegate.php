@@ -5,9 +5,9 @@ $delegate = mysqli_fetch_assoc($conn->query("SELECT * from delegate where delega
 
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add New Agent</h2>
+        <h2>Edit Delegate</h2>
     </div>
-    <h3 style="background-color: aliceblue; padding: 0.5%">Agent Information</h3>
+    <h3 style="background-color: aliceblue; padding: 0.5%">Delegate Information</h3>
     <form action="template/addNewDelegateQry.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="delegateId" value="<?php echo $delegate['delegateId'];?>">
         <input type="hidden" name="alter" value="update">
@@ -16,10 +16,6 @@ $delegate = mysqli_fetch_assoc($conn->query("SELECT * from delegate where delega
                 <div class="form-group col-md-6" >
                     <label>Delegate Name</label>
                     <input class="form-control" type="text" name="delegateName" id="delegateName" value="<?php echo $delegate['delegateName'];?>" required>
-                </div>
-                <div class="form-group col-md-6" >  
-                    <label for="sel1">Office: </label>
-                    <input class="form-control" type="text" name="delegateOffice" value="<?php echo $delegate['office'];?>" id="delegateOffice" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="sel1">Country:</label>
@@ -42,7 +38,7 @@ $delegate = mysqli_fetch_assoc($conn->query("SELECT * from delegate where delega
     </form>
 </div>
 <script>
-
+    $('#delegateNav').addClass('active');
     window.onload = function() {
         $('#delegateNav').addClass('active');
     };

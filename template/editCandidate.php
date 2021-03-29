@@ -61,11 +61,12 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 <?php $result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");?>
                     <option value="">----- Select Job Type -----</option>
                     <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
-                    <?php if($candidate['jobId'] == $jobs['jobId']){?>
-                            <option value="<?php echo $jobs['jobId'];?>" selected><?php echo $jobs['jobType'];?></option>
-                        <? }else{ ?>
-                            <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType'];?></option>
-                    <?php } } ?>
+                        <?php if($candidate['jobId'] == $jobs['jobId']){?>
+                                <option value="<?php echo $jobs['jobId'];?>" selected><?php echo $jobs['jobType'];?></option>
+                            <?php }else{ ?>
+                                <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType'];?></option>
+                        <?php } 
+                    } ?>
                 </select>
             </div>
         </div>
@@ -122,25 +123,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
             <div class="parking_container">
                 <div class="form-row">
                 <?php if($candidate['departureDate'] == '0000-00-00' AND $candidate['arrivalDate'] == '0000-00-00'){?>
-                    <div class="form-group col-md-2">
-                        <label class="parking_label">New
-                            <input type="radio" name="experience" value="no" checked required>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label class="parking_label">Experienced
-                            <input type="radio" name="experience" value="yes" required>
-                            <span class="checkmark"></span>
-                        </label> 
-                    </div> 
                 <?php }else{ ?>
-                    <div class="form-group col-md-2">
-                        <label class="parking_label">New
-                            <input type="radio" name="experience" value="no" required>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
                     <div class="form-group col-md-2">
                         <label class="parking_label">Experienced
                             <input type="radio" name="experience" value="yes" checked required>
@@ -169,18 +152,24 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label>Agent or Office <span class="agentOrOfficeDanger" style="font-size: small; display: none; color:red">Enter Either Option</span> </label>
-                    <div class="form-group">
-                        <label class="parking_label">Agent
-                            <input type="radio" name="agentOrOffice" value="agent" checked required>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group col-md-6" id="agentNotOffice">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
+                <select class="form-control select2" id="manpower" name="manpower">
+                    <option value="">----- Select Office ------</option>
+                    <?php
+                    $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
+                    while($manpower = mysqli_fetch_assoc($result)){
+                    ?>
+                        <?php if($candidate['manpowerOfficeName'] == $manpower['manpowerOfficeName']){ ?>
+                            <option selected><?php echo $manpower['manpowerOfficeName']; ?></option>
+                        <?php }else{ ?>
+                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="form-group col-md-6" id="agentNotOffice">
                     <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
                     <select class="form-control select2" name="agentEmail" id="agent">
                         <option value=""></option>
@@ -194,29 +183,6 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                         <?php } ?>
                     </select>
                 </div>
-                <div class="form-group col-md-6" id="officeNotAgent" style="display: none;">
-                    <label>Office <span class="danger" id="office_validation">Enter Office</span> </label>
-                    <input class="form-control" type="text" name="office" id="office" placeholder="Office Name">
-                </div> 
-            </div>                       
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
-                <select class="form-control select2" id="manpower" name="manpower">
-                    <option value="notSet">----- Select Office ------</option>
-                    <?php
-                    $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
-                    while($manpower = mysqli_fetch_assoc($result)){
-                    ?>
-                        <?php if($candidate['manpowerOfficeName'] == $manpower['manpowerOfficeName']){ ?>
-                            <option selected><?php echo $manpower['manpowerOfficeName']; ?></option>
-                        <?php }else{ ?>
-                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
-                        <?php } ?>
-                    <?php } ?>
-                </select>
-            </div>
             <div class="form-group col-md-6">
                 <label>Comment</label>
                 <input type="text" class="form-control" name="comment" value="<?php echo $candidate['comment'];?>"/>

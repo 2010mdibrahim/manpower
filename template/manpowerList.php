@@ -20,6 +20,8 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                     <thead>
                     <tr>
                         <th>Office Name</th>
+                        <th>Office License</th>
+                        <th>Office Address</th>
                         <th>Comment</th> 
                         <th>Edit</th>
                     </tr>
@@ -29,9 +31,21 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                     ?>
                         <tr>
                             <td><?php echo $manpower['manpowerOfficeName'];?></td>
+                            <td><?php echo $manpower['licenseNumber'];?></td>
+                            <td><?php echo $manpower['officeAddress'];?></td>
                             <td><?php echo $manpower['comment'];?></td>                 
                             <td>
                                 <div class="flex-container">
+                                    
+                                </div>
+                                <div class="flex-container">
+                                <div style="padding-left: 2%">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="pagePost" value="editManpowerOffice">
+                                            <input type="hidden" value="<?php echo $manpower['manpowerOfficeId']; ?>" name="manpowerOfficeId">
+                                            <button type="submit" class="btn btn-info btn-sm" name="manpower">Edit</></button>
+                                        </form>
+                                    </div>
                                     <div style="padding-left: 2%">
                                         <form action="template/manpowerQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">

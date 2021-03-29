@@ -26,8 +26,13 @@
                     </tr>
                     </thead>
                     <?php
-                    $qry = "SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent order by creationDate desc";
-                    $result = mysqli_query($conn,$qry);
+                    if(isset($_GET['agE'])){
+                        $agentEmail = base64_decode($_GET['agE']);
+                        $result = $conn->query("SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent where agentEmail = '$agentEmail' order by creationDate desc");
+                    }else{
+                        $qry = "SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent order by creationDate desc";
+                        $result = mysqli_query($conn,$qry);
+                    }                    
                     while($agent = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td>

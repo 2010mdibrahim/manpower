@@ -4,7 +4,7 @@ if(isset($_GET['pp'])){
     $creationDate = base64_decode($_GET['cd']);
     $result = $conn -> query("SELECT jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) order by passport.creationDate desc");
+    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");
 }
 ?>
 
@@ -167,7 +167,7 @@ if(isset($_GET['pp'])){
                 <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
-                        <th>Creation Date</th>
+                        <th>Creation Date & Agent Name</th>
                         <th>Candidate Name</th>
                         <th>Passport No</th>
                         <th>Mobile No</th>
@@ -211,7 +211,10 @@ if(isset($_GET['pp'])){
                         <?php } ?>
 
                         <!-- Creation Date -->
-                        <td><?php echo $candidate['creationDateShow'];?></td>
+                        <td>
+                        <p><?php echo $candidate['creationDateShow'];?></p>
+                        <p><a href="?page=agentList&agE=<?php echo base64_encode($candidate['agentEmail']);?>"><?php echo $candidate['agentName'];?></a></p>
+                        </td>
                         <td>
                         <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum'])."&cd=.".base64_encode($candidate['creationDate'])."&t=".time();?>" target="_blank"><?php echo $candidate['fName']." ".$candidate['lName'];?></a>
                         <p>(<?php echo $candidate['gender'];?>)</p>
@@ -415,18 +418,18 @@ if(isset($_GET['pp'])){
                     <?php } ?>
                     <tfoot>
                     <tr hidden>
+                        <th>Creation Date & Agent Name</th>
+                        <th>Candidate Name</th>
                         <th>Passport No</th>
-                        <th>Candidate Name</th> 
-                        <th>Country</th>               
                         <th>Mobile No</th>
                         <th>Age</th>
-                        <th>Passport Validity</th>
-                        <th>Amount of experience</th>
-                        <th>Police Clearance</th>
-                        <th>Passport Photo</th>
+                        <th>Passport expire date</th>
+                        <th>Candidare previouse status</th>
+                        <th>Applying for Country</th>               
                         <th>Test Medical</th>
                         <th>Final Medical</th>
-                        <th>Creation Date</th>
+                        <th>Police Clearance</th>
+                        <th>Training Card</th>                       
                         <th>Edit</th>
                     </tr>
                     </tfoot>

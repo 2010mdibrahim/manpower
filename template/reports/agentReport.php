@@ -17,7 +17,7 @@ $html .=            '</span></p>
             </div>
         </div>
         <div class="card-group">
-            <div class="row" style="width: 100%;">
+            <div class="row" style="width: 100%; margin-right: 0; margin-left: 0;">
                 <div class="col-md-8" style="padding: 0">
                 <div class="card">
                     <div class="card-body">

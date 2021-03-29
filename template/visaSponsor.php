@@ -21,7 +21,7 @@
                     <select class="form-control select2" name="sponsorNid" id="sponsorNid">
                         <option value="notSet">--- Select Sponsor ---</option>
                         <?php
-                        $result = $conn->query("SELECT delegate.country, sponsor.sponsorNID, sponsor.sponsorName from sponsor inner join delegate using (delegateId)");
+                        $result = $conn->query("SELECT delegate.country, sponsor.sponsorNID, sponsor.sponsorName from sponsor inner join delegateoffice using (delegateOfficeId) inner join delegate on delegate.delegateId = delegateOffice.delegateId");
                         while($sponsorName = mysqli_fetch_assoc($result)){
                         ?>
                             <option value="<?php echo $sponsorName['sponsorNID'];?>"><?php echo $sponsorName['sponsorName']." - ".$sponsorName['sponsorNID']." - ".$sponsorName['country'];?></option>
@@ -70,6 +70,32 @@
                 <button class="btn btn-sm" type="button" id="add_visa" ><span class="fa fa-plus" aria-hidden="true"></span></button>
                 <button class="btn btn-sm btn-danger" type="button" id="remove_visa"><span class="fas fa-minus" aria-hidden="true"></span></button>
             </div>
+            <div class="form-row">
+                <div class="col-sm">
+                    <label>Assign Candidate</label>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label class="parking_label">Yes
+                                <input type="radio" name="assignCandidate" value="yes" required>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label class="parking_label">No
+                                <input type="radio" name="assignCandidate" value="no" required checked>
+                                <span class="checkmark"></span>
+                            </label> 
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div id="assignCandidateDiv" style="display: none;">
+                        <label>Assign Candidate</label>
+                        <select class="form-control select2" id="assignedCandidate" name="assignedCandidate">
+                        </select>
+                    </div>                      
+                </div>                
+            </div>
             
             <div class="row">                
                 <div class="form-group col-md-6" >
@@ -95,6 +121,33 @@
             }, 500);           
             return false;
             
+        }
+    });
+
+    //assigning candidate
+    $('body').on('click', "input[type='radio']", function(){
+        const assignCandidate = $("input[name='assignCandidate']:checked").val();
+        const gender = $('select[name="gender[]"]').map(function () {
+                            return this.value; // $(this).val()
+                        }).get();
+        const jobType = $('select[name="jobType[]"]').map(function () {
+                            return this.value; // $(this).val()
+                        }).get();
+        if(assignCandidate == 'yes'){
+            $.ajax({
+                type: "post",
+                url: "template/fetchCandidate.php",
+                data: {gender : gender[0], jobType : jobType[0]},
+                success: function(response){
+                    $('#assignedCandidate').html(response);
+                    $('#assignedCandidate').prop('required',true);
+                    $('#assignCandidateDiv').show();
+                }
+            });
+        }else{
+            $('#assignedCandidate').html('');
+            $('#assignedCandidate').prop('required',false);
+            $('#assignCandidateDiv').hide();
         }
     });
 
