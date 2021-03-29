@@ -44,7 +44,7 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                 </div>
             </div>       
         </div>
-        <?php if($candidate['oldVisa'] != 'no'){ ?>
+        <?php if($candidate['departureSeal'] != 'no'){ ?>
         <hr>
             <div class="card-body">
                 <div class="row">
