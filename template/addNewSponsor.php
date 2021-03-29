@@ -10,23 +10,29 @@
             <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Delegate</label>
-                    <select class="form-control" name="delegateId" id="delegateId">
-                    <option value="notSet">------ Select Delegate -------</option>
+                    <select class="form-control" name="delegateId" id="delegateId" onchange="selectDelegateOffice(this.value)">
+                    <option value="">------ Select Delegate -------</option>
                     <?php while($delegate = mysqli_fetch_assoc($result)){ ?>
                         <option value="<?php echo $delegate['delegateId']?>"><?php echo $delegate['delegateName']." - (".$delegate['country'].")"?></option>
                     <?php } ?>
                     </select>
                 </div>
                 <div class="form-group col-md-6" >
+                    <label>Delegate Office</label>
+                    <select class="form-control" name="delegateOfficeId" id="delegateOfficeId" required>
+                        <option value="">------ Select Delegate First -------</option>                    
+                    </select>
+                </div>
+                <div class="form-group col-md-6" >
                     <label>Sponsor Name</label>
                     <input class="form-control" type="text" name="sponsorName" placeholder="Enter Name" required>
-                </div>                
-            </div>
-            <div class="form-row">
+                </div>
                 <div class="form-group col-md-6" >
                     <label>Sponsor NID</label>
                     <input class="form-control" type="text" name="sponsorNid" placeholder="Enter NID" required>
-                </div>
+                </div>                
+            </div>
+            <div class="form-row">                
                 <div class="form-group col-md-6" >                    
                     <label>Comment</label>
                     <input class="form-control" type="text" id="sponsorVisa" name="comment" placeholder="Any Remark...">
@@ -42,4 +48,15 @@
 
 <script>
     $('#sponsorNav').addClass('active');
+
+    function selectDelegateOffice(delegateId){
+        $.ajax({
+            type: 'post',
+            url: 'template/fetchDelegateOffice.php',
+            data: {delegateId : delegateId},
+            success: function(response){
+                $('#delegateOfficeId').html(response);
+            }
+        });
+    }
 </script>

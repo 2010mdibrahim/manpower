@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegate on sponsor.delegateId = delegate.delegateId where visaAmount != 0");
+$result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where visaAmount != 0");
 ?>
 <style>
     .flex-container {

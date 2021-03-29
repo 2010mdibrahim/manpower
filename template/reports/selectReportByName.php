@@ -25,6 +25,7 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
 </div>
 
 <script>
+$('#reportNav').addClass('active');
 function showReport(){    
     const agentInfo = $('#agentInfo').val();
     $.ajax({
@@ -51,10 +52,5 @@ function showReport(){
             });
         }
     });
-}
-function test(){
-    let test = $('#okTesting').val;
-    alert(test);
-    // $('#thisIsTest').val(test);
 }
 </script>

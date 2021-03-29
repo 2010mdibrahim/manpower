@@ -23,7 +23,6 @@ if(isset($_POST['addDelegate'])){
         }
     }else{
         $delegateName = $_POST['delegateName'];
-        $delegateOffice = $_POST['delegateOffice'];
         $delegateCountry = $_POST['delegateCountry'];
         $delegateState = $_POST['delegateState'];
         $comment = $_POST['comment'];
@@ -33,7 +32,6 @@ if(isset($_POST['addDelegate'])){
         if($alter == 'update'){
             $result = $conn->query("UPDATE delegate SET delegateName='$delegateName',country='$delegateCountry',delegateState='$delegateState',office='$delegateOffice',updatedBy='$admin',updatedOn='$date',comment='$comment' where delegateId = $delegateId");
             if ($result) {
-                echo "<script>window.alert('Updated')</script>";
                 echo "<script> window.location.href='../index.php?page=delegateList'</script>";
             } else {
                 echo "<script>window.alert('Error')</script>";
@@ -42,9 +40,12 @@ if(isset($_POST['addDelegate'])){
             $creationDate = date("Y-m-d h:s:i");
             $exists = mysqli_fetch_assoc($conn->query("SELECT count(delegateId) as countId from delegate where delegateName = '$delegateName' AND country = '$delegateCountry' AND delegateState = '$delegateState'"));
             if($exists['countId'] == 0){
-                $result = $conn->query("INSERT INTO delegate(delegateName, country, delegateState, office, creationDate, updatedBy, updatedOn, comment) VALUES ('$delegateName','$delegateCountry','$delegateState', '$delegateOffice', '$creationDate', '$admin', '$date', '$comment')");
+                $result = $conn->query("INSERT INTO delegate(delegateName, country, delegateState, creationDate, updatedBy, updatedOn, comment) VALUES ('$delegateName','$delegateCountry','$delegateState', '$creationDate', '$admin', '$date', '$comment')");
+                $delegateIdNew = mysqli_fetch_assoc($conn->query("SELECT max(delegateId) as delegateId from delegate"));
+                foreach($delegateOffice as $officeName){
+                    $result = $conn->query("INSERT INTO delegateoffice(officeName, delegateId) VALUES ('$officeName', ".$delegateIdNew['delegateId'].")");
+                }
                 if ($result) {
-                    echo "<script>window.alert('Added')</script>";
                     echo "<script> window.location.href='../index.php?page=delegateList'</script>";
                 } else {
                     echo "<script>window.alert('Error')</script>";

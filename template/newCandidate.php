@@ -258,6 +258,19 @@
         <div class="form-group" style="display: none;" id="trainingCard_div">
             <div class="row">
                 <div class="col-md-6">
+                    <label>Training Card <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
+                    <div class="form-group">
+                        <label class="parking_label">Provided
+                            <input type="radio" name="trainingCard" value="yes" required>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="trainingCard" value="no" required>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>                 
+                </div>
+                <div class="col-md-6" id="trainingCardDiv" style="display: none;">
                     <label>Give Traning Card</label>
                     <input class="form-control" type="file" name="traningCardFile" id="traningCardFile">
                 </div>
@@ -295,6 +308,15 @@
         const passportPhoto = $("input[name='passportPhoto']:checked").val();
         const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
         const advance = $("input[name='advance']:checked").val();
+        const trainingCard = $("input[name='trainingCard']:checked").val();
+
+        if(trainingCard == 'yes'){
+            $('#trainingCardDiv').show();
+            $('#traningCardFile').prop('required',true);
+        }else{
+            $('#trainingCardDiv').hide();
+            $('#traningCardFile').prop('required',false);
+        }
         
         if(advance === 'yes'){
             $('#advance_amount').prop('required',true);
@@ -316,7 +338,6 @@
             $('#arrivalSealFile').prop('required',true);
             $('#departureDate').prop('required',true);
             $('#arrivalDate').prop('required',true);
-            $('#traningCardFile').prop('required',false);
         }else if(experience === 'no'){
             $('#experienced').hide();
             $('#trainingCard_div').show();
@@ -325,7 +346,6 @@
             $('#arrivalSealFile').prop('required',false);
             $('#departureDate').prop('required',false);
             $('#arrivalDate').prop('required',false);
-            $('#traningCardFile').prop('required',true);
         }
 
         if(policeVerification === 'yes'){

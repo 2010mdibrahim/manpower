@@ -16,25 +16,39 @@ if(isset($_POST['manpower'])){
             echo "<script>window.alert('Error')</script>";
             echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
         } 
-    }else{        
+    }else{   
+        $licenseNumber = $_POST['licenseNumber'];
+        $officeAddress = $_POST['officeAddress'];
         $comment = $_POST['comment'];
         $admin = $_SESSION['email'];
         $date = date("Y-m-d");
-        $existingOffice = mysqli_fetch_assoc($conn -> query("SELECT count(manpowerOfficeName) as officeCount from manpoweroffice where manpowerOfficeName = '$officeName'"));
-        if($existingOffice['officeCount'] == 0){
-            $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName, comment, updatedBy, updatedOn) 
-                                    VALUES ('$officeName', '$comment', '$admin', '$date')");
+        if($alter == 'update'){
+            $manpowerOfficeId = $_POST['manpowerOfficeId'];
+            $result = $conn->query("UPDATE manpoweroffice SET manpowerOfficeName='$officeName',licenseNumber='$licenseNumber',officeAddress='$officeAddress',comment='$comment',updatedBy='$admin',updatedOn='$date' where manpowerOfficeId = $manpowerOfficeId");
             if($result){
-                echo "<script>window.alert('Saved')</script>";
+                echo "<script>window.alert('Updated')</script>";
                 echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
             }else{
                 echo "<script>window.alert('Error')</script>";
                 echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
-            }                       
+            } 
         }else{
-            echo "<script>window.alert('Office Name already exists')</script>";
-            echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
-        }
+            $existingOffice = mysqli_fetch_assoc($conn -> query("SELECT count(manpowerOfficeName) as officeCount from manpoweroffice where manpowerOfficeName = '$officeName'"));
+            if($existingOffice['officeCount'] == 0){
+                $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName,licenseNumber,officeAddress, comment, updatedBy, updatedOn) 
+                                        VALUES ('$officeName','$licenseNumber','$officeAddress', '$comment', '$admin', '$date')");
+                if($result){
+                    echo "<script>window.alert('Saved')</script>";
+                    echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
+                }else{
+                    echo "<script>window.alert('Error')</script>";
+                    echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
+                }                       
+            }else{
+                echo "<script>window.alert('Office Name already exists')</script>";
+                echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
+            }
+        }        
     }     
 }
 ?>

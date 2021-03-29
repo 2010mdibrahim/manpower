@@ -11,6 +11,31 @@ $result = mysqli_query($conn,$qry);
 
 <div class="container-fluid" style="padding: 2%">
     <div class="card">
+        <!-- Passport Photo Modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="changeDelegateOffice">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <form action="template/delegateOfficeEdit.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Office Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" name="delegateOfficeId" id="delegateOfficeIdModal">
+                            <input type="text" name="officeName" id="officeNameModal">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="card-header">
             <div class="section-header">
                 <h2>Delegate List</h2>
@@ -36,7 +61,11 @@ $result = mysqli_query($conn,$qry);
                             <td><?php echo $delegate['delegateName'];?></td>
                             <td><?php echo $delegate['country'];?></td>
                             <td><?php echo $delegate['delegateState'];?></td>
-                            <td><?php echo $delegate['office'];?></td>
+                            <td><?php 
+                            $result_office = $conn->query("SELECT delegateOfficeId, officeName from delegateOffice where delegateId = ".$delegate['delegateId']);
+                            while($office = mysqli_fetch_assoc($result_office)){ ?>
+                                <button class="btn btn-sm" data-toggle="modal" data-target="#changeDelegateOffice" value="<?php echo $office['officeName']."_".$office['delegateOfficeId']; ?>" onclick="delegateOffice(this.value)"><?php echo $office['officeName']; ?></button>
+                            <?php } ?></td>
                             <td><?php echo $delegate['comment'];?></td>                    
                             <td class="text-center">
                                 <a href="?page=addDelegateExpense&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-plus"></span></button></a>
@@ -84,4 +113,9 @@ $result = mysqli_query($conn,$qry);
 
 <script>
     $('#delegateNav').addClass('active');
+    function delegateOffice(info){
+        var info_split = info.split('_');
+        $('#officeNameModal').val(info_split[0]);
+        $('#delegateOfficeIdModal').val(info_split[1]);
+    }
 </script>

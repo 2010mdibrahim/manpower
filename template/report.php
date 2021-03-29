@@ -59,3 +59,7 @@
         </div> -->
     </div>
 </div>
+
+<script>
+    $('#reportNav').addClass('active');
+</script>

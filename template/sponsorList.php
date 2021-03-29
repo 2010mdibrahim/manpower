@@ -24,7 +24,7 @@
                     </tr>
                     </thead>
                     <?php
-                    $qry = "SELECT delegate.delegateName, sponsor.* from sponsor inner join delegate using(delegateId) order by creationDate desc";
+                    $qry = "SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId order by creationDate desc";
                     $result = mysqli_query($conn,$qry);
                     while($sponsor = mysqli_fetch_assoc($result)){ ?>
                         <tr>
