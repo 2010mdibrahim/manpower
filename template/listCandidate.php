@@ -353,7 +353,7 @@ if(isset($_GET['pp'])){
                         <td>
                         <div class="row">
                         <?php
-                        if($candidate['oldVisa'] == 'no'){
+                        if($candidate['departureSeal'] == 'no'){
                             if($candidate['trainingCard'] == 'yes'){ ?>
                                 <div class="col-sm-3">
                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
