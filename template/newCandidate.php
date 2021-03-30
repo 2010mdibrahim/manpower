@@ -43,10 +43,10 @@
             <div class="form-group col-md-6 date_error">
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
                 <select class="form-control select2" name="jobType" id="jobType" required>
-                <?php $result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");?>
+                <?php $result = $conn->query("SELECT jobType, jobId, creditType from jobs order by creationDate desc");?>
                     <option value="">----- Select Job Type -----</option>
                     <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
-                        <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType'];?></option>
+                        <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType']." - ".$jobs['creditType'];?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -154,7 +154,7 @@
         </div>
         <div class="form-row"> 
             <div class="form-group col-md-6">
-                <label>Comission</label>
+                <label>VISA Fee</label>
                 <input class="form-control" type="number" name="comission" placeholder="Enter Amount" required>
             </div>
             

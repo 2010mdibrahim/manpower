@@ -367,6 +367,14 @@ if($result_count['count_ticket'] > 0){
             include('template/delegateAllOfficeExpense.php');
         }else if($pagePost == 'editManpowerOffice') {
             include('template/editManpowerOffice.php');
+        }else if($page == 'outsideListTicket') {
+            include('template/outsideListTicket.php');
+        }else if($page == 'outsideCandidateList') {
+            include('template/outsideCandidateList.php');
+        }else if($pagePost == 'editOutsideTicket') {
+            include('template/editOutsideTicket.php');
+        }else if($page == 'candidateInfo') {
+            include('template/candidateInfo.php');
         }else{
             include ('template/service.php');
         }

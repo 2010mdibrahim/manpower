@@ -4,8 +4,10 @@ $agent_info = explode('-',$_POST['agentInfo']);
 $agentName = $agent_info[0];
 $agentEmail = $agent_info[1];
 $totalComissionPaid = mysqli_fetch_assoc($conn->query("SELECT sum(paidAmount) as totalComissionPaid from agentcomission where agentEmail = '$agentEmail'"));
+$totalDebitDue = 0;
+$totalDebitAdvance = 0;
 $totalComissionDue = 0;
-$totalAdvance = 0;
+$totalComissionAdvance = 0;
 $html = '<div class="card">
         <div class="card-header">
             <div class="section-header">
@@ -33,7 +35,7 @@ $html .=            '</span></p>
                                 <th>Advance Comission</th>
                             </tr>
                             </thead>';
-            $result = $conn->query("SELECT ticket.ticketPrice, passport.passportNum,passport.creationDate, passport.fName, passport.lName,processing.processingId, processing.sponsorVisa, (SELECT SUM(candidateexpense.amount) FROM candidateexpense WHERE candidateexpense.passportNum = passport.passportNum AND candidateexpense.passportCreationDate = passport.creationDate) as candidate_expense, (SELECT SUM(advance.advanceAmount) from advance WHERE advance.comissionId = agentcomission.comissionId) as advance_sum, agentcomission.amount FROM agent INNER JOIN passport USING (agentEmail) LEFT JOIN processing ON passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate LEFT JOIN agentcomission ON passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate LEFT JOIN ticket on ticket.passportNum= passport.passportNum AND ticket.passportCreationDate = passport.creationDate WHERE agent.agentEmail = '$agentEmail' order by passport.creationDate desc");
+            $result = $conn->query("SELECT jobs.creditType, ticket.ticketPrice, passport.passportNum,passport.creationDate, passport.fName, passport.lName,processing.processingId, processing.sponsorVisa, (SELECT SUM(candidateexpense.amount) FROM candidateexpense WHERE candidateexpense.passportNum = passport.passportNum AND candidateexpense.passportCreationDate = passport.creationDate) as candidate_expense, (SELECT SUM(advance.advanceAmount) from advance WHERE advance.comissionId = agentcomission.comissionId) as advance_sum, agentcomission.amount FROM agent INNER JOIN passport USING (agentEmail) LEFT JOIN processing ON passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate LEFT JOIN agentcomission ON passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate LEFT JOIN ticket on ticket.passportNum= passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on passport.jobId = jobs.jobId WHERE agent.agentEmail = '$agentEmail' order by passport.creationDate desc");
             while($agent = mysqli_fetch_assoc($result)){
                 $html .=        '<tr>';
                 $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
@@ -53,11 +55,19 @@ $html .=            '</span></p>
                 $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.$totalPrice."</a>";    
                 $html .=            '</td>';
                 $html .=            '<td>';
-                $totalComissionDue += ($agent['amount'] - $totalPrice);
+                if($agent['creditType'] == 'Credit'){
+                    $totalComissionDue += ($agent['amount'] - $totalPrice);
+                }else{
+                    $totalDebitDue += $agent['amount'];
+                }
                 $html .= (!is_null($agent['amount'])) ? ($agent['amount'] - $totalPrice - $advanceSum).' (due)' : '-';
                 $html .=            '</td>';
                 $html .=            '<td>';
-                $totalAdvance += $advanceSum;
+                if($agent['creditType'] == 'Credit'){
+                    $totalComissionAdvance += $advanceSum;
+                }else{
+                    $totalDebitAdvance += $advanceSum;
+                }
                 $html .= ($advanceSum != 0) ? $advanceSum : '-';
                 $html .=            '</td>
                                 </tr>';
@@ -114,11 +124,21 @@ $html .=            '</span></p>
                                 <div class="row">
                                     <div class="col-sm">                                        
                                         <p>Total Due Comission</p>
-                                        <h3>'.number_format($totalComissionDue - $totalAdvance).'</h3>
+                                        <h3>'.number_format($totalComissionDue - $totalComissionAdvance).'</h3>
                                     </div>
                                     <div class="col-sm">
                                         <p>Total Advance Comission</p>
-                                        <h3>'.number_format($totalAdvance).'</h3>
+                                        <h3>'.number_format($totalComissionAdvance).'</h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">                                        
+                                        <p>Total Due Amount to receive</p>
+                                        <h3>'.number_format($totalDebitDue - $totalDebitAdvance).'</h3>
+                                    </div>
+                                    <div class="col-sm">
+                                        <p>Total Recieved Advance</p>
+                                        <h3>'.number_format($totalDebitAdvance).'</h3>
                                     </div>
                                 </div>
                             </div>

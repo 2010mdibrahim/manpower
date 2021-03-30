@@ -33,6 +33,9 @@
                         <div class="dropdown-menu">
                             <a href="?page=newTicket" class="dropdown-item">New Ticket</a>
                             <a href="?page=listTicket" class="dropdown-item">Candidate Ticket List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=outsideCandidateList" class="dropdown-item">Outside Candidate List</a>
+                            <a href="?page=outsideListTicket" class="dropdown-item">Outside Candidate Ticket List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">

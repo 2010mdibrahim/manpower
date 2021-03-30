@@ -3,8 +3,8 @@ include ('database.php');
 $candidateSelect = $_POST['candidateSelect'];
 if($candidateSelect === 'inhouse'){
     $html = '<label for="sel1">Select Passport Number:</label>';
-    $html .= '<select class="form-control select2" id="passport" name="passport_info">';
-    $html .= '<option>Select passport</option>';
+    $html .= '<select class="form-control select2" id="passport" name="passport_info" required>';
+    $html .= '<option value="">Select passport</option>';
     $result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
     while($passNo = mysqli_fetch_assoc($result)){ 
         $html .= '<option value="'.$passNo['passportNum']."_".$passNo['creationDate'].'">'.$passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'].'</option>';

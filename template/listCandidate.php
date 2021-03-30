@@ -33,8 +33,12 @@ if(isset($_GET['pp'])){
 
                         <input type="hidden" name="mode" value="finalMedical">
                         <input type="hidden" name="passportMedicalFinal" id="passportMedicalFinal" value="">
-                        <input class="form-control" type="file" name="finalMedical">
-                        
+                        <div class="form-group">
+                            <input class="form-control datepicker" type="text" autocomplete="off" name="finalMedicalDate" id="finalMedicalDate" placeholder="Enter Report Date">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="finalMedical">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -296,7 +300,7 @@ if(isset($_GET['pp'])){
                             if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else{ ?>
-                            <div class="row">
+                            <div class="row" style="padding-bottom: 5%;">
                                 <?php if(empty($candidate['finalMedical']) || $candidate['finalMedical']=='no'){ ?>                                
                                     <div class="col-sm-3">
                                         <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="finalMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)">No</button>
@@ -320,6 +324,13 @@ if(isset($_GET['pp'])){
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-sm">
+                                        <?php if($candidate['finalMedical'] == 'yes') { ?>
+                                            <button class="btn btn-info btn-sm"><?php echo $candidate['finalMedicalReport'];?></button>
+                                        <?php } ?>
+                                    </div>                                    
                                 </div>
                             <?php } ?>
                         </td>
@@ -390,7 +401,7 @@ if(isset($_GET['pp'])){
                         <td>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-3">
+                                    <!-- <div class="col-1"> -->
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -398,8 +409,8 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button>
                                         </form>
-                                    </div>
-                                    <div class="col-3">
+                                    <!-- </div> -->
+                                    <!-- <div class="col-1"> -->
                                         <form action="template/editCandidateQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -407,10 +418,13 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button>
                                         </form>
-                                    </div>
-                                    <div class="col-3">                                    
+                                    <!-- </div> -->
+                                    <!-- <div class="col-1">                                     -->
                                         <a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
-                                    </div>
+                                    <!-- </div> -->
+                                    <!-- <div class="col-1">                                     -->
+                                        <a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>                                      
+                                    <!-- </div> -->
                                 </div>
                             </div>
                         </td>
