@@ -18,11 +18,12 @@ if(isset($_POST['jobs'])){
             echo "<script> window.location.href='../index.php?page=jobs'</script>";
         }
     }else{
+        $creditType = $_POST['creditType'];
         $jobType = $_POST['jobType'];
         $admin = $_SESSION['email'];
         $createDate = date("Y-m-d H:i:s");
 
-        $result = $conn->query("INSERT into jobs (jobType, updatedBy, creationDate) values ('$jobType', '$admin', '$createDate')");
+        $result = $conn->query("INSERT into jobs (jobType, creditType, updatedBy, creationDate) values ('$jobType', '$creditType', '$admin', '$createDate')");
 
         if($result){
             // echo "<script>window.alert('Added')</script>";

@@ -2,7 +2,7 @@
 $passportNum = base64_decode($_GET['pn']);
 $creationDate = base64_decode($_GET['cd']);
 // this is candidateinfo
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT processing.processingId, count(ticketId) as count_ticket, passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
+$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processing.processingId, count(ticketId) as count_ticket, passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN jobs using(jobId) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
 // this this candidate expenseces
 $result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
 // this is candidate expenseces sum
@@ -126,7 +126,7 @@ $amount = 0;
                 <div class="col-sm-8" style="padding: 0;">
                     <div class="card">
                         <div class="card-header text-center">
-                            Comission
+                            <?php if($candidateInfo['creditType'] == 'Credit'){ ?>Comission<?php }else{ ?> Total amount to receive<?php } ?>
                         </div>
                         <?php if(!is_null($comission)){?>
                         <ul class="list-group list-group-flush">                    
@@ -330,7 +330,7 @@ $amount = 0;
                             <div class="row">
                                 <?php if(empty($comission['comissionPayMode'])){ ?>
                                     <div class="col-sm">
-                                        <label class="card-title">Net Payable</label>
+                                        <label class="card-title"><?php if($candidateInfo['creditType'] == 'Credit'){ ?>Net Payable<?php }else{ ?> Net Due<?php } ?></label>
                                         <h4><?php echo number_format(($amount - $total) - $totalExpense)." BDT";?></h4>
                                     </div>
                                     <div class="col-sm text-center">

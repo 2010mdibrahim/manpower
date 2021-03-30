@@ -444,8 +444,8 @@
 
                         <!-- Training Card -->
                         <td>
-                        <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, oldVisa from passport where passportNum = '".$visa['passportNum']."' AND creationDate = '".$visa['passportCreationDate']."'"));?>
-                        <?php if( $trainingCard['oldVisa'] == 'yes'){ ?>
+                        <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, departureSeal from passport where passportNum = '".$visa['passportNum']."' AND creationDate = '".$visa['passportCreationDate']."'"));?>
+                        <?php if( $trainingCard['departureSeal'] == 'yes'){ ?>
                             <a href="?page=cI&p=<?php echo base64_encode($visa['passportNum'])."&cd=.".base64_encode($visa['passportCreationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
                         <?php }else{ ?>
                             <?php if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>

@@ -93,64 +93,63 @@ if(isset($_GET['p'])){
 <script>
     $('body').on('click', "input[type='radio']", function(){
         const transit = $("input[name='transit']:checked").val();
+
         const candidateSelect = $("input[name='candidateSelect']:checked").val();
-
-        if(candidateSelect === 'inhouse'){
-            $.ajax({
-                type: 'post',
-                url: 'template/fetchTicketInfo.php',
-                data: {candidateSelect : candidateSelect},
-                success: function (response){
-                    $('#ticketInfoDiv').html(response);
-                    $('.select2').select2({
-                        width: '100%'
-                    });
-                    $('.datepicker').datepicker({
-                        format: 'yyyy/mm/dd',
-                        todayHighlight:'TRUE',
-                        autoclose: true,
-                    })
-                }
-            });
-        }else if(candidateSelect === 'new'){
-            $.ajax({
-                type: 'post',
-                url: 'template/fetchTicketInfo.php',
-                data: {candidateSelect : candidateSelect},
-                success: function (response){
-                    $('#ticketInfoDiv').html(response);
-                    $('.datepicker').datepicker({
-                        format: 'yyyy/mm/dd',
-                        todayHighlight:'TRUE',
-                        autoclose: true,
-                    })
-                }
-            });
-        }else{
-            $.ajax({
-                type: 'post',
-                url: 'template/fetchTicketInfo.php',
-                data: {candidateSelect : candidateSelect},
-                success: function (response){
-                    $('#ticketInfoDiv').html(response);
-                    $('.select2').select2({
-                        width: '100%'
-                    });
-                    $('.datepicker').datepicker({
-                        format: 'yyyy/mm/dd',
-                        todayHighlight:'TRUE',
-                        autoclose: true,
-                    })
-                }
-            });
-        }
-
         if(transit == 'yes'){
             $('#transitHourDiv').show();
-        }else{
+        }else if(transit == 'no'){
             $('#transitHourDiv').hide();
+        }else{
+            if(candidateSelect === 'inhouse'){
+                $.ajax({
+                    type: 'post',
+                    url: 'template/fetchTicketInfo.php',
+                    data: {candidateSelect : candidateSelect},
+                    success: function (response){
+                        $('#ticketInfoDiv').html(response);
+                        $('.select2').select2({
+                            width: '100%'
+                        });
+                        $('.datepicker').datepicker({
+                            format: 'yyyy/mm/dd',
+                            todayHighlight:'TRUE',
+                            autoclose: true,
+                        })
+                    }
+                });
+            }else if(candidateSelect === 'new'){
+                $.ajax({
+                    type: 'post',
+                    url: 'template/fetchTicketInfo.php',
+                    data: {candidateSelect : candidateSelect},
+                    success: function (response){
+                        $('#ticketInfoDiv').html(response);
+                        $('.datepicker').datepicker({
+                            format: 'yyyy/mm/dd',
+                            todayHighlight:'TRUE',
+                            autoclose: true,
+                        })
+                    }
+                });
+            }else{
+                $.ajax({
+                    type: 'post',
+                    url: 'template/fetchTicketInfo.php',
+                    data: {candidateSelect : candidateSelect},
+                    success: function (response){
+                        $('#ticketInfoDiv').html(response);
+                        $('.select2').select2({
+                            width: '100%'
+                        });
+                        $('.datepicker').datepicker({
+                            format: 'yyyy/mm/dd',
+                            todayHighlight:'TRUE',
+                            autoclose: true,
+                        })
+                    }
+                });
+            }
         }
-        
     });
     $('#ticketNav').addClass('active');
 </script>
