@@ -11,7 +11,44 @@ $result = mysqli_query($conn,$qry);
 
 <div class="container-fluid" style="padding: 2%">
     <div class="card">
-        <!-- Passport Photo Modal -->
+        <!-- Add Office -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="addOfficeModal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <form action="template/addDelegateOffice.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Change Office Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <input type="hidden" name="delegateId" id="delegateIdModal">
+                        <div class="form-row">
+                            <div id="officeDiv">
+                                <div class="form-group">  
+                                    <label for="sel1">Office: </label>
+                                    <input class="form-control" type="text" name="delegateOffice[]" placeholder="Office name" required>
+                                </div>
+                            </div>                
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <button class="btn btn-sm" type="button" id="add_office" ><span class="fa fa-plus" aria-hidden="true"></span></button>
+                                <button class="btn btn-sm btn-danger" type="button" id="remove_office"><span class="fas fa-minus" aria-hidden="true"></span></button>
+                            </div>
+                        </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Edit Delete Office -->
         <div class="modal fade" tabindex="-1" role="dialog" id="changeDelegateOffice">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <form action="template/delegateOfficeEdit.php" method="post" enctype="multipart/form-data">
@@ -29,6 +66,7 @@ $result = mysqli_query($conn,$qry);
                             
                         </div>
                         <div class="modal-footer">
+                            <button type="submit" name="delete" class="btn btn-danger">Delete</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
@@ -73,6 +111,9 @@ $result = mysqli_query($conn,$qry);
                             </td>
                             <td>
                                 <div class="flex-container">
+                                    <div style="padding-right: 2%">                                        
+                                        <button type="submit" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#addOfficeModal" value="<?php echo $delegate['delegateId']?>" onclick="addOffice(this.value)">Add Office</></button>
+                                    </div>
                                     <div style="padding-right: 2%">
                                         <form action="index.php" method="post">
                                             <input type="hidden" value="editDelegate" name="pagePost">
@@ -117,5 +158,23 @@ $result = mysqli_query($conn,$qry);
         var info_split = info.split('_');
         $('#officeNameModal').val(info_split[0]);
         $('#delegateOfficeIdModal').val(info_split[1]);
+    }
+    $('#add_office').click(function(){
+        var div = document.createElement("DIV");
+        div.setAttribute('class', 'form-group');
+        var input = document.createElement("INPUT");
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', 'delegateOffice[]');
+        input.setAttribute('class', 'form-control');
+        input.setAttribute('placeholder', 'Office Name');
+        input.setAttribute('required','');
+        div.appendChild(input);
+        $('#officeDiv').append(div);
+    });
+    $('#remove_office').click(function(){
+        $('#officeDiv').children().last().remove();
+    });
+    function addOffice(delegateId){
+        $('#delegateIdModal').val(delegateId);
     }
 </script>
