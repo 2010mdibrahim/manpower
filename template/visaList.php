@@ -480,7 +480,7 @@
                         
                         <!-- Manpower Card -->
                         <td>
-                            <?php if($visa['oldVisa'] != 'yes'){?>
+                            <?php if($trainingCard['departureSeal'] != 'yes'){?>
                                 <?php if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no' || empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                                     <button class="btn btn-warning btn-sm">Do Previous</button>
                                 <?php }else{ ?>
