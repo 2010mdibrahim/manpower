@@ -14,8 +14,8 @@ $policeVerification = $_POST['policeVerification'];
 $photo = $_POST['passportPhoto'];
 $validityYear = $_POST['validityYear'];
 $manpowerOfficeName = $_POST['manpower'];
-$jobType = $_POST['jobType'];
-
+$jobTypeInfo = explode('_',$_POST['jobType']);
+$jobType = $jobTypeInfo[0];
 if(isset($_POST['agentEmail'])){
     $agentEmail = $_POST['agentEmail'];
 }else{
@@ -148,6 +148,10 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     
     
     $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date')");
+    $expCountry = $_POST['expCountry'];
+    foreach($expCountry as $countryName){
+        $result = $conn->query("INSERT INTO passportexperiencedcountry(passportNum, passportCreationDate, country) VALUES ('$passportNum','$date','$countryName')");
+    }
     if($result){
         $result = $conn->query("INSERT INTO agentcomission(amount, passportNum, passportCreationDate, agentEmail, creationDate, updatedBy, updatedOn) VALUES ($comission, '$passportNum', '$date', '$agentEmail', '$date', '$admin', '$date')");
         if($advance == 'yes'){

@@ -14,6 +14,7 @@ if($alter == 'delete'){
         echo 'something went wrong!';
     }
 }else{
+    $flightTime = $_POST['flightTime'];
     $outsidePassportId = $_POST['outsidePassportId'];
     $airplane = $_POST['airline'];
     $flightNo = $_POST['flightNo'];
@@ -55,7 +56,7 @@ if($alter == 'delete'){
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");
 
-    $result = $conn->query("UPDATE outsideticket SET flightDate='$flightDate', transit = $transitHour, ticketPrice=$amount,flightNo='$flightNo',flightTo='$toPlace',airline='$airplane',outsidePassportId=$outsidePassportId,comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE ticketId = $ticketId");
+    $result = $conn->query("UPDATE outsideticket SET flightDate='$flightDate',flightTime = '$flightTime', transit = $transitHour, ticketPrice=$amount,flightNo='$flightNo',flightTo='$toPlace',airline='$airplane',outsidePassportId=$outsidePassportId,comment='$comment',updatedBy='$admin',updatedOn='$date' WHERE ticketId = $ticketId");
     if($result)
     {
         echo "<script> window.alert('Updated')</script>";

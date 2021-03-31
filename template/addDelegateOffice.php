@@ -1,9 +1,10 @@
 <?php
 include ('database.php');
 $delegateId = $_POST['delegateId'];
+$licenseNumber = $_POST['licenseNumber'];
 $delegateOffice = $_POST['delegateOffice'];
-foreach($delegateOffice as $officeName){
-    $result = $conn->query("INSERT INTO delegateoffice(officeName, delegateId) VALUES ('$officeName', $delegateId)");
+foreach($delegateOffice as $index => $officeName){
+    $result = $conn->query("INSERT INTO delegateoffice(officeName, officeLicenseNumber, delegateId) VALUES ('$officeName', '$licenseNumber[$index]', $delegateId)");
 }
 if ($result) {
     echo "<script> window.location.href='../index.php?page=delegateList'</script>";

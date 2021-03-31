@@ -269,9 +269,9 @@
                 <?php
                 if(isset($_GET['pi'])){
                     $processingId = base64_decode($_GET['pi']);
-                    $result = $conn->query("SELECT passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) where processing.processingId = $processingId");
+                    $result = $conn->query("SELECT jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) where processing.processingId = $processingId");
                 }else{
-                    $result = $conn->query("SELECT passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
+                    $result = $conn->query("SELECT jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
                 }
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
@@ -338,16 +338,18 @@
                                         <a href="<?php echo $visa['okalaFile'];?>" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
                                     </div>                                                       
                                 <?php } ?>
-                                <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                        <input type="hidden" name="purpose" value="Okala">
-                                        <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                        <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                        <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                    </form>
-                                </div>
+                                <?php if($visa['creditType'] != 'Paid'){ ?>
+                                    <div class="col-sm-3">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="Okala">
+                                            <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                            <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        </form>
+                                    </div>
+                                <?php } ?>
                             </div>
                         <?php } ?></td>                       
                         <!-- MUFA -->
@@ -368,16 +370,18 @@
                                             <a href="<?php echo $visa['mufaFile'];?>" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
                                         </div>
                                 <?php } ?>
-                                <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                        <input type="hidden" name="purpose" value="MUFA">
-                                        <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                        <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                        <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                    </form>
-                                </div>
+                                    <?php if($visa['creditType'] != 'Paid'){ ?>
+                                        <div class="col-sm-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="MUFA">
+                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
                             </div>
                         <?php } ?></td>
 
@@ -464,23 +468,25 @@
                                             <a href="<?php echo $trainingCard['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
                                         </div>
                                 <?php } ?>
-                                    <div class="col-sm-3">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                            <input type="hidden" name="purpose" value="Training Card">
-                                            <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                            <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                            <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                        </form>
-                                    </div>
+                                    <?php if($visa['creditType'] != 'Paid'){ ?>
+                                        <div class="col-sm-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="Training Card">
+                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             <?php } ?></td>
                         <?php }?>
                         
                         <!-- Manpower Card -->
                         <td>
-                            <?php if($visa['oldVisa'] != 'yes'){?>
+                            <?php if($trainingCard['departureSeal'] != 'yes'){?>
                                 <?php if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no' || empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                                     <button class="btn btn-warning btn-sm">Do Previous</button>
                                 <?php }else{ ?>
@@ -497,16 +503,18 @@
                                                 <a href="<?php echo $visa['manpowerCardFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>
                                             </div>
                                         <?php } ?>
-                                        <div class="col-sm-3">
-                                            <form action="index.php" method="post">
-                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                                <input type="hidden" name="purpose" value="Manpower">
-                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                            </form>
-                                        </div>
+                                        <?php if($visa['creditType'] != 'Paid'){ ?>
+                                            <div class="col-sm-3">
+                                                <form action="index.php" method="post">
+                                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                    <input type="hidden" name="purpose" value="Manpower">
+                                                    <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                    <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                                </form>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 <?php } ?>
                             <?php }else{ ?>
@@ -523,16 +531,18 @@
                                             <a href="<?php echo $visa['manpowerCardFile'];?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>
                                         </div>
                                     <?php } ?>
-                                    <div class="col-sm-3">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                            <input type="hidden" name="purpose" value="Manpower">
-                                            <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                            <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                            <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                        </form>
-                                    </div>
+                                    <?php if($visa['creditType'] != 'Paid'){ ?>
+                                        <div class="col-sm-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="Manpower">
+                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             <?php } ?>
                         </td>

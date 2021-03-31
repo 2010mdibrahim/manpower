@@ -56,25 +56,6 @@ if(!empty($_POST['pagePost'])){
 <div id="data-loading"></div>
 <?php include ('template/database.php'); ?>
 <div id="seaum_alert">
-<?php
-$result_count = mysqli_fetch_assoc($conn->query("SELECT count(ticketId) as count_ticket from ticket where ticket.notified != 'yes'"));
-$result = $conn->query("SELECT passport.fName, passport.lName, ticket.flightDate, ticket.ticketId from ticket inner join passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where ticket.notified != 'yes'");
-$today = new DateTime(date('Y-m-d'));
-if($result_count['count_ticket'] > 0){
-    echo"   <script>function showNotification() {
-                icon = 'image-url';";
-    while($ticket = mysqli_fetch_assoc($result)){
-        $flightDate = new DateTime($ticket['flightDate']);
-        $dateDiff = $flightDate->diff($today);
-        if($dateDiff->d < 3){
-            $update_notify = $conn->query("UPDATE ticket set notified = 'yes' where ticketId = ".$ticket['ticketId']);
-            echo "var body = '".$ticket['fName']." ".$ticket['lName']." remaining day: ".$dateDiff->d."';";
-            echo "var notification = new Notification('Ticket Alert', {body,icon});";
-        }
-    }
-    echo "  } </script>";
-}
-?>
 <script>
     var data_loading = '<div style="position: fixed; z-index: 99999; top: 0%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"><center><img src="<?="img/loading.gif";?>" style="margin-top:16%;border-radius:50px 5px 50px 5px;"/></center></div>';
 </script>
@@ -392,6 +373,58 @@ if($result_count['count_ticket'] > 0){
 
 
 <script>
+    $.ajax({
+        type: 'post',
+        url: 'template/notification.php',
+        success: function(body){
+            // Let's check if the browser supports notifications
+            if(body != ""){
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                }
+
+                // Let's check whether notification permissions have already been granted
+                else if (Notification.permission === "granted") {
+                    var notification = new Notification('Final Medical Report Due:', {body});
+                }
+
+                else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                    // If the user accepts, let's create a notification
+                        if (permission === "granted") {
+                            var notification = new Notification('Final Medical Report Due:', {body});
+                        }
+                    });
+                }
+            }
+        }
+    });
+    $.ajax({
+        type: 'post',
+        url: 'template/notificationTicket.php',
+        success: function(body){
+            // Let's check if the browser supports notifications
+            if(body != ""){
+                if (!("Notification" in window)) {
+                    alert("This browser does not support desktop notification");
+                }
+
+                // Let's check whether notification permissions have already been granted
+                else if (Notification.permission === "granted") {
+                    var notification = new Notification('Ticket Date:', {body});
+                }
+
+                else if (Notification.permission !== "denied") {
+                    Notification.requestPermission().then(function (permission) {
+                    // If the user accepts, let's create a notification
+                        if (permission === "granted") {
+                            var notification = new Notification('Ticket Date:', {body});
+                        }
+                    });
+                }
+            }
+        }
+    });
 
     $('.datepicker').datepicker({
         format: 'yyyy/mm/dd',
@@ -407,8 +440,6 @@ if($result_count['count_ticket'] > 0){
     if(permission === 'default'){
         Notification.requestPermission();
     }
-
-    window.onload = showNotification();
 
 
 

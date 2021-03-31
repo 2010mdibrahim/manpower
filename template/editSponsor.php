@@ -1,7 +1,6 @@
 <?php
 $sponsorNid = $_POST['sponsorNid'];
 $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorNID = '$sponsorNid'"));
-$result = $conn->query("SELECT * from delegate order by creationDate")
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -14,12 +13,14 @@ $result = $conn->query("SELECT * from delegate order by creationDate")
             <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Delegate</label>
-                    <select class="form-control" name="delegateId" id="delegateId">
-                    <?php while($delegate = mysqli_fetch_assoc($result)){
-                            if($delegate['delegateId'] == $sponsor['delegateId']){ ?>
-                                <option value="<?php echo $delegate['delegateId']?>" selected><?php echo $delegate['delegateName'];?></option>
+                    <select class="form-control" name="delegateOfficeId" id="delegateOfficeId">
+                    <?php 
+                    $result = $conn->query("SELECT delegateOffice.delegateOfficeId, delegateOffice.officeName, delegate.* from delegate inner join delegateOffice using (delegateId) order by delegate.creationDate");
+                    while($delegate = mysqli_fetch_assoc($result)){
+                            if($delegate['delegateOfficeId'] == $sponsor['delegateOfficeId']){ ?>
+                                <option value="<?php echo $delegate['delegateOfficeId']?>" selected><?php echo $delegate['delegateName']." - ".$delegate['officeName'];?></option>
                             <?php }else{ ?>
-                                <option value="<?php echo $delegate['delegateId']?>"><?php echo $delegate['delegateName'];?></option>
+                                <option value="<?php echo $delegate['delegateOfficeId']?>"><?php echo $delegate['delegateName']." - ".$delegate['officeName'];?></option>
                     <?php } } ?>
                     </select>                  
                 </div>

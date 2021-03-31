@@ -38,18 +38,20 @@ if(isset($_POST['addDelegate'])){
             }
         }else{
             $delegateOffice = $_POST['delegateOffice'];
+            $licenseNumber = $_POST['licenseNumber'];
             $creationDate = date("Y-m-d h:s:i");
             $exists = mysqli_fetch_assoc($conn->query("SELECT count(delegateId) as countId from delegate where delegateName = '$delegateName' AND country = '$delegateCountry' AND delegateState = '$delegateState'"));
             if($exists['countId'] == 0){
                 $result = $conn->query("INSERT INTO delegate(delegateName, country, delegateState, creationDate, updatedBy, updatedOn, comment) VALUES ('$delegateName','$delegateCountry','$delegateState', '$creationDate', '$admin', '$date', '$comment')");
                 $delegateIdNew = mysqli_fetch_assoc($conn->query("SELECT max(delegateId) as delegateId from delegate"));
-                foreach($delegateOffice as $officeName){
-                    $result = $conn->query("INSERT INTO delegateoffice(officeName, delegateId) VALUES ('$officeName', ".$delegateIdNew['delegateId'].")");
+                foreach($delegateOffice as $index => $officeName){
+                    $result = $conn->query("INSERT INTO delegateoffice(officeName, officeLicenseNumber, delegateId) VALUES ('$officeName', '".$licenseNumber[$index]."', ".$delegateIdNew['delegateId'].")");
                 }
                 if ($result) {
                     echo "<script> window.location.href='../index.php?page=delegateList'</script>";
                 } else {
                     echo "<script>window.alert('Error')</script>";
+                    print_r(mysqli_error($conn));
                 }
             }else{
                 echo "<script>window.alert('Delegate For This State Already Exists')</script>";

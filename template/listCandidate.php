@@ -2,9 +2,9 @@
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
-    $result = $conn -> query("SELECT jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");
+    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");
 }
 ?>
 
@@ -34,7 +34,7 @@ if(isset($_GET['pp'])){
                         <input type="hidden" name="mode" value="finalMedical">
                         <input type="hidden" name="passportMedicalFinal" id="passportMedicalFinal" value="">
                         <div class="form-group">
-                            <input class="form-control datepicker" type="text" autocomplete="off" name="finalMedicalDate" id="finalMedicalDate" placeholder="Enter Report Date">
+                            <input class="form-control datepicker" type="text" autocomplete="off" name="finalMedicalDate" id="finalMedicalDateModal" placeholder="Enter Report Date">
                         </div>
                         <div class="form-group">
                             <input class="form-control" type="file" name="finalMedical">
@@ -282,17 +282,19 @@ if(isset($_GET['pp'])){
                                     <a href="<?php echo $candidate['testMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
                                 </div>                                                        
                             <?php } ?>
-                                <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="redir" value="listCandidate">
-                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                        <input type="hidden" name="purpose" value="Test Medical">
-                                        <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
-                                        <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
-                                        <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                    </form>
-                                </div>
+                                <?php if($candidate['creditType'] != 'Paid'){ ?>
+                                    <div class="col-sm-3">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="redir" value="listCandidate">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="Test Medical">
+                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                            <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        </form>
+                                    </div>
+                                <?php } ?>
                         </div></td>
                         <!-- Final Medical -->
                         <td class="second">                        
@@ -307,23 +309,25 @@ if(isset($_GET['pp'])){
                                     </div>
                                 <?php } else { ?>                            
                                         <div class="col-sm-3">
-                                            <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="finalMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)"><span class="fas fa-redo"></span></button>
+                                            <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['finalMedicalReport'];?>" name="finalMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)"><span class="fas fa-redo"></span></button>
                                         </div>
                                         <div class="col-sm-3"> 
                                             <a href="<?php echo $candidate['finalMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
                                         </div>                                                        
                                 <?php } ?>
-                                    <div class="col-sm-3">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="redir" value="listCandidate">
-                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                            <input type="hidden" name="purpose" value="Final Medical">
-                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
-                                            <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
-                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
-                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                        </form>
-                                    </div>
+                                    <?php if($candidate['creditType'] != 'Paid'){ ?>
+                                        <div class="col-sm-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="redir" value="listCandidate">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="Final Medical">
+                                                <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                                <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="row text-center">
                                     <div class="col-sm">
@@ -350,17 +354,19 @@ if(isset($_GET['pp'])){
                                 <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="policeClearance(this.value)">No</button>                            
                             </div>
                             <?php } ?>
-                            <div class="col-sm-3">
-                                <form action="index.php" method="post">
-                                    <input type="hidden" name="redir" value="listCandidate">
-                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                    <input type="hidden" name="purpose" value="Police Clearance">
-                                    <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
-                                    <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
-                                    <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
-                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                </form>
-                            </div>
+                            <?php if($candidate['creditType'] != 'Paid'){ ?>
+                                <div class="col-sm-3">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="redir" value="listCandidate">
+                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                        <input type="hidden" name="purpose" value="Police Clearance">
+                                        <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                        <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    </form>
+                                </div>
+                            <?php } ?>
                         </div>
                         </td>
                         <!-- Training Card -->
@@ -380,17 +386,19 @@ if(isset($_GET['pp'])){
                                     <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)">No</button>
                                 </div>                            
                             <?php } ?>
-                            <div class="col-sm-3">
-                                <form action="index.php" method="post">
-                                    <input type="hidden" name="redir" value="listCandidate">
-                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                    <input type="hidden" name="purpose" value="Training Card">
-                                    <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
-                                    <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
-                                    <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
-                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                </form>
-                            </div>                       
+                                <?php if($candidate['creditType'] != 'Paid'){ ?>
+                                    <div class="col-sm-3">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="redir" value="listCandidate">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="Training Card">
+                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                            <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        </form>
+                                    </div>
+                                <?php } ?>                     
                         <?php }else{ ?>
                             <div class="col-sm">
                                 <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum'])."&cd=.".base64_encode($candidate['creationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
@@ -465,7 +473,9 @@ function testMedical(passport_info){
 }
 
 function finalMedical(passport_info){
-    $('#passportMedicalFinal').val(passport_info);
+    var info_split = passport_info.split('_');
+    $('#passportMedicalFinal').val(info_split[0]+'_'+info_split[1]);
+    $('#finalMedicalDateModal').val(info_split[2]);
 }
 
 function policeClearance(passport_info){

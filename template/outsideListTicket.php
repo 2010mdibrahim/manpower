@@ -21,6 +21,7 @@
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
+                        <th>Flight Time</th>
                         <th>Transit</th>
                         <th>To</th>
                         <th>Amount</th>
@@ -37,6 +38,7 @@
                             <td><?php echo $ticket['airline'];?></td>
                             <td><?php echo $ticket['flightNo'];?></td>
                             <td><?php echo $ticket['flightDate'];?></td>
+                            <td><?php echo $ticket['flightTime'];?></td>
                             <td>
                             <?php  
                             if($ticket['transit'] == 0.0){

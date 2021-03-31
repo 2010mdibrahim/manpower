@@ -42,11 +42,11 @@
             </div>
             <div class="form-group col-md-6 date_error">
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
-                <select class="form-control select2" name="jobType" id="jobType" required>
+                <select class="form-control select2" name="jobType" id="jobType" onchange="visaCreditType(this.value)" required>
                 <?php $result = $conn->query("SELECT jobType, jobId, creditType from jobs order by creationDate desc");?>
                     <option value="">----- Select Job Type -----</option>
                     <?php while($jobs = mysqli_fetch_assoc($result)){ ?>
-                        <option value="<?php echo $jobs['jobId'];?>"><?php echo $jobs['jobType']." - ".$jobs['creditType'];?></option>
+                        <option value="<?php echo $jobs['jobId'].'_'.$jobs['creditType'];?>"><?php echo $jobs['jobType']." - ".$jobs['creditType'];?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -75,11 +75,11 @@
                 <label>Validity Year</label>
                 <div class="form-group">
                     <label class="parking_label">5 Years
-                        <input type="radio" name="validityYear" id="validityYear" value="5" required>
+                        <input type="radio" name="validityYear" value="5" required>
                         <span class="checkmark"></span>
                     </label>
                     <label class="parking_label">10 Years
-                        <input type="radio" name="validityYear" id="validityYear" value="10" required>
+                        <input type="radio" name="validityYear" value="10" required>
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -102,23 +102,37 @@
                         </label> 
                     </div> 
                 </div>
-                <div class="form-row" id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
-                    <div class="col-md-6">
-                        <label>Departure Seal</label>
-                        <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
+                <div id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
+                    <div class="form-group form-row">
+                        <div class="col-md-6">
+                            <label>Departure Seal</label>
+                            <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Arrival Seal</label>
+                            <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Departure Date</label>
+                            <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Arrival Date</label>
+                            <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
+                        </div>               
                     </div>
-                    <div class="col-md-6">
-                        <label>Arrival Seal</label>
-                        <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
+                    <div>
+                        <label for="">Travelled Country</label>
+                        <div class="form-group form-row" id="countryDiv">
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" name="expCountry[]" placeholder="Enter Country Name">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label>Departure Date</label>
-                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
+                    <div class="form-group form-row">
+                        <button class="btn btn-sm btn-primary" type="button" id="add_country" ><span class="fa fa-plus" aria-hidden="true"></span></button>
+                        <button class="btn btn-sm btn-danger" type="button" id="remove_country"><span class="fas fa-minus" aria-hidden="true"></span></button>
                     </div>
-                    <div class="col-md-6">
-                        <label>Arrival Date</label>
-                        <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
-                    </div>               
                 </div>
             </div>
         </div>
@@ -153,9 +167,13 @@
             </div>                       
         </div>
         <div class="form-row"> 
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" id="visaFee" style="display: none;">
                 <label>VISA Fee</label>
-                <input class="form-control" type="number" name="comission" placeholder="Enter Amount" required>
+                <div id="visaFeeLabel"></div>
+            </div>
+            <div class="form-group col-md-6" id="visaComission" style="display: none;">
+                <label>Comission</label>
+                <div id="visaComissionLabel"></div>
             </div>
             
             <div class="col-md-6 text-center">
@@ -261,11 +279,11 @@
                     <label>Training Card <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
                     <div class="form-group">
                         <label class="parking_label">Provided
-                            <input type="radio" name="trainingCard" value="yes" required>
+                            <input type="radio" name="trainingCard" value="yes">
                             <span class="checkmark"></span>
                         </label>
                         <label class="parking_label">Not Provided
-                            <input type="radio" name="trainingCard" value="no" required>
+                            <input type="radio" name="trainingCard" value="no">
                             <span class="checkmark"></span>
                         </label>
                     </div>                 
@@ -333,15 +351,17 @@
         if(experience === 'yes'){
             $('#experienced').show();
             $('#trainingCard_div').hide();
-            $('#oldVisaFile').prop('required',true);
+            $("input[name='trainingCard']").prop('required',false)
             $('#departureSealFile').prop('required',true);
             $('#arrivalSealFile').prop('required',true);
             $('#departureDate').prop('required',true);
             $('#arrivalDate').prop('required',true);
+            $("input[name='expCountry[]']").prop('required',true);
         }else if(experience === 'no'){
             $('#experienced').hide();
             $('#trainingCard_div').show();
-            $('#oldVisaFile').prop('required',false);
+            $("input[name='trainingCard']").prop('required',true)
+            $("input[name='expCountry[]']").prop('required',false);
             $('#departureSealFile').prop('required',false);
             $('#arrivalSealFile').prop('required',false);
             $('#departureDate').prop('required',false);
@@ -410,5 +430,41 @@
             }
         });
     });
+
+    function visaCreditType(info){
+        var visaInput = document.createElement('INPUT');
+        visaInput.setAttribute('class','form-control');
+        visaInput.setAttribute('type', 'number');
+        visaInput.setAttribute('name', 'comission');
+        visaInput.setAttribute('placeholder', 'Enter Amount');
+        var creditType = info.split('_');
+        if(creditType[1] === 'Paid'){
+            $('#visaComissionLabel').html('');
+            $('#visaFeeLabel').html(visaInput);
+            $('#visaFee').show();
+            $('#visaComission').hide();
+        }else{
+            $('#visaFeeLabel').html('');
+            $('#visaComissionLabel').html(visaInput);
+            $('#visaFee').hide();
+            $('#visaComission').show();
+        }
+    }
+    $('#add_country').click(function(){
+        var div = document.createElement("DIV");
+        div.setAttribute('class', 'form-group col-md-3');
+        var input = document.createElement("INPUT");
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', 'expCountry[]');
+        input.setAttribute('class', 'form-control');
+        input.setAttribute('placeholder', 'Enter Country Name');
+        input.setAttribute('required','');   
+        div.appendChild(input);
+        $('#countryDiv').append(div);
+    });
+    $('#remove_country').click(function(){
+        $('#countryDiv').children().last().remove();
+    });
+
     $('#candidateNav').addClass('active');
 </script>
