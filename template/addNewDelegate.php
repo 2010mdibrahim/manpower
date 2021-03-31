@@ -25,9 +25,15 @@
             </div>
             <div class="form-row">
                 <div id="officeDiv">
-                    <div class="form-group">  
-                        <label for="sel1">Office: </label>
-                        <input class="form-control" type="text" name="delegateOffice[]" placeholder="Office name" required>
+                    <div class="form-group row">
+                        <div class="col-sm">  
+                            <label for="sel1">Office: </label>
+                            <input class="form-control" type="text" name="delegateOffice[]" placeholder="Office name" required>
+                        </div>
+                        <div class="col-sm">  
+                            <label for="sel1">License Number: </label>
+                            <input class="form-control" type="text" name="licenseNumber[]" placeholder="License Number" required>
+                        </div>
                     </div>
                 </div>                
             </div>
@@ -47,15 +53,39 @@
 <script>
     $('#delegateNav').addClass('active');
     $('#add_office').click(function(){
+        // create row
         var div = document.createElement("DIV");
-        div.setAttribute('class', 'form-group');
+        div.setAttribute('class', 'form-group row');
+        // create first col-sm
+        var div_col_1 = document.createElement("DIV");
+        div_col_1.setAttribute('class', 'col-sm');
+        var label = document.createElement("LABEL");
+        var text = document.createTextNode("Office: ");
+        label.appendChild(text);
+        div_col_1.appendChild(label);
         var input = document.createElement("INPUT");
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'delegateOffice[]');
         input.setAttribute('class', 'form-control');
         input.setAttribute('placeholder', 'Office Name');
         input.setAttribute('required','');
-        div.appendChild(input);
+        div_col_1.appendChild(input);
+        div.appendChild(div_col_1);
+        // second input
+        var div_col_1 = document.createElement("DIV");
+        div_col_1.setAttribute('class', 'col-sm');
+        var label = document.createElement("LABEL");
+        var text = document.createTextNode("License Number: ");
+        label.appendChild(text);
+        div_col_1.appendChild(label);
+        var input = document.createElement("INPUT");
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', 'licenseNumber[]');
+        input.setAttribute('class', 'form-control');
+        input.setAttribute('placeholder', 'License Number');
+        input.setAttribute('required','');
+        div_col_1.appendChild(input);
+        div.appendChild(div_col_1);
         $('#officeDiv').append(div);
     });
     $('#remove_office').click(function(){

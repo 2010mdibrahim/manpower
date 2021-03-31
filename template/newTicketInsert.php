@@ -1,5 +1,7 @@
 <?php
 include ('database.php');
+$flightTime = $_POST['flightTime'];
+print_r($flightTime);
 $candidateSelect = $_POST['candidateSelect'];
 $airplane = $_POST['airline'];
 $flightNo = $_POST['flightNo'];
@@ -19,7 +21,6 @@ if(!empty($_POST['transitHour'])){
 }else{
     $transitHour = 0.0;
 }
-print_r($transitHour);
 
 $admin = $_SESSION['email'];
 $date = date("Y-m-d");
@@ -41,19 +42,17 @@ if($candidateSelect == 'inhouse'){
         $db_file = $target_dir.'ticket_'.$passportNum.'.'.$file_ext;
         $file_path_filename_ext = $base_dir.$target_dir.'ticket_'.$passportNum.'.'.$file_ext;
     }
-    $result = $conn->query("INSERT INTO ticket(flightDate, transit, ticketPrice, flightNo, flightTo, airline, passportNum, passportCreationDate, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', '$passportNum', '$passportCreationDate', '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO ticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, passportNum, passportCreationDate, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', '$passportNum', '$passportCreationDate', '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
             move_uploaded_file($file_tmp,$file_path_filename_ext);
         }
-        // echo "<script> window.alert('Inserted')</script>";
-        echo "<script> window.location.href='../index.php?page=listTicket'</script>";
+        // echo "<script> window.location.href='../index.php?page=listTicket'</script>";
     }
     else{
         echo "<script> window.alert('Error')</script>";
         print_r(mysqli_error($conn));
-        // echo "<script> window.location.href='../index.php?page=newTicket'</script>";
     }
 
 }else if($candidateSelect == 'new'){
@@ -72,7 +71,7 @@ if($candidateSelect == 'inhouse'){
     }
     $result = $conn->query("INSERT INTO outsidepassport(passportNum, issuDate, name, mobNum) VALUES ('$passportNum','$issueDate','$name','$mobNum')");
     $outsidePassportId = mysqli_fetch_assoc($conn->query("SELECT max(outsidePassportId) as outsidePassportId from outsidepassport"));
-    $result = $conn->query("INSERT INTO outsideticket(flightDate, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', ".$outsidePassportId['outsidePassportId'].", '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', ".$outsidePassportId['outsidePassportId'].", '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
@@ -98,7 +97,7 @@ if($candidateSelect == 'inhouse'){
         $db_file = $target_dir.'ticket_'.$outsidePassportId.'.'.$file_ext;
         $file_path_filename_ext = $base_dir.$target_dir.'ticket_'.$outsidePassportId.'.'.$file_ext;
     }
-    $result = $conn->query("INSERT INTO outsideticket(flightDate, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', $outsidePassportId, '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', $outsidePassportId, '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
@@ -110,7 +109,6 @@ if($candidateSelect == 'inhouse'){
     else{
         echo "<script> window.alert('Error')</script>";
         print_r(mysqli_error($conn));
-        // echo "<script> window.location.href='../index.php?page=newTicket'</script>";
     }
 }
 

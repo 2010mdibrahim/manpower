@@ -101,42 +101,55 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                             </li>
                             <li class="list-group-item">
                                 <?php if($passportInfo['departureSeal'] == 'yes'){ ?>
-                                Candidate Previous Status: <span>Experienced</span>
-                                <ul class="list-group-inside list-group-flush">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="row">
-                                                    <div class="col-sm">
-                                                        <p>Depature Date: <span><?php echo $passportInfo['departureDate'];?></span></p>
+                                    Candidate Previous Status: <span>Experienced</span>
+                                    <ul class="list-group-inside list-group-flush">
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="row">
+                                                        <div class="col-sm">
+                                                            <p>Depature Date: <span><?php echo $passportInfo['departureDate'];?></span></p>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <a href="<?php echo $passportInfo['departureSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm">
-                                                        <a href="<?php echo $passportInfo['departureSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <div class="row">
+                                                        <div class="col-sm">
+                                                            <p>Arrival Date: <span><?php echo $passportInfo['arrivalDate'];?></span></p>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <a href="<?php echo $passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm">
-                                                <div class="row">
-                                                    <div class="col-sm">
-                                                        <p>Arrival Date: <span><?php echo $passportInfo['arrivalDate'];?></span></p>
-                                                    </div>
-                                                    <div class="col-sm">
-                                                        <a href="<?php echo $passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
-                                                    </div>
+                                        </li>
+                                        <li>
+                                            <div class="row">
+                                                <p>Visited Country: </p>
+                                                <?php 
+                                                $result_country = $conn->query("SELECT * from passportexperiencedcountry where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
+                                                while($country = mysqli_fetch_assoc($result_country)){
+                                                ?>
+                                                <div class="col-md-1">
+                                                    <button class="btn btm-info"><?php echo $country['country']; ?></button>
                                                 </div>
+                                                <?php } ?>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
                                 <?php }else{ ?>
-                                Candidate Previous Status: <span>New</span>
-                                <ul class="list-group-inside list-group-flush">
-                                    <li> 
-                                        <?php if($passportInfo['trainingCard'] == 'yes'){ ?>
-                                            <a href="<?php echo $passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn">Training Card</button></a>
-                                        <?php }else{ ?>
-                                            <p>No Training Card Uploaded</p>
-                                        <?php } ?>
-                                    </li>                                        
+                                    Candidate Previous Status: <span>New</span>
+                                    <ul class="list-group-inside list-group-flush">
+                                        <li> 
+                                            <?php if($passportInfo['trainingCard'] == 'yes'){ ?>
+                                                <a href="<?php echo $passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn">Training Card</button></a>
+                                            <?php }else{ ?>
+                                                <p>No Training Card Uploaded</p>
+                                            <?php } ?>
+                                        </li>                                        
                                 <?php } ?>
                                 </ul>
                                 

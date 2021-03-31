@@ -17,7 +17,7 @@
             <div>
                 <a href="?page=selectAgentByTicket&by=ticket">Ticket Agent Report</a>
             </div>
-        </div>
+        </div> -->
         <div class="column col-md-6" style="padding: 2%">
             <h5 style="background-color: aliceblue; padding: 0.5%">Candidate Report</h5>
             <div>
@@ -27,7 +27,7 @@
                 <a href="?page=cityWiseCandidateReport">City Wise Candidate Report</a>
             </div>
         </div>
-        <div class="column col-md-6" style="padding: 2%">
+        <!-- <div class="column col-md-6" style="padding: 2%">
             <h5 style="background-color: aliceblue; padding: 0.5%">Visa Report</h5>
             <div>
                 <a href="?page=visaReportBySponsor&by=sponsor">Visa Report by Sponsor</a>

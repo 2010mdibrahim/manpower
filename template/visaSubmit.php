@@ -31,6 +31,7 @@ if(isset($_POST['mode'])){
         $passportMedicalFinal_info = explode("_",$_POST['passportMedicalFinal']);
         $passportMedicalFinal = $passportMedicalFinal_info[0];
         $passportCreationDate = $passportMedicalFinal_info[1];
+        $finalMedicalDate = $_POST['finalMedicalDate'];
         if (($_FILES['finalMedical']['name'] != "")){
             // Where the file is going to be stored
             $target_dir = "uploads/medical/";
@@ -41,7 +42,7 @@ if(isset($_POST['mode'])){
             $path_filename_ext = $base_dir.$target_dir."finalMedical"."_".$passportMedicalFinal."_".str_replace(":", "", $passportCreationDate).".".$ext;
         }
         $testPath = $target_dir."finalMedical"."_".$passportMedicalFinal."_".str_replace(":", "", $passportCreationDate).".".$ext;
-        $result = $conn->query("UPDATE passport set finalMedical = 'yes', finalMedicalFile = '$testPath' where passportNum = '$passportMedicalFinal' AND creationDate = '$passportCreationDate'");
+        $result = $conn->query("UPDATE passport set finalMedical = 'yes', finalMedicalFile = '$testPath', finalMedicalReport = '$finalMedicalDate' where passportNum = '$passportMedicalFinal' AND creationDate = '$passportCreationDate'");
         if($result){
             if (($_FILES['finalMedical']['name'] != "")){
                 move_uploaded_file($temp_name,$path_filename_ext);

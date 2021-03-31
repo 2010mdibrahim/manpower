@@ -18,10 +18,10 @@ $html = '<hr>
             <div class="form-group col-md-6" >
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
                 <select class="form-control select2" name="jobType[]" id="jobType" required>';
-$result = $conn->query("SELECT jobType, jobId from jobs order by creationDate desc");
+$result = $conn->query("SELECT jobType, jobId, creditType from jobs order by creationDate desc");
 $html .=            '<option value="">----- Select Job Type -----</option>';
             while($jobs = mysqli_fetch_assoc($result)){
-$html .=            '<option value="'.$jobs['jobId'].'">'.$jobs['jobType'].'</option>';
+$html .=            '<option value="'.$jobs['jobId'].'">'.$jobs['jobType'].' - '.$jobs['creditType'].'</option>';
             }
 $html .=        '</select>
             </div>

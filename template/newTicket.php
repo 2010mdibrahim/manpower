@@ -63,10 +63,10 @@ if(isset($_GET['p'])){
                         <label for="sel1">Transit:</label>
                         <input class="form-control col-md-12" type="number" name="transitHour" placeholder="Transit Hours" step="any">
                     </div>
-                    <!-- <div class="form-group col-md-6">
-                        <label for="sel1">From:</label>
-                        <input class="form-control col-md-12" type="text" name="fromPlace" placeholder="Enter From">
-                    </div> -->
+                    <div class="form-group col-md-6">
+                        <label for="sel1">Flight Time:</label>
+                        <input class="form-control" id="time" type="time" autocomplete="off" name="flightTime" placeholder="Flight Time">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">To:</label>
                         <input class="form-control col-md-12" type="text" name="toPlace" placeholder="Enter To">

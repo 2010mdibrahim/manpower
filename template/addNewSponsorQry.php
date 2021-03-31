@@ -16,23 +16,22 @@ if($alter == 'delete') {
         echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
     }
 }else{
-    $delegateId = $_POST['delegateId'];
     $delegateOfficeId = $_POST['delegateOfficeId'];
     $sponsorName = $_POST['sponsorName'];
     $admin = $_SESSION['email'];
     $comment = $_POST['comment'];
     $date = date("Y-m-d");    
     if ($alter == 'update') {
-        $result = $conn->query("UPDATE sponsor SET sponsorName = '$sponsorName', comment = '$comment', updatedBy='$admin',updatedOn='$date', delegateId = $delegateId WHERE sponsorNID = '$sponsorNid'");
+        $result = $conn->query("UPDATE sponsor SET sponsorName = '$sponsorName', comment = '$comment', updatedBy='$admin',updatedOn='$date', delegateOfficeId = $delegateOfficeId WHERE sponsorNID = '$sponsorNid'");
         if ($result) {
             echo "<script>window.alert('Updated')</script>";
             echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
         } else {
             echo "<script>window.alert('Error')</script>";
-            echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
+            print_r(mysqli_error($conn));
         }
-
     } else {
+        $delegateId = $_POST['delegateId'];
         $curdate = date("Y/m/d H:i:s");
         $creationDate = date("Y-m-d h:i:s", strtotime('+3 hours', strtotime($curdate)));
         $sponsorCount = mysqli_fetch_assoc($conn -> query("SELECT count(sponsorNID) as sponsorCount from sponsor where sponsorNID = '$sponsorNid'"));

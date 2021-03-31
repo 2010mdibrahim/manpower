@@ -55,7 +55,7 @@ $html .=            '</span></p>
                 $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.$totalPrice."</a>";    
                 $html .=            '</td>';
                 $html .=            '<td>';
-                if($agent['creditType'] == 'Credit'){
+                if($agent['creditType'] == 'Comission'){
                     $totalComissionDue += ($agent['amount'] - $totalPrice);
                 }else{
                     $totalDebitDue += $agent['amount'];
@@ -63,7 +63,7 @@ $html .=            '</span></p>
                 $html .= (!is_null($agent['amount'])) ? ($agent['amount'] - $totalPrice - $advanceSum).' (due)' : '-';
                 $html .=            '</td>';
                 $html .=            '<td>';
-                if($agent['creditType'] == 'Credit'){
+                if($agent['creditType'] == 'Comission'){
                     $totalComissionAdvance += $advanceSum;
                 }else{
                     $totalDebitAdvance += $advanceSum;

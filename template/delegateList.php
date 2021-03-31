@@ -17,7 +17,7 @@ $result = mysqli_query($conn,$qry);
                 <form action="template/addDelegateOffice.php" method="post" enctype="multipart/form-data">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Change Office Name</h5>
+                            <h5 class="modal-title">Add Office</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -26,9 +26,15 @@ $result = mysqli_query($conn,$qry);
                         <input type="hidden" name="delegateId" id="delegateIdModal">
                         <div class="form-row">
                             <div id="officeDiv">
-                                <div class="form-group">  
-                                    <label for="sel1">Office: </label>
-                                    <input class="form-control" type="text" name="delegateOffice[]" placeholder="Office name" required>
+                                <div class="form-group row">
+                                    <div class="col-sm">  
+                                        <label for="sel1">Office: </label>
+                                        <input class="form-control" type="text" name="delegateOffice[]" placeholder="Office name" required>
+                                    </div>
+                                    <div class="col-sm">  
+                                        <label for="sel1">License Number: </label>
+                                        <input class="form-control" type="text" name="licenseNumber[]" placeholder="License Number" required>
+                                    </div>
                                 </div>
                             </div>                
                         </div>
@@ -54,7 +60,7 @@ $result = mysqli_query($conn,$qry);
                 <form action="template/delegateOfficeEdit.php" method="post" enctype="multipart/form-data">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Change Office Name</h5>
+                            <h5 class="modal-title">Office Info</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -62,12 +68,15 @@ $result = mysqli_query($conn,$qry);
                         <div class="modal-body">
 
                             <input type="hidden" name="delegateOfficeId" id="delegateOfficeIdModal">
-                            <input type="text" name="officeName" id="officeNameModal">
+                            <label for="">Office Name</label>
+                            <input class="form-control" type="text" name="officeName" id="officeNameModal">
+                            <label for="">License Number</label>
+                            <input class="form-control" type="text" name="licenseNum" id="licenseNumModal">
                             
                         </div>
                         <div class="modal-footer">
                             <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -100,9 +109,9 @@ $result = mysqli_query($conn,$qry);
                             <td><?php echo $delegate['country'];?></td>
                             <td><?php echo $delegate['delegateState'];?></td>
                             <td><?php 
-                            $result_office = $conn->query("SELECT delegateOfficeId, officeName from delegateOffice where delegateId = ".$delegate['delegateId']);
+                            $result_office = $conn->query("SELECT delegateOfficeId, officeName, officeLicenseNumber from delegateOffice where delegateId = ".$delegate['delegateId']);
                             while($office = mysqli_fetch_assoc($result_office)){ ?>
-                                <button class="btn btn-sm" data-toggle="modal" data-target="#changeDelegateOffice" value="<?php echo $office['officeName']."_".$office['delegateOfficeId']; ?>" onclick="delegateOffice(this.value)"><?php echo $office['officeName']; ?></button>
+                                <button class="btn btn-sm" data-toggle="modal" data-target="#changeDelegateOffice" value="<?php echo $office['officeName']."_".$office['delegateOfficeId']."_".$office['officeLicenseNumber']; ?>" onclick="delegateOffice(this.value)"><?php echo $office['officeName']; ?></button>
                             <?php } ?></td>
                             <td><?php echo $delegate['comment'];?></td>                    
                             <td class="text-center">
@@ -158,17 +167,42 @@ $result = mysqli_query($conn,$qry);
         var info_split = info.split('_');
         $('#officeNameModal').val(info_split[0]);
         $('#delegateOfficeIdModal').val(info_split[1]);
+        $('#licenseNumModal').val(info_split[2]);
     }
     $('#add_office').click(function(){
+        // create row
         var div = document.createElement("DIV");
-        div.setAttribute('class', 'form-group');
+        div.setAttribute('class', 'form-group row');
+        // create first col-sm
+        var div_col_1 = document.createElement("DIV");
+        div_col_1.setAttribute('class', 'col-sm');
+        var label = document.createElement("LABEL");
+        var text = document.createTextNode("Office: ");
+        label.appendChild(text);
+        div_col_1.appendChild(label);
         var input = document.createElement("INPUT");
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'delegateOffice[]');
         input.setAttribute('class', 'form-control');
         input.setAttribute('placeholder', 'Office Name');
         input.setAttribute('required','');
-        div.appendChild(input);
+        div_col_1.appendChild(input);
+        div.appendChild(div_col_1);
+        // second input
+        var div_col_1 = document.createElement("DIV");
+        div_col_1.setAttribute('class', 'col-sm');
+        var label = document.createElement("LABEL");
+        var text = document.createTextNode("License Number: ");
+        label.appendChild(text);
+        div_col_1.appendChild(label);
+        var input = document.createElement("INPUT");
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', 'licenseNumber[]');
+        input.setAttribute('class', 'form-control');
+        input.setAttribute('placeholder', 'License Number');
+        input.setAttribute('required','');
+        div_col_1.appendChild(input);
+        div.appendChild(div_col_1);
         $('#officeDiv').append(div);
     });
     $('#remove_office').click(function(){
