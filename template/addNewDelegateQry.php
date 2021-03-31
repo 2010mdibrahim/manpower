@@ -37,6 +37,7 @@ if(isset($_POST['addDelegate'])){
                 echo "<script>window.alert('Error')</script>";
             }
         }else{
+            $delegateOffice = $_POST['delegateOffice'];
             $creationDate = date("Y-m-d h:s:i");
             $exists = mysqli_fetch_assoc($conn->query("SELECT count(delegateId) as countId from delegate where delegateName = '$delegateName' AND country = '$delegateCountry' AND delegateState = '$delegateState'"));
             if($exists['countId'] == 0){
