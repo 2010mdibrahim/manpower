@@ -55,8 +55,6 @@ if(isset($_POST['addDelegate'])){
                 echo "<script>window.alert('Delegate For This State Already Exists')</script>";
                 echo "<script> window.location.href='../index.php?page=addNewDelegate'</script>";
             }
-        }
-        
-    }
-    
+        }        
+    }    
 }
