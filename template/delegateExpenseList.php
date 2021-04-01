@@ -5,7 +5,7 @@ $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense wh
 ?>
 <div class="container">
     <div class="section-header">
-        <h2>Delegate Expense List</h2>
+        <h2>Candidate Comission</h2>
     </div>
     <div class="container" style="margin-bottom: 2%;">
         <form action="index.php" method="get">
@@ -32,7 +32,7 @@ $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense wh
     </div>    
     <!-- <div class="container loader"></div>   -->
     <div class="card">
-        <div class="card-header"><p class="text-center" style="font-size: 18px;">Expense Information of: <span style="font-size: 25px;"><?php echo $delegateName['delegateName'];?></span></p></div>
+        <div class="card-header"><p class="text-center" style="font-size: 18px;">Candidate Comission Information of: <span style="font-size: 25px;"><?php echo $delegateName['delegateName'];?></span></p></div>
         <div class="card-body">
             <div class="table-responsive">
                 <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
@@ -89,3 +89,6 @@ $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense wh
         </div>
     </div>        
     </div>
+	<script>
+	$('#delegateNav').addClass('active');
+	</script>

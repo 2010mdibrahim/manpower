@@ -184,7 +184,7 @@
 <script>
     var highlight = $('#highlightDelegate').val();
     if(highlight != 'no'){
-        $('#'+highlight+'_highlight').attr("style", "background-color: red;");
+        $('#'+highlight+'_highlight').attr("style", "background-color: #b2dfdb;");
         setTimeout(function(){ $('#'+highlight+'_highlight').attr("style", "background-color: '';"); }, 3000);        
     }
     $('#delegateNav').addClass('active');

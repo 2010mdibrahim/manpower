@@ -62,7 +62,6 @@ if ($mode == 'empRqstMode') {
         echo "<script>window.alert('Error')</script>";
     }    
 }else if($mode == 'mufaMode'){
-    $mufa = $_POST['mufa'];
     if (($_FILES['mufaCard']['name'] != "")){
         // Where the file is going to be stored
         $target_dir = "uploads/okala/";

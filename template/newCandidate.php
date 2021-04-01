@@ -60,7 +60,7 @@
             <div class="form-group col-md-6">
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="country" required>
-                <?php $result = $conn->query("SELECT country from delegate order by creationDate desc group by country");?>
+                <?php $result = $conn->query("SELECT country from delegate group by country order by creationDate desc");?>
 					<option value=""> --- Select Country --- </option>
                     <?php while($country = mysqli_fetch_assoc($result)){ ?>
                         <option><?php echo $country['country'];?></option>
