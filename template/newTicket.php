@@ -124,6 +124,9 @@ if(isset($_GET['p'])){
                     data: {candidateSelect : candidateSelect},
                     success: function (response){
                         $('#ticketInfoDiv').html(response);
+                        $('.select2').select2({
+                            width: '100%'
+                        });
                         $('.datepicker').datepicker({
                             format: 'yyyy/mm/dd',
                             todayHighlight:'TRUE',
@@ -151,5 +154,21 @@ if(isset($_GET['p'])){
             }
         }
     });
+    function fetchReferrer(referrer){
+        if(referrer === 'local' || referrer === 'existing'){
+            $.ajax({
+                type: 'post',
+                url: 'template/fetchRefferer.php',
+                data: {referrer: referrer},
+                success: function (response){
+                    console.log(response);
+                    $('#referrerDiv').html(response);
+                    $('.select2').select2({
+                        width: '100%'
+                    });
+                }
+            });
+        }
+    }
     $('#ticketNav').addClass('active');
 </script>

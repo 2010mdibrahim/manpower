@@ -30,13 +30,17 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-sm">
+                        <div class="form-group col-md-6">
                             <label style="margin-right: 5px;">Passport Number: </label>
                             <input class="form-control" type="text" name="passportNum" id="modalPassportNum" placeholder="Enter Passport Number">
                         </div>
-                        <div class="form-group col-sm">
+                        <div class="form-group col-md-6">
                             <label style="margin-right: 5px;">Issue Date: </label>
                             <input class="form-control datepicker" type="text" autocomplete="off" name="issueDate" id="modalIssueDate" placeholder="Enter Issue Date">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label style="margin-right: 5px;">Passport Copy: </label>
+                            <input class="form-control-file" type="file" autocomplete="off" name="outsidePassportCopy" required>
                         </div>
                     </div>
                         
@@ -53,7 +57,7 @@
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>All Ticket Information</h2>
+                <h2>All Outside Candidate Information</h2>
             </div>
         </div>
         <div class="card-body">
@@ -62,25 +66,37 @@
                     <thead>
                     <tr>
                         <th>Candidate Name</th>
+                        <th>Candidate Referrer</th>
                         <th>Mobile Number</th>
                         <th>Passport Number</th>
                         <th>Passport Issue Date</th>
+                        <th>Passport Copy</th>
                         <th>Alter</th>
                     </tr>
                     </thead>
                     <?php
                     if(isset($_GET['ti'])){
                         $outsidePassportId = $_GET['ti'];
-                        $result = $conn->query("SELECT * from outsidepassport where outsidePassportId = $outsidePassportId");
+                        $result = $conn->query("SELECT localreferrer.localReferrerName, localreferrer.localReferrerMob, agent.agentName, outsidepassport.* from outsidepassport LEFT JOIN localreferrer using (localReferrerId) LEFT JOIN agent using (agentEmail) where outsidePassportId = $outsidePassportId");
                     }else{
-                        $result = $conn->query("SELECT * from outsidepassport order by outsidePassportId desc");
+                        $result = $conn->query("SELECT localreferrer.localReferrerName, localreferrer.localReferrerMob, agent.agentName, outsidepassport.* from outsidepassport LEFT JOIN localreferrer using (localReferrerId) LEFT JOIN agent using (agentEmail) order by outsidePassportId desc");
                     }
                     while($outsider = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><?php echo $outsider['name'];?></td>
+                            <td><?php 
+                            if($outsider['referrerMedia'] == 'local'){ ?>
+                                <p><?php echo $outsider['localReferrerName'];?></p>
+                                <p><?php echo $outsider['localReferrerMob'];?></p>
+                            <?php }else if($outsider['referrerMedia'] == 'existing'){ ?>
+                                <a href="?page=agentList&agE=<?php echo base64_encode($outsider['agentEmail']);?>"><?php echo $outsider['agentName'];?></a>
+                            <?php }else{ ?>
+                                <p><?php echo $outsider['referrerMedia'];?></p>
+                            <?php }?></td>
                             <td><?php echo $outsider['mobNum'];?></td>
                             <td><?php echo $outsider['passportNum'];?></td>
                             <td><?php echo $outsider['issuDate'];?></td>
+                            <td><a href="<?php echo $outsider['outsidePassportCopy'];?>" target="_blank"><button class="btn btn-info">Passport</button></a></td>
                             <td>
                                 <div class="flex-container">
                                     <div style="padding-right: 2%">                                        
@@ -100,9 +116,11 @@
                     <tfoot hidden>
                     <tr>
                         <th>Candidate Name</th>
+                        <th>Candidate Referrer</th>
                         <th>Mobile Number</th>
                         <th>Passport Number</th>
                         <th>Passport Issue Date</th>
+                        <th>Passport Copy</th>
                         <th>Alter</th>
                     </tr>
                     </tfoot>
