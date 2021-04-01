@@ -1,3 +1,8 @@
+<style>
+.form-group{
+    padding-right: 2%;
+}
+</style>
 <div class="container-fluid" style="padding: 2%" style="width: 100%;">
     <!-- Add Office to delegate expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="addOffice">
@@ -5,7 +10,7 @@
             <form action="template/addOfficeToDelegateExpense.php" method="post">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Give Office Details</h5>
+                        <h5 class="modal-title">Give Office Expense Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -90,7 +95,7 @@
     <div class="section-header">
         <h2>Delegate Office Expense</h2>
     </div>
-    
+    <input type="hidden" value="<?php echo (isset($_GET['dei'])) ? base64_decode($_GET['dei']) : 'no'; ?>" name="highlightDelegate" id="highlightDelegate">
     <form action="template/delegateAllOfficeExpenseQry.php" method="post" enctype="multipart/form-data">       
         <div class="form-group">            
             <div class="form-row align-items-end">      
@@ -140,7 +145,7 @@
             while($delegateTotal = mysqli_fetch_assoc($result)){
                 $sumOffice = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as officeSum from delegatetotalexpenseoffice where delegateTotalExpenseId = ".$delegateTotal['delegateTotalExpenseId']));
             ?>
-                <li class="list-group-item">
+                <li class="list-group-item" id="<?php echo $delegateTotal['delegateTotalExpenseId']."_highlight";?>">
                     <div class="row text-center">
                         <div class="col-md-2"><?php echo $delegateTotal['delegateName'];?></div>
                         <div class="col-md-3"><?php echo number_format($delegateTotal['amount']);?> Taka</div>
@@ -148,24 +153,22 @@
                         <div class="col-md-3"><?php echo $delegateTotal['date'];?></div>
                         <div class="col-md-1">
                             <div class="row justify-content-center">
-                                <div class="col-sm">
-                                    <div>
+                                <div class="form-group">
                                     <button class="btn btn-sm" data-toggle="modal" data-target="#addOffice" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="modalValue(this.value)"><span class="fa fa-plus"></span></button>
-                                    </div>
-                                </div>                                
-                                <div class="col-sm">                                
+                                </div>
+                                <div class="form-group">
                                     <button class="btn btn-sm btn-show" id="btnShow<?php echo $delegateTotal['delegateTotalExpenseId'];?>" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button>
                                     <button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegateTotal['delegateTotalExpenseId'];?>" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button>
                                 </div>
-                                <div class="col-sm">
+                                <div class="form-group">
                                     <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editDelegateExpense" value="<?php echo $delegateTotal['delegateTotalExpenseId']."_".$delegateTotal['amount']."_".$delegateTotal['date'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-edit"></span></button>
                                 </div>
-                                <div class="col-sm">
-                                <form action="template/editOfficeToDelegateExpense.php" method="post">
-                                    <input type="hidden" name="alter" value="delete">
-                                    <input type="hidden" name="delegateTotalExpenseId" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>">
-                                    <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
-                                </form>
+                                <div class="form-group">
+                                    <form action="template/editOfficeToDelegateExpense.php" method="post">
+                                        <input type="hidden" name="alter" value="delete">
+                                        <input type="hidden" name="delegateTotalExpenseId" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>">
+                                        <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +182,11 @@
 </div>
 
 <script>
+    var highlight = $('#highlightDelegate').val();
+    if(highlight != 'no'){
+        $('#'+highlight+'_highlight').attr("style", "background-color: red;");
+        setTimeout(function(){ $('#'+highlight+'_highlight').attr("style", "background-color: '';"); }, 3000);        
+    }
     $('#delegateNav').addClass('active');
     function editOfficeExpense(info){
         const info_split = info.split('_');
