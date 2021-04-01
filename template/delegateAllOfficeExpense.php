@@ -148,17 +148,19 @@
                         <div class="col-md-3"><?php echo $delegateTotal['date'];?></div>
                         <div class="col-md-1">
                             <div class="row justify-content-center">
-                                <div class="col-md-1">
+                                <div class="col-sm">
+                                    <div>
                                     <button class="btn btn-sm" data-toggle="modal" data-target="#addOffice" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="modalValue(this.value)"><span class="fa fa-plus"></span></button>
+                                    </div>
                                 </div>                                
-                                <div class="col-md-1">                                
+                                <div class="col-sm">                                
                                     <button class="btn btn-sm btn-show" id="btnShow<?php echo $delegateTotal['delegateTotalExpenseId'];?>" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button>
                                     <button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegateTotal['delegateTotalExpenseId'];?>" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-sm">
                                     <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editDelegateExpense" value="<?php echo $delegateTotal['delegateTotalExpenseId']."_".$delegateTotal['amount']."_".$delegateTotal['date'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-edit"></span></button>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-sm">
                                 <form action="template/editOfficeToDelegateExpense.php" method="post">
                                     <input type="hidden" name="alter" value="delete">
                                     <input type="hidden" name="delegateTotalExpenseId" value="<?php echo $delegateTotal['delegateTotalExpenseId'];?>">
