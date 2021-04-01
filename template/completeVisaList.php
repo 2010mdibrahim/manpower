@@ -17,224 +17,6 @@
     } */
 </style>
 <div class="container-fluid" style="padding: 2%">
-
-    <!-- Manpower Card Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="manpowerFileSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give Manpower Card</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdManpower">
-                        <input type="hidden" name="passportNum" id="passportNumManpower">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisaManpower">
-                        <input type="hidden" name="manpowerCard" id="manpowerCard">
-                        <input type="hidden" name="mode" value="manpowerMode">
-                        <input class="form-control" type="file" name="manpowerCard">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Okala Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="okalaFileSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give Okala Card</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdOkala">
-                        <input type="hidden" name="passportNum" id="passportNumOkala">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisaOkala">
-                        <input type="hidden" name="mode" value="okalaMode">
-                        <input class="form-control" type="file" name="okalaCard">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Mufa Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="mufaFileSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give MUFA Card</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdMufa">
-                        <input type="hidden" name="mode" value="mufaMode">
-                        <input class="form-control" type="file" name="mufaCard">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- Training Card Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="trainingCardFileSubmit">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Give Training Card</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="passportNum" id="passportNumCard">
-                        <input type="hidden" name="mode" value="trainingCardMode">
-                        <input class="form-control" type="file" name="trainingCard">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- VISA exchange -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaExchange">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="passportNum" id="passportNum">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisa">
-                        <input type="hidden" name="mode" value="stampingMode">
-                        <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
-                        </div>
-                        <div>
-                            <input class="form-control-file" type="file" name="visaFile">
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Stamping Modal 1 card -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaStamping">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdModalOne">
-                        <input type="hidden" name="mode" value="stampingMode">
-                        <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
-                        </div>
-                        <div>
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Stamping Modal 3 cards -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingWithThreeDoc">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdModalThree">
-                        <input type="hidden" name="mode" value="stampingMode">
-                        <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate" placeholder="Enter Visa Stamping Date">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     
     <div class="card">
         <div class="card-header">
@@ -270,9 +52,9 @@
                 if(isset($_GET['pi'])){
                     $processingId = base64_decode($_GET['pi']);
                     print_r($processingId);
-                    $result = $conn->query("SELECT passportcompleted.oldVisa, passportcompleted.creationDate as passportCreationDate, passportcompleted.country, passportcompleted.agentEmail, passportcompleted.fName, passportcompleted.lName, passportcompleted.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processingcompleted.* from processingcompleted INNER JOIN passportcompleted on passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) where processingcompleted.processingId = $processingId");
+                    $result = $conn->query("SELECT passportcompleted.departureSeal, passportcompleted.creationDate as passportCreationDate, passportcompleted.country, passportcompleted.agentEmail, passportcompleted.fName, passportcompleted.lName, passportcompleted.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processingcompleted.* from processingcompleted INNER JOIN passportcompleted on passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) where processingcompleted.processingId = $processingId");
                 }else{
-                    $result = $conn->query("SELECT passportcompleted.oldVisa, passportcompleted.creationDate as passportCreationDate, passportcompleted.country, passportcompleted.agentEmail, passportcompleted.fName, passportcompleted.lName, passportcompleted.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processingcompleted.* from processingcompleted INNER JOIN passportcompleted on passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
+                    $result = $conn->query("SELECT passportcompleted.departureSeal, passportcompleted.creationDate as passportCreationDate, passportcompleted.country, passportcompleted.agentEmail, passportcompleted.fName, passportcompleted.lName, passportcompleted.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processingcompleted.* from processingcompleted INNER JOIN passportcompleted on passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) order by creationDate desc");
                 }
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
@@ -407,8 +189,8 @@
                         <!-- Training Card -->
                         <td>
                         <?php $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, oldVisa from passportcompleted where passportNum = '".$visa['passportNum']."' AND creationDate = '".$visa['passportCreationDate']."'"));?>
-                        <?php if( $trainingCard['oldVisa'] == 'yes'){ ?>
-                            <p>Experienced</p>
+                        <?php if( $visa['departureSeal'] == 'yes'){ ?>
+                            <a href="?page=ccI&p=<?php echo base64_encode($visa['passportNum'])."&cd=.".base64_encode($visa['passportCreationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
                         <?php }else{ ?>
                             <?php if(empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
@@ -432,7 +214,7 @@
                         
                         <!-- Manpower Card -->
                         <td>
-                            <?php if($visa['oldVisa'] != 'yes'){?>
+                            <?php if($visa['departureSeal'] != 'yes'){?>
                                 <?php if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no' || empty($visa['finger']) || $visa['finger'] == 'no'){ ?>
                                     <button class="btn btn-warning btn-sm">Do Previous</button>
                                 <?php }else{ ?>
