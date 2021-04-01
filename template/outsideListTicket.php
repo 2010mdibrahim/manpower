@@ -82,10 +82,11 @@
                     <?php } ?>
                     <tfoot hidden>
                     <tr>
-                        <th>Passport No</th>
+                        <th>Candidate Name</th>
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
+                        <th>Flight Time</th>
                         <th>Transit</th>
                         <th>To</th>
                         <th>Amount</th>
