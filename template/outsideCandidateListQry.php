@@ -13,7 +13,22 @@ if($alter == 'delete'){
     $mobNum = $_POST['mobNum'];
     $passportNum = $_POST['passportNum'];
     $issueDate = $_POST['issueDate'];
-    $result = $conn->query("UPDATE outsidepassport set name = '$name', mobNum = '$mobNum', passportNum = '$passportNum', issuDate = '$issueDate' where outsidePassportId = $outsidePassportId");
+    if($_FILES['outsidePassportCopy']['name'] != ''){
+        $target_dir = 'uploads/ticket/';
+        $file = $_FILES['outsidePassportCopy']['name'];
+        $path = pathinfo($file);
+        $file_ext = $path['extension'];
+        $outside_file_tmp = $_FILES['outsidePassportCopy']['tmp_name'];
+        $outside_db_file = $target_dir.'ticket_outside_passport_'.$passportNum.'.'.$file_ext;
+        $file_outside_path_filename_ext = $base_dir.$target_dir.'ticket_outside_passport_'.$passportNum.'.'.$file_ext;
+    }
+    $result = $conn->query("UPDATE outsidepassport set outsidePassportCopy = '$outside_db_file',name = '$name', mobNum = '$mobNum', passportNum = '$passportNum', issuDate = '$issueDate' where outsidePassportId = $outsidePassportId");
+    if($result)
+    {
+        if($_FILES['outsidePassportCopy']['name'] != ''){
+            move_uploaded_file($outside_file_tmp,$file_outside_path_filename_ext);
+        }
+    }
 }
 if($result){
     echo "<script> window.location.href='../index.php?page=outsideCandidateList'</script>";

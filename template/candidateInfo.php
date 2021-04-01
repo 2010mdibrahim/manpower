@@ -161,7 +161,7 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                     <div class="card-header"> VISA Related Information</div>
                     <?php 
                     if($hasVisa['processingCount'] > 0){ 
-                        $visaInfo = mysqli_fetch_assoc($conn->query("SELECT ticket.flightDate, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
+                        $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, ticket.flightDate, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
                     ?>
                         <div class="card-body">
                             <label for="" style="text-align: left;">Delegate Information</label>
@@ -169,6 +169,7 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                                 <li class="list-group-item">Delegate Name: <span><?php echo $visaInfo['delegateName'];?></span></li>
                                 <li class="list-group-item">Sponsor Name: <span><?php echo $visaInfo['sponsorName'];?></span></li>
                                 <li class="list-group-item">Sponsor under Office: <span><?php echo $visaInfo['officeName'];?></span></li>
+                                <li class="list-group-item">Sponsor VISA: <span><?php echo $visaInfo['sponsorVisa'];?></span></li>
                             </ul>
                         </div>
                         <div class="card-body">
