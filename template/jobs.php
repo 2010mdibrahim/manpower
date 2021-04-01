@@ -63,8 +63,8 @@
                                 <label style="margin-right: 5px;">Job Credit Type: </label>
                                 <select class="form-control" name="creditType" id="modalCreditType">
                                     <option value="">Select Credit Type</option>
-                                    <option>Debit</option>
-                                    <option>Credit</option>
+                                    <option>Paid</option>
+                                    <option>Comission</option>
                                 </select>
                             </div>
                         </div>                        
