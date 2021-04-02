@@ -1,14 +1,14 @@
 <?php
 $passportNum = base64_decode($_GET['pn']);
 $creationDate = base64_decode($_GET['cd']);
-// this is candidateinfo
+
 $candidateInfo = mysqli_fetch_assoc($conn->query("SELECT processingcompleted.processingId, count(ticketId) as count_ticket, passportcompleted.fName, passportcompleted.lName, agent.agentName, agent.agentEmail FROM passportcompleted INNER JOIN processingcompleted on processingcompleted.passportNum = passportcompleted.passportNum AND processingcompleted.passportCreationDate = passportcompleted.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passportcompleted.passportNum = ticket.passportNum AND passportcompleted.creationDate = ticket.passportCreationDate where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate'"));
-// this this candidate expenseces
-$result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
-// this is candidate expenseces sum
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from candidateexpense where passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
-// this is comission and advances
-$result_comission = $conn->query("SELECT agentcomission.payMode as comissionPayMode, agentcomission.payDate as comissionPayDate, agentcomission.paidAmount as comissionPaidAmount, agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission LEFT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'");
+
+$result_candidate_expense = $conn->query("SELECT completedcandidateexpense.* FROM completedcandidateexpense where completedcandidateexpense.passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate'");
+
+$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from completedcandidateexpense where passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
+
+$result_comission = $conn->query("SELECT completedagentcomission.payMode as comissionPayMode, completedagentcomission.payDate as comissionPayDate, completedagentcomission.paidAmount as comissionPaidAmount, completedagentcomission.agentEmail, completedagentcomission.comissionId, completedagentcomission.amount, advance.advancePayMode, completedagentcomission.creationDate, completedagentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM completedagentcomission LEFT JOIN advance USING (comissionId) where completedagentcomission.passportNum = '$passportNum' AND completedagentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
 $amount = 0;
 ?>
