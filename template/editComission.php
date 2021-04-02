@@ -9,14 +9,15 @@ if(isset($_POST['alter'])){
     $processingId = $_POST['processingId'];
     $today = date('Y-m-d');
     $result = $conn->query("UPDATE agentcomission set payMode = '$payMode', payDate = '$today', paidAmount = $amount where comissionId = $comissionId");
+    $result = $conn->query("INSERT INTO passportcompleted SELECT * FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
     $result = $conn->query("INSERT INTO processingcompleted SELECT * FROM processing WHERE processingId = $processingId");
     if($result){
-        $result = $conn->query("DELETE from processing where processingId = $processingId");
         if($result){
-            $result = $conn->query("INSERT INTO passportcompleted SELECT * FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
             if($result){
                 $result = $conn->query("INSERT INTO completedagentcomission SELECT * FROM agentcomission WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
                 $result = $conn->query("INSERT INTO completedcandidateexpense SELECT * FROM candidateexpense WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
+                $result = $conn->query("INSERT INTO completedticket SELECT * FROM ticket WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
+                $result = $conn->query("INSERT INTO completedadvance SELECT * FROM advance WHERE comissionId = $comissionId");
                 $result = $conn->query("DELETE from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'");
             }
         }

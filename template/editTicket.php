@@ -81,8 +81,16 @@ $ticket = mysqli_fetch_assoc($conn->query("SELECT * from ticket where ticketId =
                         <input class="form-control" id="time" type="time" autocomplete="off" name="flightTime" value="<?php echo $ticket['flightTime']; ?>">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="sel1">To:</label>
-                        <input class="form-control col-md-12" type="text" name="toPlace" value="<?php echo $ticket['flightTo'];?>">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="sel1">From:</label>
+                                <input class="form-control" type="text" name="fromPlace" value="<?php echo $ticket['flightFrom'];?>">
+                            </div>
+                            <div class="col-sm">
+                                <label for="sel1">To:</label>
+                                <input class="form-control" type="text" name="toPlace" value="<?php echo $ticket['flightTo'];?>">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">Amount:</label>

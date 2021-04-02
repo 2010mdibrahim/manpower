@@ -88,7 +88,7 @@ $html .=            '</span></p>
                 $html .=            '</td>
                                 </tr>';
             }
-            $result = $conn->query("SELECT ticket.ticketPrice, passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName,processingcompleted.processingId, processingcompleted.sponsorVisa, (SELECT SUM(completedcandidateexpense.amount) FROM completedcandidateexpense WHERE completedcandidateexpense.passportNum = passportcompleted.passportNum AND completedcandidateexpense.passportCreationDate = passportcompleted.creationDate) as candidate_expense, (SELECT SUM(advance.advanceAmount) from advance WHERE advance.comissionId = completedagentcomission.comissionId) as advance_sum, completedagentcomission.amount, completedagentcomission.paidAmount FROM agent INNER JOIN passportcompleted USING (agentEmail) LEFT JOIN processingcompleted ON passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate LEFT JOIN completedagentcomission ON passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate LEFT JOIN ticket on ticket.passportNum= passportcompleted.passportNum AND ticket.passportCreationDate = passportcompleted.creationDate WHERE agent.agentEmail = '$agentEmail' order by passportcompleted.creationDate desc");
+            $result = $conn->query("SELECT jobs.creditType, ticket.ticketPrice, passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName,processingcompleted.processingId, processingcompleted.sponsorVisa, (SELECT SUM(completedcandidateexpense.amount) FROM completedcandidateexpense WHERE completedcandidateexpense.passportNum = passportcompleted.passportNum AND completedcandidateexpense.passportCreationDate = passportcompleted.creationDate) as candidate_expense, (SELECT SUM(completedadvance.advanceAmount) from completedadvance WHERE completedadvance.comissionId = completedagentcomission.comissionId) as advance_sum, completedagentcomission.amount, completedagentcomission.paidAmount FROM agent INNER JOIN passportcompleted USING (agentEmail) LEFT JOIN processingcompleted ON passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate LEFT JOIN completedagentcomission ON passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate LEFT JOIN ticket on ticket.passportNum= passportcompleted.passportNum AND ticket.passportCreationDate = passportcompleted.creationDate INNER JOIN jobs on passportcompleted.jobId = jobs.jobId WHERE agent.agentEmail = '$agentEmail' order by passportcompleted.creationDate desc");
             print_r(mysqli_error($conn));
             while($agent = mysqli_fetch_assoc($result)){
                 $html .=        '<tr style="background-color: #c8e6c9">';
@@ -107,7 +107,16 @@ $html .=            '</span></p>
                 $html .= '<a href="?page=cec&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.$totalPrice."</a>";
                 $html .=            '</td>';
                 $html .=            '<td>';
-                $html .= (!is_null($agent['paidAmount'])) ? $agent['paidAmount'].' (paid)' : '-';
+                if(!is_null($agent['paidAmount'])){
+                    $html .= $agent['paidAmount'];
+                    if($agent['creditType'] == 'Comission'){
+                        $html .= ' (Paid)';
+                    }else{
+                        $html .= ' (Received)';
+                    }
+                }else{
+                    $html .= '-';
+                }                
                 $html .=            '</td>';
                 $html .=            '<td>';
                 $html .= (!is_null($agent['advance_sum'])) ? $agent['advance_sum'] : '-';

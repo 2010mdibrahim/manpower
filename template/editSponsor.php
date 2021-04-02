@@ -35,6 +35,10 @@ $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorN
                     <input class="form-control" type="text" name="sponsorNid" value="<?php echo $sponsor['sponsorNID']; ?>" readonly>
                 </div>
                 <div class="form-group col-md-6" >                    
+                    <label>Sponsor Phone Number</label>
+                    <input class="form-control" type="text" id="sponsorVisa" name="sponsorPhone" value="<?php echo $sponsor['sponsorPhone']; ?>">
+                </div>
+                <div class="form-group col-md-6" >                    
                     <label>Comment</label>
                     <input class="form-control" type="text" id="sponsorVisa" name="comment" value="<?php echo $sponsor['comment']; ?>">
                 </div>

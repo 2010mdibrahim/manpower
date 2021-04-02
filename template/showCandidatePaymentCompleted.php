@@ -8,7 +8,7 @@ $result_candidate_expense = $conn->query("SELECT completedcandidateexpense.* FRO
 
 $expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from completedcandidateexpense where passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
 
-$result_comission = $conn->query("SELECT completedagentcomission.payMode as comissionPayMode, completedagentcomission.payDate as comissionPayDate, completedagentcomission.paidAmount as comissionPaidAmount, completedagentcomission.agentEmail, completedagentcomission.comissionId, completedagentcomission.amount, advance.advancePayMode, completedagentcomission.creationDate, completedagentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM completedagentcomission LEFT JOIN advance USING (comissionId) where completedagentcomission.passportNum = '$passportNum' AND completedagentcomission.passportCreationDate = '$creationDate'");
+$result_comission = $conn->query("SELECT completedagentcomission.payMode as comissionPayMode, completedagentcomission.payDate as comissionPayDate, completedagentcomission.paidAmount as comissionPaidAmount, completedagentcomission.agentEmail, completedagentcomission.comissionId, completedagentcomission.amount, completedadvance.advancePayMode, completedagentcomission.creationDate, completedagentcomission.comment, completedadvance.advanceAmount, completedadvance.payDate, completedadvance.advanceId FROM completedagentcomission LEFT JOIN completedadvance USING (comissionId) where completedagentcomission.passportNum = '$passportNum' AND completedagentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
 $amount = 0;
 ?>
@@ -248,7 +248,7 @@ $amount = 0;
                     <?php } ?>
                     </div>
                 </div>
-                <?php $ticket = mysqli_fetch_assoc($conn->query("SELECT count(ticketId) as ticket_count, ticketId, ticketPrice, comment from ticket where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'")); ?>
+                <?php $ticket = mysqli_fetch_assoc($conn->query("SELECT count(ticketId) as ticket_count, ticketId, ticketPrice, comment from completedticket where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'")); ?>
                 <div class="col-sm-4" style="padding: 0;">
                     <div class="card" style="height: 100%;">
                         <div class="card-body">

@@ -23,6 +23,7 @@
                         <th>Flight Date</th>
                         <th>Flight Time</th>
                         <th>Transit</th>
+                        <th>From</th>
                         <th>To</th>
                         <th>Amount</th>
                         <th>Comment</th>                        
@@ -48,6 +49,7 @@
                                 echo $ticket['transit']." Hours";
                             }
                             ?></td>
+                            <td><?php  echo $ticket['flightFrom'];?></td>
                             <td><?php  echo $ticket['flightTo'];?></td>
                             <td><?php  echo $ticket['ticketPrice'];?></td>
                             <td>
@@ -90,6 +92,7 @@
                         <th>Flight Date</th>
                         <th>Flight Time</th>
                         <th>Transit</th>
+                        <th>From</th>
                         <th>To</th>
                         <th>Amount</th>
                         <th>Comment</th>                        

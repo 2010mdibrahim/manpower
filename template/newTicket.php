@@ -65,11 +65,19 @@ if(isset($_GET['p'])){
                     </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">Flight Time:</label>
-                        <input class="form-control" id="time" type="time" autocomplete="off" name="flightTime" placeholder="Flight Time">
+                        <input class="form-control timePicker" id="time" type="text" autocomplete="off" name="flightTime" placeholder="Flight Time">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="sel1">To:</label>
-                        <input class="form-control col-md-12" type="text" name="toPlace" placeholder="Enter To">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="sel1">From:</label>
+                                <input class="form-control" type="text" name="fromPlace" placeholder="Enter To">
+                            </div>
+                            <div class="col-sm">
+                                <label for="sel1">To:</label>
+                                <input class="form-control" type="text" name="toPlace" placeholder="Enter To">
+                            </div>
+                        </div>                        
                     </div>
                     <div class="form-group col-md-6">
                         <label for="sel1">Amount:</label>
@@ -134,7 +142,7 @@ if(isset($_GET['p'])){
                         })
                     }
                 });
-            }else{
+            }else if(candidateSelect === 'new'){
                 $.ajax({
                     type: 'post',
                     url: 'template/fetchTicketInfo.php',
@@ -161,13 +169,14 @@ if(isset($_GET['p'])){
                 url: 'template/fetchRefferer.php',
                 data: {referrer: referrer},
                 success: function (response){
-                    console.log(response);
                     $('#referrerDiv').html(response);
                     $('.select2').select2({
                         width: '100%'
                     });
                 }
             });
+        }else{
+            $('#referrerDiv').html('');
         }
     }
     $('#ticketNav').addClass('active');
