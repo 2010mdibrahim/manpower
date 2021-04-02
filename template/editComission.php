@@ -15,8 +15,6 @@ if(isset($_POST['alter'])){
         if($result){
             $result = $conn->query("INSERT INTO passportcompleted SELECT * FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
             if($result){
-                $result = $conn->query("INSERT INTO completedagentcomission SELECT * FROM agentcomission WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
-                $result = $conn->query("INSERT INTO completedcandidateexpense SELECT * FROM candidateexpense WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
                 $result = $conn->query("DELETE from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'");
             }
         }
