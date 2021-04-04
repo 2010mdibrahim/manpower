@@ -50,13 +50,17 @@ if($alter == 'delete') {
                 while($i < count($visaNo)){
                     $validate = mysqli_fetch_assoc($conn->query("SELECT count(sponsorNID) as sponsorCount from sponsorvisalist where sponsorVisa = '".$visaNo[$i]."'"));
                     if($validate['sponsorCount'] == 0){
+						$info = explode('_',$_POST['assignedCandidate']);
                             if($addCandidateFlag == 'yes'){
-                                $info = explode('_',$_POST['assignedCandidate']);
-                                $passportNum = $info[0];
-                                $creationDate = $info[1];
-                                $visaAmount = intval($visaAmount[$i]) - 1;
-                                $result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount, '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
-                                $result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$creationDate', '$visaNo[$i]', '$admin', '$date', '$curdate', '', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
+								if($info[0] != ''){
+									$passportNum = $info[0];
+									$creationDate = $info[1];
+									$visaAmount = intval($visaAmount[$i]) - 1;
+									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount, '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
+									$result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$creationDate', '$visaNo[$i]', '$admin', '$date', '$curdate', '', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
+								}else{
+									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount, '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
+								}
                             }else{
                                 $result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount[$i], '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
                             }
