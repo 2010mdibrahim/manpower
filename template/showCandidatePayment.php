@@ -6,7 +6,7 @@ $candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, proces
 // this this candidate expenseces
 $result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
 // this is candidate expenseces sum
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum from candidateexpense where passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
+$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum, ticket.ticketPrice, manpowerjobprocessing.processingCost from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passport.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN ticket on ticket.passportNum = candidateexpense.passportNum AND ticket.passportCreationDate = candidateexpense.passportCreationDate where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
 // this is comission and advances
 $result_comission = $conn->query("SELECT agentcomission.payMode as comissionPayMode, agentcomission.payDate as comissionPayDate, agentcomission.paidAmount as comissionPaidAmount, agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission LEFT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
@@ -312,19 +312,23 @@ $amount = 0;
                     <?php } ?>
                     </div>
                 </div>
-                <?php $ticket = mysqli_fetch_assoc($conn->query("SELECT count(ticketId) as ticket_count, ticketId, ticketPrice, comment from ticket where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'")); ?>
                 <div class="col-sm-4" style="padding: 0;">
                     <div class="card" style="height: 100%;">
                         <div class="card-body">
-                            <label class="card-title">Total Expense</label>
-                            <h4><?php 
-                            if($ticket['ticket_count'] > 0){
-                                $totalExpense = intval($ticket['ticketPrice']) + intval($expense_sum['expense_sum']);
-                            }else{
-                                $totalExpense = $expense_sum['expense_sum'];
-                            }
-                            echo number_format($totalExpense)." BDT";
-                            ?></h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="card-title">Total Expense</label>
+                                <h4><?php $totalExpense = $expense_sum['expense_sum']; echo number_format($totalExpense)." BDT"; ?></h4>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="card-title">Total Office Expense: <span><?php echo number_format($expense_sum['ticketPrice']+$expense_sum['processingCost']);?> BDT</span></label>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Ticket Price: <span><?php echo number_format($expense_sum['ticketPrice']);?></span></li>
+                                    <li class="list-group-item">Processing Cost: <span><?php echo number_format($expense_sum['processingCost']);?></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                            
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -372,42 +376,12 @@ $amount = 0;
                     <th>Comment</th>
                     <th>Edit</th>
                 </tr>
-                </thead>    
-                <?php
-                if($ticket['ticket_count']){ ?>   
-                    <tr>
-                        <td>Ticket</td>
-                        <td><?php echo number_format($ticket['ticketPrice']);?></td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td><?php echo $ticket['comment'];?></td>
-                        <td>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="alter" value="update">
-                                        <input type="hidden" value="editTicket" name="pagePost">
-                                        <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
-                                        <button type="submit" class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
-                                    </form>
-                                </div>
-                                <div class="col-sm-3">
-                                    <form action="template/editTicketQry.php" method="post">
-                                        <input type="hidden" name="alter" value="delete">
-                                        <input type="hidden" value="editTicket" name="pagePost">
-                                        <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
-                                        <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close"></span></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>   
-                <?php } ?>                  
+                </thead>                                
                 <?php while($candidateExpense = mysqli_fetch_assoc($result_candidate_expense)){ ?>
                     <tr>                    
                         <td><?php echo $candidateExpense['purpose'];?></td>                        
                         <td><?php echo number_format($candidateExpense['amount']);?></td>
-                        <td><?php echo $candidateExpense['creationDate'];?></td>
+                        <td><?php echo $candidateExpense['payDate'];?></td>
                         <td><?php echo $candidateExpense['payMode'];?></td>
                         <td><?php echo $candidateExpense['comment'];?></td>  
                         <td>
@@ -422,6 +396,7 @@ $amount = 0;
                                         <input type="hidden" name="purpose" value="<?php echo $candidateExpense['purpose'];?>">
                                         <input type="hidden" name="amount" value="<?php echo $candidateExpense['amount'];?>">
                                         <input type="hidden" name="payMode" value="<?php echo $candidateExpense['payMode'];?>">
+                                        <input type="hidden" name="payDate" value="<?php echo $candidateExpense['payDate'];?>">
                                         <button class="btn btn-info btn-sm"><span class="fa fa-edit"></span></button>
                                     </form>                                    
                                 </div>

@@ -84,12 +84,11 @@ if($alter == 'delete'){
         }           
     }else{
         if($alter == 'update'){
-            $result = $conn->query("UPDATE candidateexpense set amount = $fullAmount, payMode = '$paymentMethod', updatedBy = '$admin', updatedOn = '$date', comment = '$comment' where expenseId = $expenseId");
+            $result = $conn->query("UPDATE candidateexpense set amount = $fullAmount, payDate = '$paydate', payMode = '$paymentMethod', updatedBy = '$admin', updatedOn = '$date', comment = '$comment' where expenseId = $expenseId");
         }else{
-            $result = $conn->query("INSERT INTO candidateexpense(amount, purpose, payMode, passportNum, passportCreationDate, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, '$purpose', '$paymentMethod', '$passportNum', '$passportCreationDate', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
+            $result = $conn->query("INSERT INTO candidateexpense(amount, payDate, purpose, payMode, passportNum, passportCreationDate, sponsorVisa, agentEmail, creationDate, updatedBy, updatedOn, comment) VALUES ($fullAmount, '$paydate', '$purpose', '$paymentMethod', '$passportNum', '$passportCreationDate', '$visaNo', '$agentEmail', '$create_date', '$admin', '$date', '$comment')");
         }
     }
-
     if($result){
         if($redir != ''){
             echo "<script> window.location.href='../index.php?page=$redir'</script>";

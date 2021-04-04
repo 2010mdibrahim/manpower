@@ -200,7 +200,7 @@
     </div>
 
     <!-- Stamping Modal 3 cards -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingWithThreeDoc">
+    <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingDiv">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
@@ -211,20 +211,21 @@
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <input type="hidden" name="processingId" id="processingIdModalThree">
                         <input type="hidden" name="mode" value="stampingMode">
                         <div class="form-group">
                             <input class="datepicker" autocomplete="off" type="text" name="stampingDate" placeholder="Enter Visa Stamping Date">
                         </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
+                        <div class="form-group" id="visa_file_div">
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" name="visaFile[]">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control-file" type="file" name="visaFile[]">
+                        <div class="form-group form-row">
+                            <div class="form-group">
+                                <button class="btn btn-sm" type="button" id="add_visafile_div" ><span class="fa fa-plus" aria-hidden="true"></span></button>
+                                <button class="btn btn-sm btn-danger" type="button" id="remove_visafile_div"><span class="fas fa-minus" aria-hidden="true"></span></button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -278,9 +279,9 @@
                     <tr>
                         <td><?php echo $visa['fName']." ".$visa['lName'];?></td>
                         <td><a href="?page=listCandidate&pp=<?php echo base64_encode($visa['passportNum']);?>&cd=<?php echo base64_encode($visa['passportCreationDate']);?>"><?php echo $visa['passportNum'];?></a></td>
-                        <td><?php echo $visa['sponsorVisa'];?></td>
+                        <td><a href="?page=allVisaList&sv=<?php echo base64_encode($visa['sponsorVisa'])?>"><?php echo $visa['sponsorVisa'];?></a></td>
                         <td><?php echo $visa['sponsorNID'].'<br>'; ?>
-                        <span style="font-size: 11px;"><?php echo $visa['sponsorName'];?></span></td>
+                        <a href="?page=sponsorList&spN=<?php echo base64_encode($visa['sponsorNID']); ?>"><span style="font-size: 11px;"><?php echo $visa['sponsorName'];?></span></a></td>
                         <!-- Employee Request -->
                         <td class="first"><?php 
                         if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
@@ -409,11 +410,7 @@
                         if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
                             <button class="btn btn-warning btn-sm">Do Previous</button>
                         <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
-                            <?php if($visa['country'] == 'SAUDI ARABIA'){ ?>
-                                <button class="btn btn-secondary btn-sm" data-target="#visaStamping" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
-                            <?php }else{ ?>
-                                <button class="btn btn-secondary btn-sm" data-target="#visaStampingWithThreeDoc" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
-                            <?php } ?>
+                            <button class="btn btn-secondary btn-sm" data-target="#visaStampingDiv" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
                         <?php } else { ?>                            
                             <div class="row">  
                                 <div class="col-md-3">
@@ -614,6 +611,19 @@
 </div>
 
 <script>
+$('#add_visafile_div').click(function (){
+    var visaFileDiv = document.createElement('DIV');
+    visaFileDiv.setAttribute('class', 'form-group');
+    var input = document.createElement('INPUT');
+    input.setAttribute('type', 'file');
+    input.setAttribute('name', 'visaFile[]');
+    input.setAttribute('class', 'form-control-file');
+    visaFileDiv.appendChild(input);
+    $('#visa_file_div').append(visaFileDiv);    
+});
+$('#remove_visafile_div').click(function (){
+    $('#visa_file_div').children().last().remove();  
+});
 
 function manpowerFileSubmit(info){
     $('#processingIdManpower').val(info);

@@ -72,8 +72,8 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
                     <div class="form-group col-md-6">
                         <label>Advance Pay Date</label>
                         <input class="form-control datepicker" autocomplete="off" type="text" name="paydate" id="paydate" placeholder="yyyy/mm/dd">
-                    </div> 
-                <?php } ?>  
+                    </div>
+                <?php }else{ ?>
                     <div class="form-group col-md-6">
                         <label>Payment Method</label>
                         <select class="form-control" name="paymentMethod" id="" required>
@@ -84,8 +84,12 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
                                 <option><?php echo $payMode['paymentMode'];?></option>
                             <?php } ?>
                         </select>
-                    </div>  
-                           
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Payment Date</label>
+                        <input class="form-control datepicker" type="text" name="paydate" value="<?php echo date('Y-m-d');?>">
+                    </div>
+                <?php } ?>
                 <div class="form-group col-md-6">
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" placeholder="Enter Remark">

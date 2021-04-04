@@ -6,7 +6,7 @@ $lastDate->add(new DateInterval('P3D'));
 $notificationTime = new DateTime(date('Y-m-d H:i:s'));
 $todayF = $today->format('Y-m-d');
 $lastDateF = $lastDate->format('Y-m-d');
-$result = $conn->query("SELECT passportNum, passportCreationDate, flightDate, lastNotified FROM ticket WHERE flightDate BETWEEN '$todayF' AND '$lastDateF'");
+$result = $conn->query("SELECT passportNum, passportCreationDate, flightDate, lastNotified FROM ticket WHERE flightDate BETWEEN '$todayF' AND '$lastDateF' ");
 $notification = "";
 while($flightDate = mysqli_fetch_assoc($result)){
     $flightDateTime = new DateTime($flightDate['flightDate']);

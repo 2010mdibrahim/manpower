@@ -92,11 +92,24 @@ $result = $conn->query("SELECT * from visafile where processingId = $processingI
                 <div class="col-sm-3">
                     <h5 for="passport">Document #<?php echo $i+1;?></h5>
                 </div>
-                <div class="col-sm-8 text-center" >
+                <div class="col-sm-7 text-center" >
                     <a href="<?php echo $visaFile['visaFile']; ?>" target="_blank"><img style="align-content: center;" src="<?php echo $visaFile['visaFile'];?>" alt="" height="100" width="100"></a>
                 </div>
-                <div class="col-sm-1 text-center" >
-                    <button data-target='#visaStampingEdit' data-toggle="modal" class="btn btn-sm btn-info" value="<?php echo $visaFile['visaFileId']."_".$visaFile['processingId']."_".$i++;?>" id="editVisaFile" onclick="sendData(this.value)"><span class="fas fa-redo"></span></button>
+                <div class="col-sm-2 text-center" >
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button data-target='#visaStampingEdit' data-toggle="modal" class="btn btn-sm btn-info" value="<?php echo $visaFile['visaFileId']."_".$visaFile['processingId']."_".$i++;?>" id="editVisaFile" onclick="sendData(this.value)"><span class="fas fa-redo"></span></button>
+                        </div>
+                        <div class="col-md-3">
+                            <form action="template/visaProcessing.php" method="post">
+                                <input type="hidden" name="processingId" value="<?php echo $visaFile['processingId'];?>">
+                                <input type="hidden" name="mode" value="stampingMode">
+                                <input type="hidden" name="alter" value="delete">
+                                <input type="hidden" name="visaFileId" value="<?php echo $visaFile['visaFileId'];?>">
+                                <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
+                            </form>
+                        </div>                        
+                    </div>
                 </div>
             </div>       
         </div>

@@ -1,5 +1,10 @@
 <?php
-$result = $conn -> query("SELECT delegate.country, jobs.jobType,jobs.creditType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where visaAmount != 0");
+if(isset($_GET['sv'])){
+    $sponsorVisa = base64_decode($_GET['sv']);
+    $result = $conn -> query("SELECT delegate.country, jobs.jobType,jobs.creditType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where sponsorVisa = '$sponsorVisa'");
+}else{
+    $result = $conn -> query("SELECT delegate.country, jobs.jobType,jobs.creditType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where visaAmount != 0");
+}
 ?>
 <style>
     .flex-container {

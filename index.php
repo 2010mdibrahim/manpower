@@ -433,7 +433,7 @@ if(!empty($_POST['pagePost'])){
         format: 'yyyy/mm/dd',
         todayHighlight:'TRUE',
         autoclose: true,
-    })
+    });
 
     $('.select2').select2({
         width: '100%'

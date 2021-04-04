@@ -1,3 +1,11 @@
+<?php
+if(isset($_GET['spN'])){
+    $sponsorNID = base64_decode($_GET['spN']);
+    $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId where sponsor.sponsorNID = '$sponsorNID' order by creationDate desc");
+}else{
+    $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId order by creationDate desc");
+}
+?>
 <style>
     .flex-container {
         display: flex;
@@ -25,8 +33,6 @@
                     </tr>
                     </thead>
                     <?php
-                    $qry = "SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId order by creationDate desc";
-                    $result = mysqli_query($conn,$qry);
                     while($sponsor = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></td>
