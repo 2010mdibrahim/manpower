@@ -19,6 +19,7 @@
                         <th>Delegate Information</th>
                         <th>Sponsor NID</th>
                         <th>Sponsor Name</th>
+                        <th>Sponsor Phone</th>
                         <th>Comment</th>
                         <th>Alter</th>
                     </tr>
@@ -31,6 +32,7 @@
                             <td><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></td>
                             <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td><?php echo $sponsor['sponsorName'];?></td>
+                            <td><?php echo $sponsor['sponsorPhone'];?></td>
                             <td><?php echo $sponsor['comment'];?></td>
                             <td>
                                 <div class="flex-container">

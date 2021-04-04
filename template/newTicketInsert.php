@@ -41,7 +41,7 @@ if($candidateSelect == 'inhouse'){
         $db_file = $target_dir.'ticket_'.$passportNum.'.'.$file_ext;
         $file_path_filename_ext = $base_dir.$target_dir.'ticket_'.$passportNum.'.'.$file_ext;
     }
-    $result = $conn->query("INSERT INTO ticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, passportNum, passportCreationDate, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', '$passportNum', '$passportCreationDate', '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO ticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, flightFrom, airline, passportNum, passportCreationDate, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$fromPlace', '$airplane', '$passportNum', '$passportCreationDate', '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
@@ -94,7 +94,7 @@ if($candidateSelect == 'inhouse'){
     }
     $result = $conn->query("INSERT INTO outsidepassport(passportNum, outsidePassportCopy, issuDate, name, mobNum, referrerMedia, localReferrerId, agentEmail) VALUES ('$passportNum', '$outside_db_file', '$issueDate','$name','$mobNum', '$referrer', $localRefferer, '$referrerAgent')");
     $outsidePassportId = mysqli_fetch_assoc($conn->query("SELECT max(outsidePassportId) as outsidePassportId from outsidepassport"));
-    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', ".$outsidePassportId['outsidePassportId'].", '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, flightFrom, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$fromPlace', '$airplane', ".$outsidePassportId['outsidePassportId'].", '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
@@ -123,7 +123,7 @@ if($candidateSelect == 'inhouse'){
         $db_file = $target_dir.'ticket_'.$outsidePassportId.'.'.$file_ext;
         $file_path_filename_ext = $base_dir.$target_dir.'ticket_'.$outsidePassportId.'.'.$file_ext;
     }
-    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$airplane', $outsidePassportId, '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $result = $conn->query("INSERT INTO outsideticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, flightFrom, airline, outsidePassportId, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$fromPlace', '$airplane', $outsidePassportId, '$db_file', '$comment', '$admin', '$date', '$createDate')");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){

@@ -59,7 +59,6 @@ if($alter == 'delete'){
     // Scanned police verification file directory set - upload code inside result true if statement
     if (($_FILES['policeVerificationFile']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir = "uploads/policeVerification/";    
         $file = $_FILES['policeVerificationFile']['name'];
         $path = pathinfo($file);
@@ -76,7 +75,6 @@ if($alter == 'delete'){
     // Scanned photo file directory set - upload code inside result true if statement
     if (($_FILES['photoFile']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $target_dir_photo = "uploads/photo/";
         $file_photo = $_FILES['photoFile']['name'];
         $path_photo = pathinfo($file_photo);
@@ -94,7 +92,6 @@ if($alter == 'delete'){
     // Scanned passport file directory set - upload code inside result true if statement;
     if (($_FILES['passportScan']['name'] != "")){
         // Where the file is going to be stored
-        $base_dir = "C:/xampp/htdocs/mahfuza/";
         $passport_target_dir = "uploads/passport/";
         $file = $_FILES['passportScan']['name'];
         $path = pathinfo($file);

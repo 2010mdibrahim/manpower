@@ -33,12 +33,16 @@ if(isset($_POST['manpower'])){
                 echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
             } 
         }else{
+            $jobIdArr = $_POST['jobId'];
+            $processingCostArr = $_POST['processingCost'];
             $existingOffice = mysqli_fetch_assoc($conn -> query("SELECT count(manpowerOfficeName) as officeCount from manpoweroffice where manpowerOfficeName = '$officeName'"));
             if($existingOffice['officeCount'] == 0){
-                $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName,licenseNumber,officeAddress, comment, updatedBy, updatedOn) 
-                                        VALUES ('$officeName','$licenseNumber','$officeAddress', '$comment', '$admin', '$date')");
+                $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName,licenseNumber,officeAddress, comment, updatedBy, updatedOn) VALUES ('$officeName','$licenseNumber','$officeAddress', '$comment', '$admin', '$date')");
+                $manpowerOfficeId = mysqli_fetch_assoc($conn -> query("SELECT max(manpowerOfficeId) as lastId from manpoweroffice"));
+                foreach($jobIdArr as $index => $jobId){
+                    $result = $conn->query("INSERT INTO manpowerjobprocessing(manpowerOfficeId, jobId, processingCost, updatedBy, updatedOn) VALUES (".$manpowerOfficeId['lastId'].",$jobId,$processingCostArr[$index],'$admin', '$date')");
+                }
                 if($result){
-                    echo "<script>window.alert('Saved')</script>";
                     echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
                 }else{
                     echo "<script>window.alert('Error')</script>";

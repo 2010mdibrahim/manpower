@@ -1,5 +1,5 @@
 <?php
-$result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where visaAmount != 0");
+$result = $conn -> query("SELECT delegate.country, jobs.jobType,jobs.creditType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where visaAmount != 0");
 ?>
 <style>
     .flex-container {
@@ -43,7 +43,7 @@ $result = $conn -> query("SELECT delegate.country, jobs.jobType, sponsor.sponsor
                             <td><?php echo $visaList['issueDate'];?></td>
                             <td><?php echo $visaList['visaAmount'];?></td>
                             <td><?php echo $visaList['visaGenderType'];?></td>
-                            <td><?php echo $visaList['jobType'];?></td>                        
+                            <td><?php echo $visaList['jobType'].' ('.$visaList['creditType'].')';?></td>                        
                             <td><?php echo $visaList['comment'];?></td>                   
                             <td>
                                 <div class="flex-container">

@@ -126,7 +126,7 @@ $amount = 0;
                 <div class="col-sm-8" style="padding: 0;">
                     <div class="card">
                         <div class="card-header text-center">
-                            <?php if($candidateInfo['creditType'] == 'Credit'){ ?>Comission<?php }else{ ?> Total amount to receive<?php } ?>
+                            <?php if($candidateInfo['creditType'] == 'Comission'){ ?>Comission<?php }else{ ?> Total amount to receive<?php } ?>
                         </div>
                         <?php if(!is_null($comission)){?>
                         <ul class="list-group list-group-flush">                    
@@ -330,7 +330,7 @@ $amount = 0;
                             <div class="row">
                                 <?php if(empty($comission['comissionPayMode'])){ ?>
                                     <div class="col-sm">
-                                        <label class="card-title"><?php if($candidateInfo['creditType'] == 'Credit'){ ?>Net Payable<?php }else{ ?> Net Due<?php } ?></label>
+                                        <label class="card-title"><?php if($candidateInfo['creditType'] == 'Comission'){ ?>Net Payable<?php }else{ ?> Net Due<?php } ?></label>
                                         <h4><?php echo number_format(($amount - $total) - $totalExpense)." BDT";?></h4>
                                     </div>
                                     <div class="col-sm text-center">

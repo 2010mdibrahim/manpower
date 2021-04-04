@@ -23,6 +23,7 @@
                         <th>Flight Date</th>
                         <th>Flight Time</th>
                         <th>Transit</th>
+                        <th>From</th>
                         <th>To</th>
                         <th>Amount</th>
                         <th>Comment</th>                        
@@ -47,6 +48,7 @@
                                 echo $ticket['transit']." Hours";
                             }
                             ?></td>
+                            <td><?php  echo $ticket['flightFrom'];?></td>
                             <td><?php  echo $ticket['flightTo'];?></td>
                             <td><?php  echo $ticket['ticketPrice'];?></td>
                             <td>
@@ -66,14 +68,14 @@
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editOutsideTicket" name="pagePost">
                                             <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
+                                            <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                                         </form>
                                     </div>
                                     <div style="padding-left: 2%">
                                         <form action="template/editOutsideTicketQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="<?php echo $ticket['ticketId']; ?>" name="ticketId">
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </div>
                                 </div>
@@ -88,6 +90,7 @@
                         <th>Flight Date</th>
                         <th>Flight Time</th>
                         <th>Transit</th>
+                        <th>From</th>
                         <th>To</th>
                         <th>Amount</th>
                         <th>Comment</th>                        

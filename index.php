@@ -356,6 +356,8 @@ if(!empty($_POST['pagePost'])){
             include('template/editOutsideTicket.php');
         }else if($page == 'candidateInfo') {
             include('template/candidateInfo.php');
+        }else if($page == 'manpowerJobList') {
+            include('template/manpowerJobList.php');
         }else{
             include ('template/service.php');
         }
@@ -425,6 +427,7 @@ if(!empty($_POST['pagePost'])){
             }
         }
     });
+    $(".timePicker").timepicker();
 
     $('.datepicker').datepicker({
         format: 'yyyy/mm/dd',
