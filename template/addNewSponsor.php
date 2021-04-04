@@ -1,5 +1,6 @@
 <?php
-$result = $conn->query("SELECT delegateId, delegateName, country from delegate order by creationDate desc"); ?>
+$result = $conn->query("SELECT delegateId, delegateName, country from delegate order by creationDate desc");
+?>
 
 <div class="container" style="padding: 2%">
     <div class="section-header">
@@ -64,16 +65,14 @@ $result = $conn->query("SELECT delegateId, delegateName, country from delegate o
         </div>
         <div class="form-group" id="addVisaDiv">
         </div>
-        <div>
-            <div class="form-row">
-                <div class="col-sm">
-                    <div id="assignCandidateDiv" style="display: none;">
-                        <label>Assign Candidate</label>
-                        <select class="form-control select2" id="assignedCandidate" name="assignedCandidate">
-                        </select>
-                    </div>                      
-                </div>                
-            </div>
+        <div class="form-group form-row">
+            <div class="col-sm">
+                <div id="assignCandidateDiv" style="display: none;">
+                    <label>Assign Candidate</label>
+                    <select class="form-control select2" id="assignedCandidate" name="assignedCandidate">
+                    </select>
+                </div>                      
+            </div>                
         </div>
         <div class="form-group">        
             <input style="width: auto; margin: auto" class="form-control" type="submit" value="Add">
@@ -94,7 +93,7 @@ $result = $conn->query("SELECT delegateId, delegateName, country from delegate o
                             }).get();
             $.ajax({
                 type: "post",
-                url: "template/fetchCandidate.php",
+                url: "template/fetchCandidateForSponsorDirectly.php",
                 data: {gender : gender[0], jobType : jobType[0]},
                 success: function(response){
                     $('#addCandidateFlag').val('yes');
