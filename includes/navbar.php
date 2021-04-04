@@ -16,6 +16,7 @@
                             <a href="?page=newCandidate" class="dropdown-item">New Candidate</a>
                             <a href="?page=listCandidate" class="dropdown-item">Candidate List</a>
                             <div class="dropdown-divider"></div>
+                            <a href="?page=pendingListCandidate" class="dropdown-item">Pending Candidate List</a>
                             <a href="?page=completeListCandidate" class="dropdown-item">Completed Candidate List</a>
                         </div>
                     </div>
@@ -25,6 +26,7 @@
                             <a href="?page=newVisa" class="dropdown-item">Assign Visa</a>
                             <a href="?page=visaList" class="dropdown-item">Visa List</a>
                             <div class="dropdown-divider"></div>
+                            <a href="?page=pendingVisaList" class="dropdown-item">Pending VISA List</a>
                             <a href="?page=completeVisaList" class="dropdown-item">Completed Visa List</a>
                         </div>
                     </div>

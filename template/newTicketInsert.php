@@ -42,6 +42,9 @@ if($candidateSelect == 'inhouse'){
         $file_path_filename_ext = $base_dir.$target_dir.'ticket_'.$passportNum.'.'.$file_ext;
     }
     $result = $conn->query("INSERT INTO ticket(flightDate, flightTime, transit, ticketPrice, flightNo, flightTo, flightFrom, airline, passportNum, passportCreationDate, ticketCopy, comment, updatedBy, updatedOn, creationDate) VALUES ('$flightDate', '$flightTime', $transitHour, $amount, '$flightNo', '$toPlace', '$fromPlace', '$airplane', '$passportNum', '$passportCreationDate', '$db_file', '$comment', '$admin', '$date', '$createDate')");
+    $pendingTill = new DateTime($flightDate);
+    $pendingTill->add(new DateInterval("P3M"));
+    $result = $conn->query("UPDATE processing set pending = 1, pendingTill = '".$pendingTill->format('Y-m-d')."' where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$passportCreationDate'");
     if($result)
     {
         if($_FILES['ticketCopy']['name'] != ''){
@@ -53,7 +56,6 @@ if($candidateSelect == 'inhouse'){
         echo "<script> window.alert('Error')</script>";
         print_r(mysqli_error($conn));
     }
-
 }else if($candidateSelect == 'new'){
     $referrer = $_POST['referrer'];
     if($referrer == 'local'){

@@ -60,12 +60,15 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                                         <p>Passport Number: <span ><?php echo $passportInfo['passportNum'];?></span></p>
                                     </li>
                                     <li>
-                                        <p>Gender: <span><?php echo $passportInfo['gender'];?></span></p>
-                                    </li>                    
+                                        <p>Mobile Number: <span><?php echo $passportInfo['mobNum'];?></span></p>
+                                    </li>              
                                 </ul>
                             </div>
                             <div class="col-sm">
                                 <ul>
+                                    <li>
+                                        <p>Gender: <span><?php echo $passportInfo['gender'];?></span></p>
+                                    </li>
                                     <li>
                                         <p>Date of Birth: <span><?php echo $passportInfo['dob'];?></span></p>
                                     </li>

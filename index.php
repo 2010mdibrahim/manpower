@@ -358,6 +358,10 @@ if(!empty($_POST['pagePost'])){
             include('template/candidateInfo.php');
         }else if($page == 'manpowerJobList') {
             include('template/manpowerJobList.php');
+        }else if($page == 'pendingListCandidate') {
+            include('template/pendingListCandidate.php');
+        }else if($page == 'pendingVisaList') {
+            include('template/pendingVisaList.php');
         }else{
             include ('template/service.php');
         }

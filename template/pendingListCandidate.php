@@ -2,9 +2,9 @@
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) left join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where ( processing.pending is null OR processing.pending = 0 ) AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) left join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where ( processing.pending is null OR processing.pending = 0 ) order by passport.creationDate desc");
+    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 order by passport.creationDate desc");
 }
 ?>
 
@@ -167,7 +167,7 @@ if(isset($_GET['pp'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Candidate List</h2>
+                <h2>Pending Candidate List</h2>
             </div>
         </div>
         <div class="card-body">

@@ -132,10 +132,10 @@
         </div>
     </div>
 
-    <!-- VISA exchange -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaExchange">
+    <!-- Update Candidate Status -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="candidateStatus">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
+            <form action="template/changeCandidateStatus.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">VISA Stamping Date & VISA</h5>
@@ -145,20 +145,17 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="passportNum" id="passportNum">
-                        <input type="hidden" name="sponsorVisa" id="sponsorVisa">
-                        <input type="hidden" name="mode" value="stampingMode">
-                        <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
+                        <input type="hidden" name="info" id="info">
+                        <div class="row justify-content-center">
+                            <div class="col-sm">
+                                <button class="btn btn-success" value="accepted" name="finish">Finish</button>
+                            </div>
+                            <div class="col-sm">
+                                <button class="btn btn-danger" value="returned" name="return">Returned</button>
+                            </div>
                         </div>
-                        <div>
-                            <input class="form-control-file" type="file" name="visaFile">
-                        </div>
-                        
-                        
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -240,7 +237,7 @@
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>All Visa Information</h2>
+                <h2>Pending Visa Information</h2>
             </div>
         </div>
     
@@ -270,9 +267,9 @@
                 <?php
                 if(isset($_GET['pi'])){
                     $processingId = base64_decode($_GET['pi']);
-                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID where processing.processingId = $processingId AND pending = 0");
+                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID where processing.processingId = $processingId AND pending = 1");
                 }else{
-                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID AND pending = 0 order by creationDate desc");
+                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID AND pending = 1 order by creationDate desc");
                 }
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
@@ -568,11 +565,7 @@
                                     <a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
                                 </div>
                                 <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="pagePost" value="exchangeVisa">
-                                        <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
-                                        <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
-                                    </form>                                    
+                                    <button class="btn btn-warning btn-sm" data-target="#candidateStatus" data-toggle="modal" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['processingId']?>" onclick="userStatus(this.value)"><span class="fa fa-user-plus"></span></button>                                                                       
                                 </div>
                                 <div class="col-sm-3">
                                     <form action="template/saveVisa.php" method="post">
@@ -611,6 +604,9 @@
 </div>
 
 <script>
+function userStatus(info){
+    $('#info').val(info);
+}
 $('#add_visafile_div').click(function (){
     var visaFileDiv = document.createElement('DIV');
     visaFileDiv.setAttribute('class', 'form-group');

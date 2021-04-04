@@ -1,8 +1,10 @@
 <?php
 if(isset($_GET['p'])){
+    $inhouse = 'yes';
     $selectedPassport = base64_decode($_GET['p']);
     $selectedCreationDate = base64_decode($_GET['cd']);
 }else{
+    $inhouse = 'no';
     $selectedPassport = '';
     $selectedCreationDate = '';
 }
@@ -13,11 +15,13 @@ if(isset($_GET['p'])){
     </div>
         <form action="template/newTicketInsert.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label style="margin-right: 5px;">Validity Year: </label>
+            <label style="margin-right: 5px;">Ticket For: </label>
+            <?php if($inhouse == 'yes'){ ?>
                 <label class="parking_label">Inhouse Candidate
-                    <input type="radio" name="candidateSelect" value="inhouse" required>
+                    <input type="radio" name="candidateSelect" value="inhouse" required checked>
                     <span class="checkmark"></span>
                 </label>
+            <?php }else{ ?>
                 <label class="parking_label">New Outside Candidate
                     <input type="radio" name="candidateSelect" value="new" required>
                     <span class="checkmark"></span>
@@ -26,9 +30,23 @@ if(isset($_GET['p'])){
                     <input type="radio" name="candidateSelect" value="existing" required>
                     <span class="checkmark"></span>
                 </label>
+            <?php } ?>
             </div>
             <div class="form-group" id="ticketInfoDiv">
-                
+            <?php if($inhouse == 'yes'){ ?>
+                <label for="sel1">Select Passport Number:</label>
+                <select class="form-control select2" id="passport" name="passport_info" required>
+                    <option value="">Select passport</option>
+                    <?php $result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
+                    while($passNo = mysqli_fetch_assoc($result)){ 
+                        if($selectedPassport == $passNo['passportNum']){ ?>
+                            <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate'] ?>" selected><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'] ?></option>;
+                        <?php }else{ ?>
+                            <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate'] ?>"><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'] ?></option>;
+                        <?php } ?>
+                    <?php } ?>
+                </select>
+            <?php } ?>
             </div>
 
             <h3 style="background-color: aliceblue; padding: 0.5%">Ticket information</h3>
