@@ -70,10 +70,15 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                                         <p>Date of Birth: <span><?php echo $passportInfo['dob'];?></span></p>
                                     </li>
                                     <li>
-                                        <p>Issue Date: <span><?php echo $passportInfo['dob'];?></span></p>
+                                    <?php
+                                        $expiryDate = new DateTime($passportInfo['issueDate']);
+                                        $format = "P".$passportInfo['validity']."Y";
+                                        $expiryDate->add(new DateInterval($format));
+                                    ?>
+                                        <p>Issue Date: <span><?php echo $passportInfo['issueDate'];?></span></p>
                                     </li>
                                     <li>
-                                        <p>Expiry Date: <span><?php echo $passportInfo['dob'];?></span></p>
+                                        <p>Expiry Date: <span><?php echo $expiryDate->format('Y-m-d');?></span></p>
                                     </li>
                                 </ul>
                             </div>

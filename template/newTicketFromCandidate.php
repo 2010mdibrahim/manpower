@@ -6,31 +6,22 @@ if(isset($_GET['p'])){
     $selectedPassport = '';
     $selectedCreationDate = '';
 }
+$result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>New Ticket</h2>
     </div>
         <form action="template/newTicketInsert.php" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label style="margin-right: 5px;">Validity Year: </label>
-                <label class="parking_label">Inhouse Candidate
-                    <input type="radio" name="candidateSelect" value="inhouse" required>
-                    <span class="checkmark"></span>
-                </label>
-                <label class="parking_label">New Outside Candidate
-                    <input type="radio" name="candidateSelect" value="new" required>
-                    <span class="checkmark"></span>
-                </label>
-                <label class="parking_label">Existing Outside Candidate
-                    <input type="radio" name="candidateSelect" value="existing" required>
-                    <span class="checkmark"></span>
-                </label>
-            </div>
             <div class="form-group" id="ticketInfoDiv">
-                
+                <label for="sel1">Select Passport Number:</label>
+                <select class="form-control select2" id="passport" name="passport_info" required>
+                    <option value="">Select passport</option>
+                    <?php while($passNo = mysqli_fetch_assoc($result)){ ?>
+                        <option value="<?php $passNo['passportNum']."_".$passNo['creationDate'] ?>"><?php $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'] ?></option>;
+                    <?php } ?>
+                </select>
             </div>
-
             <h3 style="background-color: aliceblue; padding: 0.5%">Ticket information</h3>
             <div class="form-group">                
                 <div class="form-row">
@@ -142,7 +133,7 @@ if(isset($_GET['p'])){
                         })
                     }
                 });
-            }else if(candidateSelect === 'existing'){
+            }else if(candidateSelect === 'new'){
                 $.ajax({
                     type: 'post',
                     url: 'template/fetchTicketInfo.php',

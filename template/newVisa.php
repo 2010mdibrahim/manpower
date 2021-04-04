@@ -1,5 +1,5 @@
 <?php
-$result = $conn->query("SELECT passport.passportNum, passport.creationDate, passport.fName, passport.lName, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where passport.finalMedical = 'yes' AND processing.processingId is null");
+$result = $conn->query("SELECT passport.passportNum, passport.creationDate, passport.fName, passport.lName, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where passport.finalMedicalStatus = 'fit' AND passport.testMedicalStatus = 'fit' AND passport.finalMedical = 'yes' AND processing.processingId is null");
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">

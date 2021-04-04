@@ -9,6 +9,10 @@ if(isset($_GET['pp'])){
 ?>
 
 <style>
+    .btn_custom{
+        padding: 1%;
+        align-content: center;
+    }
     .flex-container {
         display: flex;
         flex-direction: row;
@@ -206,13 +210,14 @@ if(isset($_GET['pp'])){
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                     
-                        if($age->y < 25){ ?>
-                            <tr style="background-color: #e8f5e9;">
+                        if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
+                            <tr style="background-color: #fb8c00;">
                         <?php }else if($age->y > 38){ ?>
                             <tr style="background-color: #fffde7;">
                         <?php }else{ ?>
                             <tr>
                         <?php } ?>
+                        
 
                         <!-- Creation Date -->
                         <td>
@@ -269,21 +274,40 @@ if(isset($_GET['pp'])){
                         </td>
                         <!-- Test Medical -->
                         <td class="second">
-                        <div class="row">              
+                        <div class="row justify-content-center">              
                             <?php if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
-                                <div class="col-sm-3">
+                                <div class="btn_custom">
                                     <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)">No</button>
                                 </div>                            
-                            <?php } else { ?>                            
-                                <div class="col-sm-3">
-                                    <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)"><span class="fas fa-redo"></span></button>
-                                </div>
-                                <div class="col-sm-3">    
-                                    <a href="<?php echo $candidate['testMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                                </div>                                                        
+                            <?php } else { ?> 
+                                    <div class="btn_custom">
+                                        <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="testMedicalFile" data-target="#testMedicalSubmit" data-toggle="modal" id="testMedicalFile" onclick="testMedical(this.value)"><span class="fas fa-redo"></span></button>
+                                    </div>
+                                    <div class="btn_custom">
+                                        <a href="<?php echo $candidate['testMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                    </div>
+                                    <div class="btn_custom">
+                                    <?php if($candidate['testMedicalStatus'] == 'fit'){?>
+                                        <form action="template/medicalFittness.php" method="post">
+                                            <input type="hidden" name="medical" value="testMedicalStatus">
+                                            <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'] ?>">
+                                            <input type="hidden" name="creationDate" value="<?php echo $candidate['creationDate'] ?>">
+                                            <input type="hidden" name="medicalStatus" value="<?php echo $candidate['testMedicalStatus'] ?>">
+                                            <button class="btn btn-primary btn-sm"><span class="fa fa-check"></span></button>
+                                        </form>
+                                    <?php }else{ ?>
+                                        <form action="template/medicalFittness.php" method="post">
+                                            <input type="hidden" name="medical" value="testMedicalStatus">
+                                            <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'] ?>">
+                                            <input type="hidden" name="creationDate" value="<?php echo $candidate['creationDate'] ?>">
+                                            <input type="hidden" name="medicalStatus" value="<?php echo $candidate['testMedicalStatus'] ?>">
+                                            <button class="btn btn-warning btn-sm"><span class="fa fa-minus-circle"></span></button>
+                                        </form>
+                                    <?php } ?>
+                                    </div>
                             <?php } ?>
                                 <?php if($candidate['creditType'] != 'Paid'){ ?>
-                                    <div class="col-sm-3">
+                                    <div class="btn_custom">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="redir" value="listCandidate">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
@@ -302,21 +326,40 @@ if(isset($_GET['pp'])){
                             if(empty($candidate['testMedical']) || $candidate['testMedical']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else{ ?>
-                            <div class="row" style="padding-bottom: 5%;">
+                            <div class="row justify-content-center" style="padding-bottom: 5%;">
                                 <?php if(empty($candidate['finalMedical']) || $candidate['finalMedical']=='no'){ ?>                                
-                                    <div class="col-sm-3">
+                                    <div class="btn_custom">
                                         <button class="btn btn-secondary btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" name="finalMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)">No</button>
                                     </div>
                                 <?php } else { ?>                            
-                                        <div class="col-sm-3">
+                                        <div class="btn_custom">
                                             <button class="btn btn-danger btn-sm" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['finalMedicalReport'];?>" name="finalMedicalFile" data-target="#finalMedicalSubmit" data-toggle="modal" id="finalMedicalFile" onclick="finalMedical(this.value)"><span class="fas fa-redo"></span></button>
                                         </div>
-                                        <div class="col-sm-3"> 
+                                        <div class="btn_custom"> 
                                             <a href="<?php echo $candidate['finalMedicalFile']."?t=".time();?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
-                                        </div>                                                        
+                                        </div>
+                                        <div class="btn_custom">
+                                        <?php if($candidate['finalMedicalStatus'] == 'fit'){?>
+                                            <form action="template/medicalFittness.php" method="post">
+                                                <input type="hidden" name="medical" value="finalMedicalStatus">
+                                                <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'] ?>">
+                                                <input type="hidden" name="creationDate" value="<?php echo $candidate['creationDate'] ?>">
+                                                <input type="hidden" name="medicalStatus" value="<?php echo $candidate['finalMedicalStatus'] ?>">
+                                                <button class="btn btn-primary btn-sm"><span class="fa fa-check"></span></button>
+                                            </form>
+                                        <?php }else{ ?>
+                                            <form action="template/medicalFittness.php" method="post">
+                                                <input type="hidden" name="medical" value="finalMedicalStatus">
+                                                <input type="hidden" name="passportNum" value="<?php echo $candidate['passportNum'] ?>">
+                                                <input type="hidden" name="creationDate" value="<?php echo $candidate['creationDate'] ?>">
+                                                <input type="hidden" name="medicalStatus" value="<?php echo $candidate['finalMedicalStatus'] ?>">
+                                                <button class="btn btn-warning btn-sm"><span class="fa fa-minus-circle"></span></button>
+                                            </form>
+                                        <?php } ?>
+                                        </div>                                                      
                                 <?php } ?>
                                     <?php if($candidate['creditType'] != 'Paid'){ ?>
-                                        <div class="col-sm-3">
+                                        <div class="btn_custom">
                                             <form action="index.php" method="post">
                                                 <input type="hidden" name="redir" value="listCandidate">
                                                 <input type="hidden" name="pagePost" value="addCandidatePayment">
@@ -329,15 +372,13 @@ if(isset($_GET['pp'])){
                                         </div>
                                     <?php } ?>
                                 </div>
-                                <div class="row text-center">
-                                    <div class="col-sm">
-                                        <?php if($candidate['finalMedical'] == 'yes') { ?>
-                                            <button class="btn btn-info btn-sm"><?php echo $candidate['finalMedicalReport'];?></button>
-                                        <?php } ?>
-                                    </div>                                    
-                                </div>
+                                <div class="btn_custom">
+                                    <?php if($candidate['finalMedical'] == 'yes') { ?>
+                                        <button class="btn btn-info btn-sm"><?php echo $candidate['finalMedicalReport'];?></button>
+                                    <?php } ?>
+                                </div>                                    
                             <?php } ?>
-                        </td>
+                        </div></td>
                         <!-- Police Clearance -->
                         <td>                        
                         <div class="row">
