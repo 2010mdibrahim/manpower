@@ -99,14 +99,12 @@ $result = $conn->query("SELECT delegateId, delegateName, country from delegate o
                 success: function(response){
                     $('#addCandidateFlag').val('yes');
                     $('#assignedCandidate').html(response);
-                    $('#assignedCandidate').prop('required',true);
                     $('#assignCandidateDiv').show();
                 }
             });
         }else{
             $('#addCandidateFlag').val('no');
             $('#assignedCandidate').html('');
-            $('#assignedCandidate').prop('required',false);
             $('#assignCandidateDiv').hide();
         }
     }
