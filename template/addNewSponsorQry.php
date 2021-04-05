@@ -23,7 +23,8 @@ if($alter == 'delete') {
     $comment = $_POST['comment'];
     $date = date("Y-m-d");    
     if ($alter == 'update') {
-        $result = $conn->query("UPDATE sponsor SET sponsorName = '$sponsorName', sponsorPhone = '$sponsorPhone', comment = '$comment', updatedBy='$admin',updatedOn='$date', delegateOfficeId = $delegateOfficeId WHERE sponsorNID = '$sponsorNid'");
+        $currentSponsorNid = $_POST['currentSponsorNid'];
+        $result = $conn->query("UPDATE sponsor SET sponsorNID = '$sponsorNid', sponsorName = '$sponsorName', sponsorPhone = '$sponsorPhone', comment = '$comment', updatedBy='$admin',updatedOn='$date', delegateOfficeId = $delegateOfficeId WHERE sponsor.sponsorNID = '$currentSponsorNid'");
         if ($result) {
             echo "<script>window.alert('Updated')</script>";
             echo "<script> window.location.href='../index.php?page=sponsorList'</script>";

@@ -141,13 +141,8 @@
                 <div class="form-group col-md-6">
                     <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
                     <select class="form-control select2" id="manpower" name="manpower" required>
-                        <option value="">----- Select Office ------</option>
-                        <?php
-                        $result = $conn->query("SELECT manpowerOfficeName from manpoweroffice");
-                        while($manpower = mysqli_fetch_assoc($result)){
-                        ?>
-                            <option><?php echo $manpower['manpowerOfficeName']; ?></option>
-                        <?php } ?>
+                        <option value="">----- Select Job Type First ------</option>
+                        
                     </select>
                 </div>
             </div>
@@ -449,6 +444,14 @@
             $('#visaFee').hide();
             $('#visaComission').show();
         }
+        $.ajax({
+            type: 'post',
+            url: 'template/fetchManpowerOffice.php',
+            data: {jobId : creditType[0]},
+            success: function(response){
+                $('#manpower').html(response);
+            }
+        });
     }
     $('#add_country').click(function(){
         var div = document.createElement("DIV");

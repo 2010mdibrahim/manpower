@@ -82,7 +82,7 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                             <td><?php echo $manpower['manpowerOfficeName'];?></td>
                             <td><?php echo $manpower['licenseNumber'];?></td>
                             <td><?php echo $manpower['officeAddress'];?></td>
-                            <td><a href="?page=manpowerJobList&mi=<?php echo base64_encode($manpower['manpowerOfficeId']);?>">Jobs</a></td>
+                            <td><a href="?page=manpowerJobList&mi=<?php echo base64_encode($manpower['manpowerOfficeId']);?>&mn=<?php echo base64_encode($manpower['manpowerOfficeName']);?>">Jobs</a></td>
                             <td><?php echo $manpower['comment'];?></td>                 
                             <td>
                                 <div class="flex-container">

@@ -8,6 +8,7 @@ $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorN
     </div>
     <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
     <form action="template/addNewSponsorQry.php" method="post">
+        <input type="hidden" name="currentSponsorNid" value="<?php echo $sponsorNid?>">
         <input type="hidden" name="alter" value="update">
         <div class="form-group">
             <div class="form-row">
@@ -32,7 +33,7 @@ $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorN
             <div class="form-row">
                 <div class="form-group col-md-6" >
                     <label>Sponsor NID</label>
-                    <input class="form-control" type="text" name="sponsorNid" value="<?php echo $sponsor['sponsorNID']; ?>" readonly>
+                    <input class="form-control" type="text" name="sponsorNid" value="<?php echo $sponsor['sponsorNID']; ?>" required>
                 </div>
                 <div class="form-group col-md-6" >                    
                     <label>Sponsor Phone Number</label>

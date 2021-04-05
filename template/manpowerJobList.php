@@ -1,5 +1,6 @@
 <?php
 $manpowerId = base64_decode($_GET['mi']);
+$manpowerOfficeName = base64_decode($_GET['mn']);
 $result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpowerjobprocessing INNER JOIN jobs using (jobId) where manpowerOfficeId = $manpowerId");
 ?>
 <div class="container">
@@ -26,11 +27,14 @@ $result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpow
             </form>
         </div>
     </div>    
-    <div class="card">
-        <div class="card-header text-center"> Manpower Jobs List </div>
+    <div class="card" style="margin: 5%;">
+        <div class="card-header text-center"> Manpower Jobs List for: <span style="font-style: italic;"><?php echo $manpowerOfficeName; ?></span> </div>
         <?php 
         $i = 1;
         while($jobList = mysqli_fetch_assoc($result)){ ?>
+        <?php if($i != 1){ ?>
+            <hr>
+        <?php } ?>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
@@ -43,12 +47,28 @@ $result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpow
                         <h5><?php echo $jobList['processingCost'];?></h5>
                     </div>
                     <div class="col-sm-3">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#editJobs" value="<?php echo $jobList['manpowerJobProcessingId']."_".$jobList['jobId']."_".$jobList['processingCost']."_".$jobList['manpowerOfficeId'];?>" onclick="editJob(this.value)"><span class="fa fa-edit"></span></button>
-                        <button class="btn btn-danger"><span class="fa fa-close"></span></button>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#editJobs" value="<?php echo $jobList['manpowerJobProcessingId']."_".$jobList['jobId']."_".$jobList['processingCost']."_".$jobList['manpowerOfficeId'];?>" onclick="editJob(this.value)"><span class="fa fa-edit"></span></button>
+                            </div>
+                            <div class="col-md-2">
+                                <form action="template/editManpowerJobs.php" method="post">
+                                    <input type="hidden" name="manpowerOfficeId" value="<?php echo $jobList['manpowerOfficeId'];?>">
+                                    <input type="hidden" name="alter" value="delete">
+                                    <input type="hidden" name="manpowerJobProcessingId" value="<?php echo $jobList['manpowerJobProcessingId'] ?>">
+                                    <button class="btn btn-danger"><span class="fa fa-close"></span></button>
+                                </form>
+                            </div>
+                        </div>                        
                     </div>
                 </div>        
             </div>
-            <hr>
+        <?php 
+        }
+        if($i == 1){ ?>
+            <div class="card-body text-center">
+                <p>No Office Added</p>
+            </div>
         <?php } ?>
     </div>
 </div>

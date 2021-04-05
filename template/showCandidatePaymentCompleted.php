@@ -2,21 +2,12 @@
 $passportNum = base64_decode($_GET['pn']);
 $creationDate = base64_decode($_GET['cd']);
 // this is candidateinfo
-print_r("SELECT jobs.creditType, processingcompleted.processingId, count(ticketId) as count_ticket, passportcompleted.fName, passportcompleted.lName, agent.agentName, agent.agentEmail FROM passportcompleted INNER JOIN jobs using(jobId) INNER JOIN processingcompleted on processingcompleted.passportNum = passportcompleted.passportNum AND processingcompleted.passportCreationDate = passportcompleted.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN completedticket on passportcompleted.passportNum = completedticket.passportNum AND passportcompleted.creationDate = completedticket.passportCreationDate where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate'");
-print_r('<br>');
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processingcompleted.processingId, count(ticketId) as count_ticket, passportcompleted.fName, passportcompleted.lName, agent.agentName, agent.agentEmail FROM passportcompleted INNER JOIN jobs using(jobId) INNER JOIN processingcompleted on processingcompleted.passportNum = passportcompleted.passportNum AND processingcompleted.passportCreationDate = passportcompleted.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN completedticket on passportcompleted.passportNum = completedticket.passportNum AND passportcompleted.creationDate = completedticket.passportCreationDate where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate'"));
+$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processingcompleted.processingId, count(ticketId) as count_ticket, passportcompleted.fName, passportcompleted.lName,passportcompleted.jobId, agent.agentName, agent.agentEmail FROM passportcompleted INNER JOIN jobs using(jobId) INNER JOIN processingcompleted on processingcompleted.passportNum = passportcompleted.passportNum AND processingcompleted.passportCreationDate = passportcompleted.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN completedticket on passportcompleted.passportNum = completedticket.passportNum AND passportcompleted.creationDate = completedticket.passportCreationDate where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate'"));
 // this this candidate expenseces
-print_r("SELECT completedcandidateexpense.* FROM completedcandidateexpense where completedcandidateexpense.passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate'");
 $result_candidate_expense = $conn->query("SELECT completedcandidateexpense.* FROM completedcandidateexpense where completedcandidateexpense.passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate'");
-print_r('<br>');
-
 // this is candidate expenseces sum
-print_r("SELECT sum(amount) as expense_sum, completedticket.ticketPrice, manpowerjobprocessing.processingCost from completedcandidateexpense INNER JOIN passportcompleted on passportcompleted.passportNum = completedcandidateexpense.passportNum AND passportcompleted.creationDate = completedcandidateexpense.passportCreationDate INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passportcompleted.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN completedticket on completedticket.passportNum = completedcandidateexpense.passportNum AND completedticket.passportCreationDate = completedcandidateexpense.passportCreationDate where completedcandidateexpense.passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'");
-print_r('<br>');
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum, completedticket.ticketPrice, manpowerjobprocessing.processingCost from completedcandidateexpense INNER JOIN passportcompleted on passportcompleted.passportNum = completedcandidateexpense.passportNum AND passportcompleted.creationDate = completedcandidateexpense.passportCreationDate INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passportcompleted.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN completedticket on completedticket.passportNum = completedcandidateexpense.passportNum AND completedticket.passportCreationDate = completedcandidateexpense.passportCreationDate where completedcandidateexpense.passportNum = '$passportNum' AND completedcandidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
+$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(completedcandidateexpense.amount) as expense_sum, completedticket.ticketPrice, manpowerjobprocessing.processingCost from passportcompleted LEFT JOIN completedcandidateexpense on passportcompleted.passportNum = completedcandidateexpense.passportNum AND passportcompleted.creationDate = completedcandidateexpense.passportCreationDate INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passportcompleted.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN completedticket on completedticket.passportNum = passportcompleted.passportNum AND completedticket.passportCreationDate = passportcompleted.creationDate where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate' AND manpowerjobprocessing.jobId = ".$candidateInfo['jobId']));
 // this is comission and advances
-print_r("SELECT completedagentcomission.payMode as comissionPayMode, completedagentcomission.payDate as comissionPayDate, completedagentcomission.paidAmount as comissionPaidAmount, completedagentcomission.agentEmail, completedagentcomission.comissionId, completedagentcomission.amount, completedadvance.advancePayMode, completedagentcomission.creationDate, completedagentcomission.comment, completedadvance.advanceAmount, completedadvance.payDate, completedadvance.advanceId FROM completedagentcomission LEFT JOIN completedadvance USING (comissionId) where completedagentcomission.passportNum = '$passportNum' AND completedagentcomission.passportCreationDate = '$creationDate'");
-print_r('<br>');
 $result_comission = $conn->query("SELECT completedagentcomission.payMode as comissionPayMode, completedagentcomission.payDate as comissionPayDate, completedagentcomission.paidAmount as comissionPaidAmount, completedagentcomission.agentEmail, completedagentcomission.comissionId, completedagentcomission.amount, completedadvance.advancePayMode, completedagentcomission.creationDate, completedagentcomission.comment, completedadvance.advanceAmount, completedadvance.payDate, completedadvance.advanceId FROM completedagentcomission LEFT JOIN completedadvance USING (comissionId) where completedagentcomission.passportNum = '$passportNum' AND completedagentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
 $amount = 0;
@@ -340,33 +331,11 @@ $amount = 0;
                             
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <?php if(empty($comission['comissionPayMode'])){ ?>
-                                    <div class="col-sm">
-                                        <label class="card-title"><?php if($candidateInfo['creditType'] == 'Comission'){ ?>Net Payable<?php }else{ ?> Net Due<?php } ?></label>
-                                        <h4><?php echo number_format(($amount - $total) - $totalExpense)." BDT";?></h4>
-                                    </div>
-                                    <div class="col-sm text-center">
-                                        <?php if($candidateInfo['count_ticket'] > 0){?>
-                                            <button class="btn btn-info" data-target="#adjustComissionAmount" data-toggle="modal" value="<?php echo $comission['comissionId']."_".$passportNum."_".$creationDate."_".(($amount - $total) - $totalExpense)."_".$candidateInfo['processingId'];?>" onclick="adjustComissionAmount(this.value)">Full Payment</button>
-                                        <?php }else{ ?>
-                                            <button class="btn btn-secondary">Finish Previous Steps</button>
-                                        <?php } ?>
-                                    </div>
-                                <?php }else{ ?>
-                                    <div class="col-sm">
-                                        <label class="card-title">Paid Amount</label>
-                                        <h4><?php echo number_format($comission['comissionPaidAmount'])." BDT";?></h4>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="card-title">Pay Date</label>
-                                        <h4><?php echo $comission['comissionPayDate'];?></h4>
-                                    </div>
-                                    <div class="col-sm">
-                                        <label class="card-title">Pay Mode</label>
-                                        <h4><?php echo $comission['comissionPayMode'];?></h4>
-                                    </div>
-                                <?php } ?>
+                            <div class="row">                                
+                                <div class="col-sm">
+                                    <label class="card-title"><?php if($candidateInfo['creditType'] == 'Comission'){ ?>Net Paid<?php }else{ ?> Net Received<?php } ?></label>
+                                    <h4><?php echo number_format($comission['comissionPaidAmount'])." BDT";?></h4>
+                                </div>
                             </div>
                         </div>
                     </div>

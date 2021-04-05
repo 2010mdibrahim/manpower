@@ -50,7 +50,9 @@ if(!empty($_POST['pagePost'])){
     .btn{
         font-size: 11px;        
     }
-
+    .button_div{
+        margin: 5%;
+    }
 </style>
 <body>
 <div id="data-loading"></div>
@@ -294,6 +296,8 @@ if(!empty($_POST['pagePost'])){
             include('template/editDelegate.php');
         }else if($page == 'tN') {  //ticket info
             include('template/ticketInfo.php');
+        }else if($page == 'tNc') {  //ticket info
+            include('template/completedTicketInfo.php');
         }else if($page == 'jobs') {
             include('template/jobs.php');
         }else if($pagePost == 'editVisaData') {
@@ -362,6 +366,12 @@ if(!empty($_POST['pagePost'])){
             include('template/pendingListCandidate.php');
         }else if($page == 'pendingVisaList') {
             include('template/pendingVisaList.php');
+        }else if($page == 'returnedListCandidate') {
+            include('template/returnedListCandidate.php');
+        }else if($page == 'returnedVisaList') {
+            include('template/returnedVisaList.php');
+        }else if($page == 'test') {
+            include('template/test.php');
         }else{
             include ('template/service.php');
         }

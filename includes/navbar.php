@@ -17,7 +17,9 @@
                             <a href="?page=listCandidate" class="dropdown-item">Candidate List</a>
                             <div class="dropdown-divider"></div>
                             <a href="?page=pendingListCandidate" class="dropdown-item">Pending Candidate List</a>
+                            <div class="dropdown-divider"></div>
                             <a href="?page=completeListCandidate" class="dropdown-item">Completed Candidate List</a>
+                            <a href="?page=returnedListCandidate" class="dropdown-item">Returned Candidate List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -27,7 +29,9 @@
                             <a href="?page=visaList" class="dropdown-item">Visa List</a>
                             <div class="dropdown-divider"></div>
                             <a href="?page=pendingVisaList" class="dropdown-item">Pending VISA List</a>
+                            <div class="dropdown-divider"></div>
                             <a href="?page=completeVisaList" class="dropdown-item">Completed Visa List</a>
+                            <a href="?page=returnedVisaList" class="dropdown-item">Returned Visa List</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -90,6 +94,7 @@
                     <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
                     <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
                     <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
+                    <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
                 </div>
                 <div class="ml-auto">
                     <a class="btn" href="includes/logout.php">Logout</a>
