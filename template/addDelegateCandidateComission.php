@@ -8,7 +8,8 @@ foreach($candidateList as $candidate){
     $result = $conn->query("UPDATE passport set delegateComissionPaid = 'paid' where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 }
 if($result){
-    echo "<script> window.location.href='../index.php?page=delegateList</script>";
+    print_r('done');
+    echo "<script> window.location.href='../index.php?page=delegateList'</script>";
 }else{
     print_r(mysqli_error($conn));
 }
