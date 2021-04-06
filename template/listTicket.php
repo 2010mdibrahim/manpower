@@ -35,13 +35,19 @@
                     $agent = $_SESSION['email'];
                     if(isset($_GET['tI'])){
                         $ticketId = base64_decode($_GET['tI']);
-                        $result = $conn->query("SELECT passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where ticket.ticketId = $ticketId order by passport.creationDate desc");
+                        $result = $conn->query("SELECT processing.pending, passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.creationDate = ticket.passportCreationDate where ticket.ticketId = $ticketId order by passport.creationDate desc");
                     }else{
-                        $result = $conn->query("SELECT passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate order by creationDate desc");
+                        $result = $conn->query("SELECT processing.pending, passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate order by creationDate desc");
                     }
                     while($ticket = mysqli_fetch_assoc($result)){ ?>
                         <tr>
-                            <td><a href="?page=listCandidate&pp=<?php echo base64_encode($ticket['passportNum'])."&cd=".base64_encode($ticket['passportCreationDate']);?>"><?php echo $ticket['fName']." ".$ticket['lName'];?></a></td>
+                            <td>
+                            <?php if($ticket['pending'] == 0) { ?>
+                                <a href="?page=listCandidate&pp=<?php echo base64_encode($ticket['passportNum'])."&cd=".base64_encode($ticket['passportCreationDate']);?>"><?php echo $ticket['fName']." ".$ticket['lName'];?></a>
+                            <?php }else{ ?>
+                                <a href="?page=pendingListCandidate&pp=<?php echo base64_encode($ticket['passportNum'])."&cd=".base64_encode($ticket['passportCreationDate']);?>"><?php echo $ticket['fName']." ".$ticket['lName'];?></a>
+                            <?php } ?>
+                            </td>
                             <td><?php echo $ticket['airline'];?></td>
                             <td><?php echo $ticket['flightNo'];?></td>
                             <td><?php echo $ticket['flightDate'];?></td>
