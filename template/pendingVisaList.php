@@ -138,21 +138,15 @@
             <form action="template/changeCandidateStatus.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
+                        <h5 class="modal-title">Confirm Candidate Return</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <input type="hidden" name="info" id="info">
                         <div class="row justify-content-center">
-                            <div class="col-sm">
-                                <button class="btn btn-success" value="accepted" name="finish">Finish</button>
-                            </div>
-                            <div class="col-sm">
                                 <button class="btn btn-danger" value="returned" name="return">Returned</button>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -565,7 +559,7 @@
                                     <a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
                                 </div>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-warning btn-sm" data-target="#candidateStatus" data-toggle="modal" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['processingId']?>" onclick="userStatus(this.value)"><span class="fa fa-user-plus"></span></button>                                                                       
+                                    <button class="btn btn-warning btn-sm" data-target="#candidateStatus" data-toggle="modal" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['processingId']?>" onclick="userStatus(this.value)"><span class="fa fa-user-times"></span></button>                                                                       
                                 </div>
                                 <div class="col-sm-3">
                                     <form action="template/saveVisa.php" method="post">

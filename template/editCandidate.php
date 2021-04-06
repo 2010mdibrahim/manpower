@@ -81,7 +81,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 <select class="form-control select2" name="country" id="country" required>
                 <?php $result = $conn->query("SELECT country from delegate order by creationDate desc");?>
                     <?php while($country = mysqli_fetch_assoc($result)){ ?>
-                        <?php if($country == $candidate['country']){?>
+                        <?php if($country['country'] == $candidate['country']){?>
                             <option selected><?php echo $country['country'];?></option>
                         <?php }else{ ?>
                             <option><?php echo $country['country'];?></option>
