@@ -7,10 +7,37 @@ $result = mysqli_query($conn,$qry);
         display: flex;
         flex-direction: row;
     }
+    .modal-dialog {
+        max-width: 80%;
+        margin: 1.75rem auto;
+    }
 </style>
 
 <div class="container-fluid" style="padding: 2%">
     <div class="card">
+        <!-- Delegate Candidate List -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="delegateCandidateList">
+            <div class="modal-dialog modal-xl" role="document">
+                <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delegate Candidate List</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="showDelegateCandidateDiv">
+                        
+                        
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <!-- Add Office -->
         <div class="modal fade" tabindex="-1" role="dialog" id="addOfficeModal">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -115,8 +142,10 @@ $result = mysqli_query($conn,$qry);
                             <?php } ?></td>
                             <td><?php echo $delegate['comment'];?></td>                    
                             <td class="text-center">
-                                <a href="?page=addDelegateExpense&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-plus"></span></button></a>
-                                <a href="?page=dlel&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
+                                <!-- <a href="?page=addDelegateExpense&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-plus"></span></button></a>
+                                <a href="?page=dlel&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"></a> -->
+                                <button data-target="#delegateCandidateList" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $delegate['delegateId'];?>" onclick="fetchDelegateCandidate(this.value)"><span class="fas fa-search"></span></button>
+                                <button data-target="#delegateCandidateList" data-toggle="modal" class="btn btn-success btn-sm" value="<?php echo $delegate['delegateId'].'_'.'paid';?>" onclick="fetchPaidDelegateCandidate(this.value)"><span class="fa fa-check"></span></button>
                             </td>
                             <td>
                                 <div class="flex-container">
@@ -163,6 +192,81 @@ $result = mysqli_query($conn,$qry);
 
 <script>
     $('#delegateNav').addClass('active');
+    function fetchDelegateCandidate(delegateId){
+        $('#showDelegateCandidateDiv').html('');
+        $.ajax({
+            type: 'post',
+            url: 'template/fetchDelegateCandidateList.php',
+            data: {delegateId: delegateId},
+            success: function(response){
+                $('#showDelegateCandidateDiv').html(response);
+                $(document).ready(function() {
+                    $('#dataTableSeaumNotPaid').DataTable({
+                        "fixedHeader": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "lengthMenu": [
+                            [10, 25, 50, 100, 500],
+                            [10, 25, 50, 100, 500]
+                        ],
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "responsive": true,
+                        "order": [],
+                        "scrollX": false,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copyHtml5',
+                            'excelHtml5',
+                            'csvHtml5',
+                            'pdfHtml5'
+                        ]
+                    });              
+                });
+            }
+        });
+    }
+    function fetchPaidDelegateCandidate(info){
+        $('#showDelegateCandidateDivshowDelegateCandidateDiv').html('');
+        $.ajax({
+            type: 'post',
+            url: 'template/fetchPaidDelegateCandidateList.php',
+            data: {info: info},
+            success: function(response){
+                $('#showDelegateCandidateDiv').html(response);
+                totalComission = $('#totalComission').val();
+                console.log(totalComission);
+                $('#totalComissionShow').html(totalComission);
+                $(document).ready(function() {
+                    $('#dataTableSeaumPaid').DataTable({
+                        "fixedHeader": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "lengthMenu": [
+                            [10, 25, 50, 100, 500],
+                            [10, 25, 50, 100, 500]
+                        ],
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "responsive": true,
+                        "order": [],
+                        "scrollX": false,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copyHtml5',
+                            'excelHtml5',
+                            'csvHtml5',
+                            'pdfHtml5'
+                        ]
+                    });              
+                });
+            }
+        });
+    }
     function delegateOffice(info){
         var info_split = info.split('_');
         $('#officeNameModal').val(info_split[0]);

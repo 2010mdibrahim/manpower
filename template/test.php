@@ -1,9 +1,5 @@
 <?php
-// this is candidateinfo
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processingcompleted.processingId, count(ticketId) as count_ticket, passport.fName, passport.lName, agent.agentName, agent.agentEmail FROM passport INNER JOIN jobs using(jobId) INNER JOIN processing on processing.passportNum = passport.passportNum AND processingcompleted.passportCreationDate = passport.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
-// this this candidate expenseces
-$result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
-// this is candidate expenseces sum
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expense_sum, ticket.ticketPrice, manpowerjobprocessing.processingCost from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passport.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN ticket on ticket.passportNum = candidateexpense.passportNum AND ticket.passportCreationDate = candidateexpense.passportCreationDate where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate' AND purpose != 'Comission'"));
-// this is comission and advances
-$result_comission = $conn->query("SELECT agentcomission.payMode as comissionPayMode, agentcomission.payDate as comissionPayDate, agentcomission.paidAmount as comissionPaidAmount, agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission LEFT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'");
+$test = $_POST['test'];
+foreach($test as $name){
+    print_r($name.'<br>');
+}

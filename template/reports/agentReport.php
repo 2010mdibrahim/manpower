@@ -49,7 +49,8 @@ $html .=            '</span></p>
                 }
                 $html .=            '</td>';
                 $html .=            '<td>';
-                $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.(is_null($agent['expenseSum'])) ? 0 : $agent['expenseSum']."</a>";    
+                $expns = (is_null($agent['expenseSum'])) ? 0 : $agent['expenseSum'];
+                $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.$expns."</a>";    
                 $html .=            '</td>';
                 $html .=            '<td>';
                 if($agent['creditType'] == 'Comission'){

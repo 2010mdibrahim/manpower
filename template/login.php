@@ -1,4 +1,3 @@
-
 <style>
 
     .wrapper{
@@ -38,33 +37,27 @@
         <form action="template/loginPage.php" method="post" class="form">
             <div class="form-group" >
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" name="email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Password</label>
-                <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="pass" name="pass">
+                <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password" name="pass">
             </div>
             <div class="form-group">
-                <input class="form-control" type="submit" value="Login">
+                <input class="form-control" type="submit" value="Login" onclick="addToCompletedList()">
             </div>
             </div>
         </form>
     </div>
 </div>
-
-<!-- <div class="box">
-    <form action="template/loginPage.php" method="post">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email" name="email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Password</label>
-            <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="pass" name="pass">
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="submit" value="Login">
-        </div>
-        </div>
-    </form>
-</div> -->
+<script>
+    function addToCompletedList(){
+        $.ajax({
+            type: 'get',
+            url: 'template/test_2.php',
+            success: function(){
+                console.log('done');
+            }
+        });
+    }
+</script>

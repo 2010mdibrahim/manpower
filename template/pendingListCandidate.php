@@ -22,6 +22,32 @@ if(isset($_GET['pp'])){
     }    
 </style>
 <div class="container-fluid" style="padding: 2%">
+    <!-- Add delegate Comission -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="delegateComissionCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/addDelegateComission.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delegate Comission Amount</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="passportNum" id="passportNumDelegateExpenseInfo">
+                        <input type="hidden" name="creationDate" id="creationDateDelegateExpenseInfo">
+                        <div class="form-group">
+                            <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="delegateModalButton"></button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Final Medical Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="finalMedicalSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -192,7 +218,7 @@ if(isset($_GET['pp'])){
                     </thead>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
-                        $today = new DateTime('Y-m-d');
+                        $today = new Datetime(date('Y-m-d'));
                         $pendingTill = new DateTime($candidate['pendingTill']);
                         if($pendingTill >= $today){
                             
@@ -209,7 +235,6 @@ if(isset($_GET['pp'])){
                         $validity = $expiryDate->diff($today);
 
                         // ---------- DOB -----------
-                        $today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                     
@@ -477,6 +502,13 @@ if(isset($_GET['pp'])){
                                     <!-- <div class="col-1">                                     -->
                                         <a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>                                      
                                     <!-- </div> -->
+                                    <?php if($candidate['finalMedical'] == 'yes' & $candidate['finalMedicalStatus'] == 'fit') { ?>
+                                        <?php if($candidate['delegateComission'] == 0){ ?>
+                                            <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" id="trainingPassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button>
+                                        <?php }else{ ?>
+                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" id="trainingPassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button>
+                                        <?php } ?>                                            
+                                    <?php } ?>
                                 </div>
                             </div>
                         </td>
@@ -524,6 +556,20 @@ function finalMedical(passport_info){
 
 function policeClearance(passport_info){
     $('#modalPassportPolice').val(passport_info);
+}
+
+function addDelegateExpense(info){
+    info = info.split('_');
+    $('#delegateModalButton').html('Submit');
+    $('#passportNumDelegateExpenseInfo').val(info[0]);
+    $('#creationDateDelegateExpenseInfo').val(info[1]);
+}
+function editDelegateExpense(info){
+    info = info.split('_');
+    $('#delegateModalButton').html('Update');
+    $('#passportNumDelegateExpenseInfo').val(info[0]);
+    $('#creationDateDelegateExpenseInfo').val(info[1]);;
+    $('#delegateExpenseAmountModal').val(info[2]);;
 }
 
 $('#candidateNav').addClass('active');
