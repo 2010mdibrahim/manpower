@@ -236,7 +236,7 @@ $result = mysqli_query($conn,$qry);
             data: {info: info},
             success: function(response){
                 $('#showDelegateCandidateDiv').html(response);
-                totalComission = $('#totalComission').val();
+                totalComission = '&#x24; ' + $('#totalComission').val();
                 console.log(totalComission);
                 $('#totalComissionShow').html(totalComission);
                 $(document).ready(function() {

@@ -4,7 +4,7 @@ $info = explode('_',$_POST['info']);
 $delegateId = $info[0];
 $paidStatus = $info[1];
 $html = '<div class="modal-body">
-        <p>Total Comission Received: <span class="fa fa-dollar" id="totalComissionShow" style="font-weight: bold"></span></p>
+        <p>Total Comission Received: <span id="totalComissionShow" style="font-weight: bold"></span></p>
         </div>
         <div class="table-responsive">
         <table id="dataTableSeaumPaid" class="table table-bordered table-hover" style="width:100%">
@@ -31,7 +31,7 @@ $html .=    '<tr>
                 <td>'.$delegateList['sponsorNID'].'</td>
                 <td>'.$delegateList['visaStampingDate'].'</td>
                 <td>'.$delegateList['flightDate'].'</td>
-                <td><span class="fa fa-dollar"> '.$delegateList['delegateComission'].' </span></td>
+                <td><span>&#x24; '.$delegateList['delegateComission'].' </span></td>
             </tr>';
 }
 $html .=    '<tfoot hidden>

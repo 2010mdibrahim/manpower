@@ -545,10 +545,8 @@
                                 $ticketId = base64_encode($ticket['ticketId']);
                             ?>
                             <input type="hidden" name="pagePost" value="ticketInfo">
-                            <a href="?page=tN&tI=<?php echo $ticketId; ?>" target="_blank">
-                                <button class="btn btn-info btn-sm">
-                                    <?php echo $ticket['flightDate']; ?>
-                                </button>
+                            <a href="?page=listTicket&tI=<?php echo $ticketId; ?>" target="_blank">
+                                <button class="btn btn-info btn-sm"> <?php echo $ticket['flightDate']; ?> </button>
                             </a>  
                         <?php } ?></td> 
 

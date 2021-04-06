@@ -17,7 +17,7 @@
                 <table id="dataTableSeaum" class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>Passport No</th>
+                        <th>Candidate Name</th>
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
@@ -33,7 +33,12 @@
                     </thead>
                     <?php
                     $agent = $_SESSION['email'];
-                    $result = $conn->query("SELECT passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate order by creationDate desc");
+                    if(isset($_GET['tI'])){
+                        $ticketId = base64_decode($_GET['tI']);
+                        $result = $conn->query("SELECT passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where ticket.ticketId = $ticketId order by passport.creationDate desc");
+                    }else{
+                        $result = $conn->query("SELECT passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate order by creationDate desc");
+                    }
                     while($ticket = mysqli_fetch_assoc($result)){ ?>
                         <tr>
                             <td><a href="?page=listCandidate&pp=<?php echo base64_encode($ticket['passportNum'])."&cd=".base64_encode($ticket['passportCreationDate']);?>"><?php echo $ticket['fName']." ".$ticket['lName'];?></a></td>

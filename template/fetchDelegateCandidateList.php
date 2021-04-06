@@ -30,7 +30,7 @@ $html .=    '<tr>
                 <td>'.$delegateList['sponsorNID'].'</td>
                 <td>'.$delegateList['visaStampingDate'].'</td>
                 <td>'.$delegateList['flightDate'].'</td>
-                <td>'.$delegateList['delegateComission'].'</td>
+                <td><span>&#x24; </span>'.$delegateList['delegateComission'].'</td>
             </tr>';
 }
 $html .=    '<tfoot hidden>
