@@ -219,10 +219,6 @@ if(isset($_GET['pp'])){
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
                         $today = new Datetime(date('Y-m-d'));
-                        $pendingTill = new DateTime($candidate['pendingTill']);
-                        if($pendingTill >= $today){
-                            
-                        }
                         // ----- experience days ------
                         $arrivalDate = new DateTime($candidate['arrivalDate']);
                         $departureDate = new DateTime($candidate['departureDate']);

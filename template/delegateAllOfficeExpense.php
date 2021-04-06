@@ -129,7 +129,7 @@
         <div class="card-header text-center">
             Delegate Expense Details
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush" style="height: 500px; overflow: auto;">
             <li class="list-group-item bg-light">
                 <div class="row text-center">
                     <div class="col-md-2">Delegate Name</div>
