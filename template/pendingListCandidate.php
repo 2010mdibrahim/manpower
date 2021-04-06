@@ -192,11 +192,11 @@ if(isset($_GET['pp'])){
                     </thead>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
-                        $today = new DateTime('Y-m-d');
-                        $pendingTill = new DateTime($candidate['pendingTill']);
+                        $today = new Datetime(date('Y-m-d'));
+                        /*$pendingTill = new DateTime($candidate['pendingTill']);
                         if($pendingTill >= $today){
                             
-                        }
+                        }*/
                         // ----- experience days ------
                         $arrivalDate = new DateTime($candidate['arrivalDate']);
                         $departureDate = new DateTime($candidate['departureDate']);
@@ -209,7 +209,7 @@ if(isset($_GET['pp'])){
                         $validity = $expiryDate->diff($today);
 
                         // ---------- DOB -----------
-                        $today = new Datetime(date('Y-m-d'));
+                        //$today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                     
