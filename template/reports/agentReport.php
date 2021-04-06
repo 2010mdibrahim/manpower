@@ -3,6 +3,7 @@ include ('../database.php');
 $agent_info = explode('-',$_POST['agentInfo']);
 $agentName = $agent_info[0];
 $agentEmail = $agent_info[1];
+$agentTotalAmountGiven = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum from agentexpense where agentEmail = '$agentEmail'"));
 $totalComission = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, sum(amount) as total from completedagentcomission INNER JOIN passportcompleted on completedagentcomission.passportNum = passportcompleted.passportNum AND completedagentcomission.passportCreationDate = passportcompleted.creationDate INNER JOIN jobs on jobs.jobId = passportcompleted.jobId where jobs.creditType = 'Comission' AND completedagentcomission.agentEmail = '$agentEmail'"));
 $totalPaid = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, sum(amount) as total from completedagentcomission INNER JOIN passportcompleted on completedagentcomission.passportNum = passportcompleted.passportNum AND completedagentcomission.passportCreationDate = passportcompleted.creationDate INNER JOIN jobs on jobs.jobId = passportcompleted.jobId where jobs.creditType = 'Paid' AND completedagentcomission.agentEmail = '$agentEmail'"));
 $totalComission = 0;
@@ -124,6 +125,10 @@ $html .=            '</span></p>
                                     <div class="col-sm">                                        
                                         <p>Total Return Loss</p>
                                         <h3>'.number_format($totalReturnLoss).'</h3>
+                                    </div>
+                                    <div class="col-sm">                                        
+                                        <p>Total Amount Given</p>
+                                        <a href="?page=showAgentExpenseList&ag='.base64_encode($agentEmail).'" target="_blank"><h3>'.number_format($agentTotalAmountGiven['fullSum']).'</h3></a>
                                     </div>
                                 </div>
                             </div>

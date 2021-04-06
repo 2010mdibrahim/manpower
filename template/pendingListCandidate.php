@@ -2,9 +2,9 @@
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+    $result = $conn -> query("SELECT processing.pending, processing.pendingTill, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 order by passport.creationDate desc");
+    $result = $conn -> query("SELECT processing.pending, processing.pendingTill, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 1 order by passport.creationDate desc");
 }
 ?>
 
@@ -192,7 +192,11 @@ if(isset($_GET['pp'])){
                     </thead>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
-
+                        $today = new DateTime('Y-m-d');
+                        $pendingTill = new DateTime($candidate['pendingTill']);
+                        if($pendingTill >= $today){
+                            
+                        }
                         // ----- experience days ------
                         $arrivalDate = new DateTime($candidate['arrivalDate']);
                         $departureDate = new DateTime($candidate['departureDate']);
@@ -200,7 +204,6 @@ if(isset($_GET['pp'])){
                         
                         // ------- validity days -------
                         $expiryDate = new DateTime($candidate['issueDate']); // will add validity to this date thats why it is expiry date
-                        $today = new DateTime(date('Y-m-d'));
                         $format = "P".$candidate['validity']."Y";
                         $expiryDate->add(new DateInterval($format));
                         $validity = $expiryDate->diff($today);

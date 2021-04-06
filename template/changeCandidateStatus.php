@@ -8,9 +8,10 @@ if(isset($_POST['finish'])){
     $status = 'finish';
     $today = date('Y-m-d');
     $payMode = 'paid';
-    $candidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(candidateexpense.amount) as candidateExpenseSum, agentcomission.amount, agentcomission.comissionId from agentcomission LEFT JOIN candidateexpense on candidateexpense.passportNum = agentcomission.passportNum AND candidateexpense.passportCreationDate = agentcomission.passportCreationDate where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'"));
+    $candidateExpense = mysqli_fetch_assoc($conn->query("SELECT (SELECT sum(advanceAmount) from advance where advance.comissionId = agentcomission.comissionId) as advanceSum, sum(candidateexpense.amount) as candidateExpenseSum, agentcomission.amount, agentcomission.comissionId from agentcomission LEFT JOIN candidateexpense on candidateexpense.passportNum = agentcomission.passportNum AND candidateexpense.passportCreationDate = agentcomission.passportCreationDate where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'"));
     $comissionSumAmount = (is_null($candidateExpense['candidateExpenseSum'])) ? 0 : $candidateExpense['candidateExpenseSum'];
-    $amount = $candidateExpense['amount'] - $comissionSumAmount;
+    $advanceSumAmount = (is_null($candidateExpense['advanceSum'])) ? 0 : $candidateExpense['advanceSum'];
+    $amount = $candidateExpense['amount'] - ($comissionSumAmount + $advanceSumAmount);
     $result = $conn->query("UPDATE processing set pending = 2 where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
     $result = $conn->query("UPDATE agentcomission set payMode = '$payMode', paidAmount = $amount where comissionId = ".$candidateExpense['comissionId']);
     $result = $conn->query("INSERT INTO passportcompleted SELECT * FROM passport WHERE passportNum = '$passportNum' AND creationDate = '$creationDate'");
