@@ -6,6 +6,13 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
         display: flex;
         flex-direction: row;
     }
+    .dot {
+        height: 25px;
+        width: 30px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
     <!-- Add manpower jobs -->
@@ -79,7 +86,14 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                     while( $manpower = mysqli_fetch_assoc($result) ){                
                     ?>
                         <tr>
-                            <td><?php echo $manpower['manpowerOfficeName'];?></td>
+                            <td>
+                            <div class="row">
+                            <div class="col-sm">
+                            <?php echo $manpower['manpowerOfficeName'];?>
+                            </div>
+                            <div class="col-sm"><div class="dot">new</div></div>
+                            </div>
+                            </td>
                             <td><?php echo $manpower['licenseNumber'];?></td>
                             <td><?php echo $manpower['officeAddress'];?></td>
                             <td><a href="?page=manpowerJobList&mi=<?php echo base64_encode($manpower['manpowerOfficeId']);?>&mn=<?php echo base64_encode($manpower['manpowerOfficeName']);?>">Jobs</a></td>

@@ -90,21 +90,23 @@ if(!empty($_POST['pagePost'])){
             include ('template/editVisa.php');
         }else if($pagePost == 'editTicket'){
             include ('template/editTicket.php');
-        }else if($page == 'expenseHeader'){
-            include ('template/expenseHeader.php');
-        }else if($page == 'newExpenseHeader'){
-            include ('template/newExpenseHeader.php');
-        }else if($pagePost == 'editExpenseHeader'){
-            include ('template/editExpenseHeader.php');
-        }else if($page == 'newExpense'){
-            include ('template/newExpense.php');
-        }else if($page == 'expenseDetails'){
-            include ('template/expenseDetails.php');
-        }else if($pagePost == 'editExpense'){
-            include ('template/editExpense.php');
-        }else if($page == 'addAdmin'){
-            include ('template/addAdmin.php');
-        }else if($page == 'addVisaPayment'){
+        }
+        // else if($page == 'expenseHeader'){
+        //     include ('template/expenseHeader.php');
+        // }else if($page == 'newExpenseHeader'){
+        //     include ('template/newExpenseHeader.php');
+        // }else if($pagePost == 'editExpenseHeader'){
+        //     include ('template/editExpenseHeader.php');
+        // }else if($page == 'newExpense'){
+        //     include ('template/newExpense.php');
+        // }else if($page == 'expenseDetails'){
+        //     include ('template/expenseDetails.php');
+        // }else if($pagePost == 'editExpense'){
+        //     include ('template/editExpense.php');
+        // }else if($page == 'addAdmin'){
+        //     include ('template/addAdmin.php');
+        // }
+        else if($page == 'addVisaPayment'){
             include ('template/addVisaPayment.php');
         }else if($page == 'addVisaPaymentWithAgent'){
             include ('template/addVisaPaymentWithAgent.php');
@@ -218,15 +220,19 @@ if(!empty($_POST['pagePost'])){
             include('template/admin/employee.php');
         }else if($page == 'addEmployee') {
             include('template/admin/addEmployee.php');
-        }else if($page == 'employeeList') {
-            include('template/admin/employeeList.php');
-        }else if($page == 'addDepartment') {
+        }
+        // else if($page == 'employeeList') {
+        //     include('template/admin/employeeList.php');
+        // }
+        else if($page == 'addDepartment') {
             include('template/admin/addDepartment.php');
         }else if($pagePost == 'companyEmployeeList') {
             include('template/admin/companyEmployeeList.php');
-        }else if($pagePost == 'editEmployee') {
-            include('template/admin/addEmployee.php');
-        }else if($pagePost == 'completeCandidate') {
+        }
+        // else if($pagePost == 'editEmployee') {
+        //     include('template/admin/addEmployee.php');
+        // }
+        else if($pagePost == 'completeCandidate') {
             include('template/completeCandidate.php');
         }else if($pagePost == 'candidateWisePlReport') {
             include('template/reports/candidateWisePLReport.php');
@@ -372,6 +378,14 @@ if(!empty($_POST['pagePost'])){
             include('template/returnedVisaList.php');
         }else if($page == 'test') {
             include('template/test.php');
+        }else if($page == 'newEmployee') {
+            include('template/newEmployee.php');
+        }else if($page == 'employeeList') {
+            include('template/employeeList.php');
+        }else if($page == 'addSections') {
+            include('template/addSections.php');
+        }else if($pagePost == 'editEmployee') {
+            include('template/editEmployee.php');
         }else{
             include ('template/service.php');
         }
@@ -448,7 +462,6 @@ if(!empty($_POST['pagePost'])){
         todayHighlight:'TRUE',
         autoclose: true,
     });
-
     $('.select2').select2({
         width: '100%'
     });

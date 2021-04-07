@@ -283,7 +283,7 @@
                         </label>
                     </div>                 
                 </div>
-                <div class="col-md-6" id="trainingCardDiv" style="display: none;">
+                <div class="form-group col-md-6" id="trainingCardDiv" style="display: none;">
                     <label>Give Traning Card</label>
                     <input class="form-control" type="file" name="traningCardFile" id="traningCardFile">
                 </div>
