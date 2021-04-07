@@ -1,3 +1,4 @@
+
 <!-- Nav Bar Start -->
 <div class="nav-bar">
     <div class="container-fluid">
@@ -10,6 +11,7 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
                     <a href="?page=" class="nav-item nav-link" id="home_nav">Home</a>
+                    <?php //if($sections['All'] == 'yes'){?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="candidateNav">Candidate</a>
                         <div class="dropdown-menu">
@@ -22,6 +24,7 @@
                             <a href="?page=returnedListCandidate" class="dropdown-item">Returned Candidate List</a>
                         </div>
                     </div>
+                    <?php //} ?>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="visaNav">Visa</a>
                         <div class="dropdown-menu">
@@ -94,6 +97,15 @@
                     <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
                     <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
                     <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="employeeNav">Employee</a>
+                        <div class="dropdown-menu">
+                            <a href="?page=newEmployee" class="dropdown-item">Add New Employee</a>
+                            <a href="?page=employeeList" class="dropdown-item">Employee List</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="?page=addSections" class="dropdown-item">Add Sections</a>
+                        </div>
+                    </div>
                     <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
                 </div>
                 <div class="ml-auto">
