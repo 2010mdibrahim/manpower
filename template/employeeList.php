@@ -37,6 +37,7 @@
             <thead>
             <tr>
                 <th>Employee Name</th>
+                <th>Employee ID</th>
                 <th>Mobile Number</th>
                 <th>Address</th>
                 <th>Designation</th> 
@@ -50,6 +51,7 @@
             ?>
             <tr>
                 <td><?php echo $employee['employeeName'];?></td>
+                <td><?php echo $employee['employeeOfficeId'];?></td>
                 <td><?php echo $employee['empMob'];?></td>
                 <td><?php echo $employee['empAddress'];?></td>
                 <td><?php echo $employee['empDesignation'];?></td>
@@ -89,6 +91,7 @@
             <tfoot>
             <tr hidden>
                 <th>Employee Name</th>
+                <th>Employee ID</th>
                 <th>Mobile Number</th>
                 <th>Address</th>
                 <th>Designation</th> 
