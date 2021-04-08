@@ -54,9 +54,9 @@
     function addToCompletedList(){
         $.ajax({
             type: 'get',
-            url: 'template/test_2.php',
-            success: function(){
-                console.log('done');
+            url: 'template/changeCandidateController.php',
+            success: function(response){
+                console.log(response);
             }
         });
     }

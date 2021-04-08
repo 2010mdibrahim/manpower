@@ -1,23 +1,12 @@
 <?php
-class changeCandidateStatus{
-    public $server = 'localhost';
-    public $user ='root';
-    public $dbname='samin_erp';
-    public $path = 'C:/xampp/htdocs/mahfuza/';
-    public $password = '';
-    public $base_dir = '';
+include ('dbc.class.php');
+class changeCandidateStatus extends Dbc{    
     
-    function change(){        
-        if(file_exists($this->path)){
-            $this->password = '';
-            $this->base_dir = $this->path;
-        }else{
-            $this->password = '!@#$%databaseserveradmin2020';
-            $this->base_dir = '//10.100.105.200/g/xampp/htdocs/mahfuza/';
-        }
-        $conn = mysqli_connect($this->server,$this->user,$this->password,$this->dbname);
+    function change(){
+        $conn = $this->connection();
         $today = date('Y-m-d');
         $result_completed = $conn->query("SELECT passport.passportNum, passport.creationDate, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where processing.pending = 1 AND processing.pendingTill < '$today'");
+        print_r("SELECT passport.passportNum, passport.creationDate, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where processing.pending = 1 AND processing.pendingTill < '$today'");
         $payMode = 'paid';
         while($completed = mysqli_fetch_assoc($result_completed)){
             $passportNum = $completed['passportNum'];
