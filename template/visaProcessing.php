@@ -148,7 +148,6 @@ if ($mode == 'empRqstMode') {
                     $result = $conn -> query("INSERT into visaFile (visaFile, processingId) values ('$data_path',$processingId)");
                     if($result){
                         move_uploaded_file($temp_name,$path_filename_ext);
-                        echo "<script> window.location.href='../index.php?page=visaList'</script>";
                     }else{
                         echo mysqli_error($conn);
                     }

@@ -185,7 +185,7 @@ if(isset($_GET['pp'])){
                         <td>
                         <div class="row">
                         <?php
-                        if($candidate['departureSeal'] == 'no'){
+                        if($candidate['experienceStatus'] == 'new'){
                             if($candidate['trainingCard'] == 'yes'){ ?>
                                 <div class="col-sm-3"> 
                                     <a href="<?php echo $candidate['trainingCardFile'];?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
@@ -197,7 +197,7 @@ if(isset($_GET['pp'])){
                             <?php } ?>                    
                         <?php }else{ ?>
                             <div class="col-sm">
-                                <a href="?page=cI&p=<?php echo base64_encode($candidate['passportNum'])."&cd=.".base64_encode($candidate['creationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
+                                <a href="?page=ccI&p=<?php echo base64_encode($candidate['passportNum'])."&cd=.".base64_encode($candidate['creationDate'])."&t=".time();?>"><p class="text-center">Experienced</p></a>
                             </div>
                         <?php } ?>
                         </div>
@@ -219,7 +219,7 @@ if(isset($_GET['pp'])){
                                         <a href="?page=cec<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>
                                     </div>
                                     <div class="button_div">
-                                        <a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>
+                                        <a href="?page=completedCandidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>
                                     </div>
                                 </div>
                             </div>

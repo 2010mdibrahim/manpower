@@ -16,7 +16,7 @@ if(!isset($_SESSION['sections'])){
 }
 $passportNum = base64_decode($_GET['p']);
 $creationDate = base64_decode($_GET['cd']);
-$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,oldVisa, oldVisaFile, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passportcompleted where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
+$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy, experienceStatus, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passportcompleted where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
 <style>
@@ -59,23 +59,27 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                 </div>
             </div>       
         </div>
-        <?php if($candidate['oldVisa'] != 'no'){ ?>
-		<hr>
+        <?php if($candidate['departureSeal'] != 'no'){ ?>
+            <hr>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h5 for="passport">Departure Seal</h5>
+                        <label for="">Departure Date</label>
+                        <h5 for="passport"><?php echo ($candidate['departureDate'] == '0000-00-00') ? 'No Date' : $candidate['departureDate'];?></h5>
                     </div>
                     <div class="col-sm-9 text-center" >
                         <a href="<?php echo $candidate['departureSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['departureSealFile'];?>" alt="" height="100" width="100"></a>
                     </div>
                 </div>        
             </div>
+        <?php } ?>        
+        <?php if($candidate['arrivalSeal'] != 'no'){ ?>
             <hr>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h5 for="passport">Arrival Seal </h5>
+                        <label for="">Arrival Date</label>
+                        <h5 for="passport"><?php echo ($candidate['arrivalDate'] == '0000-00-00') ? 'No Date' : $candidate['arrivalDate'];?></h5>
                     </div>
                     <div class="col-sm-9 text-center" >
                         <a href="<?php echo $candidate['arrivalSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['arrivalSealFile'];?>" alt="" height="100" width="100"></a>

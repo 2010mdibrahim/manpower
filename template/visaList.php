@@ -183,40 +183,7 @@ if(!isset($_SESSION['sections'])){
         </div>
     </div>
 
-    <!-- Stamping Modal 1 card -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaStamping">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" name="processingId" id="processingIdModalOne">
-                        <input type="hidden" name="mode" value="stampingMode">
-                        <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate" placeholder="Enter Visa Stamping Date">
-                        </div>
-                        <div>
-                            <input class="form-control-file" type="file" name="visaFile[]">
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Stamping Modal 3 cards -->
+    <!-- Stamping Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingDiv">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
@@ -235,13 +202,7 @@ if(!isset($_SESSION['sections'])){
                         </div>
                         <div class="form-group" id="visa_file_div">
                             <div class="form-group">
-                                <input class="form-control-file" type="file" name="visaFile[]">
-                            </div>
-                        </div>
-                        <div class="form-group form-row">
-                            <div class="form-group">
-                                <button class="btn btn-sm" type="button" id="add_visafile_div" ><span class="fa fa-plus" aria-hidden="true"></span></button>
-                                <button class="btn btn-sm btn-danger" type="button" id="remove_visafile_div"><span class="fas fa-minus" aria-hidden="true"></span></button>
+                                <input class="form-control-file" type="file" name="visaFile[]" multiple>
                             </div>
                         </div>
                     </div>

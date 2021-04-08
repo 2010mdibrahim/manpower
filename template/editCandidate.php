@@ -133,6 +133,41 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 </div>
             </div>
         </div>
+        <?php if($candidate['experienceStatus'] == 'experienced'){ ?>
+        <label>New or Experienced</label>
+        <div class="form-group">            
+            <div class="parking_container">
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label class="parking_label">Experienced
+                            <input type="radio" name="experience" value="yes" required checked>
+                            <span class="checkmark"></span>
+                        </label> 
+                    </div> 
+                </div>
+                <div id="experienced" style="background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
+                    <div class="form-group form-row">
+                        <div class="col-md-6">
+                            <label>Departure Seal</label>
+                            <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Arrival Seal</label>
+                            <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Departure Date</label>
+                            <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" value="<?php echo ($candidate['departureDate'] == '0000-00-00') ? '' : $candidate['departureDate'];?>"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Arrival Date</label>
+                            <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" value="<?php echo ($candidate['arrivalDate'] == '0000-00-00') ? '' : $candidate['arrivalDate'];?>"/>
+                        </div>               
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }?>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
@@ -287,4 +322,5 @@ $('body').on('click', "input[type='radio']", function(){
         $('#officeNotAgent').hide();
     }
 });
+$('#candidateNav').addClass('active');
 </script>

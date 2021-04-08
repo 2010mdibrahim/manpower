@@ -160,9 +160,15 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     // comission and comission advance
     $advance = $_POST['advance'];
     $comission = $_POST['comission'];
+
+    if($_POST['experience'] == 'yes'){
+        $experience = 'experienced';
+    }else{
+        $experience = 'new';
+    }
     
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear,'$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
     $expCountry = $_POST['expCountry'];
     foreach($expCountry as $countryName){
         $result = $conn->query("INSERT INTO passportexperiencedcountry(passportNum, passportCreationDate, country) VALUES ('$passportNum','$date','$countryName')");

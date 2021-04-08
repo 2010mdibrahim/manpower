@@ -386,6 +386,8 @@ if(!empty($_POST['pagePost'])){
             include('template/addSections.php');
         }else if($pagePost == 'editEmployee') {
             include('template/editEmployee.php');
+        }else if($page == 'completedCandidateInfo') {
+            include('template/completedCandidateInfo.php');
         }else{
             include ('template/home.php');
         }
