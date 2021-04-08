@@ -5,8 +5,12 @@ if(!isset($_SESSION['sections'])){
 }else{
     if(!in_array("All", $_SESSION['sections'])){
         if(!in_array("Manpower", $_SESSION['sections'])){
-            header("Location: ../index.php");
-            exit();
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
         }        
     }
 }
