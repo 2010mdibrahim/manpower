@@ -52,11 +52,9 @@
 </div>
 <script>
     function addToCompletedList(){
-        alert('clicked');
-        console.log('clicked');
         $.ajax({
             type: 'get',
-            url: 'template/test_2.php',
+            url: 'template/changeCandidateController.php',
             success: function(response){
                 console.log(response);
             }

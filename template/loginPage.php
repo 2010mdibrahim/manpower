@@ -12,7 +12,7 @@ if($email!="" && $pass!=""){
             array_push($sections_arr, $sections['sectionName']);
         }
         $_SESSION['sections'] = $sections_arr;
-        // echo "<script>window.location='../index.php'</script>";
+        echo "<script>window.location='../index.php'</script>";
     }else{
         echo "<script>window.alert('You are not an admin');</script>";
         echo "<script>window.location='../index.php'</script>";

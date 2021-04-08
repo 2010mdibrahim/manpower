@@ -1,4 +1,5 @@
 <?php
+include ('dbc.class.php');
 class changeCandidateStatus extends Dbc{    
     
     function change(){
