@@ -1,3 +1,20 @@
+<?php 
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
+?>
 <?php
 $result = $conn->query("SELECT passport.passportNum, passport.creationDate, passport.fName, passport.lName, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where passport.finalMedicalStatus = 'fit' AND passport.testMedicalStatus = 'fit' AND passport.finalMedical = 'yes' AND processing.processingId is null");
 ?>

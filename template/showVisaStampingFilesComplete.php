@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+ }else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                    header("Location: ../index.php");
+                    exit();
+            } 
+        }        
+    }
+ }
 $processingId = base64_decode($_GET['p']);
 $candidate_info = mysqli_fetch_assoc($conn->query("SELECT passportcompleted.fName, passportcompleted.lName, processingcompleted.visaStampingDate from processingcompleted inner join passportcompleted on processingcompleted.passportNum = passportcompleted.passportNum AND processingcompleted.passportCreationDate = passportcompleted.creationDate where processingcompleted.processingId = $processingId"));
 $result = $conn->query("SELECT * from visafile where processingId = $processingId");

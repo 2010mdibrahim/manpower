@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Manpower", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 $manpowerId = base64_decode($_GET['mi']);
 $manpowerOfficeName = base64_decode($_GET['mn']);
 $result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpowerjobprocessing INNER JOIN jobs using (jobId) where manpowerOfficeId = $manpowerId");

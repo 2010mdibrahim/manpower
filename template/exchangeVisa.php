@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 $info = explode('-',$_POST['info']);
 $fName = $info[0];
 $lName = $info[1];

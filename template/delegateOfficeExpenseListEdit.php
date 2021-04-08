@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Delegate", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 $expenseId = $_POST['expenseId'];
 $officeExpense = mysqli_fetch_assoc($conn->query("SELECT * from delegateofficeexpense where expenseId = $expenseId"));
 ?>

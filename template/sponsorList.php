@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+ }else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Sponsor", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                    header("Location: ../index.php");
+                    exit();
+            } 
+        }        
+    }
+ }
 if(isset($_GET['spN'])){
     $sponsorNID = base64_decode($_GET['spN']);
     $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId where sponsor.sponsorNID = '$sponsorNID' order by creationDate desc");

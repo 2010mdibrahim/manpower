@@ -1,3 +1,20 @@
+<?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
+?>
 <style>
     .flex-container {
         display: flex;
@@ -35,7 +52,7 @@
                     $agent = $_SESSION['email'];
                     if(isset($_GET['tI'])){
                         $ticketId = base64_decode($_GET['tI']);
-                        $result = $conn->query("SELECT processing.pending, passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.creationDate = ticket.passportCreationDate where ticket.ticketId = $ticketId order by passport.creationDate desc");
+                        $result = $conn->query("SELECT processing.pending, passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate where ticket.ticketId = $ticketId order by passport.creationDate desc");
                     }else{
                         $result = $conn->query("SELECT processing.pending, passport.fName, passport.lName, ticket.* from ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate order by creationDate desc");
                     }

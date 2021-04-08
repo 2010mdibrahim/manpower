@@ -1,4 +1,19 @@
 <?php 
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Delegate", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 $delegateId = base64_decode($_GET['dl']);
 $delegateName = mysqli_fetch_assoc($conn->query("SELECT delegateName from delegate where delegateId = $delegateId"));
 $result_expense = $conn->query("SELECT delegateexpense.* from delegateexpense where delegateexpense.delegateId = $delegateId order by delegateexpense.delegateExpenseId desc");

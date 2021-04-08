@@ -1,18 +1,27 @@
 <?php
+include ('homeController.php');
+$homeController = new HomeController();
+$monthlyCandidateExpense = $homeController->candidateMonthlyExpense();
+$dailyCandidateExpense = $homeController->candidateDailyExpense();
 $ticketAmount = mysqli_fetch_assoc($conn->query("SELECT sum(ticketPrice) as price from ticket"));
 $agentAmount = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as price from agentexpense"));
 $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price from expense"));
 ?>
 
 <style>
-    .card{
-        padding: 5%;
-        align-items: center;
+    .card-header{
+        height: 80%;
+        background-color: rgba(92, 107, 192, 1);
+        color: white;
+    }
+    .inside{
+        background-color: rgba(92, 107, 192, 0.8);
+        color: black;
     }
 </style>
 <!-- Service Start -->
 <div class="service">
-    <div class="container">
+    <div class="container-fluid">
         <div class="section-header">
             <h2>Total Expenses Overview</h2>
         </div>
@@ -20,13 +29,19 @@ $officeAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as price fro
             <h2>Expense Information</h2>
         </div>
         <div class="row" style="padding: 2%">
-            <div class="col-lg-4 col-md-6">
-                <div class="card">
-                    <h3>Total Ticket Expense</h3>
-                    <p>
-                        <?php echo number_format($ticketAmount['price'])." /- Taka";?>
-                    </p>
-                    <a class="btn" href="?page=listTicket">Learn More</a>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-header">Total Candidate Expense</div>
+                    <div class="card-group">
+                        <div class="card text-center">
+                            <div class="card-header inside">Monthly</div>
+                            <div class="card-body"><?php echo $monthlyCandidateExpense["candidateExpense"]; ?></div>
+                        </div>
+                        <div class="card text-center">
+                            <div class="card-header inside">Daily</div>
+                            <div class="card-body"><?php echo $dailyCandidateExpense["candidateExpense"]; ?></div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">

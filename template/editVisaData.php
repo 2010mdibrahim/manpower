@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Sponsor", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 $sponsorVisa = $_POST['sponsorVisa'];
 $sponsorVisaData = mysqli_fetch_assoc($conn->query("SELECT * from sponsorvisalist where sponsorVisa = '$sponsorVisa'"));
 $result = $conn->query("SELECT sponsorNID, sponsorName from sponsor");

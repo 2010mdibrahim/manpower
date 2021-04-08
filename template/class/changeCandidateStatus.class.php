@@ -2,7 +2,7 @@
 include ('dbc.class.php');
 class changeCandidateStatus extends Dbc{    
     
-    function change(){
+    public function change(){
         $conn = $this->connection();
         $today = date('Y-m-d');
         $result_completed = $conn->query("SELECT passport.passportNum, passport.creationDate, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where processing.pending = 1 AND processing.pendingTill < '$today'");

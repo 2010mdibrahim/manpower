@@ -1,4 +1,19 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Sponsor", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            }            
+        }        
+    }
+}
 if(isset($_GET['sv'])){
     $sponsorVisa = base64_decode($_GET['sv']);
     $result = $conn -> query("SELECT delegate.country, jobs.jobType,jobs.creditType, sponsor.sponsorName, sponsor.sponsorNID, sponsorvisalist.* from sponsorvisalist inner join sponsor using (sponsorNID) inner join jobs using(jobId) inner join delegateOffice on delegateOffice.delegateOfficeId = sponsor.delegateOfficeId inner join delegate on delegateOffice.delegateId = delegate.delegateId where sponsorVisa = '$sponsorVisa'");
