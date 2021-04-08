@@ -52,11 +52,13 @@
 </div>
 <script>
     function addToCompletedList(){
+        alert('clicked');
+        console.log('clicked');
         $.ajax({
             type: 'get',
             url: 'template/test_2.php',
-            success: function(){
-                console.log('done');
+            success: function(response){
+                console.log(response);
             }
         });
     }
