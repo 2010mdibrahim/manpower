@@ -46,8 +46,16 @@ if($alter == 'delete'){
     $issuD = $_POST['issuD'];
     $country = $_POST['country'];
     $validityYear = $_POST['validityYear'];
-    // $departureDate = $_POST['departureDate'];
-    // $arrivalDate = $_POST['arrivalDate'];
+    if(isset($_POST['departureDate'])){
+        $departureDate = $_POST['departureDate'];
+    }else{
+        $departureDate = '';
+    }
+    if(isset($_POST['arrivalDate'])){
+        $arrivalDate = $_POST['arrivalDate'];
+    }else{
+        $arrivalDate = '';
+    }
     $policeVerification = $_POST['policeVerification'];
     $photo = $_POST['passportPhoto'];
     $validityYear = $_POST['validityYear'];
@@ -79,8 +87,8 @@ if($alter == 'delete'){
         $path = pathinfo($file);
         $ext = $path['extension'];
         $temp_name = $_FILES['policeVerificationFile']['tmp_name'];
-        $path_filename_ext = $base_dir.$target_dir."policeVerification"."_".$passportNum.".".$ext;
-        $policeFile = $target_dir."policeVerification"."_".$passportNum.".".$ext;
+        $path_filename_ext = $base_dir.$target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$ext;
+        $policeFile = $target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$ext;
         $result = $conn->query("UPDATE passport set policeClearance = 'yes', policeClearanceFile = '$policeFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
         if ($result){
             move_uploaded_file($temp_name,$path_filename_ext);
@@ -95,8 +103,8 @@ if($alter == 'delete'){
         $path_photo = pathinfo($file_photo);
         $photo_ext = $path_photo['extension'];
         $photo_temp_name = $_FILES['photoFile']['tmp_name'];
-        $photo_path_filename_ext = $base_dir.$target_dir_photo."photo"."_".$passportNum.".".$photo_ext;
-        $photoFile = $target_dir_photo."photo"."_".$passportNum.".".$photo_ext; 
+        $photo_path_filename_ext = $base_dir.$target_dir_photo."photo"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$photo_ext;
+        $photoFile = $target_dir_photo."photo"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$photo_ext; 
         $result = $conn->query("UPDATE passport set passportPhoto = 'yes', passportPhotoFile = '$photoFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
         if ($result){
             move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
@@ -112,14 +120,46 @@ if($alter == 'delete'){
         $path = pathinfo($file);
         $passport_ext = $path['extension'];
         $passport_temp_name = $_FILES['passportScan']['tmp_name'];
-        $passport_path_filename_ext = $base_dir.$passport_target_dir."passport"."_".$passportNum.".".$passport_ext;
-        $passportFile = $passport_target_dir."passport"."_".$passportNum.".".$passport_ext; 
-        $result = $conn->query("UPDATE passport set passportScannedCopy = '$photoFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
+        $passport_path_filename_ext = $base_dir.$passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$passport_ext;
+        $passportFile = $passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$passport_ext; 
+        $result = $conn->query("UPDATE passport set passportScannedCopy = '$passportFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
         if ($result){
             move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
         }
     }
-    $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
+
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['departureSealFile']['name'] != "")){
+        // Where the file is going to be stored
+        $departureSeal_target_dir = "uploads/departureSeal/";
+        $file = $_FILES['departureSealFile']['name'];
+        $path = pathinfo($file);
+        $departureSeal_ext = $path['extension'];
+        $departureSeal_temp_name = $_FILES['departureSealFile']['tmp_name'];
+        $departureSeal_path_filename_ext = $base_dir.$departureSeal_target_dir."departureSeal"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$departureSeal_ext;
+        $departureSealFile = $departureSeal_target_dir."departureSeal"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$departureSeal_ext;
+        $result = $conn->query("UPDATE passport set departureSealFile = '$departureSealFile', departureSeal = 'yes' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
+        if ($result){
+            move_uploaded_file($departureSeal_temp_name,$departureSeal_path_filename_ext);
+        }
+    }
+
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['arrivalSealFile']['name'] != "")){
+        // Where the file is going to be stored
+        $arrivalSeal_target_dir = "uploads/arrivalSeal/";
+        $file = $_FILES['arrivalSealFile']['name'];
+        $path = pathinfo($file);
+        $arrivalSeal_ext = $path['extension'];
+        $arrivalSeal_temp_name = $_FILES['arrivalSealFile']['tmp_name'];
+        $arrivalSeal_path_filename_ext = $base_dir.$arrivalSeal_target_dir."arrivalSeal"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$arrivalSeal_ext;
+        $arrivalSealFile = $arrivalSeal_target_dir."arrivalSeal"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$arrivalSeal_ext;
+        $result = $conn->query("UPDATE passport set arrivalSealFile = '$arrivalSealFile', arrivalSeal = 'yes' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
+        if ($result){
+            move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
+        }
+    }
+    $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName', departureDate = '$departureDate', arrivalDate = '$arrivalDate' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
     $result = mysqli_query($conn,$qry);
     if($result){
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";

@@ -59,7 +59,34 @@ $result = $conn->query("SELECT * from visafile where processingId = $processingI
             </form>
         </div>
     </div>
-    <!-- Stamping Modal For Card -->
+    <!-- Stamping Modal Insert Card -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingDiv">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/insertVisaFiles.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">VISA Stamping Date & VISA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="processingId" id="processingIdModal">
+                        <div class="form-group" id="visa_file_div">
+                            <div class="form-group">
+                                <input class="form-control-file" type="file" name="visaFile[]" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Stamping Modal For Card Update -->
     <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingEdit">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
@@ -95,7 +122,14 @@ $result = $conn->query("SELECT * from visafile where processingId = $processingI
         </div>
         <hr>
         <div class="card-body text-center">
-            <p style="font-size: 18px;">Stamping Date: <span style="font-size: 23px;"><button data-toggle="modal" data-target="#visaStampingDate" class="btn btn-info" style="font-size: 15px; padding: 0.5%;" value="<?php echo $processingId; ?>" onclick="sendDateData(this.value)"><?php echo $candidate_info['visaStampingDate']; ?></button></span></p>
+            <div class="row">
+                <div class="col-sm">
+                    <p style="font-size: 18px;">Stamping Date: <span style="font-size: 23px;"><button data-toggle="modal" data-target="#visaStampingDate" class="btn btn-info" style="font-size: 15px; padding: 0.5%;" value="<?php echo $processingId; ?>" onclick="sendDateData(this.value)"><?php echo $candidate_info['visaStampingDate']; ?></button></span></p>
+                </div>
+                <div class="col-sm">
+                    <button class="btn btn-info" data-target="#visaStampingDiv" data-toggle="modal" value="<?php echo $processingId; ?>" onclick="stampingFile(this.value)">Add Staming File</button>
+                </div>
+            </div>
         </div>
         <hr>
         <?php 
@@ -133,7 +167,23 @@ $result = $conn->query("SELECT * from visafile where processingId = $processingI
 </div>
 
 <script>
+function stampingFile(processingId){
+    $('#processingIdModal').val(processingId);
+}
 
+$('#add_visafile_div').click(function (){
+    var visaFileDiv = document.createElement('DIV');
+    visaFileDiv.setAttribute('class', 'form-group');
+    var input = document.createElement('INPUT');
+    input.setAttribute('type', 'file');
+    input.setAttribute('name', 'visaFile[]');
+    input.setAttribute('class', 'form-control-file');
+    visaFileDiv.appendChild(input);
+    $('#visa_file_div').append(visaFileDiv);    
+});
+$('#remove_visafile_div').click(function (){
+    $('#visa_file_div').children().last().remove();  
+});
 function sendData(visaId){
     visaId = visaId.split('_');
     $('#visaFileId').val(visaId[0]);

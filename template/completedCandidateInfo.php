@@ -16,8 +16,8 @@ if(!isset($_SESSION['sections'])){
 }
 $passportNum = $_GET['passportNum'];
 $creationDate = $_GET['creationDate'];
-$passportInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.jobType, agent.agentName, passport.* from passport inner join agent using(agentEmail) left join jobs using (jobId) where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
-$hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as processingCount from processing where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'"));
+$passportInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.jobType, agent.agentName, passportcompleted.* from passportcompleted inner join agent using(agentEmail) left join jobs using (jobId) where passportcompleted.passportNum = '$passportNum' AND passportcompleted.creationDate = '$creationDate'"));
+$hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as processingCount from processingcompleted where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'"));
 ?>
 <style>
     span{
@@ -184,7 +184,7 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                     <div class="card-header"> VISA Related Information</div>
                     <?php 
                     if($hasVisa['processingCount'] > 0){ 
-                        $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, ticket.flightDate, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
+                        $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, completedticket.flightDate, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processingcompleted.* from processingcompleted LEFT JOIN completedticket on processingcompleted.passportNum = completedticket.passportNum AND processingcompleted.passportCreationDate = completedticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processingcompleted.passportNum = '$passportNum' AND processingcompleted.passportCreationDate = '$creationDate'"));
                     ?>
                         <div class="card-body">
                             <label for="" style="text-align: left;">Delegate Information</label>
