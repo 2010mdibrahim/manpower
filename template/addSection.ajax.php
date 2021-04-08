@@ -1,5 +1,16 @@
 <?php
 include ('database.php');
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Employee", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $section = $_POST['section'];
 $admin = $_SESSION['email'];
 $date = date('Y-m-d');

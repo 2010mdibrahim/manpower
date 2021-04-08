@@ -1,4 +1,15 @@
 <?php 
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 if(isset($_POST['ticketId'])){
     $ticketId = $_POST['ticketId'];
 }else{

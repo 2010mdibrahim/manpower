@@ -1,5 +1,16 @@
 <?php
 include ('database.php');
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Agent", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 if(isset($_POST['agentEmail'])){
     $html = '<table id="dataTableSeaum" class="table col-12"  style="width:100%">
                 <thead>

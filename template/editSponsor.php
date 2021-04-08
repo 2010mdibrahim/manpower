@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Sponsor", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $sponsorNid = $_POST['sponsorNid'];
 $sponsor = mysqli_fetch_assoc($conn->query("SELECT * from sponsor where sponsorNID = '$sponsorNid'"));
 ?>

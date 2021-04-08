@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Candidate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $passportNum = $_GET['passportNum'];
 $creationDate = $_GET['creationDate'];
 $passportInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.jobType, agent.agentName, passport.* from passport inner join agent using(agentEmail) left join jobs using (jobId) where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));

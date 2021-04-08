@@ -1,5 +1,16 @@
 <?php
 include ('database.php');
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("VISA", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $alter = $_POST['alter'];
 $ticketId = $_POST['ticketId'];
 if($alter == 'delete'){

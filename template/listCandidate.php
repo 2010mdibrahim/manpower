@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Candidate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);

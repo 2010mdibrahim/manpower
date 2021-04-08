@@ -387,7 +387,7 @@ if(!empty($_POST['pagePost'])){
         }else if($pagePost == 'editEmployee') {
             include('template/editEmployee.php');
         }else{
-            include ('template/service.php');
+            include ('template/home.php');
         }
     } ?>
 

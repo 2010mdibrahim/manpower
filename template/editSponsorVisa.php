@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Sponsor", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $visaSponsor = $_POST['sponsorVisa'];
 $amount = mysqli_fetch_assoc($conn->query("SELECT sponsor.sponsorName, sponsorvisalist.sponsorVisa, sponsorvisalist.visaAmount from sponsorvisalist inner join sponsor using (sponsorNID) where sponsorvisalist.sponsorVisa = '$visaSponsor'"));
 ?>

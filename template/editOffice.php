@@ -1,14 +1,26 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Office", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $officeId = $_POST['officeId'];
 $office = mysqli_fetch_assoc($conn->query("SELECT * from office where officeId = $officeId"));
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>New Visa Information</h2>
+        <h2>Edit Office</h2>
     </div>
     
     <form action="template/newOfficeQry.php" method="post">   
-    <input type="hidden" name="alter" id="" value="update">    
+        <input type="hidden" name="officeId" id="" value="<?php echo $officeId; ?>">    
+        <input type="hidden" name="alter" id="" value="update">    
         <div class="form-group">            
             <div class="form-row">       
                 <div class="form-group col-md-6" >

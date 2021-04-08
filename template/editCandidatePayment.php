@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Candidate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $candidateName = $_POST['candidateName'];
 $passport_info = explode("_",$_POST['passport_info']);
 $passportNum = $passport_info[0];

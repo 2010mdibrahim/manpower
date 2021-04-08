@@ -1,5 +1,16 @@
 <?php
 include ('database.php');
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Manpower", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $manpowerOfficeId = $_POST['manpowerOfficeId'];
 $jobIdArr = $_POST['jobId'];
 $processingCostArr = $_POST['processingCost'];

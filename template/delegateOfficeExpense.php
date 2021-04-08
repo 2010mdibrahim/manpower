@@ -1,3 +1,16 @@
+<?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Delegate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
+?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Delegate Office Expense</h2>

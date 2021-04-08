@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Candidate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $passportNum = base64_decode($_GET['p']);
 $creationDate = base64_decode($_GET['cd']);
 $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,oldVisa, oldVisaFile, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passportcompleted where passportNum = '$passportNum' AND creationDate = '$creationDate'"));

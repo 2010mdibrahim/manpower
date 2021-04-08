@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Delegate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $delegateId = $_POST['delegateId'];
 $delegate = mysqli_fetch_assoc($conn->query("SELECT * from delegate where delegateId = $delegateId"));
 ?>

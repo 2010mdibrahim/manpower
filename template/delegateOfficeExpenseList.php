@@ -1,4 +1,15 @@
 <?php
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Delegate", $_SESSION['sections'])){
+            header("Location: ../index.php");
+            exit();
+        }        
+    }
+}
 $qry = "SELECT delegate.delegateName, manpoweroffice.manpowerOfficeName, delegateofficeexpense.* from delegateofficeexpense inner join manpoweroffice using (manpowerOfficeId) inner join delegate using (delegateId) order by updatedOn desc";
 $result = mysqli_query($conn,$qry);
 ?>
