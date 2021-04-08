@@ -347,8 +347,8 @@
             $('#experienced').show();
             $('#trainingCard_div').hide();
             $("input[name='trainingCard']").prop('required',false)
-            $('#departureSealFile').prop('required',true);
-            $('#arrivalSealFile').prop('required',true);
+            //$('#departureSealFile').prop('required',true);
+            //$('#arrivalSealFile').prop('required',true);
             $('#departureDate').prop('required',true);
             $('#arrivalDate').prop('required',true);
             $("input[name='expCountry[]']").prop('required',true);
@@ -357,8 +357,8 @@
             $('#trainingCard_div').show();
             $("input[name='trainingCard']").prop('required',true)
             $("input[name='expCountry[]']").prop('required',false);
-            $('#departureSealFile').prop('required',false);
-            $('#arrivalSealFile').prop('required',false);
+            //$('#departureSealFile').prop('required',false);
+            //$('#arrivalSealFile').prop('required',false);
             $('#departureDate').prop('required',false);
             $('#arrivalDate').prop('required',false);
         }

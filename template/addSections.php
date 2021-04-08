@@ -61,7 +61,9 @@
                     <th>Edit</th>
                 </tr>
                 </thead>
-                <?php while($sections = mysqli_fetch_assoc($result)){?>
+                <?php 
+				while($sections = mysqli_fetch_assoc($result)){
+					?>
                 <tr>
                     <td><?php echo $sections['sectionName'];?></td>
                     <td><?php echo $sections['creationDate'];?></td>
