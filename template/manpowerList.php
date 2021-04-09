@@ -106,7 +106,6 @@ $result = $conn -> query("SELECT * from manpoweroffice order by manpowerOfficeNa
                             <div class="col-sm">
                             <?php echo $manpower['manpowerOfficeName'];?>
                             </div>
-                            <div class="col-sm"><div class="dot">new</div></div>
                             </div>
                             </td>
                             <td><?php echo $manpower['licenseNumber'];?></td>

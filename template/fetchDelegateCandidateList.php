@@ -21,7 +21,7 @@ while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
 $html .=    '<tr>
                 <td>
                 <div class="form-group">
-                <input type="checkbox" value="'.$delegateList['passportNum'].'_'.$delegateList['creationDate'].'" id="flexCheckDefault" name="candidateList[]">
+                <input type="checkbox" value="'.$delegateList['passportNum'].'_'.$delegateList['creationDate'].'" name="candidateList[]">
                 </div>
                 </td>
                 <td>'.$delegateList['fName']." ".$delegateList['lName'].'</td>

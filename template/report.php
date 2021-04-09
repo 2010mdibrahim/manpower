@@ -18,9 +18,15 @@ if(!isset($_SESSION['sections'])){
 <div class="container-fluid" style="padding: 2%">
     <div class="row">
         <div class="column col-md-6" style="padding: 2%">
-            <h5 style="background-color: aliceblue; padding: 0.5%">Agent Report</h5>
+            <h5 style="background-color: aliceblue; padding: 0.5%">Reports By Date</h5>
             <div>
-                <a href="?page=selectReportByName&by=name">Agent Report By Name</a>
+                <a href="?page=selectReportByNameDate">Agent Report By Date</a>
+            </div>
+            <div>
+                <a href="?page=selectCandidateReportByDate">Candidate Report By Date</a>
+            </div>
+            <div>
+                <a href="?page=selectReportByName&by=name">Delegate Report By Date</a>
             </div>
             <!-- <div>
                 <a href="?page=selectReportByNameDate&by=nameDate">Agent Report By Name and Date</a>
@@ -39,9 +45,6 @@ if(!isset($_SESSION['sections'])){
             <h5 style="background-color: aliceblue; padding: 0.5%">Candidate Report</h5>
             <div>
                 <a href="?page=stageWiseCandidateReport&by=stage">Stage Wise Candidate Report</a>
-            </div>
-            <div>
-                <a href="?page=cityWiseCandidateReport">City Wise Candidate Report</a>
             </div>
         </div>
         <!-- <div class="column col-md-6" style="padding: 2%">

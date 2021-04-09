@@ -14,7 +14,12 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$qry = "SELECT * from delegate order by creationDate desc";
+if(isset($_GET['di'])){
+    $delegateId = base64_decode($_GET['di']);
+    $qry = "SELECT * from delegate where delegateId = $delegateId";
+}else{
+    $qry = "SELECT * from delegate order by creationDate desc";
+}
 $result = mysqli_query($conn,$qry);
 ?>
 <style>
@@ -46,6 +51,7 @@ $result = mysqli_query($conn,$qry);
                         
                         </div>
                         <div class="modal-footer">
+                            <input class="form-control datepicker w-25" type="text" name="delegatePayDate" id="delegatePayDate" placeholder="Enter Date" style="display: none;">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
@@ -243,6 +249,16 @@ $result = mysqli_query($conn,$qry);
             }
         });
     }
+    $('body').on('click', "input[type='checkbox']", function(){
+        const checkboxes = $("input[name='candidateList[]']:checked").val();
+        if(typeof checkboxes === 'undefined'){
+            $('#delegatePayDate').prop('required', false);
+            $('#delegatePayDate').hide();
+        }else{
+            $('#delegatePayDate').prop('required', true);
+            $('#delegatePayDate').show();
+        }
+    })
     function fetchPaidDelegateCandidate(info){
         $('#showDelegateCandidateDivshowDelegateCandidateDiv').html('');
         $.ajax({

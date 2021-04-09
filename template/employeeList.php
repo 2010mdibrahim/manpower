@@ -46,6 +46,28 @@ if(!isset($_SESSION['sections'])){
     }
 </style>
 <div class="container-fluid">
+    <!-- Add delegate Comission -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="addSection">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/addNewSectionToEmployee.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Assign Sections to Employee</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="sectionAddModal">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="delegateModalButton">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="section-header">
         <h2>Employee List</h2>
     </div>
@@ -83,10 +105,10 @@ if(!isset($_SESSION['sections'])){
                 </td>
                 <!-- Edit Section -->
                 <td>
-                    <div class="row">
-                        <!-- <div class="col-md-2">
-                            <button class="btn btn-info" data-toggle="modal" data-targer="addSection">Add Section</button>
-                        </div> -->
+                    <div class="row w-75">
+                        <div class="col-md-4">
+                            <button class="btn btn-info" data-toggle="modal" data-target="#addSection" value="<?php echo $employee['employeeId']?>" onclick="fetchData(this.value)">Add Section</button>
+                        </div>
                         <div class="col-md-2"> 
                             <form action="index.php" method="post">
                                 <input type="hidden" name="pagePost" value="editEmployee">
@@ -120,6 +142,21 @@ if(!isset($_SESSION['sections'])){
     </div>
 </div>  
 <script>
+    function fetchData(employeeId){
+        console.log('response');
+        $.ajax({
+            type: 'post',
+            url: 'template/fetchEmployeeListAddSection.php',
+            data: {employeeId: employeeId},
+            success: function (response){
+                $('#sectionAddModal').html(response);
+                $('.select2').select2({
+                    width: '100%'
+                });
+            }
+        });
+
+    }
     function removeSection(info){
         var info_split = info.split('_');
         $.ajax({

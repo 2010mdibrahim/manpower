@@ -54,7 +54,7 @@ if(isset($_GET['p'])){
                     <option value="">Select passport</option>
                     <?php $result = $conn->query("SELECT passportNum, fName, lName, creationDate from passport order by creationDate desc");
                     while($passNo = mysqli_fetch_assoc($result)){ 
-                        if($selectedPassport == $passNo['passportNum']){ ?>
+                        if($selectedPassport == $passNo['passportNum'] AND $selectedCreationDate == $passNo['creationDate']){ ?>
                             <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate'] ?>" selected><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'] ?></option>;
                         <?php }else{ ?>
                             <option value="<?php echo $passNo['passportNum']."_".$passNo['creationDate'] ?>"><?php echo $passNo['fName']." ".$passNo['lName']." - ".$passNo['passportNum'] ?></option>;
