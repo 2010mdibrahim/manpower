@@ -16,7 +16,7 @@ if(!isset($_SESSION['sections'])){
 }
 $passportNum = base64_decode($_GET['p']);
 $creationDate = base64_decode($_GET['cd']);
-$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,departureDate,arrivalDate, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
+$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,departureDate,arrivalDate, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile, oldVisa, oldVisaFile from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
 <style>
@@ -86,7 +86,20 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                     </div>
                 </div>        
             </div>
-        <?php } ?>        
+        <?php } ?>
+        <?php if($candidate['oldVisa'] != 'no'){ ?>
+            <hr>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="">Optional File</label>
+                    </div>
+                    <div class="col-sm-9 text-center" >
+                        <a href="<?php echo $candidate['oldVisaFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['oldVisaFile'];?>" alt="" height="100" width="100"></a>
+                    </div>
+                </div>        
+            </div>
+        <?php } ?> 
     </div>    
 </div>
 <script>
