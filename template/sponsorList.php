@@ -16,7 +16,7 @@ if(!isset($_SESSION['sections'])){
  }
 if(isset($_GET['spN'])){
     $sponsorNID = base64_decode($_GET['spN']);
-    $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId where sponsor.sponsorNID = '$sponsorNID' order by creationDate desc");
+    $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName,delegate.delegateId, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId where sponsor.sponsorNID = '$sponsorNID' order by creationDate desc");
 }else{
     $result = $conn->query("SELECT delegateoffice.officeName, delegate.delegateName, sponsor.* from sponsor INNER JOIN delegateoffice USING (delegateOfficeId) inner join delegate on delegate.delegateId = delegateoffice.delegateId order by creationDate desc");
 }
@@ -50,7 +50,7 @@ if(isset($_GET['spN'])){
                     <?php
                     while($sponsor = mysqli_fetch_assoc($result)){ ?>
                         <tr>
-                            <td><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></td>
+                            <td><a href="?page=delegateList&di=<?php echo base64_encode($sponsor['delegateId']); ?>"><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></a></td>
                             <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td><?php echo $sponsor['sponsorName'];?></td>
                             <td><?php echo $sponsor['sponsorPhone'];?></td>

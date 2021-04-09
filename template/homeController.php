@@ -8,7 +8,11 @@ class HomeController{
         $this->homeInformation = new HomeInformation();
     }
     
-
+    public function candidateNumbers()
+    {
+        $candidateNumbers = $this->homeInformation->candidateNumbers();
+        return $candidateNumbers;
+    }
     public function candidateMonthlyExpense()
     {
         $expense = $this->homeInformation->getCandidateExpenseMonthly();

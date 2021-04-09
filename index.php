@@ -148,8 +148,8 @@ if(!empty($_POST['pagePost'])){
             include ('template/reports/selectReportByName.php');
         }else if($pagePost == 'expenseReport'){
             include ('template/reports/expenseReport.php');
-        }else if($page == 'selectReportByDate'){
-            include ('template/reports/selectReportByDate.php');
+        }else if($page == 'selectCandidateReportByDate'){
+            include ('template/reports/selectCandidateReportByDate.php');
         }else if($page == 'selectReportByNameDate'){
             include ('template/reports/selectReportByNameDate.php');
         }else if($page == 'selectAgentByTicket'){
@@ -464,9 +464,11 @@ if(!empty($_POST['pagePost'])){
         todayHighlight:'TRUE',
         autoclose: true,
     });
-    $('.select2').select2({
-        width: '100%'
-    });
+    window.onpageshow = function() {
+        $('.select2').select2({
+            width: '100%'
+        });
+    };    
 
     let permission = Notification.permission;
     if(permission === 'default'){

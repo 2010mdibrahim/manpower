@@ -6,7 +6,6 @@ class changeCandidateStatus extends Dbc{
         $conn = $this->connection();
         $today = date('Y-m-d');
         $result_completed = $conn->query("SELECT passport.passportNum, passport.creationDate, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where processing.pending = 1 AND processing.pendingTill < '$today'");
-        print_r("SELECT passport.passportNum, passport.creationDate, processing.processingId from passport LEFT JOIN processing on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where processing.pending = 1 AND processing.pendingTill < '$today'");
         $payMode = 'paid';
         while($completed = mysqli_fetch_assoc($result_completed)){
             $passportNum = $completed['passportNum'];
@@ -27,12 +26,11 @@ class changeCandidateStatus extends Dbc{
                         $result = $conn->query("INSERT INTO completedcandidateexpense SELECT * FROM candidateexpense WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
                         $result = $conn->query("INSERT INTO completedticket SELECT * FROM ticket WHERE passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
                         $result = $conn->query("INSERT INTO completedadvance SELECT * FROM advance WHERE comissionId = ".$candidateExpense['comissionId']);
-                        // $result = $conn->query("DELETE from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'");
+                        $result = $conn->query("DELETE from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'");
                     }
                 }
             }
         }
-        echo 'done';
     }
 }
 ?>
