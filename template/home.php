@@ -64,7 +64,10 @@ $candidateNumbers = $homeController->candidateNumbers();
                 </div>
             </div>
             <div class="box">
-            <canvas id="piechart"></canvas>
+                <div>
+                    <canvas id="piechart" aria-label="Reprot" role="img"></canvas>
+                </div>
+                <div><p class="text-center">This months candidate amount</p></div>
             </div>
             <input type="hidden" id="monthProcessing" value="<?php echo $candidateNumbers['month'];?>">
             <input type="hidden" id="monthComplete" value="<?php echo $candidateNumbers['monthComplete'];?>">
