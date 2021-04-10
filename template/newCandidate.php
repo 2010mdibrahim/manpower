@@ -119,13 +119,17 @@ if(!isset($_SESSION['sections'])){
                 </div>
                 <div id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
                     <div class="form-group form-row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Departure Seal</label>
                             <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Arrival Seal</label>
                             <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Optional File</label>
+                            <input class="form-control-file" type="file" name="optionalFile" id="optionalFile">
                         </div>
                         <div class="col-md-6">
                             <label>Departure Date</label>
@@ -362,8 +366,8 @@ if(!isset($_SESSION['sections'])){
             $('#experienced').show();
             $('#trainingCard_div').hide();
             $("input[name='trainingCard']").prop('required',false)
-            //$('#departureSealFile').prop('required',true);
-            //$('#arrivalSealFile').prop('required',true);
+            $('#departureSealFile').prop('required',true);
+            $('#arrivalSealFile').prop('required',true);
             $('#departureDate').prop('required',true);
             $('#arrivalDate').prop('required',true);
             $("input[name='expCountry[]']").prop('required',true);
@@ -372,8 +376,8 @@ if(!isset($_SESSION['sections'])){
             $('#trainingCard_div').show();
             $("input[name='trainingCard']").prop('required',true)
             $("input[name='expCountry[]']").prop('required',false);
-            //$('#departureSealFile').prop('required',false);
-            //$('#arrivalSealFile').prop('required',false);
+            $('#departureSealFile').prop('required',false);
+            $('#arrivalSealFile').prop('required',false);
             $('#departureDate').prop('required',false);
             $('#arrivalDate').prop('required',false);
         }

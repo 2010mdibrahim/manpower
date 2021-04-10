@@ -50,6 +50,22 @@ $date = date("Y-m-d H:i:s");
 $update = date("Y-m-d");
 
 // Scanned police verification file directory set - upload code inside result true if statement
+if (($_FILES['optionalFile']['name'] != "")){
+    // Where the file is going to be stored
+    $target_dir = "uploads/departureSeal/";    
+    $file = $_FILES['optionalFile']['name'];
+    $path = pathinfo($file);
+    $ext = $path['extension'];
+    $optionalFile = 'yes';
+    $optionalFilePath = $target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
+    $optional_temp_name = $_FILES['optionalFile']['tmp_name'];
+    $optional_path_filename_ext = $base_dir.$target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
+}else{
+    $optionalFile = 'no';
+    $optionalFilePath = '';
+}
+
+// Scanned police verification file directory set - upload code inside result true if statement
 if (($_FILES['policeVerification']['name'] != "")){
     // Where the file is going to be stored
     $target_dir = "uploads/policeVerification/";    
@@ -168,7 +184,7 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     }
     
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
+    $result = $conn->query("INSERT INTO passport(oldVisa, oldVisaFile, passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$optionalFile', '$optionalFilePath','$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
     $expCountry = $_POST['expCountry'];
     foreach($expCountry as $countryName){
         $result = $conn->query("INSERT INTO passportexperiencedcountry(passportNum, passportCreationDate, country) VALUES ('$passportNum','$date','$countryName')");
@@ -185,6 +201,9 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         }        
     }
     if($result){    
+        if (($_FILES['optionalFile']['name'] != "")){
+            move_uploaded_file($optional_temp_name,$optional_path_filename_ext);
+        }
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
         }

@@ -147,13 +147,17 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                 </div>
                 <div id="experienced" style="background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
                     <div class="form-group form-row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Departure Seal</label>
                             <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Arrival Seal</label>
                             <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Optional File</label>
+                            <input class="form-control-file" type="file" name="optionalFile" id="optionalFile">
                         </div>
                         <div class="col-md-6">
                             <label>Departure Date</label>
