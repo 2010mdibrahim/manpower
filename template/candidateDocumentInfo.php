@@ -32,6 +32,35 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
 </style>
 
 <div class="box">
+    <!-- Stamping Modal For Date -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="editDocument">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/deleteOptionalFile.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reupload this file</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="passportNum" id="passportNum">
+                        <input type="hidden" name="creationDate" id="creationDate">
+                        <input type="hidden" name="optionalFileId" id="optionalFileId">
+                        <input type="hidden" name="alter" value="update">
+                        <div class="form-group">
+                            <input class="form-control-file" type="file" name="optionalFile">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="card">
         <div class="card-header text-center"> Passport Information </div>
         <div class="card-body text-center">
@@ -87,22 +116,48 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                 </div>        
             </div>
         <?php } ?>
-        <?php if($candidate['oldVisa'] != 'no'){ ?>
+        <?php
+        $result = $conn->query("SELECT * from optionalfiles where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'");
+        if(!is_null($result)){
+            while($optional = mysqli_fetch_assoc($result)){
+        ?>
             <hr>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
                         <label for="">Optional File</label>
                     </div>
-                    <div class="col-sm-9 text-center" >
-                        <a href="<?php echo $candidate['oldVisaFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['oldVisaFile'];?>" alt="" height="100" width="100"></a>
+                    <div class="col-sm-7 text-center" >
+                        <a href="<?php echo $optional['optionalFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $optional['optionalFile'];?>" alt="" height="100" width="100"></a>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button data-target='#editDocument' data-toggle="modal" class="btn btn-sm btn-info" value="<?php echo $optional['optionalFileId']."_".$optional['passportNum']."_".$optional['passportCreationDate'];?>" id="editVisaFile" onclick="editFile(this.value)"><span class="fas fa-redo"></span></button>
+                            </div>
+                            <div class="col-md-3">
+                                <form action="template/deleteOptionalFile.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $optional['passportNum'];?>">
+                                    <input type="hidden" name="creationDate" value="<?php echo $optional['passportCreationDate'];?>">
+                                    <input type="hidden" name="optionalFileId" value="<?php echo $optional['optionalFileId'];?>">
+                                    <input type="hidden" name="alter" value="delete">
+                                    <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
+                                </form>
+                            </div>                        
+                        </div>
                     </div>
                 </div>        
             </div>
-        <?php } ?> 
+        <?php } 
+        } ?> 
     </div>    
 </div>
 <script>
 $('#candidateNav').addClass('active');
-
+function editFile(info){
+    info_split = info.split('_');
+    $('#optionalFileId').val(info_split[0]);
+    $('#passportNum').val(info_split[1]);
+    $('#creationDate').val(info_split[2]);
+}
 </script>

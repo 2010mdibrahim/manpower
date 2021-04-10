@@ -49,21 +49,6 @@ $admin = $_SESSION['email'];
 $date = date("Y-m-d H:i:s");
 $update = date("Y-m-d");
 
-// Scanned police verification file directory set - upload code inside result true if statement
-if (($_FILES['optionalFile']['name'] != "")){
-    // Where the file is going to be stored
-    $target_dir = "uploads/departureSeal/";    
-    $file = $_FILES['optionalFile']['name'];
-    $path = pathinfo($file);
-    $ext = $path['extension'];
-    $optionalFile = 'yes';
-    $optionalFilePath = $target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
-    $optional_temp_name = $_FILES['optionalFile']['tmp_name'];
-    $optional_path_filename_ext = $base_dir.$target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
-}else{
-    $optionalFile = 'no';
-    $optionalFilePath = '';
-}
 
 // Scanned police verification file directory set - upload code inside result true if statement
 if (($_FILES['policeVerification']['name'] != "")){
@@ -184,8 +169,28 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     }
     
     
-    $result = $conn->query("INSERT INTO passport(oldVisa, oldVisaFile, passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$optionalFile', '$optionalFilePath','$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
     $expCountry = $_POST['expCountry'];
+    $maxIdQry = mysqli_fetch_assoc($conn->query("SELECT max(optionalFileId) as maxId from optionalfiles"));
+    if(is_null($maxIdQry['maxId'])){
+        $maxId = 1;
+    }else{
+        $maxId = (int)$maxIdQry['maxId']+1;
+    }
+    if(isset($_FILES['optionalFile'])){
+        foreach($_FILES['optionalFile']['tmp_name'] as $key => $tmp_name){
+            $target_dir = 'uploads/optionalFile/';
+            $file_name = $key.$_FILES['optionalFile']['name'][$key];
+            $path = pathinfo($file_name);
+            $ext = $path['extension'];
+            $file_tmp =$_FILES['optionalFile']['tmp_name'][$key];
+            $path_file_ext = $base_dir.$target_dir."optionalFile_".$maxId.".".$ext;
+            $data_path = $target_dir."optionalFile_".$maxId.".".$ext;
+            $result = $conn -> query("INSERT INTO optionalfiles(passportNum, passportCreationDate, optionalFile) VALUES ('$passportNum','$date','$data_path')");
+            move_uploaded_file($file_tmp,$path_file_ext);
+            $maxId++;
+        }
+    }
     foreach($expCountry as $countryName){
         $result = $conn->query("INSERT INTO passportexperiencedcountry(passportNum, passportCreationDate, country) VALUES ('$passportNum','$date','$countryName')");
     }

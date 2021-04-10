@@ -129,7 +129,7 @@ if(!isset($_SESSION['sections'])){
                         </div>
                         <div class="col-md-4">
                             <label>Optional File</label>
-                            <input class="form-control-file" type="file" name="optionalFile" id="optionalFile">
+                            <input class="form-control-file" type="file" name="optionalFile[]" id="optionalFile" multiple>
                         </div>
                         <div class="col-md-6">
                             <label>Departure Date</label>
