@@ -230,8 +230,12 @@ $documentation = '';
                                             <p>Visited Country: 
                                             <?php 
                                             $result_country = $conn->query("SELECT * from passportexperiencedcountry where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
-                                            while($country = mysqli_fetch_assoc($result_country)){ ?>
-                                            <span><?php echo $country['country']; ?></span>
+                                            $country_count = 0;
+                                            while($country = mysqli_fetch_assoc($result_country)){ 
+                                                if($country_count == 0){?>
+                                                    <span><?php echo $country['country']; ?></span>
+                                            <?php }else ?>
+                                                    <span><?php echo ', '.$country['country']; ?></span>
                                             <?php } ?>
                                             </p>
                                         </div>
