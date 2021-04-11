@@ -20,7 +20,10 @@ if(!isset($_SESSION['sections'])){
         display: none;
         color: red;
         font-size: small;
-    }    
+    }
+    .container{
+        padding-bottom: 10px;
+    }
 </style>
 
 
@@ -287,6 +290,29 @@ if(!isset($_SESSION['sections'])){
                 </div>
             </div>
         </div>  
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label>Full Size Photo <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
+                    <div class="form-group">
+                        <label class="parking_label">Provided
+                            <input type="radio" name="fullPhoto" value="yes">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="fullPhoto" value="no" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>                 
+                </div>
+                <div id="fullPhotoDiv" class="form-group col-md-6" style="display: none;">
+                    <div>
+                        <label>Give Full Size Photo</label>
+                        <input class="form-control" type="file" name="fullPhotoFile" id="fullPhotoFile">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="form-group" style="display: none;" id="trainingCard_div">
             <div class="row">
                 <div class="col-md-6">
@@ -335,12 +361,20 @@ if(!isset($_SESSION['sections'])){
 
     // radio toggle
     $('body').on('click', "input[type='radio']", function(){
+        const fullPhoto = $("input[name='fullPhoto']:checked").val();
         const experience = $("input[name='experience']:checked").val();
         const policeVerification = $("input[name='policeVerification']:checked").val();
         const passportPhoto = $("input[name='passportPhoto']:checked").val();
         const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
         const advance = $("input[name='advance']:checked").val();
         const trainingCard = $("input[name='trainingCard']:checked").val();
+        if(fullPhoto == 'yes'){
+            $('#fullPhotoDiv').show();
+            $('#fullPhotoFile').prop('required', true);
+        }else{
+            $('#fullPhotoDiv').hide();
+            $('#fullPhotoFile').prop('required', false);
+        }
 
         if(trainingCard == 'yes'){
             $('#trainingCardDiv').show();

@@ -59,6 +59,9 @@ if (($_FILES['policeVerification']['name'] != "")){
     $ext = $path['extension'];
     $temp_name = $_FILES['policeVerification']['tmp_name'];
     $path_filename_ext = $base_dir.$target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
+    $policeFile = $target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
+}else{
+    $policeFile = '';
 }
 
 // Scanned photo file directory set - upload code inside result true if statement
@@ -70,6 +73,9 @@ if (($_FILES['photoFile']['name'] != "")){
     $photo_ext = $path_photo['extension'];
     $photo_temp_name = $_FILES['photoFile']['tmp_name'];
     $photo_path_filename_ext = $base_dir.$target_dir_photo."photo"."_".$passportNum."_".str_replace(":", "", $date).".".$photo_ext;
+    $photoFile = $target_dir_photo."photo"."_".$passportNum."_".str_replace(":", "", $date).".".$photo_ext; 
+}else{
+    $photoFile = '';
 }
 
 
@@ -82,6 +88,9 @@ if (($_FILES['passportScan']['name'] != "")){
     $passport_ext = $path['extension'];
     $passport_temp_name = $_FILES['passportScan']['tmp_name'];
     $passport_path_filename_ext = $base_dir.$passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $date).".".$passport_ext;
+    $passportFile = $passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $date).".".$passport_ext; 
+}else{
+    $passportFile = '';
 }
 
 // Scanned passport file directory set - upload code inside result true if statement;
@@ -93,6 +102,11 @@ if (($_FILES['departureSealFile']['name'] != "")){
     $departureSeal_ext = $path['extension'];
     $departureSeal_temp_name = $_FILES['departureSealFile']['tmp_name'];
     $departureSeal_path_filename_ext = $base_dir.$departureSeal_target_dir."departureSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$departureSeal_ext;
+    $departureSeal = 'yes';
+    $departureSealFile = $departureSeal_target_dir."departureSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$departureSeal_ext; 
+}else{
+    $departureSeal = 'no';
+    $departureSealFile = '';
 }
 
 // Scanned passport file directory set - upload code inside result true if statement;
@@ -104,6 +118,11 @@ if (($_FILES['arrivalSealFile']['name'] != "")){
     $arrivalSeal_ext = $path['extension'];
     $arrivalSeal_temp_name = $_FILES['arrivalSealFile']['tmp_name'];
     $arrivalSeal_path_filename_ext = $base_dir.$arrivalSeal_target_dir."arrivalSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$arrivalSeal_ext;
+    $arrivalSeal = 'yes'; 
+    $arrivalSealFile = $arrivalSeal_target_dir."arrivalSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$arrivalSeal_ext; 
+}else{
+    $arrivalSeal = 'no';
+    $arrivalSealFile = '';
 }
 
 // Scanned passport file directory set - upload code inside result true if statement;
@@ -115,48 +134,29 @@ if (($_FILES['traningCardFile']['name'] != "")){
     $trainingCard_ext = $path['extension'];
     $trainingCard_temp_name = $_FILES['traningCardFile']['tmp_name'];
     $trainingCard_path_filename_ext = $base_dir.$trainingCard_target_dir."trainingCard"."_".$passportNum."_".str_replace(":", "", $date).".".$trainingCard_ext;
+    $traningCard = 'yes'; 
+    $traningCardFile = $trainingCard_target_dir."trainingCard"."_".$passportNum."_".str_replace(":", "", $date).".".$trainingCard_ext; 
+}else{
+    $traningCard = 'no';
+    $traningCardFile = '';
 }
 
-$existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
-    if (($_FILES['policeVerification']['name'] != "")){
-        $policeFile = $target_dir."policeVerification"."_".$passportNum."_".str_replace(":", "", $date).".".$ext;
-    }else{
-        $policeFile = '';
-    }
+// Scanned passport file directory set - upload code inside result true if statement;
+if (($_FILES['fullPhotoFile']['name'] != "")){
+    // Where the file is going to be stored
+    $fullPhotoFile_target_dir = "uploads/photo/";
+    $file = $_FILES['fullPhotoFile']['name'];
+    $path = pathinfo($file);
+    $fullPhotoFile_ext = $path['extension'];
+    $fullPhotoFile_temp_name = $_FILES['fullPhotoFile']['tmp_name'];
+    $fullPhotoFile_path_filename_ext = $base_dir.$fullPhotoFile_target_dir."fullPhotoFile"."_".$passportNum."_".str_replace(":", "", $date).".".$fullPhotoFile_ext;
+    $fullPhotoFile = $fullPhotoFile_target_dir."fullPhotoFile"."_".$passportNum."_".str_replace(":", "", $date).".".$fullPhotoFile_ext;
+}else{
+    $fullPhotoFile = 'no';
+}
 
-    if (($_FILES['photoFile']['name'] != "")){
-        $photoFile = $target_dir_photo."photo"."_".$passportNum."_".str_replace(":", "", $date).".".$photo_ext; 
-    }else{
-        $photoFile = '';
-    }
-
-    if (($_FILES['passportScan']['name'] != "")){
-        $passportFile = $passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $date).".".$passport_ext; 
-    }else{
-        $passportFile = '';
-    }   
-
-    if (($_FILES['departureSealFile']['name'] != "")){
-        $departureSeal = 'yes';
-        $departureSealFile = $departureSeal_target_dir."departureSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$departureSeal_ext; 
-    }else{
-        $departureSeal = 'no';
-        $departureSealFile = '';
-    }  
-    if (($_FILES['arrivalSealFile']['name'] != "")){
-        $arrivalSeal = 'yes'; 
-        $arrivalSealFile = $arrivalSeal_target_dir."arrivalSeal"."_".$passportNum."_".str_replace(":", "", $date).".".$arrivalSeal_ext; 
-    }else{
-        $arrivalSeal = 'no';
-        $arrivalSealFile = '';
-    }  
-    if (($_FILES['traningCardFile']['name'] != "")){
-        $traningCard = 'yes'; 
-        $traningCardFile = $trainingCard_target_dir."trainingCard"."_".$passportNum."_".str_replace(":", "", $date).".".$trainingCard_ext; 
-    }else{
-        $traningCard = 'no';
-        $traningCardFile = '';
-    } 
+    $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
+    
 
     // comission and comission advance
     $advance = $_POST['advance'];
@@ -169,7 +169,7 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     }
     
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus, fullPhotoFile) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit', '$fullPhotoFile')");
     $expCountry = $_POST['expCountry'];
     $maxIdQry = mysqli_fetch_assoc($conn->query("SELECT max(optionalFileId) as maxId from optionalfiles"));
     if(is_null($maxIdQry['maxId'])){
@@ -177,7 +177,7 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
     }else{
         $maxId = (int)$maxIdQry['maxId']+1;
     }
-    if(isset($_FILES['optionalFile'])){
+    if($_FILES['optionalFile']['name'] == ''){
         foreach($_FILES['optionalFile']['tmp_name'] as $key => $tmp_name){
             $target_dir = 'uploads/optionalFile/';
             $file_name = $key.$_FILES['optionalFile']['name'][$key];
@@ -205,10 +205,7 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
             $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance_amount, '$payDate', '$payMode', ".$comissionId['comissionId'].", '$admin', '$date')");
         }        
     }
-    if($result){    
-        if (($_FILES['optionalFile']['name'] != "")){
-            move_uploaded_file($optional_temp_name,$optional_path_filename_ext);
-        }
+    if($result){
         if (($_FILES['policeVerification']['name'] != "")){
             move_uploaded_file($temp_name,$path_filename_ext);
         }
@@ -226,7 +223,10 @@ $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as pa
         }
         if (($_FILES['traningCardFile']['name'] != "")){
             move_uploaded_file($trainingCard_temp_name,$trainingCard_path_filename_ext);
-        }        
+        } 
+        if (($_FILES['fullPhotoFile']['name'] != "")){
+            move_uploaded_file($fullPhotoFile_temp_name,$fullPhotoFile_path_filename_ext);
+        }       
         // echo "<script>window.alert('Inserted')</script>";      
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
