@@ -175,6 +175,22 @@ if($alter == 'delete'){
             move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
         }
     }
+
+    // Scanned passport file directory set - upload code inside result true if statement;
+    if (($_FILES['fullPhotoFile']['name'] != "")){
+        // Where the file is going to be stored
+        $arrivalSeal_target_dir = "uploads/photo/";
+        $file = $_FILES['fullPhotoFile']['name'];
+        $path = pathinfo($file);
+        $arrivalSeal_ext = $path['extension'];
+        $arrivalSeal_temp_name = $_FILES['fullPhotoFile']['tmp_name'];
+        $arrivalSeal_path_filename_ext = $base_dir.$arrivalSeal_target_dir."fullPhotoFile"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$arrivalSeal_ext;
+        $arrivalSealFile = $arrivalSeal_target_dir."fullPhotoFile"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$arrivalSeal_ext;
+        $result = $conn->query("UPDATE passport set fullPhotoFile = '$arrivalSealFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
+        if ($result){
+            move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
+        }
+    }
     $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName', departureDate = '$departureDate', arrivalDate = '$arrivalDate' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
     $result = mysqli_query($conn,$qry);
     if($result){

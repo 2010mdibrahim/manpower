@@ -286,7 +286,41 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                     </div>
                 </div>
             </div>
-        </div>          
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label>Full Size Photo <span id="photoDanger" style="font-size: small; display: none; color:red">Select Photo</span> </label>
+                    <div class="form-group">
+                    <?php if($candidate['fullPhotoFile'] == 'no'){ ?>
+                        <label class="parking_label">Provided
+                            <input type="radio" name="fullPhoto" value="yes">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="fullPhoto" value="no" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                    <?php }else{ ?>
+                        <label class="parking_label">Provided
+                            <input type="radio" name="fullPhoto" value="yes" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="parking_label">Not Provided
+                            <input type="radio" name="fullPhoto" value="no">
+                            <span class="checkmark"></span>
+                        </label>
+                    <?php } ?>
+                    </div>                 
+                </div>
+                <div id="fullPhotoDiv" class="form-group col-md-6" style="display: <?php echo ($candidate['fullPhotoFile'] == 'no') ? 'none' : 'static';?>;">
+                    <div>
+                        <label>Give Full Size Photo</label>
+                        <input class="form-control" type="file" name="fullPhotoFile" id="fullPhotoFile">
+                    </div>
+                </div>
+            </div>
+        </div>    
         <div class="form-group">
             <input class="form-control bg-primary" type="submit" style="margin: auto; width: auto; color: white" value="Update" id="submit">
         </div>
@@ -295,11 +329,17 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
 <script>
 // radio toggle
 $('body').on('click', "input[type='radio']", function(){
+    const fullPhoto = $("input[name='fullPhoto']:checked").val();
     const experience = $("input[name='experience']:checked").val();
     const policeVerification = $("input[name='policeVerification']:checked").val();
     const passportPhoto = $("input[name='passportPhoto']:checked").val();
     const agentOrOffice = $("input[name='agentOrOffice']:checked").val();
 
+    if(fullPhoto === 'yes'){
+        $('#fullPhotoDiv').show();
+    }else if(fullPhoto === 'no'){
+        $('#fullPhotoDiv').hide();
+    }
     if(experience === 'yes'){
         $('#experienced').show();
     }else if(experience === 'no'){

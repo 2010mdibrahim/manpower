@@ -16,7 +16,7 @@ if(!isset($_SESSION['sections'])){
 }
 $passportNum = base64_decode($_GET['p']);
 $creationDate = base64_decode($_GET['cd']);
-$candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,departureDate,arrivalDate, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile, oldVisa, oldVisaFile from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
+$candidate = mysqli_fetch_assoc($conn->query("SELECT fullPhotoFile, fName, lName, passportPhoto, passportPhotoFile, passportScannedCopy,departureDate,arrivalDate, departureSeal,departureSealFile,arrivalSeal,arrivalSealFile, oldVisa, oldVisaFile from passport where passportNum = '$passportNum' AND creationDate = '$creationDate'"));
 ?>
 
 <style>
@@ -66,15 +66,28 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
         <div class="card-body text-center">
             <p><?php echo $candidate['fName']." ".$candidate['lName'] ?></p>
             <div class="row">
-                <?php if($candidate['passportPhoto'] == 'yes'){?>
-                    <div class="col-sm">
-                        <img src="<?php echo $candidate['passportPhotoFile'];?>" alt="No photo" height="100" width="100">
-                    </div>
-                <?php }else{ ?>
-                    <div class="col-sm">
-                        <p style="color: red;">No Photo Uploaded</p>
-                    </div>
-                <?php } ?>
+                <div class="col-sm">
+                    <?php if($candidate['passportPhoto'] == 'yes'){?>
+                        <div class="col-sm">
+                            <a href="<?php echo $candidate['passportPhotoFile'];?>"><img src="<?php echo $candidate['passportPhotoFile'];?>" alt="No photo" height="100" width="auto"></a>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="col-sm">
+                            <p style="color: red;">No Photo Uploaded</p>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div class="col-sm">
+                    <?php if($candidate['fullPhotoFile'] == 'no'){?>
+                        <div class="col-sm">
+                            <p style="color: red;">No Full Photo Uploaded</p>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="col-sm">
+                            <a href="<?php echo $candidate['fullPhotoFile'];?>"><img src="<?php echo $candidate['fullPhotoFile'];?>" alt="No photo" height="100" width="auto"></a>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
         </div>
         <hr>
@@ -84,7 +97,7 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                     <h5 for="passport">Passport</h5>
                 </div>
                 <div class="col-sm-9 text-center" >
-                    <a href="<?php echo $candidate['passportScannedCopy'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['passportScannedCopy'];?>" alt="" height="100" width="100"></a>
+                    <a href="<?php echo $candidate['passportScannedCopy'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['passportScannedCopy'];?>" alt="" height="100" width="auto"></a>
                 </div>
             </div>       
         </div>
@@ -97,7 +110,7 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                         <h5 for="passport"><?php echo ($candidate['departureDate'] == '0000-00-00') ? 'No Date' : $candidate['departureDate'];?></h5>
                     </div>
                     <div class="col-sm-9 text-center" >
-                        <a href="<?php echo $candidate['departureSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['departureSealFile'];?>" alt="" height="100" width="100"></a>
+                        <a href="<?php echo $candidate['departureSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['departureSealFile'];?>" alt="" height="100" width="auto"></a>
                     </div>
                 </div>        
             </div>
@@ -111,7 +124,7 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                         <h5 for="passport"><?php echo ($candidate['arrivalDate'] == '0000-00-00') ? 'No Date' : $candidate['arrivalDate'];?></h5>
                     </div>
                     <div class="col-sm-9 text-center" >
-                        <a href="<?php echo $candidate['arrivalSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['arrivalSealFile'];?>" alt="" height="100" width="100"></a>
+                        <a href="<?php echo $candidate['arrivalSealFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $candidate['arrivalSealFile'];?>" alt="" height="100" width="auto"></a>
                     </div>
                 </div>        
             </div>
@@ -128,7 +141,7 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fName, lName, passportPhoto
                         <label for="">Optional File</label>
                     </div>
                     <div class="col-sm-7 text-center" >
-                        <a href="<?php echo $optional['optionalFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $optional['optionalFile'];?>" alt="" height="100" width="100"></a>
+                        <a href="<?php echo $optional['optionalFile'];?>" target="_blank"><img style="align-content: center;" src="<?php echo $optional['optionalFile'];?>" alt="" height="100" width="auto"></a>
                     </div>
                     <div class="col-sm-2">
                         <div class="row">
