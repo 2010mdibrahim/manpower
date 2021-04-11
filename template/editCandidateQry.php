@@ -78,6 +78,22 @@ if($alter == 'delete'){
     $dob = $_POST['dob'];
     $admin = $_SESSION['email'];
     $update = date("Y-m-d");
+    // Scanned police verification file directory set - upload code inside result true if statement
+    if (($_FILES['optionalFile']['name'] != "")){
+        // Where the file is going to be stored
+        $target_dir = "uploads/policeVerification/";    
+        $file = $_FILES['optionalFile']['name'];
+        $path = pathinfo($file);
+        $ext = $path['extension'];
+        $temp_name = $_FILES['optionalFile']['tmp_name'];
+        $path_filename_ext = $base_dir.$target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$ext;
+        $oldVisaFile = $target_dir."optionalFile"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$ext;
+        $result = $conn->query("UPDATE passport set oldVisa = 'yes', oldVisaFile = '$oldVisaFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
+        if ($result){
+            move_uploaded_file($temp_name,$path_filename_ext);
+        }
+    }
+
 
     // Scanned police verification file directory set - upload code inside result true if statement
     if (($_FILES['policeVerificationFile']['name'] != "")){
