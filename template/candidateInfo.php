@@ -234,9 +234,11 @@ $documentation = '';
                                             while($country = mysqli_fetch_assoc($result_country)){ 
                                                 if($country_count == 0){?>
                                                     <span><?php echo $country['country']; ?></span>
-                                            <?php }else ?>
+                                            <?php }else{ ?>
                                                     <span><?php echo ', '.$country['country']; ?></span>
-                                            <?php } ?>
+                                            <?php }
+                                            $country_count++;
+                                            } ?>
                                             </p>
                                         </div>
                                     </div>
