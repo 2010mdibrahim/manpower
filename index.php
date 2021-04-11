@@ -388,6 +388,8 @@ if(!empty($_POST['pagePost'])){
             include('template/editEmployee.php');
         }else if($page == 'completedCandidateInfo') {
             include('template/completedCandidateInfo.php');
+        }else if($page == 'getZip') {
+            include('template/getZip.php');
         }else{
             include ('template/home.php');
         }

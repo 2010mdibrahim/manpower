@@ -18,6 +18,7 @@ $passportNum = $_GET['passportNum'];
 $creationDate = $_GET['creationDate'];
 $passportInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.jobType, agent.agentName, passport.* from passport inner join agent using(agentEmail) left join jobs using (jobId) where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
 $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as processingCount from processing where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'"));
+$documentation = '';
 ?>
 <style>
     span{
@@ -110,17 +111,18 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
                             <li class="list-group-item">Applied For Job: <span><?php echo $passportInfo['jobType'];?></span></li>
                             <li class="list-group-item">Applied Country: <span><?php echo $passportInfo['country'];?></span></li>
                             <li class="list-group-item">Manpower Office: <span><?php echo $passportInfo['manpowerOfficeName'];?></span></li>
-                            <li class="list-group-item">Documentation:                              
-                                <a href="<?php echo $passportInfo['passportScannedCopy'];?>" target="_blank"><button class="btn">Passport Scanned Copy</button></a>
+                            <li class="list-group-item">Documentation:  
+                                    <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn">Passport Scanned Copy</button></a>
                                 <?php if($passportInfo['testMedical'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn">Test Medical</button></a>
+                                    <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn">Test Medical</button></a>
                                 <?php }?>
                                 <?php if($passportInfo['finalMedical'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn">Final Medical</button></a>
+                                    <a href="<?php echo $passportInfo['finalMedicalFile'];$documentation .= '~'.$passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn">Final Medical</button></a>
                                 <?php }?>
                                 <?php if($passportInfo['policeClearance'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn">Police Clearance</button></a>
+                                    <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn">Police Clearance</button></a>
                                 <?php }?>
+                                <a href="template/getZip.php?doc=<?php echo base64_encode($documentation);?>"><button class="btn btn-warning"><i class="fa fa-download"></i></button></a>
                             </li>
                             <li class="list-group-item">
                                 <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
@@ -260,3 +262,12 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
     </div>
   </div>
 </div>
+<script>
+    function getZip(documentation){
+        $.ajax({
+            type: 'post',
+            url: 'template/getAllDocument.php',
+            data: {documentation: documentation}
+        });
+    }
+</script>
