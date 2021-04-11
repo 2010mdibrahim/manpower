@@ -53,6 +53,9 @@ if(!empty($_POST['pagePost'])){
     .button_div{
         margin: 5%;
     }
+    .no-access{
+        color: red;
+    }
 </style>
 <body>
 <div id="data-loading"></div>

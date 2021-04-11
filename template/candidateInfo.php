@@ -21,253 +21,506 @@ $hasVisa = mysqli_fetch_assoc($conn->query("SELECT count(processingId) as proces
 $documentation = '';
 ?>
 <style>
-    span{
-        font-size: 1.2rem;
-        text-align:right;
+    .outer-box{
+        margin-top: 10px;
+    }
+    .personal-card-body{
+        padding-left: 0;
+    }
+    .card{
+        justify-content: center;
+    }
+    .full-body{
+        font-size: 15px;
+        color: #455a64;
+        width: 80vw;
     }
     ul{
         list-style-type: none;
         text-align: left;
     }
-    p{
-        text-align: left;
+    li{
+        border-bottom: 1px #eceff1 solid;
+        border-radius: 3px;
+        padding: 2px;
     }
-    .list-group-inside{
-        padding-left: 45px;
-        padding-top: 20px;
+    .label{
+        font-size: 27px;
+        font-weight: 5000;
+        color: #0277bd;
     }
-    .inside-text{
-        font-size: 0.8rem;
+    .label.sm{
+        font-size: 20px;
     }
-    .card{
-        width: 100%;
+    .left-row{
+        background-color: #f5f5f5;
+        border-radius: 5px;
+    }
+    .right-row{
+        background-color: #cfd8dc;
+        border-radius: 5px;
+    }
+    .image{
+        border-radius: 10px;
+    }
+    .row{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .points{
+        color: #039be5;
+        /* white-space: nowrap; */
+    }
+    .list-group-item{
+        background-color: #bdbdbd ;
+    }
+    .document-anchor{
+        margin-bottom: 5px;
+    }
+    .child-row{
+        padding-left: 0;
+    }
+    .no-padding-left{
+        padding-left: 0;
+    }
+    @media (max-width: 800px) {
+        .card-body{
+            padding-left: 0;
+        }
+        ul{
+            padding-left: 0;
+        }
+        .label{
+            font-size: 20px;
+        }
     }
 </style>
-<div class="card text-center">
-  <div class="card-header">
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Personal Infomation</a>
-        <!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a> -->
-        <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
-    </div>
-  </div>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="card-body tab-pane fade show active" id="nav-home" role="tabpanel">
-        <div class="container">
-            <div class="row justify-content-md-center">
-                <div class="card">
-                    <div class="card-header"> Personal Information</div>
-                    <div class="card-body">
-                        <div class="row" style="width: 100%;">
-                            <div class="col-sm">
-                                <div class="card-body">
-                                    <?php echo ($passportInfo['passportPhoto'] == 'yes') ? '<img src="'.$passportInfo['passportPhotoFile'].'" width="150px" height="150px">' : 'No Photo Uploaded';?>
+<div class="row justify-content-center outer-box">
+    <div class="card full-body">
+        <div class="row">
+            <div class="col-md-4 left-row">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-sm">
+                            <?php echo ($passportInfo['passportPhoto'] == 'yes') ? '<img class="image" src="'.$passportInfo['passportPhotoFile'].'" width="150px" height="150px">' : 'No Photo Uploaded';?>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body personal-card-body">
+                    <label class="label sm" for="personalInformation">Personal Information</label>
+                    <ul class="no-padding-left">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    Name:
+                                </div>
+                                <div class="col-sm">
+                                    <p><?php echo $passportInfo['fName']." ".$passportInfo['lName'];?></p>
                                 </div>
                             </div>
-                            <div class="col-sm">
-                                <ul>
-                                    <li>
-                                        <p>Agent: <span><?php echo $passportInfo['agentName'];?></span></p>
-                                    </li>
-                                    <li>
-                                        <p>Name: <span><?php echo $passportInfo['fName']." ".$passportInfo['lName'];?></span></p>
-                                    </li>
-                                    <li>
-                                        <p>Passport Number: <span ><?php echo $passportInfo['passportNum'];?></span></p>
-                                    </li>
-                                    <li>
-                                        <p>Mobile Number: <span><?php echo $passportInfo['mobNum'];?></span></p>
-                                    </li>              
-                                </ul>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    Gender:
+                                </div>
+                                <div class="col-sm">
+                                    <p><?php echo $passportInfo['gender'];?></p>
+                                </div>
                             </div>
-                            <div class="col-sm">
-                                <ul>
-                                    <li>
-                                        <p>Gender: <span><?php echo $passportInfo['gender'];?></span></p>
-                                    </li>
-                                    <li>
-                                        <p>Date of Birth: <span><?php echo $passportInfo['dob'];?></span></p>
-                                    </li>
-                                    <li>
-                                    <?php
-                                        $expiryDate = new DateTime($passportInfo['issueDate']);
-                                        $format = "P".$passportInfo['validity']."Y";
-                                        $expiryDate->add(new DateInterval($format));
-                                    ?>
-                                        <p>Issue Date: <span><?php echo $passportInfo['issueDate'];?></span></p>
-                                    </li>
-                                    <li>
-                                        <p>Expiry Date: <span><?php echo $expiryDate->format('Y-m-d');?></span></p>
-                                    </li>
-                                </ul>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    Phone Number:
+                                </div>
+                                <div class="col-sm">
+                                    <p><?php echo $passportInfo['mobNum'];?></p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    Date of Birth:
+                                </div>
+                                <div class="col-sm">
+                                    <p><?php echo $passportInfo['dob'];?></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    Agent:
+                                </div>
+                                <div class="col-sm">
+                                    <p><?php echo $passportInfo['agentName'];?></p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <div class="card-header"> Passport Related Information</div>
-                    <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Applied For Job: <span><?php echo $passportInfo['jobType'];?></span></li>
-                            <li class="list-group-item">Applied Country: <span><?php echo $passportInfo['country'];?></span></li>
-                            <li class="list-group-item">Manpower Office: <span><?php echo $passportInfo['manpowerOfficeName'];?></span></li>
-                            <li class="list-group-item">Documentation:  
-                                    <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn">Passport Scanned Copy</button></a>
-                                <?php if($passportInfo['testMedical'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn">Test Medical</button></a>
-                                <?php }?>
-                                <?php if($passportInfo['finalMedical'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['finalMedicalFile'];$documentation .= '~'.$passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn">Final Medical</button></a>
-                                <?php }?>
-                                <?php if($passportInfo['policeClearance'] == 'yes'){ ?>
-                                    <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn">Police Clearance</button></a>
-                                <?php }?>
-                                <a href="template/getZip.php?doc=<?php echo base64_encode($documentation);?>"><button class="btn btn-warning"><i class="fa fa-download"></i></button></a>
-                            </li>
-                            <li class="list-group-item">
-                                <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
-                                    Candidate Previous Status: <span>Experienced</span>
-                                    <ul class="list-group-inside list-group-flush">
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <p>Depature Date: <span><?php echo ($passportInfo['departureDate'] == '0000-00-00') ? 'No Date' : $passportInfo['departureDate'];?></span></p>
-                                                        </div>
-                                                        <div class="col-sm">
-                                                            <a href="<?php echo $passportInfo['departureSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <p>Arrival Date: <span><?php echo ($passportInfo['arrivalDate'] == '0000-00-00') ? 'No Date' : $passportInfo['arrivalDate'];?></span></p>
-                                                        </div>
-                                                        <div class="col-sm">
-                                                            <a href="<?php echo $passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn">Departure Seal</button></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <p>Visited Country: </p>
-                                                <?php 
-                                                $result_country = $conn->query("SELECT * from passportexperiencedcountry where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
-                                                while($country = mysqli_fetch_assoc($result_country)){
-                                                ?>
-                                                <div class="col-md-1">
-                                                    <button class="btn btm-info"><?php echo $country['country']; ?></button>
-                                                </div>
-                                                <?php } ?>
-                                            </div>
-                                        </li>
-                                <?php }else{ ?>
-                                    Candidate Previous Status: <span>New</span>
-                                    <ul class="list-group-inside list-group-flush">
-                                        <li> 
-                                            <?php if($passportInfo['trainingCard'] == 'yes'){ ?>
-                                                <a href="<?php echo $passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn">Training Card</button></a>
-                                            <?php }else{ ?>
-                                                <p>No Training Card Uploaded</p>
-                                            <?php } ?>
-                                        </li>                                        
-                                <?php } ?>
-                                </ul>
-                                
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header"> VISA Related Information</div>
-                    <?php 
-                    if($hasVisa['processingCount'] > 0){ 
-                        $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, ticket.flightDate, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
-                    ?>
-                        <div class="card-body">
-                            <label for="" style="text-align: left;">Delegate Information</label>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Delegate Name: <span><?php echo $visaInfo['delegateName'];?></span></li>
-                                <li class="list-group-item">Sponsor Name: <span><?php echo $visaInfo['sponsorName'];?></span></li>
-                                <li class="list-group-item">Sponsor under Office: <span><?php echo $visaInfo['officeName'];?></span></li>
-                                <li class="list-group-item">Sponsor VISA: <span><?php echo $visaInfo['sponsorVisa'];?></span></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <label for="" style="text-align: left;">VISA Stage</label>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Employee Request: <span><?php echo ($visaInfo['empRqst'] == 'yes') ? 'Done' : 'Not Done';?></span></li>
-                                <li class="list-group-item">Foreign MOLE: <span><?php echo ($visaInfo['foreignMole'] == 'yes') ? 'Done' : 'Not Done';?></span></li>
-                                <li class="list-group-item">OKALA: <span>
-                                <?php if($visaInfo['okala'] == 'yes'){ ?>
-                                    <a href="<?php echo $visaInfo['okalaFile'];?>" target="_blank"><button class="btn">Okala</button></a>
-                                <?php }else{ ?>
-                                    Not Done
-                                <?php } ?>
-                                </span></li>
-                                <li class="list-group-item">MUFA: <span>
-                                <?php if($visaInfo['mufa'] == 'yes'){ ?>
-                                    <a href="<?php echo $visaInfo['mufaFile'];?>" target="_blank"><button class="btn">MUFA</button></a>
-                                <?php }else{ ?>
-                                    Not Done
-                                <?php } ?>
-                                </span></li>
-                                <li class="list-group-item">Medical Update: <span><?php echo ($visaInfo['medicalUpdate'] == 'yes') ? 'Done' : 'Not Done';?></span></li>
-                                <li class="list-group-item">VISA Stamping: <span>
-                                <?php if($visaInfo['visaStamping'] == 'yes'){ ?>
+                <div class="card-body personal-card-body">
+                    <label class="label sm" for="passportList">Passport</label>
+                    <ul class="no-padding-left">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    <p>Passport Number: </p>
+                                </div>
+                                <div class="col-sm">
+                                    <span><?php echo $passportInfo['passportNum'];?></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <?php
+                                $expiryDate = new DateTime($passportInfo['issueDate']);
+                                $format = "P".$passportInfo['validity']."Y";
+                                $expiryDate->add(new DateInterval($format));
+                            ?>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    <p>Issue Date: </p>
+                                </div>
+                                <div class="col-sm">
+                                    <span><?php echo $passportInfo['issueDate'];?></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    <p>Expiry Date: </p>
+                                </div>
+                                <div class="col-sm">
+                                    <span><?php echo $expiryDate->format('Y-m-d');?></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                        <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    <span>Experienced: </span>
+                                </div>
+                                <div class="col-sm">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-sm child-row">
                                             <div class="row">
-                                                <div class="col-sm">Stamping Date:</div>
-                                                <div class="col-sm"><?php echo $visaInfo['visaStampingDate']; ?></div>
+                                                Depature Date: 
+                                            </div>
+                                            <div class="row">
+                                                <span><?php echo ($passportInfo['departureDate'] == '0000-00-00') ? 'No Date' : $passportInfo['departureDate'];?></span>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="<?php echo $visaInfo['visaFile'];?>" target="_blank"><button class="btn">Stamping File</button></a>
+                                        <div class="col-sm">
+                                            <div class="row">
+                                                Arrival Date: 
+                                            </div>
+                                            <div class="row">
+                                                <span><?php echo ($passportInfo['arrivalDate'] == '0000-00-00') ? 'No Date' : $passportInfo['arrivalDate'];?></span>
+                                            </div>
                                         </div>
                                     </div>
-                                <?php }else{ ?>
-                                    Not Done
-                                <?php } ?>
-                                </span></li>
-                                <li class="list-group-item">Finger: <span><?php echo ($visaInfo['finger'] == 'yes') ? 'Done' : 'Not Done';?></span></li>
-                                <li class="list-group-item">Manpower Card: <span>
-                                <?php if($visaInfo['manpowerCard'] == 'yes'){ ?>
-                                    <a href="<?php echo $visaInfo['manpowerCardFile'];?>" target="_blank"><button class="btn">Manpower Card</button></a>
-                                <?php }else{ ?>
-                                    Not Done
-                                <?php } ?>
-                                </span></li>
-                                <li class="list-group-item">Flight Date: <span>
-                                <?php if(!is_null($visaInfo['flightDate'])){ ?>
-                                    <span><?php echo $visaInfo['flightDate'];?></span>
-                                <?php }else{ ?>
-                                    No Ticket Assigned
-                                <?php } ?>
-                                </span></li>
+                                    <hr>                                      
+                                    <div class="row">  
+                                        <div class="col-sm child-row">
+                                            <p>Visited Country: 
+                                            <?php 
+                                            $result_country = $conn->query("SELECT * from passportexperiencedcountry where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
+                                            while($country = mysqli_fetch_assoc($result_country)){ ?>
+                                            <span><?php echo $country['country']; ?></span>
+                                            <?php } ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }else{ ?>
+                            <div class="row">
+                                <div class="col-md-4 points">
+                                    <span>New: </span>
+                                </div>
+                                <div class="col-sm">
+                                    <?php if($passportInfo['trainingCard'] == 'yes'){ ?>
+                                        <a href="<?php echo $passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn">Training Card</button></a>
+                                    <?php }else{ ?>
+                                        <p>No Training Card Uploaded</p>
+                                    <?php } ?>
+                                </div>
+                            </div>                                       
+                        <?php } ?>
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 right-row">
+                <div class="card-body">
+                </div>
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label class="label label-in" for="passportList">Applied for</label>
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-4 points">
+                                            <p>Job: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $passportInfo['jobType'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-4 points">
+                                            <p>Country: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $passportInfo['country'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-4 points">
+                                            <p>Manpower Office: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span style="white-space: nowrap;"><?php echo $passportInfo['manpowerOfficeName'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
-                    <?php }else{ ?>
-                        <div class="card-body">
-                            <h5>No VISA assigned</h5>
+                        <div class="col-sm">
+                            <label class="label label-in" for="passportList">Documents</label>
+                            <ul>
+                                <li class="list-group-item">  
+                                    <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn document-anchor">Passport Scanned Copy</button></a>
+                                    <?php if($passportInfo['testMedical'] == 'yes'){ ?>
+                                        <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Test Medical</button></a>
+                                    <?php }?>
+                                    <?php if($passportInfo['finalMedical'] == 'yes'){ ?>
+                                        <a href="<?php echo $passportInfo['finalMedicalFile'];$documentation .= '~'.$passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Final Medical</button></a>
+                                    <?php }?>
+                                    <?php if($passportInfo['policeClearance'] == 'yes'){ ?>
+                                        <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn document-anchor">Police Clearance</button></a>
+                                    <?php }?>
+                                    <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
+                                        <a href="<?php echo $passportInfo['departureSealFile'];$documentation .= '~'.$passportInfo['departureSealFile'];?>" target="_blank"><button class="btn document-anchor">Departure Seal</button></a>
+                                        <a href="<?php echo $passportInfo['arrivalSealFile'];$documentation .= '~'.$passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn document-anchor">Arrival Seal</button></a>
+                                        <?php
+                                        $result = $conn->query("SELECT * from optionalfiles where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
+                                        $i = 1;
+                                        if(!is_null($result)){
+                                            while($optional = mysqli_fetch_assoc($result)){ ?>
+                                                <a href="<?php echo $optional['optionalFile'];$documentation .= '~'.$optional['optionalFile'];?>" target="_blank"><button class="btn document-anchor">Opt #<?php $i++;?></button></a>                                        
+                                    <?php   } 
+                                        } 
+                                    }else{ ?>
+                                        <a href="<?php echo $passportInfo['trainingCardFile'];$documentation .= '~'.$passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn document-anchor">Training Card</button></a>
+                                    <?php } 
+                                    if($hasVisa['processingCount'] != 0){
+                                    $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, ticket.flightDate,ticket.ticketId, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
+                                    ?>
+                                        <a href="<?php echo $visaInfo['okalaFile'];$documentation .= '~'.$visaInfo['okalaFile'];?>" target="_blank"><button class="btn document-anchor">Okala</button></a>
+                                        <a href="<?php echo $visaInfo['mufaFile'];$documentation .= '~'.$visaInfo['mufaFile'];?>" target="_blank"><button class="btn document-anchor">MUFA</button></a>
+                                        <a href="<?php echo $visaInfo['manpowerCardFile'];$documentation .= '~'.$visaInfo['manpowerCardFile'];?>" target="_blank"><button class="btn document-anchor">Manpower Card</button></a>
+                                    <?php 
+                                    if($visaInfo['visaStamping'] == 'yes'){
+                                    $result = $conn->query("SELECT * from visafile where processingId = ".$visaInfo['processingId']); 
+                                    $i = 1;
+                                    while($visaFile = mysqli_fetch_assoc($result)){
+                                    ?>
+                                        <a href="<?php echo $visaFile['visaFile'];$documentation .= '~'.$visaFile['visaFile'];?>" target="_blank"><button class="btn document-anchor">Stamping #<?php echo $i++;?></button></a>
+                                    <?php } } } ?>
+                                    <a href="template/getZip.php?doc=<?php echo base64_encode($documentation);?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
+                                </li>
+                            </ul>
                         </div>
-                    <?php } ?>
+                    </div>
                 </div>
+                <?php 
+                if($hasVisa['processingCount'] != 0){
+                ?>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label class="label" for="passportList">VISA Information</label>
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-5 points">
+                                            <p>Delegate Name: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $visaInfo['delegateName'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-5 points">
+                                            <p>Delegate Office: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $visaInfo['officeName'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-5 points">
+                                            <p>Sponsor Name: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $visaInfo['sponsorName'];?></span>
+                                        </div>
+                                    </div>
+                                </li>                    
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-5 points">
+                                            <p>Sponsor VISA: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span><?php echo $visaInfo['sponsorVisa'];?></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm">
+                        <label class="label" for="passportList">VISA Stage</label>
+                            <ul>
+                                <li>
+                                    <?php if($visaInfo['empRqst'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Employee Request: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <span>Done</span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['foreignMole'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Foreign MOLE: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <span>Done</span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['okala'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>OKALA: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <a href="<?php echo $visaInfo['okalaFile'];?>" target="_blank"><button class="btn">Okala</button></a>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['mufa'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>MUFA: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <a href="<?php echo $visaInfo['mufaFile'];?>" target="_blank"><button class="btn">MUFA</button></a>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['medicalUpdate'] == 'yes'){ ?>
+                                    <div class="row">
+                                        <div class="col-md-5 points">
+                                            <p>Medical Update: </p>
+                                        </div>
+                                        <div class="col-sm">
+                                            <span>Done</span>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
+                                </li>                    
+                                <li>
+                                    <?php if($visaInfo['visaStamping'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Stamping Date: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="row">
+                                                    <div class="col-md-6 child-row">
+                                                        <span><?php echo $visaInfo['visaStampingDate'];?></span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <a href="?page=svf&p=<?php echo base64_encode($visaInfo['processingId']);?>" target="_blank"><button class="btn">Stamping File</button></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['finger'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Finger: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <span>Done</span>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if($visaInfo['manpowerCard'] == 'yes'){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Manpower Card: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <a href="<?php echo $visaInfo['manpowerCardFile'];?>" target="_blank"><button class="btn">Manpower Card</button></a>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+                                <li>
+                                    <?php if(!is_null($visaInfo['ticketId'])){ ?>
+                                        <div class="row">
+                                            <div class="col-md-5 points">
+                                                <p>Flight Date: </p>
+                                            </div>
+                                            <div class="col-sm">
+                                                <a href="?page=listTicket&tI=<?php echo base64_encode($visaInfo['ticketId']);?>" target="_blank"><button class="btn"><?php echo $visaInfo['flightDate'];?></button></a>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>                    
+                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
-  </div>
 </div>
-<script>
-    function getZip(documentation){
-        $.ajax({
-            type: 'post',
-            url: 'template/getAllDocument.php',
-            data: {documentation: documentation}
-        });
-    }
-</script>

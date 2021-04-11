@@ -6,7 +6,7 @@ if(!isset($_SESSION['sections'])){
     if(!in_array("All", $_SESSION['sections'])){
         if(!in_array("Jobs", $_SESSION['sections'])){
             if (headers_sent()) {
-                die("No Access");
+                die("<div class='row text-center'><div class='col-sm no-access'>No Access</div></div>");
             }else{
                 header("Location: ../index.php");
                 exit();
