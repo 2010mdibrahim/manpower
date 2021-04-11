@@ -1,12 +1,12 @@
 <?php
-$files = array('../uploads/test/readme.txt');
-// var_dump();
+include ('database.php');
+$getZip = base64_decode($_GET['doc']);
+$files = explode('~',$getZip);
 $zipname = 'file_'.time().'.zip';
 $zip = new ZipArchive;
 $zip->open($zipname, ZipArchive::CREATE);
 foreach ($files as $file) {
-    print_r($file);
-    $zip->addFile($file);
+    $zip->addFile('../'.$file);
 }
 $zip->close();
 header('Content-Type: application/zip');

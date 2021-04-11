@@ -111,7 +111,7 @@ $documentation = '';
                             <li class="list-group-item">Applied For Job: <span><?php echo $passportInfo['jobType'];?></span></li>
                             <li class="list-group-item">Applied Country: <span><?php echo $passportInfo['country'];?></span></li>
                             <li class="list-group-item">Manpower Office: <span><?php echo $passportInfo['manpowerOfficeName'];?></span></li>
-                            <li class="list-group-item">Documentation:                              
+                            <li class="list-group-item">Documentation:  
                                     <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn">Passport Scanned Copy</button></a>
                                 <?php if($passportInfo['testMedical'] == 'yes'){ ?>
                                     <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn">Test Medical</button></a>
@@ -122,8 +122,7 @@ $documentation = '';
                                 <?php if($passportInfo['policeClearance'] == 'yes'){ ?>
                                     <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn">Police Clearance</button></a>
                                 <?php }?>
-                                <?php //echo $documentation;?>
-                                <!-- <a href="<?php echo $documentation;?>"><button class="form-control" value="<?php echo $documentation;?>" onclick="getZip(this.value)">test</button></a> -->
+                                <a href="template/getZip.php?doc=<?php echo base64_encode($documentation);?>"><button class="btn btn-warning"><i class="fa fa-download"></i></button></a>
                             </li>
                             <li class="list-group-item">
                                 <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
