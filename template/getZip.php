@@ -1,12 +1,13 @@
 <?php
 include ('database.php');
-$getZip = base64_decode($_GET['doc']);
+$getZip = $_GET['doc'];
 $files = explode('~',$getZip);
 $zipname = 'file_'.time().'.zip';
 $zip = new ZipArchive;
 $zip->open($zipname, ZipArchive::CREATE);
 foreach ($files as $file) {
-    $zip->addFile('../'.$file);
+    $name = explode('/',$file);
+    $zip->addFile('../'.$file , end($name));
 }
 $zip->close();
 header('Content-Type: application/zip');
