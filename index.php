@@ -1,4 +1,5 @@
 <?php 
+require_once 'lib/dompdf/autoload.inc.php';
 if(!empty($_GET['page'])){
     $page = $_GET['page'];
 }else{
