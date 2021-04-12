@@ -95,7 +95,7 @@ $documentation = '';
         }
     }
 </style>
-<div class="row justify-content-center outer-box">
+<div class="row justify-content-center outer-box" id="full_body">
     <div class="card full-body">
         <div class="row">
             <div class="col-md-4 left-row">
@@ -265,6 +265,7 @@ $documentation = '';
             </div>
             <div class="col-md-8 right-row">
                 <div class="card-body">
+                <button class="btn exclude" style="float: right;" onclick="print_div()"><span class="fa fa-print"></span></button>
                 </div>
                 
                 <div class="card-body">
@@ -346,7 +347,7 @@ $documentation = '';
                                     ?>
                                         <a href="<?php echo $visaFile['visaFile'];$documentation .= '~'.$visaFile['visaFile'];?>" target="_blank"><button class="btn document-anchor">Stamping #<?php echo $i++;?></button></a>
                                     <?php } } } ?>
-                                    <a href="template/getZip.php?doc=<?php echo $documentation;?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
+                                    <a class="exclude" href="template/getZip.php?doc=<?php echo $documentation;?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
                                 </li>
                             </ul>
                         </div>
@@ -530,3 +531,11 @@ $documentation = '';
         </div>
     </div>
 </div>
+<script>
+    function print_div(){
+        $("#full_body").print({
+            noPrintSelector: ".exclude"
+            
+        });
+    }
+</script>
