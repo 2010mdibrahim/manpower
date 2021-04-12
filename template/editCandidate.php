@@ -155,10 +155,6 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
                             <label>Arrival Seal</label>
                             <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
                         </div>
-                        <div class="col-md-4">
-                            <label>Optional File</label>
-                            <input class="form-control-file" type="file" name="optionalFile" id="optionalFile">
-                        </div>
                         <div class="col-md-6">
                             <label>Departure Date</label>
                             <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" value="<?php echo ($candidate['departureDate'] == '0000-00-00') ? '' : $candidate['departureDate'];?>"/>
