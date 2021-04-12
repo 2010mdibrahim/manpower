@@ -177,7 +177,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
     }else{
         $maxId = (int)$maxIdQry['maxId']+1;
     }
-    if($_FILES['optionalFile']['name'] == ''){
+    if($_FILES['optionalFile']['name'] != ''){
         foreach($_FILES['optionalFile']['tmp_name'] as $key => $tmp_name){
             $target_dir = 'uploads/optionalFile/';
             $file_name = $key.$_FILES['optionalFile']['name'][$key];
