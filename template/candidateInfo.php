@@ -346,7 +346,7 @@ $documentation = '';
                                     ?>
                                         <a href="<?php echo $visaFile['visaFile'];$documentation .= '~'.$visaFile['visaFile'];?>" target="_blank"><button class="btn document-anchor">Stamping #<?php echo $i++;?></button></a>
                                     <?php } } } ?>
-                                    <a href="template/getZip.php?doc=<?php echo base64_encode($documentation);?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
+                                    <a href="template/getZip.php?doc=<?php echo $documentation;?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
                                 </li>
                             </ul>
                         </div>
