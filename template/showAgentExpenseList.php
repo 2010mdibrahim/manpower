@@ -20,10 +20,12 @@ if(isset($_GET['ag'])){
 }else{
     $agentEmail = '';
 }
-$totalAmount = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum from agentexpense where agentEmail = '$agentEmail'"));
-$lendAmount = mysqli_fetch_assoc($conn->query("SELECT SUM(fullAmount) as fullSum, SUM(paidAmount) as paidSum from agentexpense where agentEmail = '$agentEmail' AND expenseMode = 'lend'"));
-$result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentEmail'");
-
+$today = date('Y-m-d');
+$result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, passport.fName, passport.lName, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND jobs.creditType = 'Comission'");
+$result_pass = $conn -> query("SELECT passport.fName, passport.lName, passport.passportNum, passport.creationDate, candidateexpense.amount from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where candidateexpense.agentEmail = '$agentEmail'");
+print_r(mysqli_error($conn));
+$totalExpense = 0;
+$totalComission = 0;
 ?>
 <style>
     .flex-container {
@@ -37,78 +39,89 @@ $result = $conn -> query("SELECT * from agentexpense where agentEmail = '$agentE
         <div class="section-header">
             <h3>Payment information of <span><b><?php echo "'".$agentName['agentName']."'";?></b></span></h3>
         </div>
+    </div>        
+    <div class="card w-100">    
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTableSeaum" class="table table-bordered table-hover text-center"  style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Candidate Name</th>  
+                        <th>Expense</th>  
+                        <th>Comission</th>
+                    </tr>
+                    </thead>
+                    <?php
+                    if(!is_null($result_comission)){
+                        while( $candidates = mysqli_fetch_assoc($result_comission) ){ ?> 
+                        <tr>
+                            <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
+                            <td> - </td>
+                            <td>
+                            <?php 
+                            echo number_format($candidates['amount']);
+                            $totalComission += (int)$candidates['amount'];
+                            ?></td>
+                        </tr>
+                    <?php } 
+                    }?>
+                    <?php
+                    while( $candidates = mysqli_fetch_assoc($result_pass) ){   
+                    ?>
+                        <tr>
+                            <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
+                            <td>
+                            <?php 
+                            echo number_format($candidates['amount']);
+                            $totalExpense += (int)$candidates['amount'];
+                            ?></td>
+                            <td> - </td>
+                        </tr>
+                    <?php } ?>
+                    <tfoot>
+                    <tr hidden>
+                        <th>Candidate Name</th>  
+                        <th>Expense</th>  
+                        <th>Comission</th>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
     </div>
-        <div class="card-group">
+    <div class="row">
+        <div class="col-sm">
             <div class="card">
                 <div class="card-header text-center">
-                    Total Amount
+                    Total Expense Amount
                 </div>
                 <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format($totalAmount['fullSum'])." Taka";?></p>
+                    <p class="card-text"><?php echo number_format($totalExpense)." Taka";?></p>
                 </div>
             </div>
         </div>
-        <div class="card w-100">    
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="dataTableSeaum" class="table table-bordered table-hover text-center"  style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>Amount</th>  
-                            <th>Expense Purpose</th>
-                            <th>Pay Date</th>
-                            <th>Pay Mode</th>
-                            <th>Comment</th> 
-                            <th>Alter</th>
-                        </tr>
-                        </thead>
-                        <?php
-                        while( $expense = mysqli_fetch_assoc($result) ){                
-                        ?>
-                            <tr>
-                                <td><?php echo number_format($expense['fullAmount']);?></td>
-                                <td><?php echo $expense['expensePurposeAgent'];?></td>
-                                <td><?php echo $expense['payDate'];?></td>
-                                <td><?php echo $expense['expenseMode'];?></td>
-                                <td><?php echo $expense['comment'];?></td>
-                                <td>
-                                    <div class="flex-container">
-                                        <div style="padding-right: 2%" >
-                                            <form action="index.php" method="post">
-                                                <input type="hidden" name="alter" value="update">
-                                                <input type="hidden" value="editAgentExpense" name="pagePost">
-                                                <input type="hidden" value="<?php echo $expense['agentExpenseId']; ?>" name="agentExpenseId">
-                                                <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
-                                            </form>
-                                        </div>
-                                        <div style="padding-left: 2%">
-                                            <form action="template/addExpenseAgentQry.php" method="post">
-                                                <input type="hidden" name="alter" value="delete">
-                                                <input type="hidden" value="<?php echo $expense['agentExpenseId']; ?>" name="agentExpenseId">
-                                                <input type="hidden" value="<?php echo $expense['agentEmail']; ?>" name="agentEmail">
-                                                <button type="submit" class="btn btn-danger btn-sm" name="manpower">Delete</></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        <tfoot>
-                        <tr hidden>
-                            <th>Amount</th>  
-                            <th>Expense Purpose</th>
-                            <th>Pay Date</th>
-                            <th>Pay Mode</th>
-                            <th>Comment</th> 
-                            <th>Alter</th>
-                        </tr>
-                        </tfoot>
-
-                    </table>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header text-center">
+                    Total Comission Amount
+                </div>
+                <div class="card-body text-center">
+                    <p class="card-text"><?php echo number_format($totalComission)." Taka";?></p>
                 </div>
             </div>
         </div>
-        
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header text-center">
+                    Remaining Balance
+                </div>
+                <div class="card-body text-center">
+                    <p class="card-text"><?php echo number_format($totalComission - $totalExpense)." Taka";?></p>
+                </div>
+            </div>
+        </div>
+    </div>        
 </div>
 
 <script>

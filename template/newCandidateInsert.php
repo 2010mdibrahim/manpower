@@ -175,9 +175,9 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
     if(is_null($maxIdQry['maxId'])){
         $maxId = 1;
     }else{
-        $maxId = (int)$maxIdQry['maxId']+1;
+        $maxId = (int)$maxIdQry['maxId'] + 1;
     }
-    if($_FILES['optionalFile']['name'] == ''){
+    if($_FILES['optionalFile']['name'] != ''){
         foreach($_FILES['optionalFile']['tmp_name'] as $key => $tmp_name){
             $target_dir = 'uploads/optionalFile/';
             $file_name = $key.$_FILES['optionalFile']['name'][$key];
@@ -186,6 +186,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
             $file_tmp =$_FILES['optionalFile']['tmp_name'][$key];
             $path_file_ext = $base_dir.$target_dir."optionalFile_".$maxId.".".$ext;
             $data_path = $target_dir."optionalFile_".$maxId.".".$ext;
+            print_r("INSERT INTO optionalfiles(passportNum, passportCreationDate, optionalFile) VALUES ('$passportNum','$date','$data_path')"."<br>");
             $result = $conn -> query("INSERT INTO optionalfiles(passportNum, passportCreationDate, optionalFile) VALUES ('$passportNum','$date','$data_path')");
             move_uploaded_file($file_tmp,$path_file_ext);
             $maxId++;
