@@ -22,9 +22,8 @@ if(isset($_GET['ag'])){
 }
 $today = date('Y-m-d');
 $result_agent_expense = $conn -> query("SELECT fullAmount, expensePurposeAgent FROM agentexpense WHERE agentEmail = '$agentEmail'");
-$result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, passport.fName, passport.lName, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND jobs.creditType = 'Comission'");
+$result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, agentcomission.comissionId, passport.fName, passport.lName, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND jobs.creditType = 'Comission'");
 $result_expense = $conn -> query("SELECT passport.fName, passport.lName, passport.passportNum, passport.creationDate, candidateexpense.amount, candidateexpense.purpose from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where candidateexpense.agentEmail = '$agentEmail'");
-print_r(mysqli_error($conn));
 $totalExpense = 0;
 $totalComission = 0;
 ?>
@@ -53,23 +52,41 @@ $totalComission = 0;
                     </tr>
                     </thead>
                     <?php
+                    $i = 2;
                     if(!is_null($result_comission)){
-                        while( $candidates = mysqli_fetch_assoc($result_comission) ){ ?> 
-                        <tr>
-                            <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
-                            <td> Comission </td>
-                            <td>
+                        while( $comission = mysqli_fetch_assoc($result_comission) ){ ?> 
+                            <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                                <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
+                                <td> Comission </td>
+                                <td>
+                                <?php 
+                                echo number_format($comission['amount']);
+                                $totalComission += (int)$comission['amount'];
+                                ?></td>
+                            </tr>
                             <?php 
-                            echo number_format($candidates['amount']);
-                            $totalComission += (int)$candidates['amount'];
-                            ?></td>
-                        </tr>
-                    <?php } 
+                            $comissionAdvance = $conn->query("SELECT advanceAmount from advance where comissionId = ".$comission['comissionId']);
+                            if(!is_null($comissionAdvance)){
+                                while($advance = mysqli_fetch_assoc($comissionAdvance)){
+                            ?>
+                                <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                                    <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
+                                    <td> Advance </td>
+                                    <td>
+                                    <?php 
+                                    echo number_format($advance['advanceAmount']);
+                                    $totalExpense += (int)$advance['advanceAmount'];
+                                    ?></td>
+                                </tr>
+                            <?php }
+                            } ?>
+                    <?php $i++; 
+                        } 
                     }?>
                     <?php
                     while( $candidates = mysqli_fetch_assoc($result_expense) ){   
                     ?>
-                        <tr>
+                        <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
                             <td> <?php echo $candidates['purpose'];?> </td>
                             <td>
@@ -78,11 +95,12 @@ $totalComission = 0;
                             $totalExpense += (int)$candidates['amount'];
                             ?></td>
                         </tr>
-                    <?php } ?>
+                    <?php $i++; 
+                    } ?>
                     <?php
                     while( $agent = mysqli_fetch_assoc($result_agent_expense) ){   
                     ?>
-                        <tr style="background-color: #c5cae9;">
+                        <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td>Self</td>
                             <td> <?php echo $agent['expensePurposeAgent'];?> </td>
                             <td>
@@ -91,7 +109,8 @@ $totalComission = 0;
                             $totalExpense += (int)$agent['fullAmount'];
                             ?></td>
                         </tr>
-                    <?php } ?>
+                    <?php $i++;
+                    } ?>
                     <tfoot>
                     <tr hidden>
                         <th>Candidate Name</th>  
