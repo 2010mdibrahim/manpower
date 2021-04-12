@@ -32,6 +32,32 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fullPhotoFile, fName, lName
 </style>
 
 <div class="box">
+    <!-- Add delegate Comission -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="addOptionalFile">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/addOptionalFile.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Optional File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="passportNum" id="passportNumOptional">
+                        <input type="hidden" name="creationDate" id="creationDateOptional">
+                        <div class="form-group">
+                            <input class="form-control-file" type="file" name="optionalFile[]" multiple>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Stamping Modal For Date -->
     <div class="modal fade" tabindex="-1" role="dialog" id="editDocument">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -45,8 +71,8 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fullPhotoFile, fName, lName
                     </div>
                     <div class="modal-body">
 
-                        <input type="text" name="passportNum" id="passportNum">
-                        <input type="text" name="creationDate" id="creationDate">
+                        <input type="hidden" name="passportNum" id="passportNum">
+                        <input type="hidden" name="creationDate" id="creationDate">
                         <input type="hidden" name="optionalFileId" id="optionalFileId">
                         <input type="hidden" name="alter" value="update">
                         <div class="form-group">
@@ -163,6 +189,10 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fullPhotoFile, fName, lName
             </div>
         <?php } 
         } ?> 
+        <hr>
+        <div class="card-body">
+            <button class="btn btn-info" style="float: right;" data-target="#addOptionalFile" data-toggle="modal" value="<?php echo $passportNum."_".$creationDate?>" onclick="optionalFile(this.value)">Add Optional File</button>
+        </div>
     </div>    
 </div>
 <script>
@@ -172,5 +202,10 @@ function editFile(info){
     $('#optionalFileId').val(info_split[0]);
     $('#passportNum').val(info_split[1]);
     $('#creationDate').val(info_split[2]);
+}
+function optionalFile(info){
+    optionalFile = info.split('_');
+    $('#passportNumOptional').val(optionalFile[0]);
+    $('#creationDateOptional').val(optionalFile[1]);
 }
 </script>
