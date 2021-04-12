@@ -326,7 +326,7 @@ $documentation = '';
                                         $i = 1;
                                         if(!is_null($result)){
                                             while($optional = mysqli_fetch_assoc($result)){ ?>
-                                                <a href="<?php echo $optional['optionalFile'];$documentation .= '~'.$optional['optionalFile'];?>" target="_blank"><button class="btn document-anchor">Opt #<?php $i++;?></button></a>                                        
+                                                <a href="<?php echo $optional['optionalFile'];$documentation .= '~'.$optional['optionalFile'];?>" target="_blank"><button class="btn document-anchor">Opt #<?php echo $i++;?></button></a>                                        
                                     <?php   } 
                                         } 
                                     }else{ ?>
