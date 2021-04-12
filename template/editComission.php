@@ -22,7 +22,7 @@ if(isset($_POST['alter'])){
             }
         }
     }
-    if($result){
+    if($result){        
         echo "<script> window.location.href='../index.php?page=visaList'</script>";
     }else{
         echo mysqli_error($conn);
@@ -30,7 +30,11 @@ if(isset($_POST['alter'])){
 }else{
     $result = $conn->query("UPDATE agentcomission set amount = $amount where comissionId = $comissionId");
     if($result){
-        echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($creationDate)."'</script>";
+        if(isset($_POST['agentEmail'])){
+            echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($_POST['agentEmail'])."'</script>";
+        }else{
+            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($creationDate)."'</script>";
+        }
     }else{
         echo mysqli_error($conn);
     }

@@ -57,6 +57,11 @@ if(isset($_POST['advancePayMode'])){
 }else{
     $payMode = '';
 }
+if(isset($_POST['redir'])){
+    $redir = $_POST['redir'];
+}else{
+    $redir = '';
+}
 $amount = $_POST['amount'];
 $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agentEmail = '$agentEmail'"));
 ?>
@@ -65,7 +70,7 @@ $agent = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agen
         <h2>Edit Expense</h2>
     </div>
     <form action="template/addCandidatePaymentQry.php" method="post">
-        <input type="hidden" name="redir" value="<?php echo "ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate); ?>">
+        <input type="hidden" name="redir" value="<?php echo $redir; ?>">
         <input type="hidden" name="advanceId" value="<?php echo $advanceId; ?>">
         <input type="hidden" name="expenseId" value="<?php echo $expenseId; ?>">
         <input type="hidden" name="alter" value="update">
