@@ -32,6 +32,22 @@ $totalComission = 0;
         display: flex;
         flex-direction: row;
     }
+    .custom-round-button{
+        display: inline-block;
+        border: 1px black solid;
+        padding: 2px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        outline:none;
+    }
+    .custom-round-button:focus {
+        outline: none;
+    }
+    .custom-span{
+        display: grid;
+        justify-content: center;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
     
@@ -61,10 +77,15 @@ $totalComission = 0;
                                 <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
                                 <td> Comission </td>
                                 <td>
-                                <?php 
-                                echo number_format($comission['amount']);
-                                $totalComission += (int)$comission['amount'];
-                                ?></td>
+                                <div>
+                                    <div>
+                                        <?php 
+                                        echo number_format($comission['amount']);
+                                        $totalComission += (int)$comission['amount'];
+                                        ?>
+                                        <button class="custom-round-button"><span class="fa fa-check custom-span"></span></button>
+                                    </div>
+                                </td>
                                 <td> - </td>
                             </tr>
                             <?php 
