@@ -45,8 +45,8 @@ $candidate = mysqli_fetch_assoc($conn->query("SELECT fullPhotoFile, fName, lName
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="passportNum" id="passportNum">
-                        <input type="hidden" name="creationDate" id="creationDate">
+                        <input type="text" name="passportNum" id="passportNum">
+                        <input type="text" name="creationDate" id="creationDate">
                         <input type="hidden" name="optionalFileId" id="optionalFileId">
                         <input type="hidden" name="alter" value="update">
                         <div class="form-group">
