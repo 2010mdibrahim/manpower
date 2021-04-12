@@ -158,9 +158,7 @@ $amount = 0;
                                                 </form>
                                             </div>
                                             <div class="col-sm">
-                                                <form action="index.php" method="post">
-                                                    <button class="btn btn-sm" type='button' data-target="#comissionAmount" data-toggle="modal" onclick="comissionAmount(this.value)" value="<?php echo $comission['comissionId']."_".$passportNum."_".$creationDate; ?>">Edit</button>
-                                                </form>
+                                                <button class="btn btn-sm" type='button' data-target="#comissionAmount" data-toggle="modal" onclick="comissionAmount(this.value)" value="<?php echo $comission['comissionId']."_".$passportNum."_".$creationDate; ?>">Edit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -381,6 +379,7 @@ $amount = 0;
                             <div class="row">
                                 <div class="col-sm-3">
                                     <form action="index.php" method="post">
+                                        <input type="hidden" name="redir" value="<?php echo "ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($creationDate); ?>">
                                         <input type="hidden" name="pagePost" value="editCandidatePayment">
                                         <input type="hidden" name="candidateName" value="<?php echo $candidateInfo['fName']." ".$candidateInfo['lName'];?>">
                                         <input type="hidden" name="passport_info" value="<?php echo $passportNum."_".$creationDate;?>">

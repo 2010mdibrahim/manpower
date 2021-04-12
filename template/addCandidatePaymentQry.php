@@ -47,7 +47,11 @@ if($alter == 'delete'){
     if($expenseId > 0){
         $result = $conn->query("DELETE from candidateexpense where expenseId = $expenseId");
         if($result){
-            echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
+            if($redir != ''){
+                echo "<script> window.location.href='../index.php?page=$redir'</script>";
+            }else{
+                echo "<script> window.location.href='../index.php?page=ce&pn=".base64_encode($passportNum)."&cd=".base64_encode($passportCreationDate)."'</script>";
+            }
         }else{
             echo mysqli_error($conn);
         }

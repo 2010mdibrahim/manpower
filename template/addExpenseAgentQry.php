@@ -20,7 +20,6 @@ if(isset($_POST['alter'])){
 }else{
     $alter = '';
 }
-print_r($alter);
 if(isset($_POST['agentExpenseId'])){
     $agentExpenseId = $_POST['agentExpenseId'];
 }else{
@@ -32,7 +31,6 @@ if($alter == 'delete'){
     if($result){
         echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
     }else{
-        echo "<script>window.alert('Error')</script>";
         echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
     }
 }else{
@@ -50,14 +48,12 @@ if($alter == 'delete'){
         $adjustAmount = 0;
     }
     if($alter == 'update'){
-        $advance = intval($advance) + intval($adjustAmount);
-        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,paidAmount=$advance,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date' WHERE agentExpenseId=$agentExpenseId");
+        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date' WHERE agentExpenseId=$agentExpenseId");
         if($result){
-            echo "<script>window.alert('Updated')</script>";
-            echo "<script> window.location.href='../index.php?page=expenseAgentList'</script>";
+            echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{
             echo "<script>window.alert('Error')</script>";
-            echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
+            print_r(mysqli_error(mysqli_error($conn)));
         }
     }else{
         $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', '$comment', '$admin', '$date')");        

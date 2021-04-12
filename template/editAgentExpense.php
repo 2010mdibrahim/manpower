@@ -20,12 +20,11 @@ if(isset($_POST['agentExpenseId'])){
     $agentExpenseId = '';
 }
 
-$expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentName from agentexpense
-                                            inner join agent using (agentEmail) where agentExpenseId = ".$agentExpenseId));
+$expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentName from agentexpense inner join agent using (agentEmail) where agentExpenseId = ".$agentExpenseId));
 ?>
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add Expense for Agent</h2>
+        <h2>Edit Expense for Agent</h2>
     </div>
     
     <form action="template/addExpenseAgentQry.php" method="post">
@@ -41,20 +40,10 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
         <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
         <div class="form-group">
             <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label>Full Amount</label>
+                <div class="form-group col-md-6">
+                    <label>Amount</label>
                     <input class="form-control" type="number" name="fullAmount" value="<?php echo $expense['fullAmount'];?>">
                 </div>
-                <div class="form-group col-md-4">
-                    <label>Advance</label>
-                    <input class="form-control" type="number" name="advance" value="<?php echo $expense['paidAmount'];?>">
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Adjust Amount</label>
-                    <input class="form-control" type="number" name="adjustAmount" placeholder="0">
-                </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-6" >                    
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" value="<?php echo $expense['expensePurposeAgent'];?>">
@@ -63,8 +52,21 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
                     <label>Pay Date</label>
                     <input class="form-control" type="date" name="paydate" value="<?php echo $expense['payDate'];?>">
                 </div>
-            </div>
-            <div class="form-row">
+                <div class="form-group col-md-6">                    
+                    <label>Payment Mode</label>
+                    <select class="form-control" name="payMode" id="payMode">
+                        <option value="">Select Payment Mode</option>
+                        <?php
+                        $result = $conn->query("SELECT paymentMode from paymentmethod");
+                        while($payMode = mysqli_fetch_assoc($result)){ 
+                            if($payMode['paymentMode'] == $expense['expenseMode']){ ?>
+                                <option selected><?php echo $payMode['paymentMode'];?></option>
+                            <?php }else{ ?>
+                                <option><?php echo $payMode['paymentMode'];?></option>
+                            <?php } ?>
+                        <?php } ?>
+                    </select>
+                </div>
                 <div class="form-group col-md-6" >
                     <label>Comment</label>
                     <input class="form-control" type="text" name="comment" value="<?php echo $expense['comment'];?>">
