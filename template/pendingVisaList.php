@@ -8,8 +8,8 @@ if(!isset($_SESSION['sections'])){
             if (headers_sent()) {
                 die("No Access");
             }else{
-                header("Location: ../index.php");
-                exit();
+                    header("Location: ../index.php");
+                    exit();
             } 
         }        
     }
@@ -149,33 +149,8 @@ if(!isset($_SESSION['sections'])){
         </div>
     </div>
 
-    <!-- Update Candidate Status -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="candidateStatus">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/changeCandidateStatus.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm Candidate Return</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="info" id="info">
-                        <div class="row justify-content-center">
-                                <button class="btn btn-danger" value="returned" name="return">Returned</button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Stamping Modal 1 card -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="visaStamping">
+    <!-- VISA exchange -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="visaExchange">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
@@ -187,13 +162,14 @@ if(!isset($_SESSION['sections'])){
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="processingId" id="processingIdModalOne">
+                        <input type="hidden" name="passportNum" id="passportNum">
+                        <input type="hidden" name="sponsorVisa" id="sponsorVisa">
                         <input type="hidden" name="mode" value="stampingMode">
                         <div class="form-group">
-                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate" placeholder="Enter Visa Stamping Date">
+                            <input class="datepicker" autocomplete="off" type="text" name="stampingDate">
                         </div>
                         <div>
-                            <input class="form-control-file" type="file" name="visaFile[]">
+                            <input class="form-control-file" type="file" name="visaFile">
                         </div>
                         
                         
@@ -207,7 +183,7 @@ if(!isset($_SESSION['sections'])){
         </div>
     </div>
 
-    <!-- Stamping Modal 3 cards -->
+    <!-- Stamping Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="visaStampingDiv">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/visaProcessing.php" method="post" enctype="multipart/form-data">
@@ -226,13 +202,7 @@ if(!isset($_SESSION['sections'])){
                         </div>
                         <div class="form-group" id="visa_file_div">
                             <div class="form-group">
-                                <input class="form-control-file" type="file" name="visaFile[]">
-                            </div>
-                        </div>
-                        <div class="form-group form-row">
-                            <div class="form-group">
-                                <button class="btn btn-sm" type="button" id="add_visafile_div" ><span class="fa fa-plus" aria-hidden="true"></span></button>
-                                <button class="btn btn-sm btn-danger" type="button" id="remove_visafile_div"><span class="fas fa-minus" aria-hidden="true"></span></button>
+                                <input class="form-control-file" type="file" name="visaFile[]" multiple>
                             </div>
                         </div>
                     </div>
@@ -248,7 +218,7 @@ if(!isset($_SESSION['sections'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Pending Visa Information</h2>
+                <h2>All Visa Information</h2>
             </div>
         </div>
     
@@ -292,44 +262,53 @@ if(!isset($_SESSION['sections'])){
                         <a href="?page=sponsorList&spN=<?php echo base64_encode($visa['sponsorNID']); ?>"><span style="font-size: 11px;"><?php echo $visa['sponsorName'];?></span></a></td>
                         <!-- Employee Request -->
                         <td class="first"><?php 
-                        if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="empRqstMode">
-                                <button class="btn btn-secondary btn-sm" value="yes" name="empRqst">No</button>
-                            </form>
-                        <?php } else { ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="empRqstMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="empRqst">Done</button>
-                            </form>
-                        <?php } ?></td>
+                        if($visa['country'] == 'SAUDI ARABIA'){
+                            if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="empRqstMode">
+                                    <button class="btn btn-secondary btn-sm" value="yes" name="empRqst">No</button>
+                                </form>
+                            <?php } else { ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="empRqstMode">
+                                    <button class="btn btn-primary btn-sm" value="no" name="empRqst">Done</button>
+                                </form>
+                            <?php } 
+                        }else{
+                            echo " - ";
+                        }?></td>
 
                         <!-- Foreign MOLE -->
                         <td class="first"><?php
-                        if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="foreignMoleMode">
-                                <button class="btn btn-secondary btn-sm" value="yes" name="foreignMole">No</button>
-                            </form>
-                        <?php } else { ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="foreignMoleMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="foreignMole">Done</button>
-                            </form>
-                        <?php } ?></td>
+                        if($visa['country'] == 'SAUDI ARABIA'){
+                            if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
+                                <button class="btn btn-warning btn-sm">Do Previous</button>
+                            <?php }else if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="foreignMoleMode">
+                                    <button class="btn btn-secondary btn-sm" value="yes" name="foreignMole">No</button>
+                                </form>
+                            <?php } else { ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="foreignMoleMode">
+                                    <button class="btn btn-primary btn-sm" value="no" name="foreignMole">Done</button>
+                                </form>
+                            <?php } 
+                        }else{
+                            echo " - ";
+                        }?></td>
 
                         <!-- Okala -->
-                        <td class="first">                            
+                        <td class="first">
+                        <?php if($visa['country'] == 'SAUDI ARABIA'){?>                          
                             <?php if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else{?>
@@ -359,76 +338,102 @@ if(!isset($_SESSION['sections'])){
                                     </div>
                                 <?php } ?>
                             </div>
-                        <?php } ?></td>                       
+                            <?php } ?></td> 
+                        <?php }else{
+                            echo " - ";
+                        }?>                      
                         <!-- MUFA -->
                         <td class="first"><?php
-                        if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else{?>
-                            <div class="row">
-                                <?php if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
-                                    <div class="col-sm-3">
-                                        <button class="btn btn-secondary btn-sm" value="<?php echo $visa['processingId'];?>" name="mufa" data-toggle="modal" data-target="#mufaFileSubmit" onclick="mufaFileSubmit(this.value)">No</button>
-                                    </div>
-                                <?php } else { ?>                                    
+                        if($visa['country'] == 'SAUDI ARABIA'){
+                            if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
+                                <button class="btn btn-warning btn-sm">Do Previous</button>
+                            <?php }else{?>
+                                <div class="row">
+                                    <?php if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
                                         <div class="col-sm-3">
-                                            <button class="btn btn-danger btn-sm" value="<?php echo $visa['processingId'];?>" name="mufa" data-toggle="modal" data-target="#mufaFileSubmit" onclick="mufaFileSubmit(this.value)"><span class="fas fa-redo"></span></button>
+                                            <button class="btn btn-secondary btn-sm" value="<?php echo $visa['processingId'];?>" name="mufa" data-toggle="modal" data-target="#mufaFileSubmit" onclick="mufaFileSubmit(this.value)">No</button>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <a href="<?php echo $visa['mufaFile'];?>" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
-                                        </div>
-                                <?php } ?>
-                                    <?php if($visa['creditType'] != 'Paid'){ ?>
-                                        <div class="col-sm-3">
-                                            <form action="index.php" method="post">
-                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                                <input type="hidden" name="purpose" value="MUFA">
-                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                            </form>
-                                        </div>
+                                    <?php } else { ?>                                    
+                                            <div class="col-sm-3">
+                                                <button class="btn btn-danger btn-sm" value="<?php echo $visa['processingId'];?>" name="mufa" data-toggle="modal" data-target="#mufaFileSubmit" onclick="mufaFileSubmit(this.value)"><span class="fas fa-redo"></span></button>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <a href="<?php echo $visa['mufaFile'];?>" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
+                                            </div>
                                     <?php } ?>
-                            </div>
-                        <?php } ?></td>
+                                        <?php if($visa['creditType'] != 'Paid'){ ?>
+                                            <div class="col-sm-3">
+                                                <form action="index.php" method="post">
+                                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                    <input type="hidden" name="purpose" value="MUFA">
+                                                    <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                    <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                    <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                                </form>
+                                            </div>
+                                        <?php } ?>
+                                </div>
+                            <?php } 
+                            }else{
+                                echo " - ";
+                        }?></td>
 
                         <!-- Update Medical -->
                         <td class="second"><?php
-                        if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="updateMedicalMode">
-                                <button class="btn btn-secondary btn-sm" value="yes" name="updateMedical">No</button>
-                            </form>
-                        <?php } else { ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="updateMedicalMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="updateMedical">Done</button>
-                            </form>
-                        <?php } ?></td>
+                        if($visa['country'] == 'SAUDI ARABIA'){
+                            if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
+                                <button class="btn btn-warning btn-sm">Do Previous</button>
+                            <?php }else if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="updateMedicalMode">
+                                    <button class="btn btn-secondary btn-sm" value="yes" name="updateMedical">No</button>
+                                </form>
+                            <?php } else { ?>
+                                <form action="template/visaProcessing.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                    <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                    <input type="hidden" name="mode" value="updateMedicalMode">
+                                    <button class="btn btn-primary btn-sm" value="no" name="updateMedical">Done</button>
+                                </form>
+                            <?php } 
+                        }else{
+                            echo " - ";
+                        }?></td>
 
                         <!-- VISA Stamping -->
                         <td class="third"><?php
-                        if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
-                            <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
-                            <button class="btn btn-secondary btn-sm" data-target="#visaStampingDiv" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
-                        <?php } else { ?>                            
-                            <div class="row">  
-                                <div class="col-md-3">
-                                    <a href="?page=svf&p=<?php echo base64_encode($visa['processingId']);?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
-                                </div>                              
-                            </div>
-                            <div class="row">
-                                
-                            </div>
-                        <?php } ?></td>
+                        if($visa['country'] == 'SAUDI ARABIA'){
+                            if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
+                                <button class="btn btn-warning btn-sm">Do Previous</button>
+                            <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
+                                <button class="btn btn-secondary btn-sm" data-target="#visaStampingDiv" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
+                            <?php } else { ?>                            
+                                <div class="row">  
+                                    <div class="col-md-3">
+                                        <a href="?page=svf&p=<?php echo base64_encode($visa['processingId']);?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
+                                    </div>                              
+                                </div>
+                                <div class="row">
+                                    
+                                </div>
+                            <?php }
+                        }else{
+                            if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
+                                <button class="btn btn-secondary btn-sm" data-target="#visaStampingDiv" data-toggle="modal" id="stampingButton" value="<?php echo $visa['processingId'];?>" onclick="visaStamping(this.value)">Enter VISA</button>
+                            <?php } else { ?>                            
+                                <div class="row">  
+                                    <div class="col-md-3">
+                                        <a href="?page=svf&p=<?php echo base64_encode($visa['processingId']);?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
+                                    </div>                              
+                                </div>
+                                <div class="row">
+                                    
+                                </div>
+                            <?php }
+                        } ?></td>
 
                         <!-- Finger -->
                         <td class="third"><?php
@@ -562,8 +567,10 @@ if(!isset($_SESSION['sections'])){
                                 $ticketId = base64_encode($ticket['ticketId']);
                             ?>
                             <input type="hidden" name="pagePost" value="ticketInfo">
-                            <a href="?page=listTicket&tI=<?php echo $ticketId; ?>" target="_blank">
-                                <button class="btn btn-info btn-sm"> <?php echo $ticket['flightDate']; ?> </button>
+                            <a href="?page=tN&tI=<?php echo $ticketId; ?>" target="_blank">
+                                <button class="btn btn-info btn-sm">
+                                    <?php echo $ticket['flightDate']; ?>
+                                </button>
                             </a>  
                         <?php } ?></td> 
 
@@ -574,7 +581,11 @@ if(!isset($_SESSION['sections'])){
                                     <a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
                                 </div>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-warning btn-sm" data-target="#candidateStatus" data-toggle="modal" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['processingId']?>" onclick="userStatus(this.value)"><span class="fa fa-user-times"></span></button>                                                                       
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="pagePost" value="exchangeVisa">
+                                        <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
+                                        <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
+                                    </form>                                    
                                 </div>
                                 <div class="col-sm-3">
                                     <form action="template/saveVisa.php" method="post">
@@ -613,9 +624,6 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
-function userStatus(info){
-    $('#info').val(info);
-}
 $('#add_visafile_div').click(function (){
     var visaFileDiv = document.createElement('DIV');
     visaFileDiv.setAttribute('class', 'form-group');
