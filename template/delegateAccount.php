@@ -221,7 +221,7 @@ $totalWithdraw = 0;
 
 
 <script>
-    $('#jobsNav').addClass('active');
+    $('#delegateNav').addClass('active');
     function fetchParticularType(particular){
         $.ajax({
             type: 'post',
