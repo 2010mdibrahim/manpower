@@ -51,7 +51,8 @@ $result = mysqli_query($conn,$qry);
                         
                         </div>
                         <div class="modal-footer">
-                            <input class="form-control datepicker w-25" type="text" name="delegatePayDate" id="delegatePayDate" placeholder="Enter Date" style="display: none;">
+                            <input class="form-control datepicker w-25" autocomplete="off" type="text" name="delegatePayDate" id="delegatePayDate" placeholder="Enter Date" style="display: none;">
+                            <input class="form-control-file w-25" type="file" name="delegateSlip" id="delegateSlip" style="display: none;">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
@@ -163,8 +164,7 @@ $result = mysqli_query($conn,$qry);
                             <?php } ?></td>
                             <td><?php echo $delegate['comment'];?></td>                    
                             <td class="text-center">
-                                <!-- <a href="?page=addDelegateExpense&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-plus"></span></button></a>
-                                <a href="?page=dlel&dl=<?php echo base64_encode($delegate['delegateId'])?>" target="_blank"></a> -->
+                                <a href="?page=delegateAccount&dI=<?php echo base64_encode($delegate['delegateId']);?>"><button class="btn btn-info btn-sm" value="<?php echo $delegate['delegateId'];?>"><span class="fas fa-dollar"></span></button></a>
                                 <button data-target="#delegateCandidateList" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $delegate['delegateId'];?>" onclick="fetchDelegateCandidate(this.value)"><span class="fas fa-search"></span></button>
                                 <button data-target="#delegateCandidateList" data-toggle="modal" class="btn btn-success btn-sm" value="<?php echo $delegate['delegateId'].'_'.'paid';?>" onclick="fetchPaidDelegateCandidate(this.value)"><span class="fa fa-check"></span></button>
                             </td>
@@ -254,9 +254,13 @@ $result = mysqli_query($conn,$qry);
         if(typeof checkboxes === 'undefined'){
             $('#delegatePayDate').prop('required', false);
             $('#delegatePayDate').hide();
+            $('#delegateSlip').prop('required', false);
+            $('#delegateSlip').hide();
         }else{
             $('#delegatePayDate').prop('required', true);
             $('#delegatePayDate').show();
+            $('#delegateSlip').prop('required', true);
+            $('#delegateSlip').show();
         }
     })
     function fetchPaidDelegateCandidate(info){

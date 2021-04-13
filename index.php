@@ -394,6 +394,8 @@ if(!empty($_POST['pagePost'])){
             include('template/completedCandidateInfo.php');
         }else if($page == 'getZip') {
             include('template/getZip.php');
+        }else if($page == 'delegateAccount') {
+            include('template/delegateAccount.php');
         }else{
             include ('template/home.php');
         }
