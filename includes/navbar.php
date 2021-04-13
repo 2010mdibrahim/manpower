@@ -51,7 +51,17 @@
                             </div>
                         </div>
                     <?php } ?>
-                    
+                    <?php if(in_array("All", $sections) || in_array("Agent", $sections)){?>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="agentNav">Agent</a>
+                            <div class="dropdown-menu">
+                                <a href="?page=addNewAgent" class="dropdown-item">Add New Agent</a>
+                                <a href="?page=agentList" class="dropdown-item">Agent List</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense</a>
+                            </div>
+                        </div>
+                    <?php } ?>
                     <?php if(in_array("All", $sections) || in_array("Pay Mode", $sections)){?>
                         <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
                     <?php } ?>
@@ -71,18 +81,7 @@
                     <?php } ?>
                     <!-- <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a> -->
                 </div>
-                <div class="navbar-nav ml-auto">
-                    <?php if(in_array("All", $sections) || in_array("Agent", $sections)){?>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="agentNav">Agent</a>
-                            <div class="dropdown-menu">
-                                <a href="?page=addNewAgent" class="dropdown-item">Add New Agent</a>
-                                <a href="?page=agentList" class="dropdown-item">Agent List</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense</a>
-                            </div>
-                        </div>
-                    <?php } ?>
+                <div class="navbar-nav ml-auto">                    
                     <?php if(in_array("All", $sections) || in_array("Delegate", $sections)){?>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="delegateNav">Delegate</a>
