@@ -51,6 +51,27 @@
                             </div>
                         </div>
                     <?php } ?>
+                    
+                    <?php if(in_array("All", $sections) || in_array("Pay Mode", $sections)){?>
+                        <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
+                    <?php } ?>
+                    <?php if(in_array("All", $sections) || in_array("Report", $sections)){?>
+                        <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
+                    <?php } ?>
+                    <?php if(in_array("All", $sections) || in_array("Employee", $sections)){?>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="employeeNav">Employee</a>
+                            <div class="dropdown-menu">
+                                <a href="?page=newEmployee" class="dropdown-item">Add New Employee</a>
+                                <a href="?page=employeeList" class="dropdown-item">Employee List</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="?page=addSections" class="dropdown-item">Add Sections</a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <!-- <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a> -->
+                </div>
+                <div class="navbar-nav ml-auto">
                     <?php if(in_array("All", $sections) || in_array("Agent", $sections)){?>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="agentNav">Agent</a>
@@ -111,24 +132,6 @@
                     <?php if(in_array("All", $sections) || in_array("Jobs", $sections)){?>
                         <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
                     <?php } ?>
-                    <?php if(in_array("All", $sections) || in_array("Pay Mode", $sections)){?>
-                        <a href="?page=payMode" class="nav-item nav-link"  id="payModeNav">Pay Mode</a>                
-                    <?php } ?>
-                    <?php if(in_array("All", $sections) || in_array("Report", $sections)){?>
-                        <a href="?page=report" class="nav-item nav-link" id="reportNav">Report</a>
-                    <?php } ?>
-                    <?php if(in_array("All", $sections) || in_array("Employee", $sections)){?>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="employeeNav">Employee</a>
-                            <div class="dropdown-menu">
-                                <a href="?page=newEmployee" class="dropdown-item">Add New Employee</a>
-                                <a href="?page=employeeList" class="dropdown-item">Employee List</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="?page=addSections" class="dropdown-item">Add Sections</a>
-                            </div>
-                        </div>
-                    <?php } ?>
-                    <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
                 </div>
                 <div class="ml-auto">
                     <a class="btn" href="includes/logout.php">Logout</a>
