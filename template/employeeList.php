@@ -106,8 +106,11 @@ if(!isset($_SESSION['sections'])){
                 <!-- Edit Section -->
                 <td>
                     <div class="row w-75">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <button class="btn btn-info" data-toggle="modal" data-target="#addSection" value="<?php echo $employee['employeeId']?>" onclick="fetchData(this.value)">Add Section</button>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="?page=resetPass&eI=<?php echo base64_encode($employee['employeeId'])?>"><button class="btn btn-info">Change Password</button></a>
                         </div>
                         <div class="col-md-2"> 
                             <form action="index.php" method="post">
