@@ -262,7 +262,7 @@ if(!isset($_SESSION['sections'])){
                         <a href="?page=sponsorList&spN=<?php echo base64_encode($visa['sponsorNID']); ?>"><span style="font-size: 11px;"><?php echo $visa['sponsorName'];?></span></a></td>
                         <!-- Employee Request -->
                         <td class="first"><?php 
-                        if($visa['country'] == 'SAUDI ARABIA'){
+                        if(strtolower($visa['country']) == 'saudi arabia'){
                             if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
                                 <form action="template/visaProcessing.php" method="post">
                                     <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
@@ -284,7 +284,7 @@ if(!isset($_SESSION['sections'])){
 
                         <!-- Foreign MOLE -->
                         <td class="first"><?php
-                        if($visa['country'] == 'SAUDI ARABIA'){
+                        if(strtolower($visa['country']) == 'saudi arabia'){
                             if(empty($visa['empRqst']) || $visa['empRqst']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
@@ -308,7 +308,7 @@ if(!isset($_SESSION['sections'])){
 
                         <!-- Okala -->
                         <td class="first">
-                        <?php if($visa['country'] == 'SAUDI ARABIA'){?>                          
+                        <?php if(strtolower($visa['country']) == 'saudi arabia'){?>                          
                             <?php if(empty($visa['foreignMole']) || $visa['foreignMole']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else{?>
@@ -344,7 +344,7 @@ if(!isset($_SESSION['sections'])){
                         }?>                      
                         <!-- MUFA -->
                         <td class="first"><?php
-                        if($visa['country'] == 'SAUDI ARABIA'){
+                        if(strtolower($visa['country']) == 'saudi arabia'){
                             if(empty($visa['okala']) || $visa['okala']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else{?>
@@ -381,7 +381,7 @@ if(!isset($_SESSION['sections'])){
 
                         <!-- Update Medical -->
                         <td class="second"><?php
-                        if($visa['country'] == 'SAUDI ARABIA'){
+                        if(strtolower($visa['country']) == 'saudi arabia'){
                             if(empty($visa['mufa']) || $visa['mufa']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
@@ -405,7 +405,7 @@ if(!isset($_SESSION['sections'])){
 
                         <!-- VISA Stamping -->
                         <td class="third"><?php
-                        if($visa['country'] == 'SAUDI ARABIA'){
+                        if(strtolower($visa['country']) == 'saudi arabia'){
                             if(empty($visa['medicalUpdate']) || $visa['medicalUpdate']=='no'){ ?>
                                 <button class="btn btn-warning btn-sm">Do Previous</button>
                             <?php }else if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
