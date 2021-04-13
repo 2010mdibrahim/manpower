@@ -44,6 +44,10 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
                     <label>Amount</label>
                     <input class="form-control" type="number" name="fullAmount" value="<?php echo $expense['fullAmount'];?>">
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Candidate Name</label>
+                    <input class="form-control" type="name" name="candidateName" value="<?php echo $expense['candidateName'];?>">
+                </div>
                 <div class="form-group col-md-6" >                    
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" value="<?php echo $expense['expensePurposeAgent'];?>">

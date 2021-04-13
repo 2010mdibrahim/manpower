@@ -47,6 +47,10 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
                     <label>Full Amount</label>
                     <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" required>
                 </div>
+                <div class="form-group col-md-6">
+                    <label>Candidate Name</label>
+                    <input class="form-control" type="name" name="candidateName" placeholder="Enter Candidate Name" required>
+                </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>
                     <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" required>
