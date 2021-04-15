@@ -70,16 +70,18 @@
                     <?php } ?>
                     <?php if(in_array("All", $sections) || in_array("Employee", $sections)){?>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="employeeNav">Employee</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="employeeNav">HRM</a>
                             <div class="dropdown-menu">
                                 <a href="?page=newEmployee" class="dropdown-item">Add New Employee</a>
                                 <a href="?page=employeeList" class="dropdown-item">Employee List</a>
                                 <div class="dropdown-divider"></div>
                                 <a href="?page=addSections" class="dropdown-item">Add Sections</a>
+                                <div class="dropdown-divider"></div>
+                                <!-- <a href="?page=employeeList" class="dropdown-item">Send SMS</a> -->
                             </div>
                         </div>
                     <?php } ?>
-                    <!-- <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a> -->
+                    <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
                 </div>
                 <div class="navbar-nav ml-auto">                    
                     <?php if(in_array("All", $sections) || in_array("Delegate", $sections)){?>

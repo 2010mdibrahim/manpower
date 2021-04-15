@@ -396,6 +396,8 @@ if(!empty($_POST['pagePost'])){
             include('template/getZip.php');
         }else if($page == 'delegateAccount') {
             include('template/delegateAccount.php');
+        }else if($page == 'resetPass') {
+            include('template/resetPass.php');
         }else{
             include ('template/home.php');
         }
