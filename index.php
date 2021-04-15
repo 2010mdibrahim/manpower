@@ -398,6 +398,8 @@ if(!empty($_POST['pagePost'])){
             include('template/delegateAccount.php');
         }else if($page == 'resetPass') {
             include('template/resetPass.php');
+        }else if($page == 'sendSms') {
+            include('template/sendSms.php');
         }else{
             include ('template/home.php');
         }
