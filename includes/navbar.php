@@ -77,7 +77,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a href="?page=addSections" class="dropdown-item">Add Sections</a>
                                 <div class="dropdown-divider"></div>
-                                <!-- <a href="?page=employeeList" class="dropdown-item">Send SMS</a> -->
+                                <a href="?page=sendSms" class="dropdown-item">Send SMS</a>
                             </div>
                         </div>
                     <?php } ?>
