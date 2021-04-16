@@ -1,6 +1,6 @@
 <?php
 class SendSms{
-    function sendSms($number, $message_body){
+    function sendSmsExecute($number, $message_body){
         $phnP_n = strlen($number);		
         if($phnP_n == '14'){
             $number = substr($number,'4');
@@ -20,7 +20,6 @@ class SendSms{
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
-        curl_close($ch); 
-        echo $output;
+        curl_close($ch);
     }
 }
