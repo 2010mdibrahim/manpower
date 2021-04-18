@@ -21,6 +21,11 @@ if(isset($_GET['ag'])){
 }
 $result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
+<style>
+.capitalize{
+    text-transform: capitalize;
+}
+</style>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add Expense for Agent</h2>
@@ -49,7 +54,7 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
                 </div>
                 <div class="form-group col-md-6">
                     <label>Candidate Name</label>
-                    <input class="form-control" type="name" name="candidateName" placeholder="Enter Candidate Name" required>
+                    <input class="form-control capitalize" type="name" name="candidateName" placeholder="Enter Candidate Name" required>
                 </div>
                 <div class="form-group col-md-6">                    
                     <label>Purpose</label>
