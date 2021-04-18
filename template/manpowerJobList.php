@@ -16,7 +16,7 @@ if(!isset($_SESSION['sections'])){
 }
 $manpowerId = base64_decode($_GET['mi']);
 $manpowerOfficeName = base64_decode($_GET['mn']);
-$result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpowerjobprocessing INNER JOIN jobs using (jobId) where manpowerOfficeId = $manpowerId");
+$result = $conn->query("SELECT jobs.creditType, jobs.jobType, manpowerjobprocessing.* from manpowerjobprocessing INNER JOIN jobs using (jobId) where manpowerOfficeId = $manpowerId");
 ?>
 <div class="container">
     <!-- Edit manpower jobs -->
@@ -52,21 +52,24 @@ $result = $conn->query("SELECT jobs.jobType, manpowerjobprocessing.* from manpow
         <?php } ?>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <p>Job #<?php echo $i++; ?></p>
                     </div>
                     <div class="col-sm-3">
                         <h5><?php echo $jobList['jobType'];?></h5>
                     </div>
                     <div class="col-sm-3">
+                        <h5><?php echo $jobList['creditType'];?></h5>
+                    </div>
+                    <div class="col-sm-2">
                         <h5><?php echo $jobList['processingCost'];?></h5>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#editJobs" value="<?php echo $jobList['manpowerJobProcessingId']."_".$jobList['jobId']."_".$jobList['processingCost']."_".$jobList['manpowerOfficeId'];?>" onclick="editJob(this.value)"><span class="fa fa-edit"></span></button>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <form action="template/editManpowerJobs.php" method="post">
                                     <input type="hidden" name="manpowerOfficeId" value="<?php echo $jobList['manpowerOfficeId'];?>">
                                     <input type="hidden" name="alter" value="delete">

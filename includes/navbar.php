@@ -81,6 +81,7 @@
                             </div>
                         </div>
                     <?php } ?>
+                    <a href="?page=crm" class="nav-item nav-link" id="crmNav">CRM</a>
                     <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
                 </div>
                 <div class="navbar-nav ml-auto">                    

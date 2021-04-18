@@ -400,6 +400,8 @@ if(!empty($_POST['pagePost'])){
             include('template/resetPass.php');
         }else if($page == 'sendSms') {
             include('template/sendSms.php');
+        }else if($page == 'crm') {
+            include('template/crm.php');
         }else{
             include ('template/home.php');
         }

@@ -149,6 +149,34 @@ if(!isset($_SESSION['sections'])){
         </div>
     </div>
 
+    <!-- Youtube -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="youtube">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/enterYoutube.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Youtube Link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="processingId" id="processingIdModal">
+                        <label for="youtube">Enter YouTube Link</label>
+                        <input class="form-control" type="text" name="youtube" placeholder="Give Link">
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- VISA exchange -->
     <div class="modal fade" tabindex="-1" role="dialog" id="visaExchange">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -248,14 +276,17 @@ if(!isset($_SESSION['sections'])){
                 <?php
                 if(isset($_GET['pi'])){
                     $processingId = base64_decode($_GET['pi']);
-                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID where processing.processingId = $processingId AND pending = 0");
+                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID AND pending = 0 INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId AND pending = 0");
                 }else{
-                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID AND pending = 0 order by creationDate desc");
+                    $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID AND pending = 0 INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
                 }
                 $status = "pending";
                 while($visa = mysqli_fetch_assoc($result)){ ?>
                     <tr>
-                        <td><?php echo $visa['fName']." ".$visa['lName'];?></td>
+                        <td>
+                        <?php echo $visa['fName']." ".$visa['lName'];?>
+                        <p><a href="?page=agentList&agE=<?php echo base64_encode($visa['agentEmail']);?>"><?php echo $visa['agentName'];?></a></p>
+                        </td>
                         <td><a href="?page=listCandidate&pp=<?php echo base64_encode($visa['passportNum']);?>&cd=<?php echo base64_encode($visa['passportCreationDate']);?>"><?php echo $visa['passportNum'];?></a></td>
                         <td><a href="?page=allVisaList&sv=<?php echo base64_encode($visa['sponsorVisa'])?>"><?php echo $visa['sponsorVisa'];?></a></td>
                         <td><?php echo $visa['sponsorNID'].'<br>'; ?>
@@ -361,18 +392,18 @@ if(!isset($_SESSION['sections'])){
                                                 <a href="<?php echo $visa['mufaFile'];?>" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
                                             </div>
                                     <?php } ?>
-                                        <?php if($visa['creditType'] != 'Paid'){ ?>
-                                            <div class="col-sm-3">
-                                                <form action="index.php" method="post">
-                                                    <input type="hidden" name="pagePost" value="addCandidatePayment">
-                                                    <input type="hidden" name="purpose" value="MUFA">
-                                                    <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
-                                                    <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
-                                                    <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
-                                                </form>
-                                            </div>
-                                        <?php } ?>
+                                    <?php if($visa['creditType'] != 'Paid'){ ?>
+                                        <div class="col-sm-3">
+                                            <form action="index.php" method="post">
+                                                <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                                <input type="hidden" name="purpose" value="MUFA">
+                                                <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                                <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                                <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                                <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            </form>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             <?php } 
                             }else{
@@ -439,21 +470,42 @@ if(!isset($_SESSION['sections'])){
                         <td class="third"><?php
                         if(empty($visa['visaStamping']) || $visa['visaStamping']=='no'){ ?>
                             <button class="btn btn-warning btn-sm">Do Previous</button>
-                        <?php }else if(empty($visa['finger']) || $visa['finger']=='no'){ ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="fingerMode">
-                                <button class="btn btn-secondary btn-sm" value="yes" name="finger">No</button>
-                            </form>
-                        <?php } else { ?>
-                            <form action="template/visaProcessing.php" method="post">
-                                <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
-                                <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
-                                <input type="hidden" name="mode" value="fingerMode">
-                                <button class="btn btn-primary btn-sm" value="no" name="finger">Done</button>
-                            </form>
-                        <?php } ?></td>
+                        <?php }else{ ?>
+                            <div class="row">
+                            <?php if(empty($visa['finger']) || $visa['finger']=='no'){ ?>
+                                <div class="col-sm-3">
+                                    <form action="template/visaProcessing.php" method="post">
+                                        <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                        <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                        <input type="hidden" name="mode" value="fingerMode">
+                                        <button class="btn btn-secondary btn-sm" value="yes" name="finger">No</button>
+                                    </form>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-sm-3">
+                                    <form action="template/visaProcessing.php" method="post">
+                                        <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
+                                        <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
+                                        <input type="hidden" name="mode" value="fingerMode">
+                                        <button class="btn btn-primary btn-sm" value="no" name="finger">Done</button>
+                                    </form>
+                                </div>
+                            <?php } ?>
+                            <?php if($visa['creditType'] != 'Paid'){ ?>
+                                <div class="col-sm-3">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                        <input type="hidden" name="purpose" value="Finger">
+                                        <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                        <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    </form>
+                                </div>
+                            <?php } ?>
+                            </div>
+                        <?php } ?>
+                        </td>
 
                         <!-- Training Card -->
                         <td>
@@ -577,23 +629,22 @@ if(!isset($_SESSION['sections'])){
                         <!-- options -->
                         <td>
                             <div class="row">
-                                <div class="col-sm-3">                                    
-                                    <a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
-                                </div>
-                                <div class="col-sm-3">
-                                    <form action="index.php" method="post">
-                                        <input type="hidden" name="pagePost" value="exchangeVisa">
-                                        <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
-                                        <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
-                                    </form>                                    
-                                </div>
-                                <div class="col-sm-3">
-                                    <form action="template/saveVisa.php" method="post">
-                                        <input type="hidden" name="alter" value="delete">
-                                        <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
-                                        <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
-                                    </form>
-                                </div>
+                                <?php if($visa['youtube'] == ''){ ?>
+                                    <button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-warning ml-1 mr-1" value="<?php echo $visa['processingId'];?>" onclick="youtubeLink(this.value)"><i class="fab fa-youtube"></i></button>
+                                <?php }else{ ?>
+                                    <a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success ml-1 mr-1"><i class="fab fa-youtube"></i></button></a>
+                                <?php } ?>
+                                <a class="ml-1 mr-1" href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
+                                <form class="ml-1 mr-1" action="index.php" method="post">
+                                    <input type="hidden" name="pagePost" value="exchangeVisa">
+                                    <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
+                                    <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
+                                </form>                                    
+                                <form class="ml-1 mr-1" action="template/saveVisa.php" method="post">
+                                    <input type="hidden" name="alter" value="delete">
+                                    <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
+                                    <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -624,6 +675,10 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function youtubeLink(processingId){
+    $('#processingIdModal').val(processingId);
+}
+
 $('#add_visafile_div').click(function (){
     var visaFileDiv = document.createElement('DIV');
     visaFileDiv.setAttribute('class', 'form-group');

@@ -253,7 +253,7 @@ if(isset($_GET['pp'])){
                         $age = $today->diff($bday);
                     
                         if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
-                            <tr style="background-color: #fb8c00;">
+                            <tr style="background-color: #e57373; color: white;">
                         <?php }else if($age->y > 38){ ?>
                             <tr style="background-color: #fffde7;">
                         <?php }else{ ?>
@@ -516,11 +516,11 @@ if(isset($_GET['pp'])){
                                     <!-- <div class="col-1">                                     -->
                                         <a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>                                      
                                     <!-- </div> -->
-                                    <?php if($candidate['finalMedical'] == 'yes' & $candidate['finalMedicalStatus'] == 'fit') { ?>
+                                    <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
                                         <?php if($candidate['delegateComission'] == 0){ ?>
-                                            <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" id="trainingPassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button>
+                                            <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button>
                                         <?php }else{ ?>
-                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" id="trainingPassport" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button>
+                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button>
                                         <?php } ?>                                            
                                     <?php } ?>
                                 </div>
