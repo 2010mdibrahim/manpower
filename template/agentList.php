@@ -100,7 +100,7 @@ if(!isset($_SESSION['sections'])){
                             <td>
                                 <a href="?page=addExpenseAgent&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><span class="fas fa-plus"></span></button></a>
                                 <a href="?page=showAgentExpenseList&ag=<?php echo base64_encode($agent['agentEmail']);?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-dollar"></span></button></a>
-                                <button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $agent['agentName']."-".$agent['agentEmail'];?>" onclick="showReport(this.value)"><span class="fa fa-search"></span></button>
+                                <button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $agent['agentName']."-".$agent['agentEmail'];?>" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button>
                             </td>
                             <td>
                                 <div class="flex-container">
