@@ -337,6 +337,7 @@
                             <th>Date</th>
                             <th>Countries</th>
                             <th>Jobs</th>
+                            <th>Alter</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -367,6 +368,13 @@
                                     echo $job['job'].', ';
                                 }?>
                             </td>
+                            <td>
+                                <form action="template/crm_qry_edit.php" method="post">
+                                    <input type="hidden" name="alter" value="delete">
+                                    <input type="hidden" name="id" value="<?php echo $crm['id']; ?>">
+                                    <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
+                                </form>
+                            </td>
                         </tr>
                         <?php } ?>
                         </tbody>
@@ -378,6 +386,7 @@
                             <th>Date</th>
                             <th>Countries</th>
                             <th>Jobs</th>
+                            <th>Alter</th>
                         </tr>
                         </tfoot>
                     </table>
