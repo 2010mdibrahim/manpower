@@ -28,7 +28,11 @@ $html .=            '</span></p>
                     <th>Comission</th>
                 </tr>
                 </thead>';
-$candidateInfo_comission = $conn->query("SELECT passport.passportNum,passport.creationDate, passport.fName, passport.lName, agentcomission.amount from passport INNER JOIN agentcomission on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentComission.passportCreationDate where passport.agentEmail = '$agentEmail' AND passport.creationDate between '$date_from' AND '$date_to' order by passport.creationDate desc");
+if(isset($_POST['completeReport'])){
+    $candidateInfo_comission = $conn->query("SELECT passport.passportNum,passport.creationDate, passport.fName, passport.lName, agentcomission.amount from passport INNER JOIN agentcomission on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentComission.passportCreationDate where passport.agentEmail = '$agentEmail' order by passport.creationDate desc");
+}else{
+    $candidateInfo_comission = $conn->query("SELECT passport.passportNum,passport.creationDate, passport.fName, passport.lName, agentcomission.amount from passport INNER JOIN agentcomission on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentComission.passportCreationDate where passport.agentEmail = '$agentEmail' AND passport.creationDate between '$date_from' AND '$date_to' order by passport.creationDate desc");
+}
 while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     $html .=        '<tr>';
     $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
@@ -67,7 +71,11 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     $html .=            '</tr>';
 }
 if(isset($_POST['includeCompleted'])){
-    $candidateInfo_comission = $conn->query("SELECT passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName, completedagentcomission.amount from passportcompleted INNER JOIN completedagentcomission on passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate where passportcompleted.agentEmail = '$agentEmail' AND passportcompleted.creationDate between '$date_from' AND '$date_to' order by passportcompleted.creationDate desc");
+    if(isset($_POST['completeReport'])){
+        $candidateInfo_comission = $conn->query("SELECT passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName, completedagentcomission.amount from passportcompleted INNER JOIN completedagentcomission on passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate where passportcompleted.agentEmail = '$agentEmail' order by passportcompleted.creationDate desc");
+    }else{
+        $candidateInfo_comission = $conn->query("SELECT passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName, completedagentcomission.amount from passportcompleted INNER JOIN completedagentcomission on passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate where passportcompleted.agentEmail = '$agentEmail' AND passportcompleted.creationDate between '$date_from' AND '$date_to' order by passportcompleted.creationDate desc");
+    }
     while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
         $html .=        '<tr style="background-color: #e0f2f1;">';
         $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';

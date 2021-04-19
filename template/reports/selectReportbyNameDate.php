@@ -17,22 +17,30 @@
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm date_div">
                     <label for="date_from">Date From</label>
                     <input class="form-control datepicker" autocomplete="off" type="text" name="date_from" id="date_from" placeholder="Select Date From">
                 </div>
-                <div class="col-sm">
+                <div class="col-sm date_div">
                     <label for="date_to">Date To</label>
                     <input class="form-control datepicker" autocomplete="off" type="text" name="date_to" id="date_to" placeholder="Select Date From">
                 </div>
                 <div class="col-sm align-self-end">
-                    <input class="form-control" type="button" value="Search" id="agentShow" onclick="showReport()">
+                    <input class="form-control w-25" type="button" value="Search" id="agentShow" onclick="showReport()">
                 </div>
             </div>            
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm">
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="complete" id="completeReport" name="completeReport" onclick="hideDate()">
+                        <label class="form-check-label" for="completeReport">
+                            Show Complete Report
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="include" id="includeCompleted" name="includeCompleted">
                         <label class="form-check-label" for="includeCompleted">
@@ -49,18 +57,30 @@
 
 
 <script>
+function hideDate(){
+    const completeReport = $('input[name="completeReport"]:checked').val();
+    if(completeReport == 'complete'){
+        $('.date_div').hide();
+    }else{
+        $('.date_div').show();
+    }
+
+}
+
 function showReport(){    
     const agentInfo = $('#agentInfo').val();
     const date_from = $('#date_from').val();
     const date_to = $('#date_to').val();
     const includeCompleted = $('input[name="includeCompleted"]:checked').val();
+    const completeReport = $('input[name="completeReport"]:checked').val();
     $.ajax({
         url: 'template/reports/agentReportNameDate.php',
         data: {
             agentInfo: agentInfo,
             date_from: date_from,
             date_to: date_to,
-            includeCompleted: includeCompleted
+            includeCompleted: includeCompleted,
+            completeReport: completeReport
         },
         type: 'post',
         success: function(response){
