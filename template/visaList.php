@@ -473,7 +473,7 @@ if(!isset($_SESSION['sections'])){
                         <?php }else{ ?>
                             <div class="row">
                             <?php if(empty($visa['finger']) || $visa['finger']=='no'){ ?>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <form action="template/visaProcessing.php" method="post">
                                         <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
                                         <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
@@ -482,7 +482,7 @@ if(!isset($_SESSION['sections'])){
                                     </form>
                                 </div>
                             <?php } else { ?>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <form action="template/visaProcessing.php" method="post">
                                         <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'];?>">
                                         <input type="hidden" name="sponsorVisa" value="<?php echo $visa['sponsorVisa'];?>">
