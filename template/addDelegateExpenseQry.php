@@ -37,7 +37,7 @@ if($alter == 'delete'){
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");
 
-    $result = $conn->query("INSERT into delegateexpense (delegateId, candidateNumber, amount, payDate, comment, updatedBy, updatedOn) values ($delegateId, $candidateNumber, $amount, '$paydate', '$comment', '$admin', '$date')");
+    $result = $conn->query("INSERT into delegateexpense (delegateId, candidateNumber, amount, payDate, comment, updatedBy, updatedOn) values ($delegateId, $candidateNumber, $amount, '$paydate', \"$comment\", '$admin', '$date')");
 }
 
 if($result){

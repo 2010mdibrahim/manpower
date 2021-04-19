@@ -45,7 +45,7 @@ if(isset($_POST['addDelegate'])){
         $date = date("Y-m-d");
         $admin = $_SESSION['email'];
         if($alter == 'update'){
-            $result = $conn->query("UPDATE delegate SET delegateName='$delegateName',country='$delegateCountry',delegateState='$delegateState',office='$delegateOffice',updatedBy='$admin',updatedOn='$date',comment='$comment' where delegateId = $delegateId");
+            $result = $conn->query("UPDATE delegate SET delegateName='$delegateName',country='$delegateCountry',delegateState='$delegateState',office='$delegateOffice',updatedBy='$admin',updatedOn='$date',comment=\"$comment\" where delegateId = $delegateId");
             if ($result) {
                 echo "<script> window.location.href='../index.php?page=delegateList'</script>";
             } else {
@@ -57,7 +57,7 @@ if(isset($_POST['addDelegate'])){
             $creationDate = date("Y-m-d h:s:i");
             $exists = mysqli_fetch_assoc($conn->query("SELECT count(delegateId) as countId from delegate where delegateName = '$delegateName' AND country = '$delegateCountry' AND delegateState = '$delegateState'"));
             if($exists['countId'] == 0){
-                $result = $conn->query("INSERT INTO delegate(delegateName, country, delegateState, creationDate, updatedBy, updatedOn, comment) VALUES ('$delegateName','$delegateCountry','$delegateState', '$creationDate', '$admin', '$date', '$comment')");
+                $result = $conn->query("INSERT INTO delegate(delegateName, country, delegateState, creationDate, updatedBy, updatedOn, comment) VALUES ('$delegateName','$delegateCountry','$delegateState', '$creationDate', '$admin', '$date', \"$comment\")");
                 $delegateIdNew = mysqli_fetch_assoc($conn->query("SELECT max(delegateId) as delegateId from delegate"));
                 foreach($delegateOffice as $index => $officeName){
                     $result = $conn->query("INSERT INTO delegateoffice(officeName, officeLicenseNumber, delegateId) VALUES ('$officeName', '".$licenseNumber[$index]."', ".$delegateIdNew['delegateId'].")");

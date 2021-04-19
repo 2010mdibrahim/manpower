@@ -35,9 +35,9 @@ if($alter == 'delete'){
     $date = date('Y-m-d');
     if($alter == 'update'){
         $officeId = $_POST['officeId'];
-        $result = $conn->query("UPDATE office set officeName = '$officeName', comment = '$comment', updatedBy = '$admin', updatedOn = '$date' where officeId = $officeId");
+        $result = $conn->query("UPDATE office set officeName = '$officeName', comment = \"$comment\", updatedBy = '$admin', updatedOn = '$date' where officeId = $officeId");
     }else{
-        $result = $conn->query("INSERT INTO office(officeName, comment, updatedBy, updatedOn, creationDate) VALUES ('$officeName','$comment','$admin','$date','$date')");
+        $result = $conn->query("INSERT INTO office(officeName, comment, updatedBy, updatedOn, creationDate) VALUES ('$officeName',\"$comment\",'$admin','$date','$date')");
     }
     if($result){
         echo "<script> window.location.href='../index.php?page=officeList'</script>";

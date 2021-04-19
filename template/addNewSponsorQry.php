@@ -39,7 +39,7 @@ if($alter == 'delete') {
     $date = date("Y-m-d");    
     if ($alter == 'update') {
         $currentSponsorNid = $_POST['currentSponsorNid'];
-        $result = $conn->query("UPDATE sponsor SET sponsorNID = '$sponsorNid', sponsorName = '$sponsorName', sponsorPhone = '$sponsorPhone', comment = '$comment', updatedBy='$admin',updatedOn='$date', delegateOfficeId = $delegateOfficeId WHERE sponsor.sponsorNID = '$currentSponsorNid'");
+        $result = $conn->query("UPDATE sponsor SET sponsorNID = '$sponsorNid', sponsorName = '$sponsorName', sponsorPhone = '$sponsorPhone', comment = \"$comment\", updatedBy='$admin',updatedOn='$date', delegateOfficeId = $delegateOfficeId WHERE sponsor.sponsorNID = '$currentSponsorNid'");
         if ($result) {
             echo "<script>window.alert('Updated')</script>";
             echo "<script> window.location.href='../index.php?page=sponsorList'</script>";
@@ -53,7 +53,7 @@ if($alter == 'delete') {
         $creationDate = date("Y-m-d h:i:s", strtotime('+3 hours', strtotime($curdate)));
         $sponsorCount = mysqli_fetch_assoc($conn -> query("SELECT count(sponsorNID) as sponsorCount from sponsor where sponsorNID = '$sponsorNid'"));
         if($sponsorCount['sponsorCount'] == 0){
-            $result = $conn->query("INSERT INTO sponsor(sponsorNID, sponsorName, sponsorPhone, comment, delegateOfficeId, updatedBy, updatedOn, creationDate) VALUES ('$sponsorNid', '$sponsorName', '$sponsorPhone', '$comment', $delegateOfficeId,'$admin','$date','$creationDate')");
+            $result = $conn->query("INSERT INTO sponsor(sponsorNID, sponsorName, sponsorPhone, comment, delegateOfficeId, updatedBy, updatedOn, creationDate) VALUES ('$sponsorNid', '$sponsorName', '$sponsorPhone', \"$comment\", $delegateOfficeId,'$admin','$date','$creationDate')");
             $addVisaFlag = $_POST['addVisaFlag'];
             $addCandidateFlag  = $_POST['addCandidateFlag'];
             if($addVisaFlag == 'yes'){
@@ -72,13 +72,13 @@ if($alter == 'delete') {
 									$passportNum = $info[0];
 									$creationDate = $info[1];
 									$visaAmount = intval($visaAmount[$i]) - 1;
-									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount, '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
+									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount, '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', \"$comment\", '$admin', '$date')");
 									$result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$creationDate', '$visaNo[$i]', '$admin', '$date', '$curdate', '', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
 								}else{
-									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount[$i], '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
+									$result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount[$i], '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', \"$comment\", '$admin', '$date')");
 								}
                             }else{
-                                $result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount[$i], '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', '$comment', '$admin', '$date')");
+                                $result = $conn->query("INSERT INTO sponsorvisalist (`sponsorVisa`, issueDate, `visaAmount`, `visaGenderType`, `jobId`, `sponsorNID`, `comment`, `updatedBy`, `updatedOn`) VALUES ('$visaNo[$i]', '$issueDate[$i]', $visaAmount[$i], '".strtolower($gender[$i])."', $jobType[$i], '$sponsorNid', \"$comment\", '$admin', '$date')");
                             }
                     }else{
                         echo "<script>window.alert('Exists')</script>";

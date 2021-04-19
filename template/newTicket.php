@@ -628,6 +628,8 @@ if(isset($_GET['p'])){
         </form>
 </div>
 <script>
+    $('#ticketNav').addClass('active');
+
     $('#countryFrom').select2({
         width: '100%'
     });
@@ -711,5 +713,4 @@ if(isset($_GET['p'])){
             $('#referrerDiv').html('');
         }
     }
-    $('#ticketNav').addClass('active');
 </script>

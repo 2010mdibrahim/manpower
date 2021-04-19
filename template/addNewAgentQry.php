@@ -66,7 +66,7 @@ if($alter == 'delete') {
     }
     if ($alter == 'update') {        
         
-        $qry = $conn->query("UPDATE agent SET agentName='$agentName',agentPhone='$agentPhone', comment='$comment' ,updatedBy='$admin',updatedOn='$date' WHERE agentEmail='$agentEmail'");
+        $qry = $conn->query("UPDATE agent SET agentName='$agentName',agentPhone='$agentPhone', comment=\"$comment\" ,updatedBy='$admin',updatedOn='$date' WHERE agentEmail='$agentEmail'");
         if (($_FILES['agentImage']['name'] != "")){        
             $photo = $photo_target_dir."photo_".$agentEmail.".".$photo_ext;
             $qry = $conn->query("UPDATE agent SET agentPhoto = '$photo' WHERE agentEmail='$agentEmail'");
@@ -101,7 +101,7 @@ if($alter == 'delete') {
         $police = $police_target_dir."police_".$agentEmail.".".$police_ext;
         $creatDate = date("Y-m-d h:i:s");
         $qry = "INSERT INTO agent (agentEmail, agentName, agentPhone, agentPhoto, agentPassport, agentPoliceClearance, comment, updatedBy, updatedOn, creationDate)
-                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$passport','$police','$comment','$admin','$date','$creatDate')";
+                VALUES ('$agentEmail','$agentName','$agentPhone','$photo','$passport','$police',\"$comment\",'$admin','$date','$creatDate')";
         $result = mysqli_query($conn, $qry);
         if ($result) {
             if (($_FILES['agentImage']['name'] != "")){

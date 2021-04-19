@@ -155,7 +155,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
     $fullPhotoFile = 'no';
 }
 
-    $existingPass = mysqli_fetch_assoc($conn->query("select count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
+    $existingPass = mysqli_fetch_assoc($conn->query("SELECT count(passportNum) as passCount from passport where passportNum = '$passportNum'"));
     
 
     // comission and comission advance
@@ -169,7 +169,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
     }
     
     
-    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus, fullPhotoFile) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', '$comment','$admin','$date', '$date', 'fit', 'fit', '$fullPhotoFile')");
+    $result = $conn->query("INSERT INTO passport(passportNum, fName, lName, mobNum, dob, gender, issueDate, validity, experienceStatus, departureDate, arrivalDate, jobId, policeClearance, policeClearanceFile, passportPhoto, passportPhotoFile, passportScannedCopy, departureSeal, departureSealFile, arrivalSeal, arrivalSealFile, agentEmail, office, manpowerOfficeName, country, trainingCard, trainingCardFile, comment, updatedBy, updatedOn, creationDate, testMedicalStatus, finalMedicalStatus, fullPhotoFile) VALUES('$passportNum','$fName','$lName','$mobNum','$dob','$gender','$issuD',$validityYear, '$experience','$departureDate','$arrivalDate', $jobType,  '$policeVerification', '$policeFile', '$photo', '$photoFile', '$passportFile','$departureSeal','$departureSealFile','$arrivalSeal','$arrivalSealFile', '$agentEmail', '$office', '$manpowerOfficeName','$country', '$traningCard', '$traningCardFile', \"$comment\",'$admin','$date', '$date', 'fit', 'fit', '$fullPhotoFile')");
     $expCountry = $_POST['expCountry'];
     $maxIdQry = mysqli_fetch_assoc($conn->query("SELECT max(optionalFileId) as maxId from optionalfiles"));
     if(is_null($maxIdQry['maxId'])){
@@ -200,7 +200,6 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
             $advance_amount = $_POST['advance_amount'];
             $payDate = $_POST['payDate'];
             $payMode = $_POST['payMode'];
-            $result = $conn->query("INSERT into ad");
             $comissionId = mysqli_fetch_assoc($conn->query("SELECT max(comissionId) as comissionId from agentcomission"));
             $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance_amount, '$payDate', '$payMode', ".$comissionId['comissionId'].", '$admin', '$date')");
         }        
@@ -227,10 +226,8 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
         if (($_FILES['fullPhotoFile']['name'] != "")){
             move_uploaded_file($fullPhotoFile_temp_name,$fullPhotoFile_path_filename_ext);
         }       
-        // echo "<script>window.alert('Inserted')</script>";      
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         echo "<script>window.alert('".$err."')</script>";
-        echo "<script> window.location.href='../index.php?page=newCandidate'</script>";
     }

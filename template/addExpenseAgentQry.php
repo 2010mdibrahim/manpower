@@ -57,7 +57,7 @@ if($alter == 'delete'){
             print_r(mysqli_error($conn));
         }
     }else{
-        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', '$comment', '$admin', '$date', '$candidateName')");        
+        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName')");
         if($result){
             echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{

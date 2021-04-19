@@ -42,7 +42,7 @@ if($alter == 'delete'){
    $date = date("Y-m-d");
    $admin = $_SESSION['email'];
    $curdate = date("Y/m/d H:i:s");
-   $result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$passportCreationDate', '$sponsorVisa', '$admin', '$date', '$curdate', '$comment', 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
+   $result = $conn->query("INSERT into processing (passportNum, passportCreationDate, sponsorVisa, updatedBy, updatedOn, creationDate, comment, okala, mufa, medicalUpdate, visaStamping, finger, trainingCard, manpowerCard) values ('$passportNum', '$passportCreationDate', '$sponsorVisa', '$admin', '$date', '$curdate', \"$comment\", 'no', 'no', 'no', 'no', 'no', 'no', 'no')");
    if($result){
       $visaAmount -= 1;
       $deduct_visa = $conn->query("UPDATE sponsorvisalist set visaAmount = $visaAmount where sponsorVisa = '$sponsorVisa'");
