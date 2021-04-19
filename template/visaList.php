@@ -630,17 +630,17 @@ if(!isset($_SESSION['sections'])){
                         <td>
                             <div class="row">
                                 <?php if($visa['youtube'] == ''){ ?>
-                                    <button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-warning ml-1 mr-1" value="<?php echo $visa['processingId'];?>" onclick="youtubeLink(this.value)"><i class="fab fa-youtube"></i></button>
+                                    <button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-warning m-1" value="<?php echo $visa['processingId'];?>" onclick="youtubeLink(this.value)"><i class="fab fa-youtube"></i></button>
                                 <?php }else{ ?>
-                                    <a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success ml-1 mr-1"><i class="fab fa-youtube"></i></button></a>
+                                    <a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success m-1"><i class="fab fa-youtube"></i></button></a>
                                 <?php } ?>
-                                <a class="ml-1 mr-1" href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
-                                <form class="ml-1 mr-1" action="index.php" method="post">
+                                <a class="m-1" href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
+                                <form class="m-1" action="index.php" method="post">
                                     <input type="hidden" name="pagePost" value="exchangeVisa">
                                     <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
                                     <button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button>
                                 </form>                                    
-                                <form class="ml-1 mr-1" action="template/saveVisa.php" method="post">
+                                <form class="m-1" action="template/saveVisa.php" method="post">
                                     <input type="hidden" name="alter" value="delete">
                                     <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
                                     <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
