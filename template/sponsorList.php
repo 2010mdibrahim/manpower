@@ -40,8 +40,9 @@ if(isset($_GET['spN'])){
                     <thead>
                     <tr>
                         <th>Delegate Information</th>
-                        <th>Sponsor NID</th>
                         <th>Sponsor Name</th>
+                        <th>Sponsor NID</th>
+                        <th>VISA No.</th>
                         <th>Sponsor Phone</th>
                         <th>Comment</th>
                         <th>Alter</th>
@@ -50,9 +51,16 @@ if(isset($_GET['spN'])){
                     <?php
                     while($sponsor = mysqli_fetch_assoc($result)){ ?>
                         <tr>
-                            <td><a href="?page=delegateList&di=<?php echo base64_encode($sponsor['delegateId']); ?>"><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></a></td>
-                            <td><?php echo $sponsor['sponsorNID'];?></td>
+                            <td><a href="?page=delegateList&di=<?php echo base64_encode($sponsor['delegateId']) ?>"><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></a></td>
                             <td><?php echo $sponsor['sponsorName'];?></td>
+                            <td>
+                            <?php
+                            $result_visa_no = $conn->query("SELECT sponsorVisa from sponsorvisalist where sponsorNID = '".$sponsor['sponsorNID']."' AND visaAmount > 0");
+                            while($sponsor_visa = mysqli_fetch_assoc($result_visa_no)) { ?>
+                                <a href="?page=allVisaList&sv=<?php echo base64_encode($sponsor_visa['sponsorVisa']); ?>"><?php echo '"'.$sponsor_visa['sponsorVisa'].'", ';?></a>
+                            <?php } ?>
+                            </td>
+                            <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td><?php echo $sponsor['sponsorPhone'];?></td>
                             <td><?php echo $sponsor['comment'];?></td>
                             <td>
@@ -79,7 +87,11 @@ if(isset($_GET['spN'])){
                     <?php } ?>
                     <tfoot hidden>
                     <tr>
+                        <th>Delegate Information</th>
                         <th>Sponsor Name</th>
+                        <th>Sponsor NID</th>
+                        <th>VISA No.</th>
+                        <th>Sponsor Phone</th>
                         <th>Comment</th>
                         <th>Alter</th>
                     </tr>

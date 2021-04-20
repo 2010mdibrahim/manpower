@@ -140,7 +140,7 @@ if ($mode == 'empRqstMode') {
                     $result = $conn -> query("UPDATE visafile set visaFile = '$data_path' where visaFileId = $visaFileId");
                     if($result){
                         move_uploaded_file($temp_name,$path_filename_ext);
-                        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."&t=".rand(0,10)."'</script>";
+                        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
                     }else{
                         echo mysqli_error($conn);
                     }
@@ -148,6 +148,7 @@ if ($mode == 'empRqstMode') {
                     $result = $conn -> query("INSERT into visaFile (visaFile, processingId) values ('$data_path',$processingId)");
                     if($result){
                         move_uploaded_file($temp_name,$path_filename_ext);
+                        echo "<script> window.location.href='../index.php?page=visaList'</script>";
                     }else{
                         echo mysqli_error($conn);
                     }
@@ -155,7 +156,6 @@ if ($mode == 'empRqstMode') {
                 
             }
         }
-        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
     }
 }else if($mode == 'trainingCardMode'){
     if(isset($_POST['from'])){

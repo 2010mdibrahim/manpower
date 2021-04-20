@@ -4,9 +4,9 @@ $email = $_POST["email"];
 $pass = md5($_POST["pass"]);
 $sections_arr = array();
 if($email!="" && $pass!=""){
-    $admin = mysqli_fetch_assoc($conn -> query("select count(employeeId) as existsEmp, employee.employeeId from employee where employeeOfficeId = '$email' and empPass = '$pass'"));
+    $admin = mysqli_fetch_assoc($conn -> query("SELECT count(employeeId) as existsEmp, employee.employeeId from employee where employeeOfficeId = '$email' and empPass = '$pass'"));
     if($admin['existsEmp'] != 0){
-        $sections_result = $conn -> query("select sections.sectionName from sections INNER JOIN employeeaccesssection using (sectionId) where employeeaccesssection.employeeId = ".$admin['employeeId']);
+        $sections_result = $conn -> query("SELECT sections.sectionName from sections INNER JOIN employeeaccesssection using (sectionId) where employeeaccesssection.employeeId = ".$admin['employeeId']);
         $_SESSION['email'] = $email;
         while($sections = mysqli_fetch_assoc($sections_result)){
             array_push($sections_arr, $sections['sectionName']);

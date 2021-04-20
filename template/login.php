@@ -51,13 +51,13 @@
     </div>
 </div>
 <script>
-    function addToCompletedList(){
-        $.ajax({
-            type: 'get',
-            url: 'template/changeCandidateController.php',
-            success: function(response){
-                console.log(response);
-            }
-        });
-    }
+    // function addToCompletedList(){
+    //     $.ajax({
+    //         type: 'get',
+    //         url: 'template/changeCandidateController.php',
+    //         success: function(response){
+    //             console.log(response);
+    //         }
+    //     });
+    // }
 </script>

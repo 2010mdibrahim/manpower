@@ -17,9 +17,9 @@ if(!isset($_SESSION['sections'])){
 if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) left join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where ( processing.pending is null OR processing.pending = 0 ) AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
 }else{
-    $result = $conn -> query("SELECT processing.pending, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) left join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where ( processing.pending is null OR processing.pending = 0 ) order by passport.creationDate desc");
+    $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");
 }
 ?>
 
@@ -34,6 +34,9 @@ if(isset($_GET['pp'])){
     }
     html {
         scroll-behavior: smooth;
+    }
+    .processing a{
+        color: white;
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
@@ -234,7 +237,8 @@ if(isset($_GET['pp'])){
                     </thead>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
-
+                        $hasVisa = mysqli_fetch_assoc($conn->query("SELECT processingId, pending from processing where passportNum = '".$candidate['passportNum']."' AND passportCreationDate = '".$candidate['creationDate']."'"));
+                        $hasTicket = mysqli_fetch_assoc($conn->query("SELECT ticketId from ticket where passportNum = '".$candidate['passportNum']."' AND passportCreationDate = '".$candidate['creationDate']."'"));
                         // ----- experience days ------
                         $arrivalDate = new DateTime($candidate['arrivalDate']);
                         $departureDate = new DateTime($candidate['departureDate']);
@@ -253,14 +257,21 @@ if(isset($_GET['pp'])){
                         $age = $today->diff($bday);
                     
                         if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
-                            <tr style="background-color: #e57373; color: white;">
-                        <?php }else if($age->y > 38){ ?>
-                            <tr style="background-color: #fffde7;">
-                        <?php }else{ ?>
-                            <tr>
+                            <tr class="processing" style="background-color: #f44336; color: white;">
                         <?php } ?>
                         
 
+                        <?php if(!is_null($hasVisa)){ ?>
+                            <?php if($hasVisa['pending'] == 3){ ?>
+                                <tr class="processing" style="background-color: #424242; color: white;">
+                            <?php }else if(!is_null($hasTicket)){ ?>
+                                <tr class="processing" style="background-color: #42a5f5; color: white;">
+                            <?php }else{?>
+                                <tr class="processing" style="background-color: #66bb6a; color: white;">
+                            <?php }?>
+                        <?php }else{ ?>
+                                <tr>
+                        <?php } ?>
                         <!-- Creation Date -->
                         <td>
                         <p><?php echo $candidate['creationDateShow'];?></p>
