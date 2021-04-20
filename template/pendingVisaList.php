@@ -35,6 +35,31 @@ if(!isset($_SESSION['sections'])){
 </style>
 <div class="container-fluid" style="padding: 2%">
 
+    <!-- Returned Candidate -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="returnCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/returnCandidateQry.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Returned Candidate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" id="returnProcessingIdModal" name="processingId" >
+                        <button type="submit" class="btn btn-danger">Returned</button>                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Manpower Card Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="manpowerFileSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -246,7 +271,7 @@ if(!isset($_SESSION['sections'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>All Visa Information</h2>
+                <h2>Pending Visa Information</h2>
             </div>
         </div>
     
@@ -645,6 +670,7 @@ if(!isset($_SESSION['sections'])){
                                     <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
                                     <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a>
                                 </form>
+                                <button value="<?php echo $visa['processingId'];?>" data-toggle="modal" data-target="#returnCandidate" class="m-1 btn btn-danger btn-sm" onclick="returnCandidate(this.value)"><i class="fas fa-user-times"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -675,6 +701,10 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function returnCandidate(processingId){
+    $('#returnProcessingIdModal').val(processingId);
+}
+
 function youtubeLink(processingId){
     $('#processingIdModal').val(processingId);
 }

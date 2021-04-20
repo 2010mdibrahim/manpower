@@ -38,7 +38,7 @@ if(!isset($_SESSION['sections'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>All Visa Information</h2>
+                <h2>Completed Visa Information</h2>
             </div>
         </div>
     
