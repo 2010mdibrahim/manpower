@@ -47,10 +47,10 @@ if(!isset($_SESSION['sections'])){
                         </button>
                     </div>
                     <div class="modal-body">
-
+                        <div class="row justify-content-center">
                         <input type="hidden" id="returnProcessingIdModal" name="processingId" >
                         <button type="submit" class="btn btn-danger">Returned</button>                        
-                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
