@@ -38,6 +38,22 @@ if(isset($_GET['pp'])){
     .processing a{
         color: white;
     }
+    .indicator{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .indicator.green{
+        border: 5px #66bb6a solid;
+    }
+    .indicator.blue{
+        border: 5px #42a5f5 solid;
+    }
+    .indicator.red{
+        border: 5px #f44336 solid;
+    }
+    .indicator.black{
+        border: 5px #424242 solid;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
     <!-- Add delegate Comission -->
@@ -214,6 +230,20 @@ if(isset($_GET['pp'])){
             <div class="section-header">
                 <h2>Candidate List</h2>
             </div>
+            <div class="row justify-content-md-center text-center">
+                <div class="col-md-1">
+                    <div class="indicator green">In VISA</div>
+                </div>
+                <div class="col-md-1">
+                    <div class="indicator blue">In Ticket</div>
+                </div>
+                <div class="col-md-1">
+                    <div class="indicator red">Unfit</div>
+                </div>
+                <div class="col-md-1">
+                    <div class="indicator black">Back</div>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -258,9 +288,7 @@ if(isset($_GET['pp'])){
                     
                         if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
                             <tr class="processing" style="background-color: #f44336; color: white;">
-                        <?php } ?>
-                        
-
+                        <?php } ?>                       
                         <?php if(!is_null($hasVisa)){ ?>
                             <?php if($hasVisa['pending'] == 3){ ?>
                                 <tr class="processing" style="background-color: #424242; color: white;">
@@ -503,35 +531,33 @@ if(isset($_GET['pp'])){
                         <td>
                             <div class="container">
                                 <div class="row">
-                                    <!-- <div class="col-1"> -->
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
-                                            <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button>
+                                            <abbr title="Edit Candidate"><button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button></abbr>
                                         </form>
-                                    <!-- </div> -->
                                     <!-- <div class="col-1"> -->
                                         <form action="template/editCandidateQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
-                                            <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button>
+                                            <abbr title="Delete Candidate"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button></abbr>
                                         </form>
                                     <!-- </div> -->
                                     <!-- <div class="col-1">                                     -->
-                                        <a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a>                                      
+                                    <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
                                     <!-- </div> -->
                                     <!-- <div class="col-1">                                     -->
-                                        <a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a>                                      
+                                    <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
                                     <!-- </div> -->
                                     <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
                                         <?php if($candidate['delegateComission'] == 0){ ?>
-                                            <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button>
+                                            <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
                                         <?php }else{ ?>
-                                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button>
+                                            <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
                                         <?php } ?>                                            
                                     <?php } ?>
                                 </div>
