@@ -659,7 +659,7 @@ if(!isset($_SESSION['sections'])){
                                 <?php }else{ ?>
                                     <abbr title="Go to YouTube"><a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success m-1"><i class="fab fa-youtube"></i></button></a></abbr>
                                 <?php } ?>
-                                <abbr title="Show Expenseces of Candidate"><a class="m-1" href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
+                                <abbr title="Show Expenseces of Candidate"><a class="" href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info m-1" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
                                 <form class="m-1" action="index.php" method="post">
                                     <input type="hidden" name="pagePost" value="exchangeVisa">
                                     <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
@@ -670,7 +670,7 @@ if(!isset($_SESSION['sections'])){
                                     <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
                                     <abbr title="Delete Candidate VISA"><button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a></abbr>
                                 </form>
-                                <abbr title="Return Candidate"><button value="<?php echo $visa['processingId'];?>" data-toggle="modal" data-target="#returnCandidate" class="m-1 btn btn-danger btn-sm" onclick="returnCandidate(this.value)"><i class="fas fa-user-times"></i></button></abbr>
+                                <abbr title="Return Candidate"><button value="<?php echo $visa['processingId'];?>" data-toggle="modal" data-target="#returnCandidate" class="m-1 btn btn-sm btn-danger " onclick="returnCandidate(this.value)"><i class="fas fa-user-times"></i></button></abbr>
                             </div>
                         </td>
                     </tr>
