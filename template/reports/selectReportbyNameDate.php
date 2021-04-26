@@ -39,15 +39,7 @@
                             Show Complete Report
                         </label>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="include" id="includeCompleted" name="includeCompleted">
-                        <label class="form-check-label" for="includeCompleted">
-                            Include Completed List
-                        </label>
-                    </div>
-                </div>
+                </div> 
             </div>
         </div>
     </form> 
@@ -57,6 +49,8 @@
 
 
 <script>
+$('#reportNav').addClass('active');
+
 function hideDate(){
     const completeReport = $('input[name="completeReport"]:checked').val();
     if(completeReport == 'complete'){

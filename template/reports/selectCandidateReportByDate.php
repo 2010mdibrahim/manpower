@@ -18,19 +18,7 @@
                     <input class="form-control" type="button" value="Search" id="agentShow" onclick="showReport()">
                 </div>
             </div>
-        </div>         
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="include" id="includeCompleted" name="includeCompleted">
-                        <label class="form-check-label" for="includeCompleted">
-                            Include Completed List
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>         
+        </div>        
     </form> 
     <div id="showReportDiv" style="margin-top: 5px;">
     </div>
@@ -38,6 +26,8 @@
 
 
 <script>
+$('#reportNav').addClass('active');
+
 function showReport(){    
     const date_from = $('#date_from').val();
     const date_to = $('#date_to').val();

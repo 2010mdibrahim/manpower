@@ -34,9 +34,15 @@ if(isset($_POST['completeReport'])){
     $candidateInfo_comission = $conn->query("SELECT passport.passportNum,passport.creationDate, passport.fName, passport.lName, agentcomission.amount from passport INNER JOIN agentcomission on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentComission.passportCreationDate where passport.agentEmail = '$agentEmail' AND passport.creationDate between '$date_from' AND '$date_to' order by passport.creationDate desc");
 }
 while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
-    $html .=        '<tr>';
-    $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
     $visa = mysqli_fetch_assoc($conn->query("SELECT processing.pending, processing.sponsorVisa, processing.processingId from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate where passport.passportNum = '".$agent['passportNum']."' AND passport.creationDate = '".$agent['creationDate']."'"));
+    if(is_null($visa)){
+        $html .=        '<tr>';
+    }else{
+        if($visa['pending'] == '2'){
+            $html .=        '<tr style="background-color: #e0f2f1;">';
+        }
+    }
+    $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
     if (!is_null($visa)){
         if($visa['pending'] == 0){
             $html .=            '<td><a href="?page=listCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
@@ -69,50 +75,6 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
     $html .=            '</td>';
     $html .=            '</tr>';
-}
-if(isset($_POST['includeCompleted'])){
-    if(isset($_POST['completeReport'])){
-        $candidateInfo_comission = $conn->query("SELECT passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName, completedagentcomission.amount from passportcompleted INNER JOIN completedagentcomission on passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate where passportcompleted.agentEmail = '$agentEmail' order by passportcompleted.creationDate desc");
-    }else{
-        $candidateInfo_comission = $conn->query("SELECT passportcompleted.passportNum,passportcompleted.creationDate, passportcompleted.fName, passportcompleted.lName, completedagentcomission.amount from passportcompleted INNER JOIN completedagentcomission on passportcompleted.passportNum = completedagentcomission.passportNum AND passportcompleted.creationDate = completedagentcomission.passportCreationDate where passportcompleted.agentEmail = '$agentEmail' AND passportcompleted.creationDate between '$date_from' AND '$date_to' order by passportcompleted.creationDate desc");
-    }
-    while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
-        $html .=        '<tr style="background-color: #e0f2f1;">';
-        $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
-        $visa = mysqli_fetch_assoc($conn->query("SELECT processingcompleted.pending, processingcompleted.sponsorVisa, processingcompleted.processingId from processingcompleted INNER JOIN passportcompleted on passportcompleted.passportNum = processingcompleted.passportNum AND passportcompleted.creationDate = processingcompleted.passportCreationDate where passportcompleted.passportNum = '".$agent['passportNum']."' AND passportcompleted.creationDate = '".$agent['creationDate']."'"));
-        if (!is_null($visa)){
-            if($visa['pending'] == 2){
-                $html .=            '<td><a href="?page=completeListCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
-            }else{
-                $html .=            '<td><a href="?page=returnedListCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
-            }
-        }else{
-            $html .=                '<td><a href="?page=completeListCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
-        }
-        $html .=            '<td>';
-        if (!is_null($visa)){
-            if($visa['pending'] == 2){
-                $html .=                '<a href="?page=completeVisaList&pi='.base64_encode($visa['processingId']).'">'.$visa['sponsorVisa'].'</a>';
-            }else{
-                $html .=                '<a href="?page=returnedVisaList&pi='.base64_encode($visa['processingId']).'">'.$visa['sponsorVisa'].'</a>';
-            }
-        }else{
-            $html .=                '-';
-        }
-        $html .=            '</td>';
-        $html .=            '<td>';
-        $candidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expenseSum from completedcandidateexpense INNER JOIN passportcompleted on passportcompleted.passportNum = completedcandidateexpense.passportNum AND passportcompleted.creationDate = completedcandidateexpense.passportCreationDate where passportcompleted.passportNum = '".$agent['passportNum']."' AND passportcompleted.creationDate = '".$agent['creationDate']."'"));
-        if(!is_null($candidateExpense['expenseSum'])){    
-            $html .= '<a href="?page=cec&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($candidateExpense['expenseSum'])."</a>";
-        }else{
-            $html .= '-';
-        };
-        $html .=            '</td>';
-        $html .=            '<td>';
-        $html .= '<a href="?page=cec&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
-        $html .=            '</td>';
-        $html .=            '</tr>';
-    }
 }
 $html .=        '<thead hidden>
                 <tr>

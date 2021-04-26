@@ -25,9 +25,9 @@ if(!isset($_SESSION['sections'])){
             <div>
                 <a href="?page=selectCandidateReportByDate">Candidate Report By Date</a>
             </div>
-            <div>
+            <!-- <div>
                 <a href="?page=selectReportByName&by=name">Delegate Report By Date</a>
-            </div>
+            </div> -->
             <!-- <div>
                 <a href="?page=selectReportByNameDate&by=nameDate">Agent Report By Name and Date</a>
             </div>
