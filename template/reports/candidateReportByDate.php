@@ -33,6 +33,8 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     }else{
         if($visa['pending'] == '2'){
             $html .=        '<tr style="background-color: #e0f2f1;">';
+        }else{
+            $html .=        '<tr>';
         }
     }
     $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
