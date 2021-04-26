@@ -44,8 +44,8 @@ $html .=    '<tr>
                 <td><a href="'.$delegateList['comissionSlip'].'" target="_blank">Slip</a></td>
             </tr>';
 }
-$html .=    '<tfoot hidden>
-            <tr>
+$html .=    '<tfoot>
+            <tr hidden>
                 <th>Name</th>
                 <th>Passport No</th>
                 <th>VISA No</th>                

@@ -124,8 +124,8 @@ if(!isset($_SESSION['sections'])){
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
+                    <tfoot>
+                    <tr hidden>
                         <th>Photo</th>
                         <th>Agent Email</th>
                         <th>Agent Name</th>

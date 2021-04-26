@@ -79,7 +79,7 @@ if(!isset($_SESSION['sections'])){
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover">
+                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Candidate Name</th>
@@ -130,8 +130,8 @@ if(!isset($_SESSION['sections'])){
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
+                    <tfoot>
+                    <tr hidden>
                         <th>Candidate Name</th>
                         <th>Candidate Referrer</th>
                         <th>Mobile Number</th>
@@ -143,7 +143,7 @@ if(!isset($_SESSION['sections'])){
                     </tfoot>
                 </table>
             </div>
-        </div>
+        </div>        
     </div>
 </div>
 

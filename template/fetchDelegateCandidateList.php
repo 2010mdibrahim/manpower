@@ -38,8 +38,8 @@ while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
         $html .=     '<td><span>&#x24; </span>'.$delegateList['delegateComission'].'</td>
                 </tr>';
 }
-$html .=    '<tfoot hidden>
-            <tr>
+$html .=    '<tfoot>
+            <tr hidden>
                 <th></th>
                 <th>Name</th>
                 <th>Passport No</th>

@@ -99,8 +99,8 @@ if(!isset($_SESSION['sections'])){
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
+                    <tfoot>
+                    <tr hidden>
                         <th>Candidate Name</th>
                         <th>Airplane</th>
                         <th>Flight No</th>

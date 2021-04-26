@@ -85,8 +85,8 @@ if(isset($_GET['spN'])){
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
+                    <tfoot>
+                    <tr hidden>
                         <th>Delegate Information</th>
                         <th>Sponsor Name</th>
                         <th>Sponsor NID</th>

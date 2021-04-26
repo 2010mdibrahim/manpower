@@ -191,8 +191,8 @@ $result = mysqli_query($conn,$qry);
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
+                    <tfoot>
+                    <tr hidden>
                         <th>Expense Header</th>
                         <th>Amount</th>
                         <th>Issue Date</th>

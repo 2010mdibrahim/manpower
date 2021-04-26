@@ -31,7 +31,7 @@ if(!isset($_SESSION['sections'])){
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover">
+                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Candidate Name</th>
@@ -112,9 +112,9 @@ if(!isset($_SESSION['sections'])){
                             </td>
                         </tr>
                     <?php } ?>
-                    <tfoot hidden>
-                    <tr>
-                        <th>Passport No</th>
+                    <tfoot>
+                    <tr hidden>
+                        <th>Candidate Name</th>
                         <th>Airplane</th>
                         <th>Flight No</th>
                         <th>Flight Date</th>
@@ -130,7 +130,7 @@ if(!isset($_SESSION['sections'])){
                     </tfoot>
                 </table>
             </div>
-        </div>
+        </div>        
     </div>
 </div>
 
