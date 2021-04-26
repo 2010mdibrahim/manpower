@@ -35,6 +35,9 @@ if(isset($_GET['pp'])){
     html {
         scroll-behavior: smooth;
     }
+    .processing a{
+        color: white;
+    }
     .indicator{
         font-size: 16px;
         font-weight: bold;
@@ -79,6 +82,7 @@ if(isset($_GET['pp'])){
             </form>
         </div>
     </div>
+
     <!-- Final Medical Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="finalMedicalSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -224,7 +228,7 @@ if(isset($_GET['pp'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Pending Candidate List</h2>
+                <h2>Candidate List</h2>
             </div>
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">
@@ -263,7 +267,8 @@ if(isset($_GET['pp'])){
                     </thead>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
-                        $today = new Datetime(date('Y-m-d'));
+                        $hasVisa = mysqli_fetch_assoc($conn->query("SELECT processingId, pending from processing where passportNum = '".$candidate['passportNum']."' AND passportCreationDate = '".$candidate['creationDate']."'"));
+                        $hasTicket = mysqli_fetch_assoc($conn->query("SELECT ticketId from ticket where passportNum = '".$candidate['passportNum']."' AND passportCreationDate = '".$candidate['creationDate']."'"));
                         // ----- experience days ------
                         $arrivalDate = new DateTime($candidate['arrivalDate']);
                         $departureDate = new DateTime($candidate['departureDate']);
@@ -271,23 +276,30 @@ if(isset($_GET['pp'])){
                         
                         // ------- validity days -------
                         $expiryDate = new DateTime($candidate['issueDate']); // will add validity to this date thats why it is expiry date
+                        $today = new DateTime(date('Y-m-d'));
                         $format = "P".$candidate['validity']."Y";
                         $expiryDate->add(new DateInterval($format));
                         $validity = $expiryDate->diff($today);
 
                         // ---------- DOB -----------
+                        $today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                     
                         if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
-                            <tr style="background-color: #fb8c00;">
-                        <?php }else if($age->y > 38){ ?>
-                            <tr style="background-color: #fffde7;">
+                            <tr class="processing" style="background-color: #f44336; color: white;">
+                        <?php } ?>                       
+                        <?php if(!is_null($hasVisa)){ ?>
+                            <?php if($hasVisa['pending'] == 3){ ?>
+                                <tr class="processing" style="background-color: #424242; color: white;">
+                            <?php }else if(!is_null($hasTicket)){ ?>
+                                <tr class="processing" style="background-color: #42a5f5; color: white;">
+                            <?php }else{?>
+                                <tr class="processing" style="background-color: #66bb6a; color: white;">
+                            <?php }?>
                         <?php }else{ ?>
-                            <tr>
+                                <tr>
                         <?php } ?>
-                        
-
                         <!-- Creation Date -->
                         <td>
                         <p><?php echo $candidate['creationDateShow'];?></p>
@@ -483,7 +495,7 @@ if(isset($_GET['pp'])){
                         <td>
                         <div class="row">
                         <?php
-                        if($candidate['departureSeal'] == 'no'){
+                        if($candidate['experienceStatus'] == 'new'){
                             if($candidate['trainingCard'] == 'yes'){ ?>
                                 <div class="col-sm-3">
                                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="<?php echo $candidate['passportNum'];?>" onclick="trainingCard(this.value)"><span class="fas fa-redo"></span></button>
@@ -519,7 +531,7 @@ if(isset($_GET['pp'])){
                         <td>
                             <div class="container">
                                 <div class="row">
-                                    <div class="row">
+                                    <div class="ml-1 mr-1">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -527,22 +539,43 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <abbr title="Edit Candidate"><button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button></abbr>
                                         </form>
+                                    </div>
+                                    <div class="ml-1 mr-1">
                                         <form action="template/editCandidateQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <abbr title="Delete Candidate"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button></abbr>
+                                        </form>                                    
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
+                                            <?php if($candidate['delegateComission'] == 0){ ?>
+                                                <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
+                                            <?php }else{ ?>
+                                                <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
+                                            <?php } ?>                                            
+                                        <?php } ?>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="redir" value="listCandidate">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="">
+                                            <input type="hidden" name="notAdvance" value="notAdvance">
+                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                            <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
-                                    <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
-                                    <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
-                                    <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
-                                        <?php if($candidate['delegateComission'] == 0){ ?>
-                                            <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
-                                        <?php }else{ ?>
-                                            <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
-                                        <?php } ?>                                            
-                                    <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -605,7 +638,6 @@ function editDelegateExpense(info){
     $('#creationDateDelegateExpenseInfo').val(info[1]);;
     $('#delegateExpenseAmountModal').val(info[2]);;
 }
-
 $('#candidateNav').addClass('active');
 </script>
 

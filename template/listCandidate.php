@@ -531,6 +531,7 @@ if(isset($_GET['pp'])){
                         <td>
                             <div class="container">
                                 <div class="row">
+                                    <div class="ml-1 mr-1">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -538,28 +539,43 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <abbr title="Edit Candidate"><button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button></abbr>
                                         </form>
-                                    <!-- <div class="col-1"> -->
+                                    </div>
+                                    <div class="ml-1 mr-1">
                                         <form action="template/editCandidateQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
                                             <input type="hidden" value="<?php echo $candidate['passportNum']; ?>" name="passportNum">
                                             <input type="hidden" value="<?php echo $candidate['creationDate']; ?>" name="creationDate">
                                             <abbr title="Delete Candidate"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button></abbr>
+                                        </form>                                    
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
+                                            <?php if($candidate['delegateComission'] == 0){ ?>
+                                                <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
+                                            <?php }else{ ?>
+                                                <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
+                                            <?php } ?>                                            
+                                        <?php } ?>
+                                    </div>
+                                    <div class="ml-1 mr-1">
+                                        <form action="index.php" method="post">
+                                            <input type="hidden" name="redir" value="listCandidate">
+                                            <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                            <input type="hidden" name="purpose" value="">
+                                            <input type="hidden" name="notAdvance" value="notAdvance">
+                                            <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
+                                            <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
+                                            <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
+                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
-                                    <!-- </div> -->
-                                    <!-- <div class="col-1">                                     -->
-                                    <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
-                                    <!-- </div> -->
-                                    <!-- <div class="col-1">                                     -->
-                                    <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
-                                    <!-- </div> -->
-                                    <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
-                                        <?php if($candidate['delegateComission'] == 0){ ?>
-                                            <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
-                                        <?php }else{ ?>
-                                            <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
-                                        <?php } ?>                                            
-                                    <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -582,7 +598,6 @@ if(isset($_GET['pp'])){
                         <th>Edit</th>
                     </tr>
                     </tfoot>
-
                 </table>
             </div>
         </div>

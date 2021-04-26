@@ -671,6 +671,18 @@ if(!isset($_SESSION['sections'])){
                                     <abbr title="Delete Candidate VISA"><button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a></abbr>
                                 </form>
                                 <abbr title="Return Candidate"><button value="<?php echo $visa['processingId'];?>" data-toggle="modal" data-target="#returnCandidate" class="m-1 btn btn-sm btn-danger " onclick="returnCandidate(this.value)"><i class="fas fa-user-times"></i></button></abbr>
+                                <div class="m-1">
+                                    <form action="index.php" method="post">
+                                        <input type="hidden" name="redir" value="visaList">
+                                        <input type="hidden" name="pagePost" value="addCandidatePayment">
+                                        <input type="hidden" name="purpose" value="">
+                                        <input type="hidden" name="notAdvance" value="notAdvance">
+                                        <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
+                                        <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
+                                        <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
+                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    </form>
+                                </div>
                             </div>
                         </td>
                     </tr>

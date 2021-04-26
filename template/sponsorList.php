@@ -53,6 +53,7 @@ if(isset($_GET['spN'])){
                         <tr>
                             <td><a href="?page=delegateList&di=<?php echo base64_encode($sponsor['delegateId']) ?>"><?php echo $sponsor['delegateName']." - ".$sponsor['officeName'];?></a></td>
                             <td><?php echo $sponsor['sponsorName'];?></td>
+                            <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td>
                             <?php
                             $result_visa_no = $conn->query("SELECT sponsorVisa from sponsorvisalist where sponsorNID = '".$sponsor['sponsorNID']."' AND visaAmount > 0");
@@ -60,7 +61,6 @@ if(isset($_GET['spN'])){
                                 <a href="?page=allVisaList&sv=<?php echo base64_encode($sponsor_visa['sponsorVisa']); ?>"><?php echo '"'.$sponsor_visa['sponsorVisa'].'", ';?></a>
                             <?php } ?>
                             </td>
-                            <td><?php echo $sponsor['sponsorNID'];?></td>
                             <td><?php echo $sponsor['sponsorPhone'];?></td>
                             <td><?php echo $sponsor['comment'];?></td>
                             <td>
