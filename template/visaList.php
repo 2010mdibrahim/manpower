@@ -646,7 +646,7 @@ if(!isset($_SESSION['sections'])){
                                             <input type="hidden" name="candidateName" value="<?php echo $visa['fName']." ".$visa['lName'];?>">
                                             <input type="hidden" name="passport_info" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>">
                                             <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
-                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                         </form>
                                     </div>
                                 </div>

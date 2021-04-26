@@ -573,7 +573,7 @@ if(isset($_GET['pp'])){
                                             <input type="hidden" name="candidateName" value="<?php echo $candidate['fName']." ".$candidate['lName'];?>">
                                             <input type="hidden" name="passport_info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>">
                                             <input type="hidden" name="agentEmail" value="<?php echo $candidate['agentEmail'];?>">
-                                            <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                            <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                         </form>
                                     </div>
                                 </div>
