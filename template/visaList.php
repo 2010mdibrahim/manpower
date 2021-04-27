@@ -243,7 +243,7 @@ if(!isset($_SESSION['sections'])){
     
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
+                <table id="visaListTable" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Passport Name</th>
@@ -392,7 +392,7 @@ if(!isset($_SESSION['sections'])){
                                                     <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
                                                     <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                                 </form>
-                                            </div>
+                                         -   </div>
                                         <?php } ?>
                                     </div>
                                 <?php } 
@@ -679,6 +679,26 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+$(document).ready(function() {
+    $('#visaListTable').DataTable({
+        "fixedHeader": true,
+        "paging": true,
+        "lengthChange": true,
+        "lengthMenu": [
+            [10, 25, 50, 100, 500],
+            [10, 25, 50, 100, 500]
+        ],
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "order": [],
+        "scrollX": false,
+        "serverSide": true,
+        "ajax": "template/datatable/visaListDataTable.php",
+    });              
+});
 function youtubeLink(processingId){
     $('#processingIdModal').val(processingId);
 }
