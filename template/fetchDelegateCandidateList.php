@@ -13,10 +13,12 @@ $html = '<div class="table-responsive">
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
+                <th>Dollar Rate</th>
+                <th>In BDT</th>
             </tr>
             </thead>';
 $today = date('Y-m-d');
-$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'no' ORDER BY processing.pending");
+$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission, passport.dollarRate FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'no' ORDER BY processing.pending");
 while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
     $html .=    '<tr>
                     <td>
@@ -35,7 +37,9 @@ while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
         }else{
             $html .= '<td>'.$ticket['flightDate'].'</td>';
         }
-        $html .=     '<td><span>&#x24; </span>'.$delegateList['delegateComission'].'</td>
+        $html .=     '<td><span>&#x24; </span>'.$delegateList['delegateComission'].'</td>';
+        $html .=     '<td>'.$delegateList['dollarRate'].'</td>';
+        $html .=     '<td><span>&#2547; </span>'.number_format($delegateList['delegateComission']*$delegateList['dollarRate']).'</td>
                 </tr>';
 }
 $html .=    '<tfoot>
@@ -48,6 +52,8 @@ $html .=    '<tfoot>
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
+                <th>Dollar Rate</th>
+                <th>In BDT</th>
             </tr>
             </tfoot>
         </table>

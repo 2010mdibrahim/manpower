@@ -18,7 +18,9 @@ if(!isset($_SESSION['sections'])){
 $passportNum = $_POST['passportNum'];
 $creationDate = $_POST['creationDate'];
 $delegateExpenseAmount = $_POST['delegateExpenseAmount'];
-$result = $conn->query("UPDATE passport set delegateComission = $delegateExpenseAmount where passportNum = '$passportNum' AND creationDate = '$creationDate'");
+$dollarRate = $_POST['dollarRate'];
+print_r($dollarRate);
+$result = $conn->query("UPDATE passport set delegateComission = $delegateExpenseAmount, dollarRate = $dollarRate where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 if($result){
     echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
 }else{

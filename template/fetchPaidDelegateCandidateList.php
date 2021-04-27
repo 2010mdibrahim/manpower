@@ -17,13 +17,15 @@ $html = '<div class="modal-body">
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
+                <th>Dollar Rate</th>
+                <th>In BDT</th>
                 <th>Comission Pay Date</th>
                 <th>Comission Slip</th>
             </tr>
             </thead>';
 $today = date('Y-m-d');
 $totalComission = 0;
-$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.delegateComissionPaid, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission, delegatecomissioninformation.comissionPayDate, delegatecomissioninformation.comissionSlip FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId INNER JOIN delegatecomissioninformation using (delegateComissionInformationId) WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'paid' ORDER BY processing.pending");
+$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.delegateComissionPaid, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission, delegatecomissioninformation.comissionPayDate, delegatecomissioninformation.comissionSlip, passport.dollarRate FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId INNER JOIN delegatecomissioninformation using (delegateComissionInformationId) WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'paid' ORDER BY processing.pending");
 while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
 $totalComission += (int)$delegateList['delegateComission'];
 $html .=    '<tr>
@@ -40,6 +42,8 @@ $html .=    '<tr>
     }
                 
     $html .=   '<td><span>&#x24; '.$delegateList['delegateComission'].' </span></td>
+                <td>'.$delegateList['dollarRate'].'</td>
+                <td><span>&#2547; </span>'.number_format($delegateList['delegateComission']*$delegateList['dollarRate']).'</td>
                 <td>'.$delegateList['comissionPayDate'].'</td>
                 <td><a href="'.$delegateList['comissionSlip'].'" target="_blank">Slip</a></td>
             </tr>';
@@ -53,7 +57,10 @@ $html .=    '<tfoot>
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
+                <th>Dollar Rate</th>
+                <th>In BDT</th>
                 <th>Comission Pay Date</th>
+                <th>Comission Slip</th> 
             </tr>
             </tfoot>
         </table>

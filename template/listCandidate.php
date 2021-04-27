@@ -70,9 +70,26 @@ if(isset($_GET['pp'])){
                     <div class="modal-body">
                         <input type="hidden" name="passportNum" id="passportNumDelegateExpenseInfo">
                         <input type="hidden" name="creationDate" id="creationDateDelegateExpenseInfo">
-                        <div class="form-group">
-                            <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission">
-                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="delegateExpenseAmount">Delegate Comission</label>
+                                    <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission" onkeyup="calculateBDT()">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dollarRate">Dollar Rate</label>
+                                    <input class="form-control" type="number" name="dollarRate" id="dollarRateModal" placeholder="Dollar Rate" onkeyup="calculateBDT()" step="any">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="bdtAmount">Amount in BDT</label>
+                                    <input class="form-control" type="number" name="bdtAmount" id="bdtAmountModal" placeholder="BDT" readonly>
+                                </div>
+                            </div>
+                        </div>                        
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="delegateModalButton"></button>
@@ -560,7 +577,7 @@ if(isset($_GET['pp'])){
                                             <?php if($candidate['delegateComission'] == 0){ ?>
                                                 <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
                                             <?php }else{ ?>
-                                                <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
+                                                <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission']."_".$candidate['dollarRate'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
                                             <?php } ?>                                            
                                         <?php } ?>
                                     </div>
@@ -606,6 +623,12 @@ if(isset($_GET['pp'])){
 </div>
 
 <script>
+function calculateBDT(){
+    var delegateExpense = ($('#delegateExpenseAmountModal').val() === 0 | $('#delegateExpenseAmountModal').val() === '') ? 1 : $('#delegateExpenseAmountModal').val();
+    var dollarRate = ($('#dollarRateModal').val() === 0 | $('#dollarRateModal').val() === '') ? 1 : $('#dollarRateModal').val();
+    $('#bdtAmountModal').val(delegateExpense*dollarRate);
+}
+
 function trainingCard(passport_info){
     $('#passportNum').val(passport_info);
 }
@@ -634,8 +657,10 @@ function editDelegateExpense(info){
     info = info.split('_');
     $('#delegateModalButton').html('Update');
     $('#passportNumDelegateExpenseInfo').val(info[0]);
-    $('#creationDateDelegateExpenseInfo').val(info[1]);;
-    $('#delegateExpenseAmountModal').val(info[2]);;
+    $('#creationDateDelegateExpenseInfo').val(info[1]);
+    $('#delegateExpenseAmountModal').val(info[2]);
+    $('#dollarRateModal').val(info[3]);
+    $('#bdtAmountModal').val(info[2] * info[3]);
 }
 $('#candidateNav').addClass('active');
 </script>
