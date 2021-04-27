@@ -1,4 +1,5 @@
 <?php
+include ('../class/dbc.class.php');
 include ('../database.php');
 /*
  * DataTables example server-side processing script.
@@ -19,7 +20,7 @@ include ('../database.php');
  */
  
 // DB table to use
-$table = 'datatables_demo';
+$table = 'SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc';
  
 // Table's primary key
 $primaryKey = 'id';
@@ -29,8 +30,8 @@ $primaryKey = 'id';
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
-    array( 'db' => 'first_name', 'dt' => 0 ),
-    array( 'db' => 'last_name',  'dt' => 1 ),
+    array( 'db' => 'fName', 'dt' => 0),
+    array( 'db' => 'passportNum',  'dt' => 1 ),
     array( 'db' => 'position',   'dt' => 2 ),
     array( 'db' => 'office',     'dt' => 3 ),
     array(
@@ -50,11 +51,12 @@ $columns = array(
 );
  
 // SQL server connection information
+$dbc = new Dbc();
 $sql_details = array(
-    'user' => '',
-    'pass' => '',
-    'db'   => '',
-    'host' => ''
+    'user' => $dbc->getUser,
+    'pass' => $dbc->getPassword,
+    'db'   => $dbc->getDbName,
+    'host' => $dbc->getServer
 );
  
  

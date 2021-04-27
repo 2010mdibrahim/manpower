@@ -679,26 +679,26 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
-$(document).ready(function() {
-    $('#visaListTable').DataTable({
-        "fixedHeader": true,
-        "paging": true,
-        "lengthChange": true,
-        "lengthMenu": [
-            [10, 25, 50, 100, 500],
-            [10, 25, 50, 100, 500]
-        ],
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": true,
-        "responsive": true,
-        "order": [],
-        "scrollX": false,
-        "serverSide": true,
-        "ajax": "template/datatable/visaListDataTable.php",
-    });              
-});
+// $(document).ready(function() {
+//     $('#visaListTable').DataTable({
+//         "fixedHeader": true,
+//         "paging": true,
+//         "lengthChange": true,
+//         "lengthMenu": [
+//             [10, 25, 50, 100, 500],
+//             [10, 25, 50, 100, 500]
+//         ],
+//         "searching": true,
+//         "ordering": true,
+//         "info": true,
+//         "autoWidth": true,
+//         "responsive": true,
+//         "order": [],
+//         "scrollX": false,
+//         "serverSide": true,
+//         "ajax": "template/datatable/visaListDataTable.php",
+//     });              
+// });
 function youtubeLink(processingId){
     $('#processingIdModal').val(processingId);
 }
