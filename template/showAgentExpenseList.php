@@ -91,6 +91,7 @@ $totalComission = 0;
                     <thead>
                     <tr>
                         <th>Candidate Name</th>  
+                        <th>Passport Number</th>  
                         <th>Purpose</th>  
                         <th>Amount</th>  
                         <th>Payment Date</th>  
@@ -104,6 +105,7 @@ $totalComission = 0;
                         while( $comission = mysqli_fetch_assoc($result_comission) ){ ?> 
                             <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                 <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
+                                <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
                                 <td> Comission </td>
                                 <td>
                                 <div>
@@ -138,6 +140,7 @@ $totalComission = 0;
                             ?>
                                 <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                     <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
+                                    <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
                                     <td> Advance </td>
                                     <td>
                                     <?php 
@@ -179,6 +182,7 @@ $totalComission = 0;
                     ?>
                         <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
+                            <td><a href="?page=listCandidate&pp=<?php echo base64_encode($candidates['passportNum']); ?>&cd=<?php echo base64_encode($candidates['creationDate']); ?>"><?php echo $candidates['passportNum'];?></a></td>
                             <td> <?php echo $candidates['purpose'];?> </td>
                             <td>
                             <?php 
@@ -223,6 +227,7 @@ $totalComission = 0;
                     ?>
                         <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td> <?php echo $agent['candidateName'];?> </td>
+                            <td> - </td>
                             <td> <?php echo $agent['expensePurposeAgent'];?> </td>
                             <td>
                             <?php 
@@ -255,6 +260,7 @@ $totalComission = 0;
                     <tfoot>
                     <tr hidden>
                         <th>Candidate Name</th>  
+                        <th>Passport Number</th>  
                         <th>Expense</th>  
                         <th>Comission</th>
                         <th>Payment Date</th>  
@@ -310,9 +316,3 @@ $totalComission = 0;
         $('#agentEmail').val(info_split[3]);
     }
 </script>
-
-
-
-
-
-
