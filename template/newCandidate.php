@@ -66,11 +66,11 @@ if(!isset($_SESSION['sections'])){
         <h4 class="bg-light">Candidate Information</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>First Name</label>
+                <label>First Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input type="text" class="form-control" required="required" name="fName" id="fName" placeholder="Enter First Name"/>
             </div>
             <div class="form-group col-md-6">
-                <label>Gender <span class="danger" id="genderDanger">Select Gender</span> </label>
+                <label>Gender <i class="fa fa-asterisk" aria-hidden="true"></i> </label>
                 <select class="form-control" name="gender" id="gender" required>
                     <option value="">----- Select Gender -----</option>
                     <option>Male</option>
@@ -78,19 +78,19 @@ if(!isset($_SESSION['sections'])){
                 </select>
             </div>
             <div class="column col-md-6">
-                <label>Last Name</label>
+                <label>Last Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input type="text" class="form-control" required="required" name="lName" id="lName" placeholder="Enter Last Name"/>
             </div>
             <div class="form-group col-md-6 date_error">
-                <label>Mobile No. <span class="danger" id="mobNum_danger" >Enter propur number</span> </label>
+                <label>Mobile No. <i class="fa fa-asterisk" aria-hidden="true"></i> <span class="danger" id="mobNum_danger" >Enter propur number</span> </label>
                 <input type="text" class="form-control" required="required" name="mobNum" id="mobNum" placeholder="Enter Mobile Number"/>
             </div>
             <div class="form-group col-md-6">
-                <label>Date of Birth</label>
+                <label>Date of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input type="text" class="form-control datepicker" required="required" name="dob" id="dob" autocomplete="off" placeholder="yyyy/mm/dd" onchange="getCandidateFromAgentExpense(this.value)"/>
             </div>
             <div class="form-group col-md-6 date_error">
-                <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
+                <label>Job Type. <i class="fa fa-asterisk" aria-hidden="true"></i> </label>
                 <select class="form-control select2" name="jobType" id="jobType" onchange="visaCreditType(this.value)" required>
                 <?php $result = $conn->query("SELECT jobType, jobId, creditType from jobs order by creationDate desc");?>
                     <option value="">----- Select Job Type -----</option>
@@ -108,11 +108,11 @@ if(!isset($_SESSION['sections'])){
         <h4 class="bg-light">Passport Information</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Passport No. <span id="pass_danger" style="color: red;display:none">Passport Already Exists</span></label>
+                <label>Passport No. <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input type="text" class="form-control" required="required" name="passportNum" id="passportNum" placeholder="Enter Passport Number"/>
             </div>            
             <div class="form-group col-md-6">
-                <label>Country</label>
+                <label>Country <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <select class="form-control select2" name="country" id="country" required>
                 <?php $result = $conn->query("SELECT country from delegate group by country order by creationDate desc");?>
 					<option value=""> --- Select Country --- </option>
@@ -122,11 +122,11 @@ if(!isset($_SESSION['sections'])){
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label>Issue Date</label>
+                <label>Issue Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input type="text" class="form-control datepicker" autocomplete="off" required="required" name="issuD" id="issuD" placeholder="yyyy/mm/dd"/>
             </div>
             <div class="form-group col-md-6" style="text-align: center;">
-                <label>Validity Year</label>
+                <label>Validity Year <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <div class="form-group">
                     <label class="parking_label">5 Years
                         <input type="radio" name="validityYear" value="5" required>
@@ -139,7 +139,7 @@ if(!isset($_SESSION['sections'])){
                 </div>
             </div>
         </div>
-        <label>New or Experienced</label>
+        <label>New or Experienced <i class="fa fa-asterisk" aria-hidden="true"></i></label>
         <div class="form-group">            
             <div class="parking_container">
                 <div class="form-row">
@@ -159,11 +159,11 @@ if(!isset($_SESSION['sections'])){
                 <div id="experienced" style="display: none; background-color: rgba(0,0,0,0.04); padding: 5px; border-radius: 5px">
                     <div class="form-group form-row">
                         <div class="col-md-4">
-                            <label>Departure Seal</label>
+                            <label>Departure Seal <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                             <input class="form-control-file" type="file" name="departureSealFile" id="departureSealFile">
                         </div>
                         <div class="col-md-4">
-                            <label>Arrival Seal</label>
+                            <label>Arrival Seal <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                             <input class="form-control-file" type="file" name="arrivalSealFile" id="arrivalSealFile">
                         </div>
                         <div class="col-md-4">
@@ -171,16 +171,16 @@ if(!isset($_SESSION['sections'])){
                             <input class="form-control-file" type="file" name="optionalFile[]" id="optionalFile" multiple>
                         </div>
                         <div class="col-md-6">
-                            <label>Departure Date</label>
+                            <label>Departure Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                             <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="departureDate" placeholder="yyyy/mm/dd"/>
                         </div>
                         <div class="col-md-6">
-                            <label>Arrival Date</label>
+                            <label>Arrival Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                             <input type="text" autocomplete="off" class="form-control experience_dates datepicker" name="arrivalDate" placeholder="yyyy/mm/dd"/>
                         </div>               
                     </div>
                     <div>
-                        <label for="">Travelled Country</label>
+                        <label for="">Travelled Country <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                         <div class="form-group form-row" id="countryDiv">
                             <div class="col-md-3">
                                 <input class="form-control" type="text" name="expCountry[]" placeholder="Enter Country Name">
@@ -197,7 +197,7 @@ if(!isset($_SESSION['sections'])){
         <div class="form-group">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label> Manpower Office <span class="danger" id="manpower_danger"> Enter Manpower Office </span> </label>
+                    <label> Manpower Office <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <select class="form-control select2" id="manpower" name="manpower" required>
                         <option value="">----- Select Job Type First ------</option>
                         
@@ -206,7 +206,7 @@ if(!isset($_SESSION['sections'])){
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6" id="agentNotOffice">
-                    <label>Agent <span class="danger" id="agent_validation">Enter Agent</span> </label>
+                    <label>Agent <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <select class="form-control select2" name="agentEmail" id="agent" required>
                         <option value="">------ Select Option ------</option>
                         <?php 
@@ -225,12 +225,12 @@ if(!isset($_SESSION['sections'])){
                 <div id="visaFeeLabel"></div>
             </div>
             <div class="form-group col-md-6" id="visaComission" style="display: none;">
-                <label>Comission</label>
+                <label>Comission <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <div id="visaComissionLabel"></div>
             </div>
             
             <div class="col-md-6 text-center">
-                <label for="">Advance</label>
+                <label for="">Advance <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <div class="form-group">
                     <label class="parking_label">Yes
                         <input type="radio" name="advance" id="advance_yes" value="yes" required>
@@ -246,15 +246,15 @@ if(!isset($_SESSION['sections'])){
         </div>
         <div class="form-row" id="advance_take" style="display: none;">
             <div class="form-group col-md-6">                    
-                <label>Advance</label>
+                <label>Advance <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input class="form-control" type="number" name="advance_amount" id="advance_amount" placeholder="Enter Amount">
             </div>       
             <div class="form-group col-md-6">                    
-                <label>Pay Date</label>
+                <label>Pay Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <input class="form-control datepicker" type="text" autocomplete="off" name="payDate" id="payDate" placeholder="Enter Payment Date">
             </div> 
             <div class="form-group col-md-6">                    
-                <label>Payment Mode</label>
+                <label>Payment Mode <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                 <select class="form-control" name="payMode" id="payMode">
                     <option value="">Select Payment Mode</option>
                     <?php
@@ -275,7 +275,7 @@ if(!isset($_SESSION['sections'])){
         <div class="form-row">            
             <div class="form-group col-md-6" id="passportScanFile">
                 <div>
-                    <label>Passport Scanned Copy</label>
+                    <label>Passport Scanned Copy <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <input class="form-control" type="file" name="passportScan" required>
                 </div>
             </div> 
