@@ -2,7 +2,7 @@
 include ('database.php');
 $nid = $_POST['nid'];
 $birthNumber = $_POST['birthNumber'];
-$result = mysqli_fetch_assoc($conn->query("SELECT candidateName, candidateDOB, candidateNID, canidateBirthNumber from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$birthNumber' LIMIT 1"));
+$result = mysqli_fetch_assoc($conn->query("SELECT candidateName, candidateDOB, candidateNID, candidateBirthNumber from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$birthNumber' LIMIT 1"));
 
 if(!is_null($result)){
     $info = array(
