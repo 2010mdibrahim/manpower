@@ -60,13 +60,13 @@ if($alter == 'delete'){
             print_r(mysqli_error($conn));
         }
     }else{
-        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, canidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
+        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, candidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
         if($result){
             echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{
             echo "<script>window.alert('Error')</script>";
             print_r(mysqli_error($conn));
-            print_r("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, canidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
+            print_r("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, candidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
         }
     }        
 }  

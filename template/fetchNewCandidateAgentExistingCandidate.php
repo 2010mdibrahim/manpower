@@ -2,7 +2,7 @@
 include ('database.php');
 $nid = $_POST['nid'];
 
-$result = $conn->query("SELECT agent.agentName, agentexpense.* from agentexpense INNER JOIN agent using (agentEmail) where candidateNID = '$nid' or canidateBirthNumber = '$nid'");
+$result = $conn->query("SELECT agent.agentName, agentexpense.* from agentexpense INNER JOIN agent using (agentEmail) where candidateNID = '$nid' or candidateBirthNumber = '$nid'");
 $html = '';
 if($result->num_rows != 0){
     $html .= '<table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
