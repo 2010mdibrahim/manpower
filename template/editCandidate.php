@@ -37,6 +37,7 @@ $candidate = mysqli_fetch_assoc($conn -> query("SELECT * from passport where pas
         <h2>Edit Candidate Information</h2>
     </div>
     <form action="template/editCandidateQry.php" method="post" enctype="multipart/form-data" id="candidateForm">
+        <input type="hidden" name="currentAgent" value="<?php echo $candidate['agentEmail'];?>">
         <input type="hidden" name="currentPassport" value="<?php echo $candidate['passportNum'];?>">
         <input type="hidden" name="currentCreationDate" value="<?php echo $creationDate;?>">
         <input type="hidden" name="alter" value="update">

@@ -177,7 +177,10 @@ if($alter == 'delete'){
     }
     $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName', departureDate = '$departureDate', arrivalDate = '$arrivalDate', agentEmail = '$agentEmail' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
     $result = mysqli_query($conn,$qry);
-
+    $currentAgent = $_POST['currentAgent'];
+    if($currentAgent != $agentEmail){
+        $result = $conn->query("UPDATE candidateexpense set agentEmail = '$agentEmail' where passportNum = '$passportNum' AND passportCreationDate = '$currentCreationDate'");
+    }
     if($result){
         echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
