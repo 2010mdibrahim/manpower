@@ -209,12 +209,12 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
     $onlyDate = date('Y-m-d');
     if($result){
         if($includeCandidate == 'yes'){
-            $result = $conn->query("SELECT fullAmount, payDate, expensePurposeAgent, expenseMode, agentEmail, comment from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$nid'");
+            $result = $conn->query("SELECT fullAmount, payDate, expensePurposeAgent, expenseMode, agentEmail, comment from agentexpense where candidateNID = '$nid' OR candidateBirthNumber = '$nid'");
             while($agentExpnse = mysqli_fetch_assoc($result)){
                 $result_candidate_expense = $conn->query("INSERT INTO candidateexpense(amount, payDate, purpose, payMode, agentEmail, creationDate, updatedBy, updatedOn, comment,  passportNum, passportCreationDate) VALUES (".$agentExpnse['fullAmount'].", '".$agentExpnse['payDate']."', '".$agentExpnse['expensePurposeAgent']."', '".$agentExpnse['expenseMode']."', '".$agentExpnse['agentEmail']."', '$date', '$admin', '$onlyDate', '".$agentExpnse['comment']."', '$passportNum', '$date')");
             }
             if($result_candidate_expense){
-                $result_delet_expense_from_agent = $conn->query("DELETE from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$nid'");
+                $result_delet_expense_from_agent = $conn->query("DELETE from agentexpense where candidateNID = '$nid' OR candidateBirthNumber = '$nid'");
             }
         }        
     }
