@@ -66,6 +66,7 @@ if($alter == 'delete'){
         }else{
             echo "<script>window.alert('Error')</script>";
             print_r(mysqli_error($conn));
+            print_r("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, canidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
         }
     }        
 }  
