@@ -273,7 +273,7 @@ if(isset($_GET['pp'])){
                         <th>Mobile No</th>
                         <th>Age</th>
                         <th>Passport expire date</th>
-                        <th>Candidare previouse status</th>
+                        <th>Candidate previouse status</th>
                         <th>Applying for Country</th>               
                         <th>Test Medical</th>
                         <th>Final Medical</th>
@@ -606,7 +606,7 @@ if(isset($_GET['pp'])){
                         <th>Mobile No</th>
                         <th>Age</th>
                         <th>Passport expire date</th>
-                        <th>Candidare previouse status</th>
+                        <th>Candidate previouse status</th>
                         <th>Applying for Country</th>               
                         <th>Test Medical</th>
                         <th>Final Medical</th>

@@ -35,6 +35,9 @@ if($alter == 'delete'){
     }
 }else{
     $candidateName = $_POST['candidateName'];
+    $candidateDOB = $_POST['dob'];
+    $candidateNID = $_POST['nid'];
+    $canidateBirthNumber = $_POST['birthNumber'];
     $fullAmount = $_POST['fullAmount'];
     $purpose = $_POST['purpose'];   
     $expenseMode = $_POST['payMode'];      
@@ -49,7 +52,7 @@ if($alter == 'delete'){
         $adjustAmount = 0;
     }
     if($alter == 'update'){
-        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date', candidateName = '$candidateName' WHERE agentExpenseId=$agentExpenseId");
+        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date', candidateName = '$candidateName', candidateDOB = '$candidateDOB', candidateNID = '$candidateNID', canidateBirthNumber = '$canidateBirthNumber' WHERE agentExpenseId=$agentExpenseId");
         if($result){
             echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{
@@ -57,7 +60,7 @@ if($alter == 'delete'){
             print_r(mysqli_error($conn));
         }
     }else{
-        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName')");
+        $result = $conn->query("INSERT INTO agentexpense (expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, creationDate, comment, updatedBy, updatedNo, candidateName, candidateDOB, candidateNID, canidateBirthNumber) VALUES ('$purpose', '$expenseMode', '$fullAmount', '$paydate', '$agentEmail', '$creatDate', \"$comment\", '$admin', '$date', '$candidateName', '$candidateDOB', '$candidateNID', '$canidateBirthNumber')");
         if($result){
             echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{

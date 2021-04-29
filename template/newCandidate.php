@@ -24,8 +24,39 @@ if(!isset($_SESSION['sections'])){
     .container{
         padding-bottom: 10px;
     }
+    .modal-dialog {
+        max-width: 80%;
+        margin: 1.75rem auto;
+    }
 </style>
 
+
+<!-- Show Agent Expense Candidate -->
+<div class="modal fade" tabindex="-1" role="dialog" id="show">
+    <div class="modal-dialog modal-xl" role="document">
+        <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delegate Candidate List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="existingCandidateFromAgentExpense">
+                    
+                        
+                                       
+                </div>
+                <div class="modal-footer">
+                    <input class="form-control datepicker w-25" autocomplete="off" type="text" name="delegatePayDate" id="delegatePayDate" placeholder="Enter Date" style="display: none;">
+                    <input class="form-control-file w-25" type="file" name="delegateSlip" id="delegateSlip" style="display: none;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="container">
     <div class="section-header">
@@ -36,7 +67,7 @@ if(!isset($_SESSION['sections'])){
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>First Name</label>
-                <input type="text" class="form-control" required="required" name="fName" placeholder="Enter First Name"/>
+                <input type="text" class="form-control" required="required" name="fName" id="fName" placeholder="Enter First Name"/>
             </div>
             <div class="form-group col-md-6">
                 <label>Gender <span class="danger" id="genderDanger">Select Gender</span> </label>
@@ -48,7 +79,7 @@ if(!isset($_SESSION['sections'])){
             </div>
             <div class="column col-md-6">
                 <label>Last Name</label>
-                <input type="text" class="form-control" required="required" name="lName" placeholder="Enter Last Name"/>
+                <input type="text" class="form-control" required="required" name="lName" id="lName" placeholder="Enter Last Name"/>
             </div>
             <div class="form-group col-md-6 date_error">
                 <label>Mobile No. <span class="danger" id="mobNum_danger" >Enter propur number</span> </label>
@@ -56,7 +87,7 @@ if(!isset($_SESSION['sections'])){
             </div>
             <div class="form-group col-md-6">
                 <label>Date of Birth</label>
-                <input type="text" class="form-control datepicker" required="required" name="dob" autocomplete="off" placeholder="yyyy/mm/dd"/>
+                <input type="text" class="form-control datepicker" required="required" name="dob" id="dob" autocomplete="off" placeholder="yyyy/mm/dd" onchange="getCandidateFromAgentExpense(this.value)"/>
             </div>
             <div class="form-group col-md-6 date_error">
                 <label>Job Type. <span class="danger" id="jobType_danger" >Enter Job Type.</span> </label>
@@ -67,6 +98,11 @@ if(!isset($_SESSION['sections'])){
                         <option value="<?php echo $jobs['jobId'].'_'.$jobs['creditType'];?>"><?php echo $jobs['jobType']." - ".$jobs['creditType'];?></option>
                     <?php } ?>
                 </select>
+            </div>
+            <div class="form-group col-md-6">
+            <input type="hidden" value="no" id="includeCandidateFromAgent" name="includeCandidateFromAgent">                   
+                <label>NID / Birth Certificate <span id="text-show" style="color: #ff3d00; display: none;" date-toggle="modal" data-target="#show">Candidate Exists In Agent Expense List <button type="button" data-target="#show" data-toggle="modal" class="btn btn-sm btn-info mr-1" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button><button value="no" name="includeCandidate" id="includeCandidate" type="button" class="btn btn-sm btn-danger" style="padding: .16rem .3rem;" onclick="include_Candidate(this.value)"><i class="fa fa-ban"></i></button></span> </label>
+                <input class="form-control" type="text" name="nid" id="nid" placeholder="Enter NID" onchange="getInfo()">
             </div>
         </div>
         <h4 class="bg-light">Passport Information</h4>
@@ -342,6 +378,68 @@ if(!isset($_SESSION['sections'])){
 
 
 <script>
+    function include_Candidate(includeCandidate){
+        if(includeCandidate === 'yes') { 
+            $('#includeCandidateFromAgent').val('no')
+            $('#includeCandidate').val('no')
+            $('#includeCandidate').removeClass('btn-success')
+            $('#includeCandidate').addClass('btn-danger')
+            $('#includeCandidate').children().removeClass('fas fa-check')
+            $('#includeCandidate').children().addClass('fa fa-ban')
+        }else{
+            $('#includeCandidateFromAgent').val('yes')
+            $('#includeCandidate').val('yes')
+            $('#includeCandidate').removeClass('btn-danger')
+            $('#includeCandidate').addClass('btn-success')
+            $('#includeCandidate').children().removeClass('fa fa-ban')
+            $('#includeCandidate').children().addClass('fas fa-check')
+        };
+    }
+    function getInfo(){
+        let nid = $('#nid').val();
+        $.ajax({
+            type: 'post',
+            data: {nid:nid},
+            url: 'template/fetchNewCandidateAgentExistingCandidate.php',
+            success: function (response){
+                if(response != ''){
+                    $('#existingCandidateFromAgentExpense').html(response);
+                    $('#text-show').show();
+                    $('#dataTableSeaum').DataTable({
+                        "fixedHeader": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "lengthMenu": [
+                            [10, 25, 50, 100, 500],
+                            [10, 25, 50, 100, 500]
+                        ],
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "responsive": true,
+                        "order": [],
+                        "scrollX": false
+                    });
+                }else{
+                    $('#text-show').hide();
+                }
+            }
+        });
+    }
+
+    function getCandidateFromAgentExpense(dob){
+        let fName = $('#fName').val();
+        let lName = $('#lName').val();
+        $.ajax({
+            type: 'post',
+            url: '',
+            data: {fName : fName, lName : lName, dob : dob},
+            success: function(){
+
+            }
+        });
+    }
 
     $('body').on('change', '#passportNum', function(){
         const passportNum = $('#passportNum').val();

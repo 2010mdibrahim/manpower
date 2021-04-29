@@ -48,24 +48,36 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
         <h3 style="background-color: aliceblue; padding: 0.5%">Agent Expense Information</h3>
         <div class="form-group">
             <div class="form-row">
+                <div class="form-group col-md-4">                    
+                    <label>NID</label>
+                    <input class="form-control" type="text" name="nid" id="nid" placeholder="Enter NID" onchange="getInfo()">
+                </div>
+                <div class="form-group col-md-4">                    
+                    <label>Birth Certificate Number</label>
+                    <input class="form-control" type="text" name="birthNumber" id="birthNumber" placeholder="Enter Birth Certificate Number" onchange="getInfo()">
+                </div>
+                <div class="form-group col-md-4">                    
+                    <label>Date Of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                    <input class="form-control datepicker" type="text" autocomplete="off" name="dob" id="dob" placeholder="Enter Birth Date" required>
+                </div>
                 <div class="form-group col-md-6">
-                    <label>Full Amount</label>
+                    <label>Full Amount <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <input class="form-control" type="number" name="fullAmount" placeholder="Enter Amount" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Candidate Name</label>
-                    <input class="form-control capitalize" type="name" name="candidateName" placeholder="Enter Candidate Name" required>
+                    <label>Candidate Name <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                    <input class="form-control capitalize" type="name" name="candidateName" id="candidateName" placeholder="Enter Candidate Name" required>
                 </div>
                 <div class="form-group col-md-6">                    
-                    <label>Purpose</label>
+                    <label>Purpose <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose" required>
                 </div>       
                 <div class="form-group col-md-6">                    
-                    <label>Pay Date</label>
+                    <label>Pay Date <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <input class="form-control datepicker" type="text" autocomplete="off" name="paydate" placeholder="Enter Payment Date" required>
-                </div> 
+                </div>                
                 <div class="form-group col-md-6">                    
-                    <label>Payment Mode</label>
+                    <label>Payment Mode <i class="fa fa-asterisk" aria-hidden="true"></i></label>
                     <select class="form-control" name="payMode" id="" required>
                         <option value="">Select Payment Mode</option>
                         <?php
@@ -89,4 +101,33 @@ $result = $conn->query("SELECT agentName, agentEmail from agent");
 
 <script>
     $('#agentNav').addClass('active');
+
+    function getInfo(){
+        let nid = $('#nid').val();
+        let birthNumber = $('#birthNumber').val();
+        $.ajax({
+            type: 'post',
+            data: {nid:nid, birthNumber:birthNumber},
+            url: 'template/fetchAgentExistingCandidate.php',
+            success: function (response){
+                response = JSON.parse(response);
+                $('#nid').val(response.nid);
+                if(response.nid != ''){
+                    document.getElementById('nid').style.backgroundColor = "#bbdefb";
+                }
+                $('#birthNumber').val(response.birthNumber);
+                if(response.birthNumber != ''){
+                    document.getElementById('birthNumber').style.backgroundColor = "#bbdefb";
+                }
+                $('#dob').val(response.dob);
+                if(response.dob != ''){
+                    document.getElementById('dob').style.backgroundColor = "#bbdefb";
+                }
+                $('#candidateName').val(response.candidateName);
+                if(response.candidateName != ''){
+                    document.getElementById('candidateName').style.backgroundColor = "#bbdefb";
+                }
+            }
+        });
+    }
 </script>

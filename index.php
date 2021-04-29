@@ -57,6 +57,11 @@ if(!empty($_POST['pagePost'])){
     .no-access{
         color: red;
     }
+    .fa-asterisk{
+        font-size: 0.5rem;
+        color: red;
+        vertical-align: text-top;
+    }
 </style>
 <body>
 <div id="data-loading"></div>

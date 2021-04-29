@@ -15,6 +15,8 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
+$includeCandidate = $_POST['includeCandidateFromAgent'];
+$nid = $_POST['nid'];
 $fName = $_POST['fName'];
 $lName = $_POST['lName'];
 $gender = $_POST['gender'];
@@ -202,6 +204,18 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
             $payMode = $_POST['payMode'];
             $comissionId = mysqli_fetch_assoc($conn->query("SELECT max(comissionId) as comissionId from agentcomission"));
             $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance_amount, '$payDate', '$payMode', ".$comissionId['comissionId'].", '$admin', '$date')");
+        }        
+    }
+    $onlyDate = date('Y-m-d');
+    if($result){
+        if($includeCandidate == 'yes'){
+            $result = $conn->query("SELECT fullAmount, payDate, expensePurposeAgent, expenseMode, agentEmail, comment from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$nid'");
+            while($agentExpnse = mysqli_fetch_assoc($result)){
+                $result_candidate_expense = $conn->query("INSERT INTO candidateexpense(amount, payDate, purpose, payMode, agentEmail, creationDate, updatedBy, updatedOn, comment,  passportNum, passportCreationDate) VALUES (".$agentExpnse['fullAmount'].", '".$agentExpnse['payDate']."', '".$agentExpnse['expensePurposeAgent']."', '".$agentExpnse['expenseMode']."', '".$agentExpnse['agentEmail']."', '$date', '$admin', '$onlyDate', '".$agentExpnse['comment']."', '$passportNum', '$date')");
+            }
+            if($result_candidate_expense){
+                $result_delet_expense_from_agent = $conn->query("DELETE from agentexpense where candidateNID = '$nid' OR canidateBirthNumber = '$nid'");
+            }
         }        
     }
     if($result){

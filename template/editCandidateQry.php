@@ -175,10 +175,11 @@ if($alter == 'delete'){
             move_uploaded_file($arrivalSeal_temp_name,$arrivalSeal_path_filename_ext);
         }
     }
-    $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName', departureDate = '$departureDate', arrivalDate = '$arrivalDate' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
+    $qry = "UPDATE passport SET passportNum = '$passportNum', jobId = $jobType, fName='$fName',lName='$lName',mobNum='$mobNum',dob='$dob',gender='$gender',issueDate='$issuD',validity='$validityYear',country='$country',comment='$comment',updatedBy='$admin',updatedOn='$update', manpowerOfficeName = '$manpowerOfficeName', departureDate = '$departureDate', arrivalDate = '$arrivalDate', agentEmail = '$agentEmail' where passport.passportNum='$currentPassport' AND passport.creationDate = '$currentCreationDate'";
     $result = mysqli_query($conn,$qry);
+
     if($result){
-        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         echo "<script>window.alert('Error')</script>";
         echo "<script> window.location.href='../index.php'</script>";

@@ -119,6 +119,7 @@ if(!isset($_SESSION['sections'])){
                 <tfoot>
                 <tr hidden>
                     <th>Job Name</th>
+                    <th>Job Credit Type</th>
                     <th>Creation Date</th> 
                     <th>Edit</th>
                 </tr>
