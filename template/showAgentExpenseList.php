@@ -21,7 +21,7 @@ if(isset($_GET['ag'])){
     $agentEmail = '';
 }
 $today = date('Y-m-d');
-$result_agent_expense = $conn -> query("SELECT candidateNID, canidateBirthNumber, payDate, agentExpenseId, candidateName, fullAmount, expensePurposeAgent, date(creationDate) as creationDate FROM agentexpense WHERE agentEmail = '$agentEmail'");
+$result_agent_expense = $conn -> query("SELECT candidateNID, candidateBirthNumber, payDate, agentExpenseId, candidateName, fullAmount, expensePurposeAgent, date(creationDate) as creationDate FROM agentexpense WHERE agentEmail = '$agentEmail'");
 $result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, agentcomission.comissionId, passport.fName, passport.lName, passport.passportNum, passport.creationDate, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND jobs.creditType = 'Comission'");
 $result_expense = $conn -> query("SELECT passport.fName, passport.lName, passport.passportNum, passport.creationDate, candidateexpense.amount, candidateexpense.purpose, candidateexpense.payDate,candidateexpense.payMode, candidateexpense.expenseId from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where candidateexpense.agentEmail = '$agentEmail'");
 $totalExpense = 0;
@@ -230,8 +230,8 @@ $totalComission = 0;
                             <td> <?php 
                             if($agent['candidateNID'] != ''){
                                 echo $agent['candidateNID']." (NID)";
-                            }else if($agent['canidateBirthNumber'] != ''){
-                                echo $agent['canidateBirthNumber']." (Birth)";
+                            }else if($agent['candidateBirthNumber'] != ''){
+                                echo $agent['candidateBirthNumber']." (Birth)";
                             }else{
                                 echo ' - ';
                             } ?> </td>
