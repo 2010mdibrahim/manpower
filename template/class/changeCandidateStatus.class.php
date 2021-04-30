@@ -1,6 +1,6 @@
 <?php
 include ('dbc.class.php');
-class changeCandidateStatus extends Dbc{    
+class ChangeCandidateStatus extends Dbc{    
     
     public function change(){
         $conn = $this->connection();
