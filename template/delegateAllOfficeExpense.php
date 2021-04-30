@@ -24,7 +24,7 @@ if(!isset($_SESSION['sections'])){
     <!-- Add Office to delegate expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="addOffice">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/addOfficeToDelegateExpense.php" method="post">
+            <form action="template/addOfficeToDelegateExpense.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Give Office Expense Details</h5>
@@ -34,20 +34,20 @@ if(!isset($_SESSION['sections'])){
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="delegateTotalExpenseId" id="delegateTotalExpenseIdModal">
-                        <label> Office Name </label>
-                        <select class="form-control select2" id="officeId" name="officeId" required>
-                            <option value="">Select Office</option>
-                            <?php
-                            $result = $conn->query("SELECT officeId, officeName from office");
-                            while($office = mysqli_fetch_assoc($result)){
-                            ?>
-                                <option value="<?php echo $office['officeId']; ?>"><?php echo $office['officeName']; ?></option>
-                            <?php } ?>
+                        <label> Choose Type Of Recipient </label>
+                        <select class="form-control select2" id="type" name="type" onchange="getDelegateOffice(this.value)" required>
+                            <option value="">Select Type</option>
+                            <option value="manpower">Manpower Office</option>
+                            <option value="outside">Outside Office</option>
+                            <option value="other">Other</option>
                         </select>
+                        <div id="getOffice"></div>                        
                         <label> Amount </label>
                         <input class="form-control" type="number" name="amount" id="amount" placeholder="Enter Amount">
                         <label> Date </label>
                         <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="date" placeholder="Enter date">                       
+                        <label> Receipt </label>
+                        <input class="form-control" type="file" name="officeReceipt" id="officeReceipt">                       
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -199,6 +199,20 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+    function getDelegateOffice(type){
+        $.ajax({
+            type: 'post',
+            data: {type: type},
+            url: 'template/fetchDelegateExpenseOffice.php',
+            success: function (response){
+                $('#getOffice').html(response);
+                $('#officeSelect').select2({
+                    width: '100%'
+                });
+            }
+        });
+    }
+
     var highlight = $('#highlightDelegate').val();
     if(highlight != 'no'){
         $('#'+highlight+'_highlight').attr("style", "background-color: #b2dfdb;");

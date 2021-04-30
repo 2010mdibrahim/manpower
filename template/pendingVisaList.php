@@ -233,11 +233,41 @@ if(!isset($_SESSION['sections'])){
             </form>
         </div>
     </div>
+
+    <!-- Stamping Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="returnCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/returnCandidateQry.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Return Or Complete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="processingIdModalReturn" name="processingId">
+                        <div class="row justify-content-center">
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-success" value="complete" name="complete">Complete</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-danger" value="return" name="return">Return</button>
+                            </div>
+                        </div>                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>All Visa Information</h2>
+                <h2>Pending Visa Information</h2>
             </div>
         </div>
     
@@ -649,6 +679,9 @@ if(!isset($_SESSION['sections'])){
                                             <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                         </form>
                                     </div>
+                                    <div class="m-1">
+                                        <abbr title="Return or Complete candidate"><button data-target="#returnCandidate" data-toggle="modal" class="btn btn-sm btn-danger" type="button" value="<?php echo $visa['processingId']?>" onclick="getReturnValue(this.value)"><i class="fas fa-user-times"></i></button></abbr>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -681,6 +714,9 @@ if(!isset($_SESSION['sections'])){
 <script>
 function youtubeLink(processingId){
     $('#processingIdModal').val(processingId);
+}
+function getReturnValue(processingId){
+    $('#processingIdModalReturn').val(processingId);
 }
 
 $('#add_visafile_div').click(function (){

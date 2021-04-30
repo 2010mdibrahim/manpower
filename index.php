@@ -62,6 +62,9 @@ if(!empty($_POST['pagePost'])){
         color: red;
         vertical-align: text-top;
     }
+    .capitalize{
+        text-transform: capitalize;
+    }
 </style>
 <body>
 <div id="data-loading"></div>

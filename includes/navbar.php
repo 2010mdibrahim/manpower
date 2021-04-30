@@ -91,11 +91,11 @@
                             <div class="dropdown-menu">
                                 <a href="?page=addNewDelegate" class="dropdown-item">Add New Delegate</a>
                                 <a href="?page=delegateList" class="dropdown-item">Delegate List</a>
-                                <div class="dropdown-divider"></div>
+                                <!-- <div class="dropdown-divider"></div>
                                 <a href="?page=addDelegateExpense" class="dropdown-item">Add Candidate Comission</a>
                                 <div class="dropdown-divider"></div>
                                 <a href="?page=delegateOfficeExpense" class="dropdown-item">Delegate Mapower-Office expense</a>
-                                <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Mapower-Office expense List</a>
+                                <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Mapower-Office expense List</a> -->
                                 <div class="dropdown-divider"></div>
                                 <a href="?page=delegateAllOfficeExpense" class="dropdown-item">Add Delegate Office expense</a>
                             </div>

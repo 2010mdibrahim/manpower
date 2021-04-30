@@ -228,7 +228,7 @@ if(isset($_GET['pp'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Candidate List</h2>
+                <h2>Pending Candidate List</h2>
             </div>
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">

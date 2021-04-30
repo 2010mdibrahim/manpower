@@ -21,11 +21,6 @@ if(isset($_GET['ag'])){
 }
 $result = $conn->query("SELECT agentName, agentEmail from agent");
 ?>
-<style>
-.capitalize{
-    text-transform: capitalize;
-}
-</style>
 <div class="container" style="padding: 2%">
     <div class="section-header">
         <h2>Add Expense for Agent</h2>

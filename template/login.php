@@ -44,20 +44,9 @@
                 <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password" name="pass">
             </div>
             <div class="form-group">
-                <input class="form-control" type="submit" value="Login" onclick="addToCompletedList()">
+                <input class="form-control" type="submit" value="Login">
             </div>
             </div>
         </form>
     </div>
 </div>
-<script>
-    // function addToCompletedList(){
-    //     $.ajax({
-    //         type: 'get',
-    //         url: 'template/changeCandidateController.php',
-    //         success: function(response){
-    //             console.log(response);
-    //         }
-    //     });
-    // }
-</script>
