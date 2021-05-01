@@ -1,12 +1,10 @@
 <?php
 include ('homeController.php');
-include ('class/changeCandidateStatus.class.php');
-$changeCandidateStatus = new ChangeCandidateStatus();
-$changeCandidateStatus->change();
 $homeController = new HomeController();
 $monthlyCandidateExpense = $homeController->candidateMonthlyExpense();
 $dailyCandidateExpense = $homeController->candidateDailyExpense();
 $candidateNumbers = $homeController->candidateNumbers();
+$homeController->change();
 ?>
 
 <style>

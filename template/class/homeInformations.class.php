@@ -35,4 +35,10 @@ class HomeInformation extends Dbc{
         $numberOfCandidate = array("month"=>$monthCount['monthCount'], "day"=>$dayCount['dayCount'], "monthComplete"=>$monthCountCompleted['monthCount'], "monthReturned"=>$monthCountReturned['monthCount'], "dayComplete"=>$dayCountCompleted['dayCount'], "dayReturned"=>$dayCountReturned['dayCount']);
         return $numberOfCandidate;
     }
+    public function changeStatus(){
+        $conn = $this->connection();
+        $today = date('Y-m-d');
+        $result_completed = $conn->query("UPDATE processing set pending = 2 where processing.pending = 1 AND processing.pendingTill < '$today'");
+        return $result_completed;
+    }
 }

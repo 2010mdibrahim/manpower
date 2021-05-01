@@ -23,4 +23,8 @@ class HomeController{
         $expense = $this->homeInformation->getCandidateExpenseDaily();
         return $expense;
     }
+    public function change()
+    {
+        $this->homeInformation->changeStatus();
+    }
 }
