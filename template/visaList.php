@@ -26,6 +26,50 @@ if(!isset($_SESSION['sections'])){
 </style>
 <div class="container-fluid" style="padding: 2%">
 
+    <!-- Add delegate Comission -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="delegateComissionCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/addDelegateComission.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delegate Comission Amount</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="passportNum" id="passportNumDelegateExpenseInfo">
+                        <input type="hidden" name="creationDate" id="creationDateDelegateExpenseInfo">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="delegateExpenseAmount">Delegate Comission</label>
+                                    <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission" onkeyup="calculateBDT()">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="dollarRate">Dollar Rate</label>
+                                    <input class="form-control" type="number" name="dollarRate" id="dollarRateModal" placeholder="Dollar Rate" onkeyup="calculateBDT()" step="any">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="bdtAmount">Amount in BDT</label>
+                                    <input class="form-control" type="number" name="bdtAmount" id="bdtAmountModal" placeholder="BDT" readonly>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="delegateModalButton"></button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Manpower Card Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="manpowerFileSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -266,9 +310,9 @@ if(!isset($_SESSION['sections'])){
                     <?php
                     if(isset($_GET['pi'])){
                         $processingId = base64_decode($_GET['pi']);
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate,  passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
                     }else{
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
                     }
                     $status = "pending";
                     while($visa = mysqli_fetch_assoc($result)){ ?>
@@ -620,24 +664,24 @@ if(!isset($_SESSION['sections'])){
                             <td>
                                 <div class="row">
                                     <?php if($visa['youtube'] == ''){ ?>
-                                        <abbr title="Add YouTube Link"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-warning m-1" value="<?php echo $visa['processingId'];?>" onclick="youtubeLink(this.value)"><i class="fab fa-youtube"></i></button></abbr>
+                                        <abbr title="Add YouTube Link"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-warning ml-1 mt-1" value="<?php echo $visa['processingId'];?>" onclick="youtubeLink(this.value)"><i class="fab fa-youtube"></i></button></abbr>
                                     <?php }else{ ?>
-                                        <abbr title="Go to YouTube"><a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success m-1"><i class="fab fa-youtube"></i></button></a></abbr>
+                                        <abbr title="Go to YouTube"><a href="<?php echo $visa['youtube'] ?>" target="_blank"><button data-toggle="modal" data-target="#youtube" class="btn btn-sm btn-success ml-1 mt-1"><i class="fab fa-youtube"></i></button></a></abbr>
                                     <?php } ?>
-                                    <div class="m-1">
+                                    <div class="ml-1 mt-1">
                                         <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($visa['passportNum'])."&cd=".base64_encode($visa['passportCreationDate']); ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
                                     </div>
-                                    <form class="m-1" action="index.php" method="post">
+                                    <form class="ml-1 mt-1" action="index.php" method="post">
                                         <input type="hidden" name="pagePost" value="exchangeVisa">
                                         <input type="hidden" name="info" value="<?php echo $visa['fName']."-".$visa['lName']."-".$visa['processingId']."-".$visa['sponsorVisa']."-".$visa['visaAmount']."-".$visa['visaGenderType'];?>">
                                         <abbr title="Exchange VISA"><button class="btn btn-danger btn-sm"><span class="fas fa-exchange-alt"></span></button></abbr>
                                     </form>                                    
-                                    <form class="m-1" action="template/saveVisa.php" method="post">
+                                    <form class="ml-1 mt-1" action="template/saveVisa.php" method="post">
                                         <input type="hidden" name="alter" value="delete">
                                         <input type="hidden" name="processingId" value="<?php echo $visa['processingId'];?>">
                                         <abbr title="Delete Candidate VISA"><button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button></a></abbr>
                                     </form>
-                                    <div class="m-1">
+                                    <div class="ml-1 mt-1">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="redir" value="visaList">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
@@ -648,6 +692,13 @@ if(!isset($_SESSION['sections'])){
                                             <input type="hidden" name="agentEmail" value="<?php echo $visa['agentEmail'];?>">
                                             <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                         </form>
+                                    </div>
+                                    <div class="ml-1 mt-1">
+                                        <?php if($visa['delegateComission'] == 0){ ?>
+                                            <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
+                                        <?php }else{ ?>
+                                            <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['delegateComission']."_".$visa['dollarRate'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
+                                        <?php } ?>                                            
                                     </div>
                                 </div>
                             </td>
@@ -679,8 +730,30 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function calculateBDT(){
+    var delegateExpense = ($('#delegateExpenseAmountModal').val() === 0 | $('#delegateExpenseAmountModal').val() === '') ? 1 : $('#delegateExpenseAmountModal').val();
+    var dollarRate = ($('#dollarRateModal').val() === 0 | $('#dollarRateModal').val() === '') ? 1 : $('#dollarRateModal').val();
+    $('#bdtAmountModal').val(delegateExpense*dollarRate);
+}
+
 function youtubeLink(processingId){
     $('#processingIdModal').val(processingId);
+}
+
+function addDelegateExpense(info){
+    info = info.split('_');
+    $('#delegateModalButton').html('Submit');
+    $('#passportNumDelegateExpenseInfo').val(info[0]);
+    $('#creationDateDelegateExpenseInfo').val(info[1]);
+}
+function editDelegateExpense(info){
+    info = info.split('_');
+    $('#delegateModalButton').html('Update');
+    $('#passportNumDelegateExpenseInfo').val(info[0]);
+    $('#creationDateDelegateExpenseInfo').val(info[1]);
+    $('#delegateExpenseAmountModal').val(info[2]);
+    $('#dollarRateModal').val(info[3]);
+    $('#bdtAmountModal').val(info[2] * info[3]);
 }
 
 $('#add_visafile_div').click(function (){

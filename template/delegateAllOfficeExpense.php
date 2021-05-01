@@ -116,7 +116,7 @@ if(!isset($_SESSION['sections'])){
     <form action="template/delegateAllOfficeExpenseQry.php" method="post" enctype="multipart/form-data">       
         <div class="form-group">            
             <div class="form-row align-items-end">      
-                <div class="form-group col-md-4" >
+                <div class="form-group col-md-3" >
                     <label> Delegate Name </label>
                     <select class="form-control select2" id="delegateId" name="delegateId" required>
                         <option value="">Select Delegate</option>
@@ -128,15 +128,23 @@ if(!isset($_SESSION['sections'])){
                         <?php } ?>
                     </select>                  
                 </div>
-                <div class="form-group col-md-3">
-                    <label> Amount </label>
-                    <input class="form-control" type="number" name="amount" id="amount" placeholder="Enter Amount">                   
-                </div> 
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
+                    <label> Amount in Dollar </label>
+                    <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">                   
+                </div>
+                <div class="form-group col-md-2">
+                    <label> Dollar Rate </label>
+                    <input class="form-control" type="number" name="rate" id="rateDelegate" placeholder="Enter Dollar Rate" step="any" onkeyup="calculateBDT()">                 
+                </div>
+                <div class="form-group col-md-2">
+                    <label> Amount in BDT </label>
+                    <input class="form-control" type="number" name="amountBDT" id="amountBDTDelegate" readonly>                 
+                </div>
+                <div class="form-group col-md-2">
                     <label> Date </label>
                     <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="date" placeholder="Enter date">                   
                 </div>  
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-1">
                     <input class="form-control" type="submit" name="submit" id="" value="Add">
                 </div>
             </div>
@@ -165,8 +173,8 @@ if(!isset($_SESSION['sections'])){
                 <li class="list-group-item" id="<?php echo $delegateTotal['delegateTotalExpenseId']."_highlight";?>">
                     <div class="row text-center">
                         <div class="col-md-2"><?php echo $delegateTotal['delegateName'];?></div>
-                        <div class="col-md-3"><?php echo number_format($delegateTotal['amount']);?> Taka</div>
-                        <div class="col-md-3"><?php echo number_format($delegateTotal['amount'] - $sumOffice['officeSum']);?> Taka</div>
+                        <div class="col-md-3"><?php echo number_format($delegateTotal['amount'] * $delegateTotal['rate']);?> Taka</div>
+                        <div class="col-md-3"><?php echo number_format($delegateTotal['amount'] * $delegateTotal['rate'] - $sumOffice['officeSum']);?> Taka</div>
                         <div class="col-md-3"><?php echo $delegateTotal['date'];?></div>
                         <div class="col-md-1">
                             <div class="row justify-content-center">
@@ -199,6 +207,13 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+    function calculateBDT(){
+        let amount = $('#amountDelegate').val();
+        let rate = $('#rateDelegate').val();
+        let bdt = amount * rate;
+        $('#amountBDTDelegate').val(bdt);
+    }
+
     function getDelegateOffice(type){
         $.ajax({
             type: 'post',

@@ -22,10 +22,14 @@ if(isset($_GET['ag'])){
 }
 $today = date('Y-m-d');
 $result_agent_expense = $conn -> query("SELECT candidateNID, candidateBirthNumber, payDate, agentExpenseId, candidateName, fullAmount, expensePurposeAgent, date(creationDate) as creationDate FROM agentexpense WHERE agentEmail = '$agentEmail'");
-$result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, agentcomission.comissionId, passport.fName, passport.lName, passport.passportNum, passport.creationDate, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND jobs.creditType = 'Comission'");
+$result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, agentcomission.comissionId, passport.fName, passport.lName, passport.passportNum, passport.creationDate, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN processing on processing.passportNum = agentcomission.passportNum AND processing.passportCreationDate = agentcomission.passportCreationDate WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND processing.pending <= 2");
+print_r(mysqli_error($conn));
 $result_expense = $conn -> query("SELECT passport.fName, passport.lName, passport.passportNum, passport.creationDate, candidateexpense.amount, candidateexpense.purpose, candidateexpense.payDate,candidateexpense.payMode, candidateexpense.expenseId from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where candidateexpense.agentEmail = '$agentEmail'");
 $totalExpense = 0;
 $totalComission = 0;
+$totalComissionAdvance = 0;
+$totalVisaFee = 0;
+$totalVisaFeeAdvance = 0;
 ?>
 <style>
     .flex-container {
@@ -106,12 +110,16 @@ $totalComission = 0;
                             <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                 <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
                                 <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
-                                <td> Comission </td>
+                                <td> <?php echo ($comission['creditType'] == 'Comission') ? 'Comission' : 'Visa Fee'; ?>  </td>
                                 <td>
                                 <div>
                                     <?php 
                                     echo number_format($comission['amount']);
-                                    $totalComission += (int)$comission['amount'];
+                                    if($comission['creditType'] == 'Comission'){
+                                        $totalComission += (int)$comission['amount'];
+                                    }else{
+                                        $totalVisaFee += (int)$comission['amount'];
+                                    }
                                     ?>
                                 </td>
                                 <td> - </td>
@@ -145,7 +153,11 @@ $totalComission = 0;
                                     <td>
                                     <?php 
                                     echo number_format($advance['advanceAmount']);
-                                    $totalExpense += (int)$advance['advanceAmount'];
+                                    if($comission['creditType'] == 'Comission'){
+                                        $totalComissionAdvance += (int)$advance['advanceAmount'];
+                                    }else{
+                                        $totalVisaFeeAdvance += (int)$advance['advanceAmount'];
+                                    }
                                     ?></td>
                                     <td><?php echo $advance['payDate'];?></td>
                                     <td>
@@ -303,10 +315,20 @@ $totalComission = 0;
         <div class="col-sm">
             <div class="card">
                 <div class="card-header text-center">
+                    Total VISA Fee
+                </div>
+                <div class="card-body text-center">
+                    <p class="card-text"><?php echo number_format($totalVisaFee)." Taka";?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header text-center">
                     Remaining Balance
                 </div>
                 <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format($totalComission - $totalExpense)." Taka";?></p>
+                    <p class="card-text"><?php echo number_format(($totalComission - $totalComissionAdvance) - ($totalVisaFee - $totalVisaFeeAdvance) - $totalExpense)." Taka";?></p>
                 </div>
             </div>
         </div>

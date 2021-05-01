@@ -56,49 +56,6 @@ if(isset($_GET['pp'])){
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
-    <!-- Add delegate Comission -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="delegateComissionCandidate">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/addDelegateComission.php" method="post" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Delegate Comission Amount</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="passportNum" id="passportNumDelegateExpenseInfo">
-                        <input type="hidden" name="creationDate" id="creationDateDelegateExpenseInfo">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="delegateExpenseAmount">Delegate Comission</label>
-                                    <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission" onkeyup="calculateBDT()">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="dollarRate">Dollar Rate</label>
-                                    <input class="form-control" type="number" name="dollarRate" id="dollarRateModal" placeholder="Dollar Rate" onkeyup="calculateBDT()" step="any">
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="bdtAmount">Amount in BDT</label>
-                                    <input class="form-control" type="number" name="bdtAmount" id="bdtAmountModal" placeholder="BDT" readonly>
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="delegateModalButton"></button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Final Medical Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="finalMedicalSubmit">
@@ -548,7 +505,7 @@ if(isset($_GET['pp'])){
                         <td>
                             <div class="container">
                                 <div class="row">
-                                    <div class="ml-1 mr-1">
+                                    <div class="ml-1 mt-1">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -557,7 +514,7 @@ if(isset($_GET['pp'])){
                                             <abbr title="Edit Candidate"><button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-edit" aria-hidden="true"></span></></button></abbr>
                                         </form>
                                     </div>
-                                    <div class="ml-1 mr-1">
+                                    <div class="ml-1 mt-1">
                                         <form action="template/editCandidateQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editCandidate" name="pagePost">
@@ -566,22 +523,14 @@ if(isset($_GET['pp'])){
                                             <abbr title="Delete Candidate"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-close" aria-hidden="true"></span></button></abbr>
                                         </form>                                    
                                     </div>
-                                    <div class="ml-1 mr-1">
+                                    <div class="ml-1 mt-1">
                                         <abbr title="Show Expenseces of Candidate"><a href="?page=ce<?php echo "&pn=".base64_encode($candidate['passportNum'])."&cd=".base64_encode($candidate['creationDate']);  ?>" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
                                     </div>
-                                    <div class="ml-1 mr-1">
+                                    <div class="ml-1 mt-1">
                                         <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum=<?php echo $candidate['passportNum']; ?>&creationDate=<?php echo $candidate['creationDate']; ?>" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
                                     </div>
-                                    <div class="ml-1 mr-1">
-                                        <?php if($candidate['finalMedicalStatus'] == 'fit' & $candidate['testMedicalStatus'] == 'fit') { ?>
-                                            <?php if($candidate['delegateComission'] == 0){ ?>
-                                                <abbr title="Add Delegate Comission"><button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="addDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-plus" aria-hidden="true"></span></span></button></abbr>
-                                            <?php }else{ ?>
-                                                <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['delegateComission']."_".$candidate['dollarRate'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
-                                            <?php } ?>                                            
-                                        <?php } ?>
-                                    </div>
-                                    <div class="ml-1 mr-1">
+                                    
+                                    <div class="ml-1 mt-1">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="redir" value="listCandidate">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
@@ -623,11 +572,6 @@ if(isset($_GET['pp'])){
 </div>
 
 <script>
-function calculateBDT(){
-    var delegateExpense = ($('#delegateExpenseAmountModal').val() === 0 | $('#delegateExpenseAmountModal').val() === '') ? 1 : $('#delegateExpenseAmountModal').val();
-    var dollarRate = ($('#dollarRateModal').val() === 0 | $('#dollarRateModal').val() === '') ? 1 : $('#dollarRateModal').val();
-    $('#bdtAmountModal').val(delegateExpense*dollarRate);
-}
 
 function trainingCard(passport_info){
     $('#passportNum').val(passport_info);
@@ -647,21 +591,7 @@ function policeClearance(passport_info){
     $('#modalPassportPolice').val(passport_info);
 }
 
-function addDelegateExpense(info){
-    info = info.split('_');
-    $('#delegateModalButton').html('Submit');
-    $('#passportNumDelegateExpenseInfo').val(info[0]);
-    $('#creationDateDelegateExpenseInfo').val(info[1]);
-}
-function editDelegateExpense(info){
-    info = info.split('_');
-    $('#delegateModalButton').html('Update');
-    $('#passportNumDelegateExpenseInfo').val(info[0]);
-    $('#creationDateDelegateExpenseInfo').val(info[1]);
-    $('#delegateExpenseAmountModal').val(info[2]);
-    $('#dollarRateModal').val(info[3]);
-    $('#bdtAmountModal').val(info[2] * info[3]);
-}
+
 $('#candidateNav').addClass('active');
 </script>
 

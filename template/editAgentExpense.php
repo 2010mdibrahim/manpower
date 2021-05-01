@@ -46,7 +46,7 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
                 </div>
                 <div class="form-group col-md-4">                    
                     <label>Birth Certificate Number</label>
-                    <input class="form-control" type="text" name="birthNumber" id="birthNumber" value="<?php echo $expense['canidateBirthNumber'];?>">
+                    <input class="form-control" type="text" name="birthNumber" id="birthNumber" value="<?php echo $expense['candidateBirthNumber'];?>">
                 </div>
                 <div class="form-group col-md-4">                    
                     <label>Date Of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>

@@ -2,28 +2,29 @@
 include ('database.php');
 $delegateTotalExpenseId = $_POST['delegateTotalExpenseId'];
 $result = $conn->query("SELECT * from delegatetotalexpenseoffice where delegateTotalExpenseId = $delegateTotalExpenseId");
-$html = '   <div class="card" style="width: 100%; background-color: #dce775">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" style="background-color: #dce775">
-                        <div class="row text-center">
-                            <div class="col-md-3">Office Name</div>
-                            <div class="col-md-3">Amount</div>
-                            <div class="col-md-3">Date</div>
-                            <div class="col-md-2">Receipt</div>
-                            <div class="col-md-1">Alter</div>
-                        </div>
-                    </li>';
-while($office = mysqli_fetch_assoc($result)){
+if($result->num_rows != 0){
+    $html = '   <div class="card" style="width: 100%; background-color: #dce775">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" style="background-color: #dce775">
+                <div class="row text-center">
+                    <div class="col-md-3">Office Name</div>
+                    <div class="col-md-3">Amount</div>
+                    <div class="col-md-3">Date</div>
+                    <div class="col-md-2">Receipt</div>
+                    <div class="col-md-1">Alter</div>
+                </div>
+            </li>';
+    while($office = mysqli_fetch_assoc($result)){
     $html .= '      <li class="list-group-item" style="background-color: #f9fbe7">
-                        <div class="row text-center">';
+                <div class="row text-center">';
     if($office['type'] == 'outside'){
-        $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$office['officeId']));
-        $html .= '             <div class="col-md-3">'.$officeName['officeName'].'</div>';
+    $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$office['officeId']));
+    $html .= '             <div class="col-md-3">'.$officeName['officeName'].'</div>';
     }else if($office['type'] == 'manpower'){
-        $officeName = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$office['officeId']));
-        $html .= '             <div class="col-md-3">'.$officeName['manpowerOfficeName'].'</div>';
+    $officeName = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$office['officeId']));
+    $html .= '             <div class="col-md-3">'.$officeName['manpowerOfficeName'].'</div>';
     }else{
-        $html .= '             <div class="col-md-3">'.$office['officeId'].'</div>';
+    $html .= '             <div class="col-md-3">'.$office['officeId'].'</div>';
     }
     $html .= '              <div class="col-md-3">'.number_format($office['amount']).' Taka</div>';
     $html .= '              <div class="col-md-3">'.$office['date'].'</div>';
@@ -43,8 +44,11 @@ while($office = mysqli_fetch_assoc($result)){
     $html .= '                  </div>';
     $html .= '              </div>';
     $html .= '          </div>
-                    </li>';
+            </li>';
+    }
+    $html .= '      </ul>
+    </div>';
+}else{
+    $html = '<div class="card text-center" style="width: 100%; background-color: #dce775"><div class="card-header"><h5>No Office Added</h5></div></div>';
 }
-$html .= '      </ul>
-            </div>';
 echo $html;

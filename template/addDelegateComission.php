@@ -22,7 +22,7 @@ $dollarRate = $_POST['dollarRate'];
 print_r($dollarRate);
 $result = $conn->query("UPDATE passport set delegateComission = $delegateExpenseAmount, dollarRate = $dollarRate where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 if($result){
-    echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+    echo "<script> window.location.href='../index.php?page=visaList'</script>";
 }else{
     print_r(mysqli_error($conn));
 }

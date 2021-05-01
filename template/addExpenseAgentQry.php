@@ -52,7 +52,7 @@ if($alter == 'delete'){
         $adjustAmount = 0;
     }
     if($alter == 'update'){
-        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date', candidateName = '$candidateName', candidateDOB = '$candidateDOB', candidateNID = '$candidateNID', canidateBirthNumber = '$canidateBirthNumber' WHERE agentExpenseId=$agentExpenseId");
+        $result = $conn->query("UPDATE agentexpense SET expensePurposeAgent='$purpose', expenseMode = '$expenseMode', fullAmount=$fullAmount,payDate='$paydate',agentEmail='$agentEmail',comment='$comment',updatedBy='$admin',updatedNo='$date', candidateName = '$candidateName', candidateDOB = '$candidateDOB', candidateNID = '$candidateNID', candidateBirthNumber = '$canidateBirthNumber' WHERE agentExpenseId=$agentExpenseId");
         if($result){
             echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
         }else{

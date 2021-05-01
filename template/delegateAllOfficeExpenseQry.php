@@ -18,8 +18,9 @@ if(!isset($_SESSION['sections'])){
 $delegateId = $_POST['delegateId'];
 $amount = $_POST['amount'];
 $date = $_POST['date'];
+$rate = $_POST['rate'];
 
-$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date) VALUES ($delegateId,$amount,'$date')");
+$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date, rate) VALUES ($delegateId,$amount,'$date', $rate)");
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{
