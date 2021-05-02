@@ -110,7 +110,7 @@ $totalVisaFeeAdvance = 0;
                             <tr <?php //echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                 <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
                                 <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
-                                <td> <?php echo ($comission['creditType'] == 'Comission') ? 'Comission' : 'Visa Fee'; ?>  </td>
+                                <td> <?php echo ($comission['creditType'] == 'Comission') ? 'Agreed Comission' : 'Agreed Visa Fee'; ?>  </td>
                                 <td>
                                 <div>
                                     <?php 
