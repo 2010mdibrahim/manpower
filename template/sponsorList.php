@@ -103,6 +103,6 @@ if(isset($_GET['spN'])){
 </div>
 
 <script>
-    $('#sponsorNav').addClass('active');
+$('#sponsorNav').addClass('active');
 </script>
 

@@ -40,18 +40,20 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
         <h3 style="background-color: aliceblue; padding: 0.5%">Sponsor Information</h3>
         <div class="form-group">
             <div class="form-row">
-                <div class="form-group col-md-4">                    
-                    <label>NID</label>
-                    <input class="form-control" type="text" name="nid" id="nid" value="<?php echo $expense['candidateNID'];?>">
-                </div>
-                <div class="form-group col-md-4">                    
-                    <label>Birth Certificate Number</label>
-                    <input class="form-control" type="text" name="birthNumber" id="birthNumber" value="<?php echo $expense['candidateBirthNumber'];?>">
-                </div>
-                <div class="form-group col-md-4">                    
-                    <label>Date Of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>
-                    <input class="form-control datepicker" type="text" autocomplete="off" name="dob" id="dob" value="<?php echo $expense['candidateDOB'];?>">
-                </div>
+                <?php if($expense['personal'] == 'no'){ ?>
+                    <div class="form-group col-md-4">                    
+                        <label>NID</label>
+                        <input class="form-control" type="text" name="nid" id="nid" value="<?php echo $expense['candidateNID'];?>">
+                    </div>
+                    <div class="form-group col-md-4">                    
+                        <label>Birth Certificate Number</label>
+                        <input class="form-control" type="text" name="birthNumber" id="birthNumber" value="<?php echo $expense['candidateBirthNumber'];?>">
+                    </div>
+                    <div class="form-group col-md-4">                    
+                        <label>Date Of Birth <i class="fa fa-asterisk" aria-hidden="true"></i></label>
+                        <input class="form-control datepicker" type="text" autocomplete="off" name="dob" id="dob" value="<?php echo $expense['candidateDOB'];?>">
+                    </div>
+                <?php } ?>
                 <div class="form-group col-md-6">
                     <label>Amount</label>
                     <input class="form-control" type="number" name="fullAmount" value="<?php echo $expense['fullAmount'];?>">
@@ -62,7 +64,7 @@ $expense = mysqli_fetch_assoc($conn->query("SELECT agentexpense.*, agent.agentNa
                 </div>
                 <div class="form-group col-md-6" >                    
                     <label>Purpose</label>
-                    <input class="form-control" type="text" name="purpose" value="<?php echo $expense['expensePurposeAgent'];?>">
+                    <input class="form-control" type="text" name="purpose" value="<?php echo $expense['expensePurposeAgent'];?>" readonly>
                 </div>
                 <div class="form-group col-md-6" > 
                     <label>Pay Date</label>

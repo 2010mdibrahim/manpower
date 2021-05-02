@@ -54,6 +54,9 @@ if(isset($_GET['pp'])){
     .indicator.black{
         border: 5px #424242 solid;
     }
+    .indicator.hold{
+        border: 5px #f9a825  solid;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
 
@@ -217,6 +220,9 @@ if(isset($_GET['pp'])){
                 <div class="col-md-1">
                     <div class="indicator black">Back</div>
                 </div>
+                <div class="col-md-1">
+                    <div class="indicator hold">On Hold</div>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -259,11 +265,12 @@ if(isset($_GET['pp'])){
                         $today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
-                    
-                        if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
+
+                        if($candidate['status'] == '1'){ ?>
+                            <tr style="background-color: #f9a825 ;">
+                        <?php }else if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
                             <tr class="processing" style="background-color: #f44336; color: white;">
-                        <?php } ?>                       
-                        <?php if(!is_null($hasVisa)){ ?>
+                        <?php }else if(!is_null($hasVisa)){ ?>
                             <?php if($hasVisa['pending'] == 3){ ?>
                                 <tr class="processing" style="background-color: #424242; color: white;">
                             <?php }else if(!is_null($hasTicket)){ ?>

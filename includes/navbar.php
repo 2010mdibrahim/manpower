@@ -58,7 +58,7 @@
                                 <a href="?page=addNewAgent" class="dropdown-item">Add New Agent</a>
                                 <a href="?page=agentList" class="dropdown-item">Agent List</a>
                                 <div class="dropdown-divider"></div>
-                                <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense</a>
+                                <a href="?page=addExpenseAgent" class="dropdown-item">Add Agent Expense for Candidate</a>
                             </div>
                         </div>
                     <?php } ?>

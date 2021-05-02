@@ -16,15 +16,63 @@ if(!isset($_SESSION['sections'])){
 }
 ?>
 <style>
-    /* .flex-container {
-        display: flex;
-        flex-direction: row;
-    } */
     .btn{
         font-size: 11px;
     }
+    .indicator{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .indicator.green{
+        border: 5px #66bb6a solid;
+    }
+    .indicator.blue{
+        border: 5px #42a5f5 solid;
+    }
+    .indicator.red{
+        border: 5px #f44336 solid;
+    }
+    .indicator.black{
+        border: 5px #424242 solid;
+    }
+    .indicator.hold{
+        border: 5px #f9a825  solid;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
+
+    <!-- Return or complete or hold -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="returnCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/returnCandidateQry.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Return Or Complete Or Hold</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="processingIdModalReturn" name="processingId">
+                        <input type="hidden" name="href" value="visaList">
+                        <div class="row justify-content-center">
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-success" value="complete" name="complete">Complete</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-danger" value="return" name="return">Return</button>
+                            </div>
+                            <div class="col-sm" id="hold">
+                            </div>
+                        </div>                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Add delegate Comission -->
     <div class="modal fade" tabindex="-1" role="dialog" id="delegateComissionCandidate">
@@ -283,11 +331,16 @@ if(!isset($_SESSION['sections'])){
             <div class="section-header">
                 <h2>All Visa Information</h2>
             </div>
+            <div class="row justify-content-md-center text-center">
+                <div class="col-md-1">
+                    <div class="indicator hold">On Hold</div>
+                </div>
+            </div>
         </div>
     
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
+                <table id="dataTableSeaumVisa" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Passport Name</th>
@@ -310,13 +363,17 @@ if(!isset($_SESSION['sections'])){
                     <?php
                     if(isset($_GET['pi'])){
                         $processingId = base64_decode($_GET['pi']);
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate,  passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate,  passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
                     }else{
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
                     }
                     $status = "pending";
-                    while($visa = mysqli_fetch_assoc($result)){ ?>
-                        <tr>
+                    while($visa = mysqli_fetch_assoc($result)){ 
+                        if($visa['status'] == '1'){ ?>
+                            <tr style="background-color: #f9a825 ;">
+                        <?php }else{ ?>
+                            <tr>
+                        <?php }?>
                             <td>
                             <?php echo $visa['fName']." ".$visa['lName'];?>
                             <p><a href="?page=agentList&agE=<?php echo base64_encode($visa['agentEmail']);?>"><?php echo $visa['agentName'];?></a></p>
@@ -700,6 +757,9 @@ if(!isset($_SESSION['sections'])){
                                             <abbr title="Edit Delegate Comission"><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#delegateComissionCandidate" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['delegateComission']."_".$visa['dollarRate'];?>" onclick="editDelegateExpense(this.value)"><span class="fa fa-dollar" aria-hidden="true"><span class="fa fa-check" aria-hidden="true"></span></span></button></abbr>
                                         <?php } ?>                                            
                                     </div>
+                                    <div class="ml-1 mt-1">
+                                        <abbr title="Return or Complete candidate"><button data-target="#returnCandidate" data-toggle="modal" class="btn btn-sm btn-danger" type="button" value="<?php echo $visa['processingId']."_".$visa['status'] ?>" onclick="getReturnValue(this.value)"><i class="fas fa-user-times"></i></button></abbr>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -730,6 +790,26 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function getReturnValue(info){
+    info_split = info.split('_');
+    $('#processingIdModalReturn').val(info_split[0]);
+    let button = document.createElement('BUTTON');
+    button.setAttribute('type', 'submit');
+    if(info_split[1] === '0'){
+        button.setAttribute('class', 'btn btn-warning');
+        button.setAttribute('value', 'hold');
+        button.setAttribute('name', 'hold');
+        button.textContent = 'Hold';
+    }else if(info_split[1] === '1'){
+        button.setAttribute('class', 'btn btn-secondary');
+        button.setAttribute('value', 'release');
+        button.setAttribute('name', 'release');
+        button.textContent = 'Release';
+    }
+    
+    $('#hold').html(button);
+}
+
 function calculateBDT(){
     var delegateExpense = ($('#delegateExpenseAmountModal').val() === 0 | $('#delegateExpenseAmountModal').val() === '') ? 1 : $('#delegateExpenseAmountModal').val();
     var dollarRate = ($('#dollarRateModal').val() === 0 | $('#dollarRateModal').val() === '') ? 1 : $('#dollarRateModal').val();

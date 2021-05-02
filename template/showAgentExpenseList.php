@@ -91,7 +91,7 @@ $totalVisaFeeAdvance = 0;
     <div class="card w-100">    
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover text-center"  style="width:100%">
+                <table id="dataTableSeaum" class="table table-bordered table-hover text-center table-striped"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Candidate Name</th>  
@@ -107,7 +107,7 @@ $totalVisaFeeAdvance = 0;
                     $i = 2;
                     if(!is_null($result_comission)){
                         while( $comission = mysqli_fetch_assoc($result_comission) ){ ?> 
-                            <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                            <tr <?php //echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                 <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
                                 <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
                                 <td> <?php echo ($comission['creditType'] == 'Comission') ? 'Comission' : 'Visa Fee'; ?>  </td>
@@ -146,7 +146,7 @@ $totalVisaFeeAdvance = 0;
                             if(!is_null($comissionAdvance)){
                                 while($advance = mysqli_fetch_assoc($comissionAdvance)){
                             ?>
-                                <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                                <tr <?php //echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                                     <td><?php echo $comission['fName']." ".$comission['lName'];?></td>
                                     <td><a href="?page=listCandidate&pp=<?php echo base64_encode($comission['passportNum']); ?>&cd=<?php echo base64_encode($comission['creationDate']); ?>"><?php echo $comission['passportNum'];?></a></td>
                                     <td> Advance </td>
@@ -192,7 +192,7 @@ $totalVisaFeeAdvance = 0;
                     <?php
                     while( $candidates = mysqli_fetch_assoc($result_expense) ){   
                     ?>
-                        <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                        <tr <?php //echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td><?php echo $candidates['fName']." ".$candidates['lName'];?></td>
                             <td><a href="?page=listCandidate&pp=<?php echo base64_encode($candidates['passportNum']); ?>&cd=<?php echo base64_encode($candidates['creationDate']); ?>"><?php echo $candidates['passportNum'];?></a></td>
                             <td> <?php echo $candidates['purpose'];?> </td>
@@ -237,7 +237,7 @@ $totalVisaFeeAdvance = 0;
                     <?php
                     while( $agent = mysqli_fetch_assoc($result_agent_expense) ){   
                     ?>
-                        <tr <?php echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
+                        <tr <?php //echo (fmod($i, 2) == 0) ? 'style="background-color: #e0e0e0"' : '';?>>
                             <td> <?php echo $agent['candidateName'];?> </td>
                             <td> <?php 
                             if($agent['candidateNID'] != ''){

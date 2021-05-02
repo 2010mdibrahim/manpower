@@ -234,7 +234,7 @@ if(!isset($_SESSION['sections'])){
         </div>
     </div>
 
-    <!-- Stamping Modal -->
+    <!-- Return or complete or hold -->
     <div class="modal fade" tabindex="-1" role="dialog" id="returnCandidate">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/returnCandidateQry.php" method="post" enctype="multipart/form-data">
@@ -247,12 +247,16 @@ if(!isset($_SESSION['sections'])){
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="processingIdModalReturn" name="processingId">
+                        <input type="hidden" name="href" value="pendingVisaList">
                         <div class="row justify-content-center">
                             <div class="col-sm">
                                 <button type="submit" class="btn btn-success" value="complete" name="complete">Complete</button>
                             </div>
                             <div class="col-sm">
                                 <button type="submit" class="btn btn-danger" value="return" name="return">Return</button>
+                            </div>
+                            <div class="col-sm">
+                                <button type="submit" class="btn btn-warning" value="hold" name="hold">Hold</button>
                             </div>
                         </div>                   
                     </div>

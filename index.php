@@ -25,24 +25,7 @@ if(!empty($_POST['pagePost'])){
 </head>
 
 <script>
-    $(document).ready(function() {
-        $('#dataTableSeaum').DataTable({
-            "fixedHeader": true,
-            "paging": true,
-            "lengthChange": true,
-            "lengthMenu": [
-                [10, 25, 50, 100, 500],
-                [10, 25, 50, 100, 500]
-            ],
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "responsive": true,
-            "order": [],
-            "scrollX": false
-        });              
-    });
+    
 </script>
 <style>
     h4{
@@ -410,6 +393,8 @@ if(!empty($_POST['pagePost'])){
             include('template/sendSms.php');
         }else if($page == 'crm') {
             include('template/crm.php');
+        }else if($page == 'addExpenseAgentPersonal') {
+            include('template/addExpenseAgentPersonal.php');
         }else{
             include ('template/home.php');
         }
@@ -427,6 +412,26 @@ if(!empty($_POST['pagePost'])){
 
 
 <script>
+    let table = $('#dataTableSeaum').DataTable({
+                    "fixedHeader": true,
+                    "paging": true,
+                    "lengthChange": true,
+                    "lengthMenu": [
+                        [10, 25, 50, 100, 500],
+                        [10, 25, 50, 100, 500]
+                    ],
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "responsive": true,
+                    "order": [],
+                    "scrollX": false
+                });
+    table.row( 11 ).scrollTo();
+    table.scroller.toPosition( 15 );
+    console.log(table);
+
     $.ajax({
         type: 'post',
         url: 'template/notification.php',
