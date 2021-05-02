@@ -5,7 +5,7 @@
 
 <div class="container" style="padding: 2%">
     <div class="section-header">
-        <h2>Add Personal Expense</h2>
+        <h2>Add Agent Comission or Other Expense</h2>
     </div>
     
     <form action="template/agentPersonalExpenseQry.php" method="post" id="paymentForm">
