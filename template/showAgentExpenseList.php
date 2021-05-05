@@ -90,7 +90,7 @@ $totalVisaFeeAdvance = 0;
     <div class="card w-100">    
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover text-center table-striped"  style="width:100%">
+                <table id="dataTableSeaumAgentList" class="table table-bordered table-hover text-center table-striped"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Candidate Name</th>  
@@ -326,8 +326,9 @@ $totalVisaFeeAdvance = 0;
                 <div class="card-header text-center">
                     Remaining Balance
                 </div>
-                <div class="card-body text-center">
-                    <p class="card-text"><?php echo number_format(($totalComission - $totalComissionAdvance) - ($totalVisaFee - $totalVisaFeeAdvance) - $totalExpense)." Taka";?></p>
+                <?php $totalExpenseFinal = (($totalComission - $totalComissionAdvance) - ($totalVisaFee - $totalVisaFeeAdvance) - $totalExpense); ?>
+                <div class="card-body text-center <?php echo ($totalExpenseFinal < 0) ? 'bg-danger text-white' : '';?>">
+                    <p class="card-text "><?php echo number_format($totalExpenseFinal)." Taka";?></p>
                 </div>
             </div>
         </div>
@@ -343,4 +344,5 @@ $totalVisaFeeAdvance = 0;
         $('#creationDate').val(info_split[2]);
         $('#agentEmail').val(info_split[3]);
     }
+    
 </script>

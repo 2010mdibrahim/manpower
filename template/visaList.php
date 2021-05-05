@@ -340,7 +340,7 @@ if(!isset($_SESSION['sections'])){
     
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaumVisa" class="table table-bordered table-hover"  style="width:100%">
+                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Passport Name</th>

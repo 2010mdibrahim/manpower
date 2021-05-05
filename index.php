@@ -431,7 +431,22 @@ if(!empty($_POST['pagePost'])){
     table.row( 11 ).scrollTo();
     table.scroller.toPosition( 15 );
     console.log(table);
-
+    $('#dataTableSeaumAgentList').DataTable({
+        "fixedHeader": true,
+        "paging": true,
+        "lengthChange": true,
+        "lengthMenu": [
+            [10, 25, 50, 100, 500],
+            [10, 25, 50, 100, 500]
+        ],
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "order": [[ 4, "desc" ]],
+        "scrollX": false
+    });
     $.ajax({
         type: 'post',
         url: 'template/notification.php',
