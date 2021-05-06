@@ -10,3 +10,4 @@ Processing Table Pending Values:
 Passport Table Status value: 
 0 - active
 1 - On Hold
+2 - Disable

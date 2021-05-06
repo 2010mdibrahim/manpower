@@ -325,6 +325,58 @@ if(!isset($_SESSION['sections'])){
             </form>
         </div>
     </div>
+    <!-- Disable Candidate -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="disableCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/disableCandidate.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Disable Candidate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="href" value="visaList">
+                        <input type="hidden" name="passportNum" id="passportNumDisableModal">
+                        <input type="hidden" name="creationDate" id="creationDateDisableModal">
+                        <label for="reason">Reason For Disabling</label>
+                        <input class="form-control" type="text" name="reason" placeholder="Enter Reason">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="disable">Disable</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Show Disable Candidate -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="disableCandidateReason">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/disableCandidate.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Disable Candidate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="href" value="visaList">
+                        <input type="hidden" name="passportNum" id="passportNumEnableModal">
+                        <input type="hidden" name="creationDate" id="creationDateEnableModal">
+                        <label for="reason">Reason For Disabling</label>
+                        <p id="reasonModal"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="enable">Enable</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <div class="card">
         <div class="card-header">
@@ -363,13 +415,15 @@ if(!isset($_SESSION['sections'])){
                     <?php
                     if(isset($_GET['pi'])){
                         $processingId = base64_decode($_GET['pi']);
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate,  passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.disableReason, passport.delegateComission, passport.dollarRate,  passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail where processing.processingId = $processingId");
                     }else{
-                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.delegateComission, passport.dollarRate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
+                        $result = $conn->query("SELECT sponsor.sponsorName, jobs.creditType, passport.oldVisa, passport.creationDate as passportCreationDate, passport.disableReason, passport.delegateComission, passport.dollarRate, passport.country, passport.agentEmail, passport.fName, passport.lName, passport.passportNum, passport.status, sponsorvisalist.sponsorNID, sponsorvisalist.visaGenderType, sponsorvisalist.jobId , sponsorvisalist.visaAmount, agent.agentName, processing.* from processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN agent on agent.agentEmail = passport.agentEmail order by creationDate desc");
                     }
                     $status = "pending";
                     while($visa = mysqli_fetch_assoc($result)){ 
-                        if($visa['status'] == '1'){ ?>
+                        if($visa['status'] == '2'){ ?>
+                            <tr style="background-color: #616161; color: white">
+                        <?php }else if($visa['status'] == '1'){ ?>
                             <tr style="background-color: #f9a825 ;">
                         <?php }else{ ?>
                             <tr>
@@ -714,7 +768,16 @@ if(!isset($_SESSION['sections'])){
                                     <button class="btn btn-info btn-sm">
                                         <?php echo $ticket['flightDate']; ?>
                                     </button>
-                                </a>  
+                                </a>
+                                <?php if($visa['pending'] == 0){ ?>
+                                <form class="mt-1" action="template/sendToPendingList.php" method="post">
+                                    <input type="hidden" name="passportNum" value="<?php echo $visa['passportNum'] ?>">
+                                    <input type="hidden" name="passportCreationDate" value="<?php echo $visa['passportCreationDate'] ?>">
+                                    <button class="btn btn-sm btn-secondary"><i class="fas fa-plane"></i></button>
+                                </form>
+                                <?php }else{ ?>
+                                    <button type="button" class="btn btn-sm btn-success mt-1"><i class="fas fa-plane"></i></button>
+                                <?php } ?>
                             <?php } ?></td> 
 
                             <!-- options -->
@@ -760,6 +823,13 @@ if(!isset($_SESSION['sections'])){
                                     <div class="ml-1 mt-1">
                                         <abbr title="Return or Complete candidate"><button data-target="#returnCandidate" data-toggle="modal" class="btn btn-sm btn-danger" type="button" value="<?php echo $visa['processingId']."_".$visa['status'] ?>" onclick="getReturnValue(this.value)"><i class="fas fa-user-times"></i></button></abbr>
                                     </div>
+                                    <div class="ml-1 mt-1">
+                                    <?php if($visa['status'] != 2){ ?>
+                                        <abbr title="Disable candidate"><button data-target="#disableCandidate" data-toggle="modal" class="btn btn-sm btn-danger" type="button" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate'] ?>" onclick="getDisableValue(this.value)"><i class="fas fa-ban"></i></button></abbr>
+                                    <?php }else{ ?>
+                                        <abbr title="Show Disable Reason"><button data-target="#disableCandidateReason" data-toggle="modal" class="btn btn-sm btn-success" type="button" value="<?php echo $visa['passportNum']."_".$visa['passportCreationDate']."_".$visa['disableReason'] ?>" onclick="showDisableValue(this.value)"><i class="fas fa-ban"></i></button></abbr>
+                                    <?php } ?>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -790,6 +860,18 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function showDisableValue(info){
+    info_split = info.split('_');
+    $('#passportNumEnableModal').val(info_split[0]);
+    $('#creationDateEnableModal').val(info_split[1]);
+    $('#reasonModal').html(info_split[2]);
+}
+function getDisableValue(info){
+    info_split = info.split('_');
+    $('#passportNumDisableModal').val(info_split[0]);
+    $('#creationDateDisableModal').val(info_split[1]);
+}
+
 function getReturnValue(info){
     info_split = info.split('_');
     $('#processingIdModalReturn').val(info_split[0]);

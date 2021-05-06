@@ -57,9 +57,64 @@ if(isset($_GET['pp'])){
     .indicator.hold{
         border: 5px #f9a825  solid;
     }
+    .indicator.disable{
+        border: 5px #616161  solid;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
 
+    <!-- Disable Candidate -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="disableCandidate">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/disableCandidate.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Disable Candidate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="href" value="listCandidate">
+                        <input type="hidden" name="passportNum" id="passportNumDisableModal">
+                        <input type="hidden" name="creationDate" id="creationDateDisableModal">
+                        <label for="reason">Reason For Disabling</label>
+                        <input class="form-control" type="text" name="reason" placeholder="Enter Reason">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="disable">Disable</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Show Disable Candidate -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="disableCandidateReason">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="template/disableCandidate.php" method="post" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Disable Candidate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="href" value="listCandidate">
+                        <input type="hidden" name="passportNum" id="passportNumEnableModal">
+                        <input type="hidden" name="creationDate" id="creationDateEnableModal">
+                        <label for="reason">Reason For Disabling</label>
+                        <p id="reasonModal"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="enable">Enable</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Final Medical Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="finalMedicalSubmit">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -223,6 +278,9 @@ if(isset($_GET['pp'])){
                 <div class="col-md-1">
                     <div class="indicator hold">On Hold</div>
                 </div>
+                <div class="col-md-1">
+                    <div class="indicator disable">Disabled</div>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -265,9 +323,10 @@ if(isset($_GET['pp'])){
                         $today = new Datetime(date('Y-m-d'));
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
-
-                        if($candidate['status'] == '1'){ ?>
-                            <tr style="background-color: #f9a825 ;">
+                        if($candidate['status'] == '2'){ ?>
+                            <tr class="processing" style="background-color: #616161; color: white">
+                        <?php }else if($candidate['status'] == '1'){ ?>
+                            <tr class="processing" style="background-color: #f9a825 ;">
                         <?php }else if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
                             <tr class="processing" style="background-color: #f44336; color: white;">
                         <?php }else if(!is_null($hasVisa)){ ?>
@@ -549,6 +608,13 @@ if(isset($_GET['pp'])){
                                             <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                         </form>
                                     </div>
+                                    <div class="ml-1 mt-1">
+                                    <?php if($candidate['status'] != 2){ ?>
+                                        <abbr title="Disable candidate"><button data-target="#disableCandidate" data-toggle="modal" class="btn btn-sm btn-danger" type="button" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'] ?>" onclick="getDisableValue(this.value)"><i class="fas fa-ban"></i></button></abbr>
+                                    <?php }else{ ?>
+                                        <abbr title="Show Disable Reason"><button data-target="#disableCandidateReason" data-toggle="modal" class="btn btn-sm btn-success" type="button" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate']."_".$candidate['disableReason'] ?>" onclick="showDisableValue(this.value)"><i class="fas fa-ban"></i></button></abbr>
+                                    <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -579,6 +645,18 @@ if(isset($_GET['pp'])){
 </div>
 
 <script>
+
+function showDisableValue(info){
+    info_split = info.split('_');
+    $('#passportNumEnableModal').val(info_split[0]);
+    $('#creationDateEnableModal').val(info_split[1]);
+    $('#reasonModal').html(info_split[2]);
+}
+function getDisableValue(info){
+    info_split = info.split('_');
+    $('#passportNumDisableModal').val(info_split[0]);
+    $('#creationDateDisableModal').val(info_split[1]);
+}
 
 function trainingCard(passport_info){
     $('#passportNum').val(passport_info);
