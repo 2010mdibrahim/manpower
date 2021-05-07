@@ -20,10 +20,10 @@ if(isset($_POST['alter'])){
 }else{
     $alter = '';
 }
-$delegateTotalExpenseId = $_POST['delegateTotalExpenseId'];
-if($alter == 'delete'){    
-    $result = $conn->query("DELETE from delegatetotalexpense where delegateTotalExpenseId = $delegateTotalExpenseId");
+if($alter == 'delete'){
+    $result = $conn->query("DELETE from delegatetotalexpense where delegateId = ".$_POST['delegateId']);
 }else{
+    $delegateTotalExpenseId = $_POST['delegateTotalExpenseId'];
     $amount = $_POST['amount'];
     $date = $_POST['date'];
     $result = $conn->query("UPDATE delegatetotalexpense set amount = $amount, date = '$date' where delegateTotalExpenseId = $delegateTotalExpenseId");

@@ -70,7 +70,7 @@ if(!isset($_SESSION['sections'])){
                     </div>
                     <div class="modal-body">
                     <input type="hidden" name="alter" value="delete">
-                        <input type="hidden" name="delegateId">
+                        <input type="hidden" name="delegateId" id="delegateIdModalDelete">
                         <div class="row justify-content-center">
                             <div class="col text-center">
                                 <button class="btn btn-danger"> Confirm Deletion </button>
@@ -204,7 +204,7 @@ if(!isset($_SESSION['sections'])){
                                     <button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button>
                                 </div>
                                 <div class="form-group">
-                                    <button data-toggle="modal" data-target="#deleteDelegateExpense" class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>
+                                    <button data-toggle="modal" data-target="#deleteDelegateExpense" class="btn btn-sm btn-danger" value="<?php echo $delegate['delegateId'];?>" onclick="getDelegateValue(this.value)"><span class="fa fa-close"></span></button>
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'].'_print';?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button>
@@ -222,6 +222,10 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+    function getDelegateValue(val){
+        $('#delegateIdModalDelete').val(val);
+    }
+
     function print_div(val){
         $("#" + val).print({
             noPrintSelector: ".exclude",
