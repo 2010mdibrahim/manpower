@@ -48,6 +48,7 @@ if(!empty($_POST['pagePost'])){
     .capitalize{
         text-transform: capitalize;
     }
+    
 </style>
 <body>
 <div id="data-loading"></div>
@@ -56,6 +57,20 @@ if(!empty($_POST['pagePost'])){
 <script>
     var data_loading = '<div style="position: fixed; z-index: 99999; top: 0%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"><center><img src="<?="img/loading.gif";?>" style="margin-top:16%;border-radius:50px 5px 50px 5px;"/></center></div>';
 </script>
+<style>
+    .col-print-1 {width:8%;  float:left;}
+    .col-print-2 {width:16%; float:left;}
+    .col-print-3 {width:25%; float:left;}
+    .col-print-4 {width:33%; float:left;}
+    .col-print-5 {width:42%; float:left;}
+    .col-print-6 {width:50%; float:left;}
+    .col-print-7 {width:58%; float:left;}
+    .col-print-8 {width:66%; float:left;}
+    .col-print-9 {width:75%; float:left;}
+    .col-print-10{width:83%; float:left;}
+    .col-print-11{width:92%; float:left;}
+    .col-print-12{width:100%; float:left;}
+</style>
 <div class="wrapper">
     <?php
     if(isset($_SESSION['email']) === false){

@@ -16,11 +16,28 @@ if(!isset($_SESSION['sections'])){
     }
 }
 $delegateId = $_POST['delegateId'];
-$amount = $_POST['amount'];
 $date = $_POST['date'];
-$rate = $_POST['rate'];
-
-$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date, rate) VALUES ($delegateId,$amount,'$date', $rate)");
+if(isset($_POST['rate'])){
+    $rate = $_POST['rate'];
+}else{
+    $rate = 1; // for taka
+}
+if(isset($_POST['amount'])){
+    $amount = $_POST['amount']; // in dollar
+}else{
+    $amount = $_POST['amountBDT']; // in taka
+}
+if(isset($_POST['type'])){
+    $type = $_POST['type']; 
+}else{
+    $type = 'NULL'; 
+}
+if(isset($_POST['officeId'])){
+    $officeId = $_POST['officeId']; 
+}else{
+    $officeId = 'NULL'; 
+}
+$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date, rate, type, officeId) VALUES ($delegateId,$amount,'$date', $rate, '$type', $officeId)");
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{

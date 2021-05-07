@@ -15,6 +15,7 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
+$delegateId = $_POST['delegateId'];
 $delegateTotalExpenseOfficeId = $_POST['delegateTotalExpenseOfficeId'];
 if(isset($_POST['alter'])){
     $alter = $_POST['alter'];
@@ -29,7 +30,7 @@ if($alter == 'delete'){
     $result = $conn->query("UPDATE delegateTotalExpenseOffice set amount = $amount, date = '$date' where delegateTotalExpenseOfficeId = $delegateTotalExpenseOfficeId");
 }
 if($result){
-    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
+    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense&dei=".base64_encode($_POST['delegateId'])."'</script>";
 }else{
     print_r(mysqli_error($conn));
 }

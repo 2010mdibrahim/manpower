@@ -98,7 +98,7 @@ $documentation = '';
 <div class="row justify-content-center outer-box" id="full_body">
     <div class="card full-body">
         <div class="row">
-            <div class="col-md-4 left-row">
+            <div class="col-print-4 left-row">
                 <div class="card-body">
                     <div class="row text-center">
                         <div class="col-sm">
@@ -111,7 +111,7 @@ $documentation = '';
                     <ul class="no-padding-left">
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     Name:
                                 </div>
                                 <div class="col-sm">
@@ -121,7 +121,7 @@ $documentation = '';
                         </li>
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     Gender:
                                 </div>
                                 <div class="col-sm">
@@ -131,7 +131,7 @@ $documentation = '';
                         </li>
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     Phone Number:
                                 </div>
                                 <div class="col-sm">
@@ -141,7 +141,7 @@ $documentation = '';
                         </li>
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     Date of Birth:
                                 </div>
                                 <div class="col-sm">
@@ -151,7 +151,7 @@ $documentation = '';
                         </li>
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     Agent:
                                 </div>
                                 <div class="col-sm">
@@ -166,7 +166,7 @@ $documentation = '';
                     <ul class="no-padding-left">
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     <p>Passport Number: </p>
                                 </div>
                                 <div class="col-sm">
@@ -181,7 +181,7 @@ $documentation = '';
                                 $expiryDate->add(new DateInterval($format));
                             ?>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     <p>Issue Date: </p>
                                 </div>
                                 <div class="col-sm">
@@ -191,7 +191,7 @@ $documentation = '';
                         </li>
                         <li>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     <p>Expiry Date: </p>
                                 </div>
                                 <div class="col-sm">
@@ -202,7 +202,7 @@ $documentation = '';
                         <li>
                         <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     <span>Experienced: </span>
                                 </div>
                                 <div class="col-sm">
@@ -246,7 +246,7 @@ $documentation = '';
                             </div>
                         <?php }else{ ?>
                             <div class="row">
-                                <div class="col-md-4 points">
+                                <div class="col-print-4 points">
                                     <span>New: </span>
                                 </div>
                                 <div class="col-sm">
@@ -263,7 +263,7 @@ $documentation = '';
                     </ul>
                 </div>
             </div>
-            <div class="col-md-8 right-row">
+            <div class="col-print-8 right-row">
                 <div class="card-body">
                 <button class="btn exclude" style="float: right;" onclick="print_div()"><span class="fa fa-print"></span></button>
                 </div>
@@ -275,7 +275,7 @@ $documentation = '';
                             <ul>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-4 points">
+                                        <div class="col-print-4 points">
                                             <p>Job: </p>
                                         </div>
                                         <div class="col-sm">
@@ -285,7 +285,7 @@ $documentation = '';
                                 </li>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-4 points">
+                                        <div class="col-print-4 points">
                                             <p>Country: </p>
                                         </div>
                                         <div class="col-sm">
@@ -295,7 +295,7 @@ $documentation = '';
                                 </li>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-4 points">
+                                        <div class="col-print-4 points">
                                             <p>Manpower Office: </p>
                                         </div>
                                         <div class="col-sm">
@@ -363,7 +363,7 @@ $documentation = '';
                             <ul>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-5 points">
+                                        <div class="col-print-5 points">
                                             <p>Delegate Name: </p>
                                         </div>
                                         <div class="col-sm">
@@ -373,7 +373,7 @@ $documentation = '';
                                 </li>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-5 points">
+                                        <div class="col-print-5 points">
                                             <p>Delegate Office: </p>
                                         </div>
                                         <div class="col-sm">
@@ -383,7 +383,7 @@ $documentation = '';
                                 </li>
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-5 points">
+                                        <div class="col-print-5 points">
                                             <p>Sponsor Name: </p>
                                         </div>
                                         <div class="col-sm">
@@ -393,7 +393,7 @@ $documentation = '';
                                 </li>                    
                                 <li>
                                     <div class="row">
-                                        <div class="col-md-5 points">
+                                        <div class="col-print-5 points">
                                             <p>Sponsor VISA: </p>
                                         </div>
                                         <div class="col-sm">
@@ -409,7 +409,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['empRqst'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Employee Request: </p>
                                             </div>
                                             <div class="col-sm">
@@ -421,7 +421,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['foreignMole'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Foreign MOLE: </p>
                                             </div>
                                             <div class="col-sm">
@@ -433,7 +433,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['okala'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>OKALA: </p>
                                             </div>
                                             <div class="col-sm">
@@ -445,7 +445,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['mufa'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>MUFA: </p>
                                             </div>
                                             <div class="col-sm">
@@ -457,7 +457,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['medicalUpdate'] == 'yes'){ ?>
                                     <div class="row">
-                                        <div class="col-md-5 points">
+                                        <div class="col-print-5 points">
                                             <p>Medical Update: </p>
                                         </div>
                                         <div class="col-sm">
@@ -469,15 +469,15 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['visaStamping'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Stamping Date: </p>
                                             </div>
                                             <div class="col-sm">
                                                 <div class="row">
-                                                    <div class="col-md-6 child-row">
+                                                    <div class="col-print-6 child-row">
                                                         <span><?php echo $visaInfo['visaStampingDate'];?></span>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="col-print-2">
                                                         <a href="?page=svf&p=<?php echo base64_encode($visaInfo['processingId']);?>" target="_blank"><button class="btn">Stamping File</button></a>
                                                     </div>
                                                 </div>
@@ -488,7 +488,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['finger'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Finger: </p>
                                             </div>
                                             <div class="col-sm">
@@ -500,7 +500,7 @@ $documentation = '';
                                 <li>
                                     <?php if($visaInfo['manpowerCard'] == 'yes'){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Manpower Card: </p>
                                             </div>
                                             <div class="col-sm">
@@ -512,7 +512,7 @@ $documentation = '';
                                 <li>
                                     <?php if(!is_null($visaInfo['ticketId'])){ ?>
                                         <div class="row">
-                                            <div class="col-md-5 points">
+                                            <div class="col-print-5 points">
                                                 <p>Flight Date: </p>
                                             </div>
                                             <div class="col-sm">
@@ -534,8 +534,9 @@ $documentation = '';
 <script>
     function print_div(){
         $("#full_body").print({
-            noPrintSelector: ".exclude"
-            
+            noPrintSelector: ".exclude",
+            addGlobalStyles : true,
+            doctype: '<!doctype html>',    
         });
     }
 </script>
