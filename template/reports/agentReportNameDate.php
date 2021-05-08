@@ -5,6 +5,8 @@ $agentName = $agent_info[0];
 $agentEmail = $agent_info[1];
 $date_from = $_POST['date_from'];
 $date_to = $_POST['date_to'];
+$totalExpense = 0;
+$totalComission = 0;
 
 $html = '<div class="card">
         <div class="card-header">
@@ -67,18 +69,24 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     $html .=            '</td>';
     $html .=            '<td>';
     $candidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as expenseSum from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where passport.passportNum = '".$agent['passportNum']."' AND passport.creationDate = '".$agent['creationDate']."'"));
-    if(!is_null($candidateExpense['expenseSum'])){    
+    if(!is_null($candidateExpense['expenseSum'])){
+        $totalExpense += $candidateExpense['expenseSum'];   
         $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($candidateExpense['expenseSum'])."</a>";
     }else{
         $html .= '-';
     };
     $html .=            '</td>';
     $html .=            '<td>';
-    $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
+    if($visa['pending'] == 1){
+        $totalComission += $agent['amount'];   
+        $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
+    }else{
+        $html .= '0';
+    }
     $html .=            '</td>';
     $html .=            '</tr>';
 }
-$html .=        '<thead hidden>
+$html .=        '<tfoot hidden>
                 <tr>
                     <th>Candidate Name</th>
                     <th>Candidate Passport</th>
@@ -86,8 +94,14 @@ $html .=        '<thead hidden>
                     <th>Total Expense</th>
                     <th>Comission</th>
                 </tr>
-                </thead>
+                </tfoot>
             </table>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-Sm box">Total Expense = '.number_format($totalExpense).'</div>
+                <div class="col-Sm box">Total Comission = '.number_format($totalComission).'</div>
+                <div class="col-Sm box">Grand Total = '.number_format((intval($totalComission) - intval($totalExpense))).'</div>
             </div>
         </div>
     </div>';

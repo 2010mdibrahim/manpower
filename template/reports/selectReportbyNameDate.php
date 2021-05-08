@@ -1,3 +1,10 @@
+<style>
+    .box{
+        border: 2px solid;
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
 <div class="container-fluid" style="padding: 2%;">
     <div class="section-header">
         <h2>Agent Report by Name</h2>
