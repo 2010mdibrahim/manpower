@@ -23,6 +23,9 @@ if(!isset($_SESSION['sections'])){
         font-size: 16px;
         font-weight: bold;
     }
+    .processing a{
+        color: white;
+    }
     .indicator.green{
         border: 5px #66bb6a solid;
     }
@@ -37,6 +40,10 @@ if(!isset($_SESSION['sections'])){
     }
     .indicator.hold{
         border: 5px #f9a825  solid;
+    }
+    
+    .indicator.disable{
+        border: 5px #8d6e63  solid;
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
@@ -387,6 +394,9 @@ if(!isset($_SESSION['sections'])){
                 <div class="col-md-1">
                     <div class="indicator hold">On Hold</div>
                 </div>
+                <div class="col-md-1">
+                    <div class="indicator disable">Disabled</div>
+                </div>
             </div>
         </div>
     
@@ -422,9 +432,9 @@ if(!isset($_SESSION['sections'])){
                     $status = "pending";
                     while($visa = mysqli_fetch_assoc($result)){ 
                         if($visa['status'] == '2'){ ?>
-                            <tr style="background-color: #616161; color: white">
+                            <tr class="processing" style="background-color: #8d6e63; color: white">
                         <?php }else if($visa['status'] == '1'){ ?>
-                            <tr style="background-color: #f9a825 ;">
+                            <tr class="processing" style="background-color: #f9a825 ;">
                         <?php }else{ ?>
                             <tr>
                         <?php }?>
