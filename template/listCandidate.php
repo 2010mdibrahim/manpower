@@ -18,6 +18,21 @@ if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
     $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) where passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+}else if(isset($_GET['specific'])){
+    if($_GET['specific'] == 'inVisa'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) inner join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate LEFT JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate where passport.status != 2 AND ticket.ticketId is null order by passport.creationDate desc"); 
+        print_r(mysqli_error($conn));
+    }else if($_GET['specific'] == 'inTicket'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) inner join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate where passport.status != 2 order by passport.creationDate desc");        
+    }else if($_GET['specific'] == 'unfit'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) where passport.testMedicalStatus = 'unfit' or passport.finalMedicalStatus = 'unfit' order by passport.creationDate desc");        
+    }else if($_GET['specific'] == 'back'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");        
+    }else if($_GET['specific'] == 'onHold'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) inner join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where passport.status = 1 order by passport.creationDate desc");        
+    }else if($_GET['specific'] == 'disable'){
+        $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) inner join processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where passport.status = 2 order by passport.creationDate desc");        
+    }
 }else{
     $result = $conn -> query("SELECT agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) order by passport.creationDate desc");
 }
@@ -42,6 +57,19 @@ if(isset($_GET['pp'])){
         font-size: 16px;
         font-weight: bold;
     }
+    .indicator-a{
+        text-decoration: none;
+        color: black;
+    }
+    .indicator-a:hover{
+        color: black;
+        text-decoration: none;
+    }
+    .indicator:hover{
+        cursor: pointer;
+        /* width: 95%;
+        height: 100%; */
+    }
     .indicator.green{
         border: 5px #66bb6a solid;
     }
@@ -58,7 +86,7 @@ if(isset($_GET['pp'])){
         border: 5px #f9a825  solid;
     }
     .indicator.disable{
-        border: 5px #616161  solid;
+        border: 5px #8d6e63  solid;
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
@@ -264,22 +292,22 @@ if(isset($_GET['pp'])){
             </div>
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">
-                    <div class="indicator green">In VISA</div>
+                    <a class="indicator-a" href="?page=listCandidate&specific=inVisa"><div class="indicator green">In VISA</div></a>
                 </div>
                 <div class="col-md-1">
-                    <div class="indicator blue">In Ticket</div>
+                    <a class="indicator-a" href="?page=listCandidate&specific=inTicket"><div class="indicator blue">In Ticket</div></a>
                 </div>
                 <div class="col-md-1">
-                    <div class="indicator red">Unfit</div>
+                    <a class="indicator-a" href="?page=listCandidate&specific=unfit"><div class="indicator red">Unfit</div></a>
                 </div>
                 <div class="col-md-1">
-                    <div class="indicator black">Back</div>
+                    <a class="indicator-a" href="?page=returnedListCandidate"><div class="indicator black">Back</div></a>
                 </div>
                 <div class="col-md-1">
-                    <div class="indicator hold">On Hold</div>
+                    <a class="indicator-a" href="?page=listCandidate&specific=onHold"><div class="indicator hold">On Hold</div></a>
                 </div>
                 <div class="col-md-1">
-                    <div class="indicator disable">Disabled</div>
+                    <a class="indicator-a" href="?page=listCandidate&specific=disable"><div class="indicator disable">Disabled</div></a>
                 </div>
             </div>
         </div>
@@ -324,7 +352,7 @@ if(isset($_GET['pp'])){
                         $bday = new Datetime($candidate['dob']);
                         $age = $today->diff($bday);
                         if($candidate['status'] == '2'){ ?>
-                            <tr class="processing" style="background-color: #616161; color: white">
+                            <tr class="processing" style="background-color: #8d6e63; color: white">
                         <?php }else if($candidate['status'] == '1'){ ?>
                             <tr class="processing" style="background-color: #f9a825 ;">
                         <?php }else if($candidate['testMedicalStatus'] == 'unfit' || $candidate['finalMedicalStatus'] == 'unfit'){ ?>
