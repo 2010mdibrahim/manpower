@@ -18,6 +18,9 @@ if(isset($_GET['pp'])){
     $passportNum = base64_decode($_GET['pp']);
     $creationDate = base64_decode($_GET['cd']);
     $result = $conn -> query("SELECT processing.pending, processing.pendingTill, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 3 AND passport.passportNum = '$passportNum' and passport.creationDate = '$creationDate'");
+}else if(isset($_GET['ag'])){
+    $agentEmail = base64_decode($_GET['ag']);
+    $result = $conn -> query("SELECT processing.pending, processing.pendingTill, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 3 AND passport.agentEmail = '$agentEmail'");
 }else{
     $result = $conn -> query("SELECT processing.pending, processing.pendingTill, agent.agentName, jobs.jobType, jobs.creditType, passport.*, DATE(passport.creationDate) as creationDateShow from passport left join jobs using (jobId) inner join agent using (agentEmail) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending = 3 order by passport.creationDate desc");
 }

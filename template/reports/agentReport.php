@@ -168,7 +168,7 @@ if($finalTotal < 0){
 $html .=                            '</div>
                                     <div class="col-sm">                                        
                                         <p>Total Returned Loss</p>
-                                        <a href="?page=showAgentExpenseList&ag='.base64_encode($totalReturnLoss).'" target="_blank"><h3>'.number_format($totalReturnLoss).'</h3></a>
+                                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3>'.number_format($totalReturnLoss).'</h3></a>
                                     </div>
                                 </div>
                             </div>
