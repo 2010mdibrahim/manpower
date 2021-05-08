@@ -67,8 +67,8 @@ if(isset($_GET['pp'])){
     }
     .indicator:hover{
         cursor: pointer;
-        /* width: 95%;
-        height: 100%; */
+        border-radius: 10px;
+        transition: border-radius 0.5s;
     }
     .indicator.green{
         border: 5px #66bb6a solid;
@@ -288,7 +288,23 @@ if(isset($_GET['pp'])){
     <div class="card">
         <div class="card-header">
             <div class="section-header">
-                <h2>Candidate List</h2>
+                <h2>Candidate List <?php 
+                if(isset($_GET['specific'])){
+                    if($_GET['specific'] == 'inVisa'){
+                        echo " in VISA";
+                    }else if($_GET['specific'] == 'inTicket'){
+                        echo " in Ticket";
+                    }else if($_GET['specific'] == 'unfit'){
+                        echo " Unfit";
+                    }else if($_GET['specific'] == 'back'){
+                        echo "in VISA";
+                    }else if($_GET['specific'] == 'onHold'){
+                        echo " on VISA";
+                    }else if($_GET['specific'] == 'disable'){
+                        echo " disabled";
+                    }
+                }
+                ?></h2>
             </div>
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">
