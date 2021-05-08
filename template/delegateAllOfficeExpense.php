@@ -19,6 +19,31 @@ if(!isset($_SESSION['sections'])){
 .form-group{
     padding-right: 2%;
 }
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: yellow;
+  padding: 50px;
+  font-size: 20px;
+}
+.header-expesne-list{
+    font-weight: bold;
+}
+
+@media print {
+    .print-header{
+        display: static;
+    }
+}
+@media screen  {
+    .print-header{
+        display: none;
+    }
+}
+ul, li{
+    list-style-type: none;
+}
 </style>
 <div class="container-fluid" style="padding: 2%" style="width: 100%;">
     <!-- Add Office to delegate expense Modal -->
@@ -57,7 +82,7 @@ if(!isset($_SESSION['sections'])){
             </form>
         </div>
     </div>
-    <!-- Edit Delegate Expense Modal -->
+    <!-- Delete Delegate Expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="deleteDelegateExpense">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/editOfficeToDelegateExpense.php" method="post">
@@ -133,6 +158,7 @@ if(!isset($_SESSION['sections'])){
                 
                 <div id="localOffice" class="col-print-4">
                     <div class="form-group row align-items-end">
+                        <input type="hidden" name="currancy" value="dollar">                   
                         <div class="col-sm">
                             <label> Amount in Dollar </label>
                             <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">                   
@@ -169,17 +195,15 @@ if(!isset($_SESSION['sections'])){
     </form>
     <div class="card" style="width: 100%;">
         <div class="card-header text-center">
-            Delegate Expense Details
+            <div class="row text-center">
+                <div class="col-print-3 center-column">Delegate Name</div>
+                <div class="col-print-4">Total Amount</div>
+                <div class="col-print-4">Remaining Balance</div>
+                <div class="col-print-1">Options</div>
+            </div>
         </div>
         <ul class="list-group list-group-flush" style="height: 500px; overflow: auto;">
-            <li class="list-group-item bg-light">
-                <div class="row text-center">
-                    <div class="col-print-3">Delegate Name</div>
-                    <div class="col-print-4">Total Amount</div>
-                    <div class="col-print-4">Remaining Balance</div>
-                    <div class="col-print-1">Show</div>
-                </div>
-            </li>
+            
             <?php
             $result = $conn->query("SELECT delegateName, delegateId from delegate");
             $i = 1;
@@ -187,9 +211,16 @@ if(!isset($_SESSION['sections'])){
                 $sumOffice = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as officeSum from delegatetotalexpenseoffice where delegateId = ".$delegate['delegateId']));
             ?>
             <div id="<?php echo $delegate['delegateId']."_print";?>">
-                <li class="list-group-item highlight mb-1" id="<?php echo $delegate['delegateId']."_highlight";?>">
+                <li class="list-group-item bg-light print-header">
                     <div class="row text-center">
-                        <div class="col-print-3"><?php echo $delegate['delegateName'];?></div>
+                        <div class="col-print-3 center-column">Delegate Name</div>
+                        <div class="col-print-4">Total Amount</div>
+                        <div class="col-print-4">Remaining Balance</div>
+                    </div>
+                </li>
+                <li class="list-group-item highlight <?php echo $delegate['delegateId']."_highlight";?>" id="<?php echo $delegate['delegateId']."_highlight";?>">
+                    <div class="row text-center">
+                        <div class="col-print-3 center-column"><?php echo $delegate['delegateName'];?></div>
                         <div class="col-print-4"><?php 
                         $delegateTotalAmount = mysqli_fetch_assoc($conn->query("SELECT sum(amount*rate) as totalAmount from delegatetotalexpense where delegateId = ".$delegate['delegateId']));
                         echo number_format(round($delegateTotalAmount['totalAmount'])); ?> Taka</div>
@@ -197,22 +228,68 @@ if(!isset($_SESSION['sections'])){
                         <div class="col-print-1 exclude">
                             <div class="row justify-content-center">
                                 <div class="form-group">
-                                    <button class="btn btn-sm" data-toggle="modal" data-target="#addOffice" value="<?php echo $delegate['delegateId'];?>" onclick="modalValue(this.value)"><span class="fa fa-plus"></span></button>
+                                    <abbr title="Enter Office Credit Amount"><button class="btn btn-sm" data-toggle="modal" data-target="#addOffice" value="<?php echo $delegate['delegateId'];?>" onclick="modalValue(this.value)"><span class="fa fa-plus"></span></button></abbr>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-sm btn-show" id="btnShow<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button>
-                                    <button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button>
+                                    <abbr title="Show List of Offices"><button class="btn btn-sm btn-show" id="btnShow<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button></abbr>
+                                    <abbr title="Hide List of Offices"><button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button></abbr>
                                 </div>
                                 <div class="form-group">
-                                    <button data-toggle="modal" data-target="#deleteDelegateExpense" class="btn btn-sm btn-danger" value="<?php echo $delegate['delegateId'];?>" onclick="getDelegateValue(this.value)"><span class="fa fa-close"></span></button>
+                                    <abbr title="Delete Delegate All Expense"><button data-toggle="modal" data-target="#deleteDelegateExpense" class="btn btn-sm btn-danger" value="<?php echo $delegate['delegateId'];?>" onclick="getDelegateValue(this.value)"><span class="fa fa-close"></span></button></abbr>
+                                </div>                                
+                                <div class="form-group">
+                                    <abbr title="Show Delegate Debit List"><button type="button" class="btn btn-sm btn-info expense_show" id="<?php echo $delegate['delegateId'].'_expense_show';?>" value="<?php echo $delegate['delegateId'];?>" onclick="show_expense_list(this.value)"><i class="fa fa-eye" aria-hidden="true"></i></button></abbr>
+                                    <abbr title="Hide Delegate Debit List"><button type="button" class="btn btn-sm btn-warning expense_hide" id="<?php echo $delegate['delegateId'].'_expense_hide';?>" value="<?php echo $delegate['delegateId'];?>" onclick="hide_expense(this.value)" style="display: none;"><i class="fas fa-eye-slash"></i></button></abbr>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'].'_print';?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button>
+                                    <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'].'_print';?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </li>
+                <div class="print-header">
+                    <div class="expense-list" id="<?php echo $delegate['delegateId']."_expense_list";?>">
+                        <div class="row justify-content-center <?php echo $delegate['delegateId']."_highlight";?> p-1">
+                            <div class="card" style="width: 95%;">
+                                <div class="card-header">
+                                    <li>
+                                        <div class="row text-center header-expesne-list">
+                                            <div class="col-print-4">Office Name</div>
+                                            <div class="col-print-4">Amount</div>
+                                            <div class="col-print-4">Payment Date</div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div class="card-body">
+                                <?php 
+                                $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc");
+                                while($expenseList = mysqli_fetch_assoc($result_expenseList)){ ?>
+                                <li class="list-group-item highlight">
+                                    <div class="row text-center">
+                                        <div class="col-print-4"><?php
+                                        if($expenseList['type'] == 'manpower'){
+                                            $manpower = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$expenseList['officeId']));
+                                            echo $manpower['manpowerOfficeName'];
+                                        }else if($expenseList['type'] == 'outside'){
+                                            $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$expenseList['officeId']));
+                                            echo $officeName['officeName'];
+                                        }else if($expenseList['type'] == 'NULL'){
+                                            echo $delegate['delegateName'];
+                                        }else{
+                                            echo $expenseList['officeId'];
+                                        }
+                                        ?></div>
+                                        <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? $expenseList['amount']*$expenseList['rate'] : $expenseList['amount'];?></div>
+                                        <div class="col-print-4"><?php echo $expenseList['date'];?></div>
+                                    </div>
+                                </li>
+                                <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <li class="list-group-item details" style="display: none;" id="<?php echo $delegate['delegateId']  ;?>">
                 </li>
             </div>
@@ -222,16 +299,34 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+    function show_expense_list(id){
+        $('.expense-list').hide();
+        $('.expense_hide').hide();
+        $('.expense_show').show();
+        $('#'+id+'_expense_show').hide();
+        $('#'+id+'_expense_hide').show();
+        $('#'+id+'_expense_list').show();
+    }
+    function hide_expense(id){
+        $('#'+id+'_expense_list').hide();
+        $('#'+id+'_expense_show').show();
+        $('#'+id+'_expense_hide').hide();
+    }
+
     function getDelegateValue(val){
         $('#delegateIdModalDelete').val(val);
     }
 
     function print_div(val){
+        $('.center-column').removeClass('col-print-3');
+        $('.center-column').addClass('col-print-4');
         $("#" + val).print({
             noPrintSelector: ".exclude",
             globalStyles: true,
             doctype: '<!doctype html>',    
         });
+        $('.center-column').removeClass('col-print-4');
+        $('.center-column').addClass('col-print-3');
     }
     function localCurrancy(){
         let show = ($("input[name='addLocal']:checked").val() === 'yes') ? 'local' : 'foreign';
@@ -312,7 +407,7 @@ if(!isset($_SESSION['sections'])){
                 console.log(response);
                 $('#'+val).html(response);
                 $('#'+val).show();
-                $('#'+val+'_highlight').css('background-color', '#b2dfdb');
+                $('.'+val+'_highlight').css('background-color', '#b2dfdb');
             }
         });
     }
@@ -321,6 +416,6 @@ if(!isset($_SESSION['sections'])){
         $('#btnHide'+val).hide();
         $('#'+val).html('');
         $('#'+val).hide();
-        $('#'+val+'_highlight').css('background-color', 'white');
+        $('.'+val+'_highlight').css('background-color', 'white');
     }
 </script>

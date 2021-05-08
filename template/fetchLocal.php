@@ -2,6 +2,7 @@
 $show = $_POST['show'];
 if($show == 'local'){
     $html = '<div class="row align-items-end">
+                <input type="hidden" name="currancy" value="bdt">                   
                 <div class="form-group col-md-5">
                     <label> Office Type </label>
                     <select class="form-control select2" id="type" name="type" onchange="getDelegateOffice(this.value, \'local\')" required>
@@ -17,9 +18,10 @@ if($show == 'local'){
             </div>';
 }else{
     $html = '<div class="form-group row align-items-end">
+                <input type="hidden" name="currancy" value="dollar">                   
                 <div class="col-sm">
                     <label> Amount in Dollar </label>
-                    <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">                   
+                    <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">
                 </div>
                 <div class="col-sm">
                     <label> Dollar Rate </label>

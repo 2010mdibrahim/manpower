@@ -24,6 +24,10 @@ if(!isset($_SESSION['sections'])){
         max-width: 80%;
         margin: 1.75rem auto;
     }
+    .returned_col{
+        background-color: #bdbdbd;
+        color: white;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="check">
@@ -100,7 +104,7 @@ if(!isset($_SESSION['sections'])){
                             <td>
                                 <abbr title="Add Candidate Expense"><a href="?page=addExpenseAgent&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><span class="fas fa-plus"></span></button></a></abbr>
                                 <abbr title="Add Agent Expense"><a href="?page=addExpenseAgentPersonal&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><i class="fas fa-user-plus"></i></button></a></abbr>
-                                <abbr title="Agent Account"><a href="?page=showAgentExpenseList&ag=<?php echo base64_encode($agent['agentEmail']);?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-dollar"></span></button></a></abbr>
+                                <!-- <abbr title="Agent Account"><a href="?page=showAgentExpenseList&ag=<?php echo base64_encode($agent['agentEmail']);?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-dollar"></span></button></a></abbr> -->
                                 <abbr title="Agent Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $agent['agentName']."-".$agent['agentEmail'];?>" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>
                             </td>
                             <td>
@@ -153,6 +157,7 @@ if(!isset($_SESSION['sections'])){
         type: 'post',
         success: function(response){
             $('#showAgentReportDiv').html(response);
+            $('.returned').parent().addClass('returned_col');
             $('#dataTableSeaum').DataTable({
                 "fixedHeader": true,
                 "paging": true,
@@ -166,8 +171,15 @@ if(!isset($_SESSION['sections'])){
                 "info": true,
                 "autoWidth": true,
                 "responsive": true,
-                "order": [],
-                "scrollX": false
+                "order": [[0, "desc"]],
+                "scrollX": false,
+                "columnDefs": [
+                {
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }
+            ]
             });
         }
     });

@@ -37,7 +37,9 @@ if(isset($_POST['officeId'])){
 }else{
     $officeId = 'NULL'; 
 }
-$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date, rate, type, officeId) VALUES ($delegateId,$amount,'$date', $rate, '$type', $officeId)");
+$currancy = $_POST['currancy'];
+$creationDate = date('Y-m-d H:i:s');
+$result = $conn->query("INSERT INTO delegatetotalexpense (delegateId, amount, date, rate, type, officeId, currancy, creationDate) VALUES ($delegateId,$amount,'$date', $rate, '$type', '$officeId', '$currancy', '$creationDate')");
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{
