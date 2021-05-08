@@ -56,6 +56,8 @@ if(isset($_GET['pp'])){
     .indicator{
         font-size: 16px;
         font-weight: bold;
+        border-radius: 0px;
+        transition: border-radius 0.3s;
     }
     .indicator-a{
         text-decoration: none;
