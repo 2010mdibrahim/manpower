@@ -176,5 +176,6 @@ $html .=                            '</div>
                     </div>
             </div>
         </div>
-    </div>';
+    </div>
+    <button type="button" value="'.$agentName."-".$agentEmail.'" onclick="print_div(this.value)">print</button>';
 echo $html;

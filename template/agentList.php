@@ -37,7 +37,7 @@ if(!isset($_SESSION['sections'])){
     </div>
   </div>
 </div>
-    <!-- Final Medical Modal -->
+    <!-- Agent Report Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="showAgentReport">
         <div class="modal-dialog modal-xl" role="document">
             <form action="template/visaSubmit.php" method="post" enctype="multipart/form-data">
@@ -52,6 +52,7 @@ if(!isset($_SESSION['sections'])){
 
                     </div>
                     <div class="modal-footer">
+                        
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
@@ -142,6 +143,9 @@ if(!isset($_SESSION['sections'])){
                     </tfoot>
 
                 </table>
+                <div id="showAgentReportDivPrint">
+
+                </div>
             </div>
         </div>
     </div>  
@@ -149,6 +153,21 @@ if(!isset($_SESSION['sections'])){
 
 
 <script>
+    function print_div(agentInfo){
+        $.ajax({
+            url: 'template/reports/agentReport.php',
+            data: {agentInfo: agentInfo},
+            type: 'post',
+            success: function(response){
+                $('#showAgentReportDivPrint').html(response);
+                $("#showAgentReportDivPrint").print({
+                    noPrintSelector: ".exclude",
+                    globalStyles: true,
+                    doctype: '<!doctype html>',    
+                });
+            }
+        });        
+    }
     $('#agentNav').addClass('active');
     function showReport(agentInfo){
     $.ajax({
