@@ -163,6 +163,12 @@ if(!isset($_SESSION['sections'])){
             let pdf_total_expense = $('#pdf_total_expense').html();
             let pdf_total_final = $('#pdf_total_final').html();
             let pdf_total_loss = $('#pdf_total_loss').html();
+            if(pdf_total_final.charAt(0) === '-'){
+                color_div = 'red';
+            }else{
+                color_div = 'black';
+            }
+            console.log(color_div);
             $('#dataTableSeaum').DataTable({
                 "fixedHeader": true,
                 "paging": true,
@@ -200,7 +206,25 @@ if(!isset($_SESSION['sections'])){
                     },
                     {
                         extend: 'pdfHtml5',
-                        messageBottom: `\n Total Comission = ${pdf_total_comission}.\n\n Total Expense = ${pdf_total_expense} \n\n Grand Total = ${pdf_total_final} \n\n Return Loss = ${pdf_total_loss}`,
+                        customize: function ( doc ) {
+                            doc.content.splice(0, 1, {
+                                text: [
+                                        { text: 'Total Comission: \n',fontSize:12,alignment: 'center' },
+                                        { text: pdf_total_comission + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                        '\n',
+                                        { text: 'Total Expense: \n',fontSize:12,alignment: 'center' },
+                                        { text: pdf_total_expense + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                        '\n',
+                                        { text: 'Grand Total: \n',fontSize:12,alignment: 'center' },
+                                        { text: pdf_total_final + '\n',color: color_div,bold: true, fontSize:15,alignment: 'center' },
+                                        '\n',
+                                        { text: 'Return Loss: \n',fontSize:12,alignment: 'center' },
+                                        { text: pdf_total_loss + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                ],
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center'
+                            });
+                        },
                         exportOptions : {
                             columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                         }
