@@ -882,10 +882,11 @@ function stopNotification(processingId){
         success: function (response){
             body_msg = 'Notification Turned Off for ' + response;
             new jBox('Notice', {
+                color: 'red',
                 content: body_msg,
                 attributes: {
-                    x: 'center',
-                    y: 'center'
+                    x: 'right',
+                    y: 'bottom'
                 }
             });
         }
