@@ -88,7 +88,6 @@ if(isset($_SESSION['email'])){
     }
 
     $result_visa = $conn->query("SELECT processing.lastNotificationDate, processing.processingId, passport.gender, passport.passportNum, processing.visaStampingDate FROM processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate WHERE visaStampingDate BETWEEN '$today_upper_limit_string' AND '$todayF'  AND processing.notification = 'yes'");
-    $notification .= mysqli_error($conn);
     if($notification != ""){
         $notification .= '<hr>';
     }
@@ -105,7 +104,7 @@ if(isset($_SESSION['email'])){
                 $notification .= 'VISA Date Over: '.$visa['passportNum']."<br>";
             }
             $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
-            $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId ']);   
+            $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId']);   
         }else{
             $lastNofitificationDate = new DateTime($visa['lastNotificationDate']);
             $notificationDiff = $notificationTime->diff($lastNofitificationDate);
@@ -114,7 +113,7 @@ if(isset($_SESSION['email'])){
                     $notification .= 'VISA Date Over: '.$visa['passportNum']."<br>";
                 }
                 $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
-                $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId ']);   
+                $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId']);   
             }
         }
     }
