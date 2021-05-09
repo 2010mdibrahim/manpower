@@ -206,6 +206,7 @@ if(!isset($_SESSION['sections'])){
                     },
                     {
                         extend: 'pdfHtml5',
+                        orientation: 'landscape',
                         customize: function ( doc ) {
                             doc.content.splice(0, 1, {
                                 text: [
