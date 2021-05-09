@@ -35,7 +35,9 @@ if(isset($_SESSION['email'])){
                             // $result_notified = $conn->query("UPDATE passport set lastNotificationDate = '$notificationTimeF' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
                         }
                     }
-                }   
+                }else{
+                    
+                }
             }
     }    
     

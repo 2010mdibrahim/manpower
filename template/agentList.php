@@ -158,35 +158,11 @@ if(!isset($_SESSION['sections'])){
         success: function(response){
             $('#showAgentReportDiv').html(response);
             $('.returned').parent().addClass('returned_col');
-            // $('#dataTableSeaum').DataTable({
-            //     "fixedHeader": true,
-            //     "paging": true,
-            //     "lengthChange": true,
-            //     "lengthMenu": [
-            //         [10, 25, 50, 100, 500],
-            //         [10, 25, 50, 100, 500]
-            //     ],
-            //     "searching": true,
-            //     "ordering": true,
-            //     "info": true,
-            //     "autoWidth": true,
-            //     "responsive": true,
-            //     "order": [[0, "desc"]],
-            //     "scrollX": false,
-            //     "columnDefs": [
-            //         {
-            //             "targets": [ 0 ],
-            //             "visible": false,
-            //             "searchable": false
-            //         }
-            //     ],
-            //     buttons: [
-            //         'copyHtml5',
-            //         'excelHtml5',
-            //         'csvHtml5',
-            //         'pdfHtml5'
-            //     ]
-            // });
+            let pdf_total_comission = $('#pdf_total_comission').html();
+            console.log(pdf_total_comission);
+            let pdf_total_expense = $('#pdf_total_expense').html();
+            let pdf_total_final = $('#pdf_total_final').html();
+            let pdf_total_loss = $('#pdf_total_loss').html();
             $('#dataTableSeaum').DataTable({
                 "fixedHeader": true,
                 "paging": true,
@@ -224,6 +200,7 @@ if(!isset($_SESSION['sections'])){
                     },
                     {
                         extend: 'pdfHtml5',
+                        messageBottom: `\n Total Comission = ${pdf_total_comission}.\n\n Total Expense = ${pdf_total_expense} \n\n Grand Total = ${pdf_total_final} \n\n Return Loss = ${pdf_total_loss}`,
                         exportOptions : {
                             columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                         }

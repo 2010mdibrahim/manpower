@@ -147,11 +147,11 @@ $html .=            '</span></p>
                                 <div class="row">
                                     <div class="col-sm">
                                         <p>Total Comission</p>
-                                        <h3>'.number_format($totalComission).'</h3>
+                                        <h3><span id="pdf_total_comission">'.number_format($totalComission).'</span></h3>
                                     </div>
                                     <div class="col-sm">
                                         <p>Total Expense</p>
-                                        <h3>'.number_format($totalExpense).'</h3>
+                                        <h3><span id="pdf_total_expense">'.number_format($totalExpense).'</span></h3>
                                     </div>
                                 </div>
                             </div>';
@@ -161,14 +161,14 @@ $html .=                    '<div class="card-body">
 $html .=                        '<div class="col-sm">                                        
                                         <p>Remaining Balance</p>';
 if($finalTotal < 0){                                        
-    $html .= '<h3 class="bg-danger">'.number_format($finalTotal).'</h3>';
+    $html .= '<h3 class="bg-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
 }else{
     $html .= '<h3>'.number_format($finalTotal).'</h3>';
 }
 $html .=                            '</div>
                                     <div class="col-sm">                                        
                                         <p>Total Returned Loss</p>
-                                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3>'.number_format($totalReturnLoss).'</h3></a>
+                                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3><span id="pdf_total_loss">'.number_format($totalReturnLoss).'</span></h3></a>
                                     </div>
                                 </div>
                             </div>
