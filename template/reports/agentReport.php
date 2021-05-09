@@ -161,7 +161,7 @@ $html .=                    '<div class="card-body">
 $html .=                        '<div class="col-sm">                                        
                                         <p>Remaining Balance</p>';
 if($finalTotal < 0){                                        
-    $html .= '<h3 class="bg-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
+    $html .= '<h3 class="text-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
 }else{
     $html .= '<h3>'.number_format($finalTotal).'</h3>';
 }
