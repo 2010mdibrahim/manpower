@@ -538,6 +538,13 @@ if(isset($_GET['pp'])){
                                             </form>
                                         </div>
                                     <?php } ?>
+                                    <div class="btn_custom">
+                                        <?php if($candidate['notification'] == 'yes'){?>
+                                            <abbr title="Stop Notification"><button class="btn btn-sm btn-info" value="<?php echo $candidate['passportNum']."_".$candidate['creationDate'];?>" onclick="stopNotification(this.value)"><i class="far fa-bell-slash"></i></button></abbr>
+                                        <?php }else{ ?>
+                                            <abbr title="No Notification for this candidate"><button class="btn btn-sm btn-danger"><i class="far fa-bell-slash"></i></button></abbr>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                                 <div class="btn_custom">
                                     <?php if($candidate['finalMedical'] == 'yes') { ?>
@@ -691,6 +698,29 @@ if(isset($_GET['pp'])){
 </div>
 
 <script>
+    function stopNotification(info){
+        info_split = info.split('_');
+        passportNum = info_split[0];
+        creationDate = info_split[1];
+        mode = 'passport';
+        href = 'listCandidate';
+        $.ajax({
+            type: 'post',
+            url: 'template/stopNotification.php',
+            data: {passportNum:passportNum, creationDate:creationDate, mode:mode, href:href},
+            success: function (response){
+                body_msg = 'Notification Turned Off for ' + response;
+                new jBox('Notice', {
+                    content: body_msg,
+                    attributes: {
+                        x: 'center',
+                        y: 'center'
+                    }
+                });
+            }
+        });
+
+    }
 
 function showDisableValue(info){
     info_split = info.split('_');

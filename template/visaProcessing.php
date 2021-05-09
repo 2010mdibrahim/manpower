@@ -31,7 +31,6 @@ if(isset($_POST['processingId'])){
 }else{
     $processingId = '';
 }
-
 if ($mode == 'empRqstMode') {
     $empVal = $_POST['empRqst'];
     if($empVal == 'no'){
@@ -122,6 +121,7 @@ if ($mode == 'empRqstMode') {
         if(isset($_POST['stampingDate'])){
             $stampingDate = $_POST['stampingDate'];
             $result = $conn->query("UPDATE processing set visaStamping = 'yes', visaStampingDate = '$stampingDate' where processingId = $processingId");
+            echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
         }
         foreach ( $_FILES as $name ) {
             $count = count($name['name']);

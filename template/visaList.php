@@ -614,12 +614,14 @@ if(!isset($_SESSION['sections'])){
                                         <div class="col-md-3">
                                             <a href="?page=svf&p=<?php echo base64_encode($visa['processingId']);?>" target="_blank"><button class="btn btn-sm btn-info"><?php echo $visa['visaStampingDate'];?></button></a>
                                         </div>                              
-                                    </div>
-                                    <div class="row">
-                                        
-                                    </div>
+                                    </div>                                        
                                 <?php }
-                            } ?></td>
+                            } ?>
+                            <?php if($visa['notification'] == 'yes'){?>
+                                <abbr title="Stop Notification"><button class="btn btn-sm btn-warning" value="<?php echo $visa['processingId']?>" onclick="stopNotification(this.value)"><i class="far fa-bell-slash"></i></button></abbr>
+                            <?php }else{ ?>
+                                <abbr title="No Notification for this candidate"><button class="btn btn-sm btn-danger"><i class="far fa-bell-slash"></i></button></abbr>
+                            <?php } ?></td>
 
                             <!-- Finger -->
                             <td class="third"><?php
@@ -870,6 +872,27 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function stopNotification(processingId){
+    mode = 'visa';
+    href = 'visaList';
+    $.ajax({
+        type: 'post',
+        url: 'template/stopNotification.php',
+        data: {processingId, href:href, mode:mode},
+        success: function (response){
+            body_msg = 'Notification Turned Off for ' + response;
+            new jBox('Notice', {
+                content: body_msg,
+                attributes: {
+                    x: 'center',
+                    y: 'center'
+                }
+            });
+        }
+    });
+
+}
+
 function showDisableValue(info){
     info_split = info.split('_');
     $('#passportNumEnableModal').val(info_split[0]);

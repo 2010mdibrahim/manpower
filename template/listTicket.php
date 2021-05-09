@@ -91,8 +91,15 @@ if(!isset($_SESSION['sections'])){
                             ?></td>
                             <td><a href="<?php echo $ticket['ticketCopy']; ?>" target="_blank"><button class="btn btn-info btn-sm">Copy</button></a></td>
                             <td>
-                                <div class="flex-container">
-                                    <div style="padding-right: 2%">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <?php if($ticket['notification'] == 'yes'){?>
+                                            <abbr title="Stop Notification"><button class="btn btn-sm btn-warning" value="<?php echo $ticket['ticketId']?>" onclick="stopNotification(this.value)"><i class="far fa-bell-slash"></i></button></abbr>
+                                        <?php }else{ ?>
+                                            <abbr title="No Notification for this candidate"><button class="btn btn-sm btn-danger"><i class="far fa-bell-slash"></i></button></abbr>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="col-md-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="alter" value="update">
                                             <input type="hidden" value="editTicket" name="pagePost">
@@ -100,7 +107,7 @@ if(!isset($_SESSION['sections'])){
                                             <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
                                         </form>
                                     </div>
-                                    <div style="padding-left: 2%">
+                                    <div class="col-md-3">
                                         <form action="template/editTicketQry.php" method="post">
                                             <input type="hidden" name="alter" value="delete">
                                             <input type="hidden" value="editTicket" name="pagePost">
@@ -136,5 +143,25 @@ if(!isset($_SESSION['sections'])){
 
 <script>
     $('#ticketNav').addClass('active');
+    function stopNotification(ticketId){
+        mode = 'ticket';
+        href = 'listTicket';
+        $.ajax({
+            type: 'post',
+            url: 'template/stopNotification.php',
+            data: {ticketId, href:href, mode:mode},
+            success: function (response){
+                body_msg = 'Notification Turned Off for ' + response;
+                new jBox('Notice', {
+                    content: body_msg,
+                    attributes: {
+                        x: 'center',
+                        y: 'center'
+                    }
+                });
+            }
+        });
+
+    }
 </script>
 
