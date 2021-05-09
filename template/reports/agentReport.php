@@ -31,7 +31,7 @@ $html .=            '</span></p>
                         <table class="table table-bordered table-hover text-center" id="dataTableSeaum" style="width:100%">
                             <thead>
                             <tr>
-                                <th style="display: none">Payment Serial</th>
+                                <th>Payment Serial</th>
                                 <th>Candidate Name</th>
                                 <th>Candidate Passport</th>
                                 <th>VISA</th>
@@ -121,19 +121,19 @@ $html .=            '</span></p>
                 $html .= '<td>'.$agent_expense['expensePurposeAgent'].'</td>';
                 $html .= '</tr>';
             }
-            $html .=        '<thead hidden>
-                            <tr>
-                                <th>Payment Serial</th>
-                                <th>Candidate Name</th>
-                                <th>Candidate Passport</th>
-                                <th>VISA</th>
-                                <th>Total Expense</th>
-                                <th>Comission</th>
-                                <th>Advance Comission</th>
-                                <th>Payment Date</th>
-                                <th>Purpose</th>
-                            </tr>
-                            </thead>
+            $html .=        '<tfoot>
+                                <tr hidden>
+                                    <th>Payment Serial</th>
+                                    <th>Candidate Name</th>
+                                    <th>Candidate Passport</th>
+                                    <th>VISA</th>
+                                    <th>Total Expense</th>
+                                    <th>Money</th>
+                                    <th>Advance Comission</th>
+                                    <th>Payment Date</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </tfoot>
                         </table>
                         </div>
                         <input type="hidden" id="okTesting" value="gotIt">

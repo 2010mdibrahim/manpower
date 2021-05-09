@@ -158,6 +158,35 @@ if(!isset($_SESSION['sections'])){
         success: function(response){
             $('#showAgentReportDiv').html(response);
             $('.returned').parent().addClass('returned_col');
+            // $('#dataTableSeaum').DataTable({
+            //     "fixedHeader": true,
+            //     "paging": true,
+            //     "lengthChange": true,
+            //     "lengthMenu": [
+            //         [10, 25, 50, 100, 500],
+            //         [10, 25, 50, 100, 500]
+            //     ],
+            //     "searching": true,
+            //     "ordering": true,
+            //     "info": true,
+            //     "autoWidth": true,
+            //     "responsive": true,
+            //     "order": [[0, "desc"]],
+            //     "scrollX": false,
+            //     "columnDefs": [
+            //         {
+            //             "targets": [ 0 ],
+            //             "visible": false,
+            //             "searchable": false
+            //         }
+            //     ],
+            //     buttons: [
+            //         'copyHtml5',
+            //         'excelHtml5',
+            //         'csvHtml5',
+            //         'pdfHtml5'
+            //     ]
+            // });
             $('#dataTableSeaum').DataTable({
                 "fixedHeader": true,
                 "paging": true,
@@ -173,13 +202,41 @@ if(!isset($_SESSION['sections'])){
                 "responsive": true,
                 "order": [[0, "desc"]],
                 "scrollX": false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        exportOptions : {
+                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions : {
+                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        exportOptions : {
+                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions : {
+                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                        }
+                    }
+                ],
                 "columnDefs": [
-                {
-                    "targets": [ 0 ],
-                    "visible": false,
-                    "searchable": false
-                }
-            ]
+                    {
+                        "targets": [ 0 ],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+                
             });
         }
     });

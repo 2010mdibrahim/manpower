@@ -471,6 +471,7 @@ $failed = new UnsetFailedLogin();
         type: 'post',
         url: 'template/notification.php',
         success: function(body_msg){
+            console.log(body_msg);
             if(body_msg != ""){
                 new jBox('Notice', {
                     animation: 'flip',
