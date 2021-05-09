@@ -35,6 +35,7 @@
 <div class="container">
     <div class="card">
         <form action="template/loginPage.php" method="post" class="form">
+            <?php if(isset($_SESSION['failed_login'])){ ?><p class="text-danger">Incorrect Credentials</p> <?php } ?>
             <div class="form-group" >
                 <label for="exampleInputEmail1">Email address</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email">

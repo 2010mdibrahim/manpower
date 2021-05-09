@@ -52,7 +52,11 @@ if(!empty($_POST['pagePost'])){
 </style>
 <body>
 <div id="data-loading"></div>
-<?php include ('template/database.php'); ?>
+<?php 
+include ('template/database.php'); 
+include ('template/class/unsetFailed.php');
+$failed = new UnsetFailedLogin();
+?>
 <div id="seaum_alert">
 <script>
     var data_loading = '<div style="position: fixed; z-index: 99999; top: 0%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"><center><img src="<?="img/loading.gif";?>" style="margin-top:16%;border-radius:50px 5px 50px 5px;"/></center></div>';
@@ -75,6 +79,7 @@ if(!empty($_POST['pagePost'])){
     <?php
     if(isset($_SESSION['email']) === false){
         include 'template/login.php';
+        $failed->unset_failed_login();
     }else{
         // include 'includes/topbar.php';
         include 'includes/navbar.php';

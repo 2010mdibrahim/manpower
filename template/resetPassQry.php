@@ -7,7 +7,7 @@ $new_password_confirm = md5($_POST['new_password_confirm']);
 $old_pass_confirm = mysqli_fetch_assoc($conn->query("SELECT employeeId from employee where employeeId = $employeeId AND empPass = '$old_password'"));
 if(!is_null($old_pass_confirm)){
     if($new_password == $new_password_confirm){
-        $result = $conn->query("UPDATE employee set empPass = '$new_password'");
+        $result = $conn->query("UPDATE employee set empPass = '$new_password' where employeeId = ".$employeeId);
         echo 'allOk';
     }else{
         echo 'notEqual';

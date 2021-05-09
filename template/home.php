@@ -4,6 +4,7 @@ $homeController = new HomeController();
 $monthlyCandidateExpense = $homeController->candidateMonthlyExpense();
 $dailyCandidateExpense = $homeController->candidateDailyExpense();
 $candidateNumbers = $homeController->candidateNumbers();
+// Send autometic to completed list
 $homeController->change();
 ?>
 
