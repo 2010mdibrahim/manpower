@@ -88,6 +88,7 @@ if(isset($_SESSION['email'])){
     }
 
     $result_visa = $conn->query("SELECT processing.lastNotificationDate, processing.processingId, passport.gender, passport.passportNum, processing.visaStampingDate FROM processing INNER JOIN passport on passport.passportNum = processing.passportNum AND passport.creationDate = processing.passportCreationDate WHERE visaStampingDate BETWEEN '$today_upper_limit_string' AND '$todayF'  AND processing.notification = 'yes'");
+    $notification .= mysqli_error($conn);
     if($notification != ""){
         $notification .= '<hr>';
     }
