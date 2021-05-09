@@ -11,10 +11,10 @@ $notification = "";
 while($flightDate = mysqli_fetch_assoc($result)){
     $flightDateTime = new DateTime($flightDate['flightDate']);
     $flightDiff = $today->diff($flightDateTime);
-    if($flightDate['lastNotified'] == '0000-00-00 00:00:00'){ 
-        $notification .= "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum']."\n";
+    if($flightDate['lastNotified'] == '0000-00-00 00:00:00'){
+        $notification .= "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum']."<br>";
         $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
-        $result_notified = $conn->query("UPDATE ticket set lastNotified = '$notificationTimeF' where passportNum = '".$flightDate['passportNum']."' AND passportCreationDate = '".$flightDate['passportCreationDate']."'");   
+        // $result_notified = $conn->query("UPDATE ticket set lastNotified = '$notificationTimeF' where passportNum = '".$flightDate['passportNum']."' AND passportCreationDate = '".$flightDate['passportCreationDate']."'");   
     }else{
         $lastNofitificationDate = new DateTime($flightDate['lastNotified']);
         $notificationDiff = $notificationTime->diff($lastNofitificationDate);

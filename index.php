@@ -470,53 +470,35 @@ $failed = new UnsetFailedLogin();
     $.ajax({
         type: 'post',
         url: 'template/notification.php',
-        success: function(body){
+        success: function(body_msg){
+            new jBox('Notice', {
+                animation: 'flip',
+                color: 'blue',
+                content: body_msg,
+                attributes: {
+                    x: 'right',
+                    y: 'bottom'
+                },                            
+                delayOnHover: true,
+                showCountdown: true
+            });
             // Let's check if the browser supports notifications
-            if(body != ""){
-                if (!("Notification" in window)) {
-                    alert("This browser does not support desktop notification");
-                }
+            // if(body != ""){
 
-                // Let's check whether notification permissions have already been granted
-                else if (Notification.permission === "granted") {
-                    var notification = new Notification('Final Medical Report Due:', {body});
-                }
+            //     // Let's check whether notification permissions have already been granted
+            //     if (Notification.permission === "granted") {
+            //         var notification = new Notification('Final Medical Report Due:', {body});
+            //     }
 
-                else if (Notification.permission !== "denied") {
-                    Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                        if (permission === "granted") {
-                            var notification = new Notification('Final Medical Report Due:', {body});
-                        }
-                    });
-                }
-            }
-        }
-    });
-    $.ajax({
-        type: 'post',
-        url: 'template/notificationTicket.php',
-        success: function(body){
-            // Let's check if the browser supports notifications
-            if(body != ""){
-                if (!("Notification" in window)) {
-                    alert("This browser does not support desktop notification");
-                }
-
-                // Let's check whether notification permissions have already been granted
-                else if (Notification.permission === "granted") {
-                    var notification = new Notification('Ticket Date:', {body});
-                }
-
-                else if (Notification.permission !== "denied") {
-                    Notification.requestPermission().then(function (permission) {
-                    // If the user accepts, let's create a notification
-                        if (permission === "granted") {
-                            var notification = new Notification('Ticket Date:', {body});
-                        }
-                    });
-                }
-            }
+            //     else if (Notification.permission !== "denied") {
+            //         Notification.requestPermission().then(function (permission) {
+            //         // If the user accepts, let's create a notification
+            //             if (permission === "granted") {
+            //                 var notification = new Notification('Final Medical Report Due:', {body});
+            //             }
+            //         });
+            //     }
+            // }
         }
     });
     $(".timePicker").timepicker();
@@ -531,13 +513,4 @@ $failed = new UnsetFailedLogin();
             width: '100%'
         });
     };    
-
-    let permission = Notification.permission;
-    if(permission === 'default'){
-        Notification.requestPermission();
-    }
-
-
-
-    
 </script>
