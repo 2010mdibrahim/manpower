@@ -9,6 +9,9 @@
     </div>
     
     <form action="template/agentPersonalExpenseQry.php" method="post" id="paymentForm">
+        <?php if(isset($_GET['lp'])){?>
+            <input type="hidden" name="lastPage" value="<?php echo $_GET['lp']?>">
+        <?php } ?>
         <input type="hidden" name="agentName" value="<?php echo $agent['agentName']?>">
         <div class="form-row">
             <div class="form-group col-md-6" >

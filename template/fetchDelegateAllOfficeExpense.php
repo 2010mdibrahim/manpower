@@ -1,7 +1,7 @@
 <?php
 include ('database.php');
 $delegateId = $_POST['delegateId'];
-$result = $conn->query("SELECT * from delegatetotalexpenseoffice where delegateId = $delegateId");
+$result = $conn->query("SELECT * from delegatetotalexpenseoffice where delegateId = $delegateId ORDER by delegateTotalExpenseOfficeId DESC LIMIT 200");
 if($result->num_rows != 0){
     $html = '   <div class="card" style="width: 100%; background-color: #dce775">
         <ul class="list-group list-group-flush">

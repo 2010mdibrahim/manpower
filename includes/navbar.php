@@ -97,7 +97,7 @@
                                 <a href="?page=delegateOfficeExpense" class="dropdown-item">Delegate Mapower-Office expense</a>
                                 <a href="?page=delegateOfficeExpenseList" class="dropdown-item">Delegate Mapower-Office expense List</a> -->
                                 <div class="dropdown-divider"></div>
-                                <a href="?page=delegateAllOfficeExpense" class="dropdown-item">Add Delegate Office expense</a>
+                                <a href="?page=delegateAllOfficeExpense" class="dropdown-item">Mr. Maheer Bu Arish Account</a>
                             </div>
                         </div>
                     <?php } ?>
@@ -135,8 +135,8 @@
                         <a href="?page=jobs" class="nav-item nav-link"  id="jobsNav">Jobs</a>
                     <?php } ?>
                 </div>
-                <div class="ml-auto">
-                    <a class="btn" href="includes/logout.php">Logout</a>
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-item logout_button_nav" href="includes/logout.php">Logout</a>
                 </div>
             </div>
         </nav>

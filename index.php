@@ -49,6 +49,7 @@ if(!empty($_POST['pagePost'])){
         text-transform: capitalize;
     }
     
+    
 </style>
 <body>
 <div id="data-loading"></div>
@@ -74,6 +75,19 @@ $failed = new UnsetFailedLogin();
     .col-print-10{width:83%; float:left;}
     .col-print-11{width:92%; float:left;}
     .col-print-12{width:100%; float:left;}
+    .logout_button_nav{
+        text-decoration: none;
+        color: white;
+        border: 2px #8d6e63 solid;
+        padding: 3px;
+        border-radius: 5px;
+        width: auto;
+    }
+    .logout_button_nav:hover{
+        text-decoration: none;
+        background-color: #8d6e63;
+        color: white;
+    }
 </style>
 <div class="wrapper">
     <?php

@@ -240,7 +240,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
         if (($_FILES['fullPhotoFile']['name'] != "")){
             move_uploaded_file($fullPhotoFile_temp_name,$fullPhotoFile_path_filename_ext);
         }       
-        echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
+        // echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
     }else{
         $err = mysqli_error($conn);
         echo "<script>window.alert('".$err."')</script>";

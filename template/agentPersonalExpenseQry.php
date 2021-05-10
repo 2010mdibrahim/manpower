@@ -17,7 +17,11 @@ $admin = $_SESSION['email'];
 $result = $conn->query("INSERT INTO agentexpense(expensePurposeAgent, expenseMode, fullAmount, payDate, agentEmail, comment, creationDate, updatedBy, updatedNo, candidateName, personal) VALUES ('$purpose', '$paymentMethod', $fullAmount, '$paydate', '$agentEmail', '$comment', '$c_date', '$admin', '$date', '$agentName', 'yes')");
 
 if($result){
-    echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
+    if(isset($_POST['lastPage'])){
+        echo "<script> window.location.href='../index.php?page=".$_POST['lastPage']."'</script>";
+    }else{
+        echo "<script> window.location.href='../index.php?page=showAgentExpenseList&ag=".base64_encode($agentEmail)."'</script>";
+    }
 }else{
     print_r(mysqli_error($conn));
 }
