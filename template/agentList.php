@@ -28,6 +28,10 @@ if(!isset($_SESSION['sections'])){
         background-color: #bdbdbd;
         color: white;
     }
+    .table-print a{
+        text-decoration: none;
+        color: black;
+    }
 </style>
 <div class="container-fluid" style="padding: 2%">
 <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="check">
@@ -52,8 +56,7 @@ if(!isset($_SESSION['sections'])){
 
                     </div>
                     <div class="modal-footer">
-                        
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="print_button" class="btn btn-info" type="button" onclick="print_div(this.value)"><i class="fa fa-print"></i></button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -155,111 +158,72 @@ if(!isset($_SESSION['sections'])){
 <script>
     function print_div(agentInfo){
         $.ajax({
-            url: 'template/reports/agentReport.php',
+            url: 'template/reports/agentReportPrint.php',
             data: {agentInfo: agentInfo},
             type: 'post',
             success: function(response){
                 $('#showAgentReportDivPrint').html(response);
+                $('#dataTableSeaumPrint').DataTable({
+                    "paging": false,
+                    "order": [[0, "desc"]],
+                    "columnDefs": [
+                        {
+                            "targets": [ 0 ],
+                            "visible": false,
+                        }
+                    ],
+                    "searching": false,
+                    "bInfo" : false
+                });
                 $("#showAgentReportDivPrint").print({
                     noPrintSelector: ".exclude",
                     globalStyles: true,
-                    doctype: '<!doctype html>',    
+                    doctype: '<!doctype html>',
+                    title: agentInfo,   
                 });
+                $('#showAgentReportDivPrint').html('');
+                
             }
         });        
     }
     $('#agentNav').addClass('active');
     function showReport(agentInfo){
-    $.ajax({
-        url: 'template/reports/agentReport.php',
-        data: {agentInfo: agentInfo},
-        type: 'post',
-        success: function(response){
-            $('#showAgentReportDiv').html(response);
-            $('.returned').parent().addClass('returned_col');
-            let pdf_total_comission = $('#pdf_total_comission').html();
-            console.log(pdf_total_comission);
-            let pdf_total_expense = $('#pdf_total_expense').html();
-            let pdf_total_final = $('#pdf_total_final').html();
-            let pdf_total_loss = $('#pdf_total_loss').html();
-            if(pdf_total_final.charAt(0) === '-'){
-                color_div = 'red';
-            }else{
-                color_div = 'black';
+        $.ajax({
+            url: 'template/reports/agentReport.php',
+            data: {agentInfo: agentInfo},
+            type: 'post',
+            success: function(response){
+                $('#showAgentReportDiv').html(response);
+                $('#print_button').val(agentInfo);
+                console.log(agentInfo);
+                $('.returned').parent().addClass('returned_col');
+                let table = $('#dataTableSeaum').DataTable({
+                    "fixedHeader": true,
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "responsive": true,
+                    "scrollX": false,
+                    "order": [[0, "desc"]],
+                    "scrollX": false,
+                    "columnDefs": [
+                        {
+                            "targets": [ 0 ],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ],
+                    "lengthMenu": [
+                        [10, 25, 50, 100, 500],
+                        [10, 25, 50, 100, 500]
+                    ],
+                    
+                });
+                // table.buttons().remove();
             }
-            console.log(color_div);
-            $('#dataTableSeaum').DataTable({
-                "fixedHeader": true,
-                "paging": true,
-                "lengthChange": true,
-                "lengthMenu": [
-                    [10, 25, 50, 100, 500],
-                    [10, 25, 50, 100, 500]
-                ],
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "order": [[0, "desc"]],
-                "scrollX": false,
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'copyHtml5',
-                        exportOptions : {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions : {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        exportOptions : {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        customize: function ( doc ) {
-                            doc.content.splice(0, 1, {
-                                text: [
-                                        { text: 'Total Comission: \n',fontSize:12,alignment: 'center' },
-                                        { text: pdf_total_comission + '\n',bold: true, fontSize:15,alignment: 'center' },
-                                        '\n',
-                                        { text: 'Total Expense: \n',fontSize:12,alignment: 'center' },
-                                        { text: pdf_total_expense + '\n',bold: true, fontSize:15,alignment: 'center' },
-                                        '\n',
-                                        { text: 'Grand Total: \n',fontSize:12,alignment: 'center' },
-                                        { text: pdf_total_final + '\n',color: color_div,bold: true, fontSize:15,alignment: 'center' },
-                                        '\n',
-                                        { text: 'Return Loss: \n',fontSize:12,alignment: 'center' },
-                                        { text: pdf_total_loss + '\n',bold: true, fontSize:15,alignment: 'center' },
-                                ],
-                                margin: [0, 0, 0, 12],
-                                alignment: 'center'
-                            });
-                        },
-                        exportOptions : {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    }
-                ],
-                "columnDefs": [
-                    {
-                        "targets": [ 0 ],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ],
-                
-            });
-        }
-    });
-}
+        });
+    }
 </script>

@@ -12,23 +12,10 @@ $totalComissionAdvance = 0;
 $totalPaid = 0;
 $totalPaidAdvance = 0;
 $totalReturnLoss = 0;
-$html = '<div class="card">
-        <div class="card-header">
-            <div class="section-header">
-                <p style="font-size: 25px;">
-                    Agent Report for                
-                    <span style="font-size: 35px;">';
-$html .= $agentName;
-$html .=            '</span></p>
-            </div>
-        </div>
-        <div class="card-group">
-            <div class="row" style="width: 100%; margin-right: 0; margin-left: 0;">
-                <div class="col-md-9" style="padding: 0">
-                <div class="card">
-                    <div class="card-body">
+$html = '<div class="row text-center"><div class="col-sm"><h3>Expense Report for '.$agentName.'</h3></div></div>
+        <div class="row" style="width: 100%; margin-right: 0; margin-left: 0;">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover text-center" id="dataTableSeaum" style="width:100%">
+                        <table class="table table-bordered table-hover text-center table-print" id="dataTableSeaumPrint" style="width:100%">
                             <thead>
                             <tr>
                                 <th>Payment Serial</th>
@@ -121,35 +108,16 @@ $html .=            '</span></p>
                 $html .= '<td>'.$agent_expense['expensePurposeAgent'].'</td>';
                 $html .= '</tr>';
             }
-            $html .=        '<tfoot>
-                                <tr hidden>
-                                    <th>Payment Serial</th>
-                                    <th>Candidate Name</th>
-                                    <th>Candidate Passport</th>
-                                    <th>VISA</th>
-                                    <th>Total Expense</th>
-                                    <th>Money</th>
-                                    <th>Advance Comission</th>
-                                    <th>Payment Date</th>
-                                    <th>Purpose</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        </div>
-                        <input type="hidden" id="okTesting" value="gotIt">
-                        </div>
-                    </div>                    
-                    
-                </div>
-                <div class="col-md-3" style="padding: 0">
+            $html .= '</table>
+                
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm">
+                                <div class="row text-center">
+                                    <div class="col-print-6">
                                         <p>Total Comission</p>
                                         <h3><span id="pdf_total_comission">'.number_format($totalComission).'</span></h3>
                                     </div>
-                                    <div class="col-sm">
+                                    <div class="col-print-6">
                                         <p>Total Expense</p>
                                         <h3><span id="pdf_total_expense">'.number_format($totalExpense).'</span></h3>
                                     </div>
@@ -157,8 +125,8 @@ $html .=            '</span></p>
                             </div>';
 $finalTotal = $totalComission - $totalExpense - $totalComissionAdvance;
 $html .=                    '<div class="card-body">
-                                <div class="row">';
-$html .=                        '<div class="col-sm">                                        
+                                <div class="row text-center">';
+$html .=                        '<div class="col-print-6">                                        
                                         <p>Remaining Balance</p>';
 if($finalTotal < 0){                                        
     $html .= '<h3 class="text-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
@@ -166,15 +134,13 @@ if($finalTotal < 0){
     $html .= '<h3>'.number_format($finalTotal).'</h3>';
 }
 $html .=                            '</div>
-                                    <div class="col-sm">                                        
+                                    <div class="col-print-6">                                        
                                         <p>Total Returned Loss</p>
-                                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3><span id="pdf_total_loss">'.number_format($totalReturnLoss).'</span></h3></a>
+                                        <h3><span id="pdf_total_loss">'.number_format($totalReturnLoss).'</span></h3>
                                     </div>
                                 </div>
                             </div>
                         </div>  
                     </div>
-            </div>
-        </div>
     </div>';
 echo $html;
