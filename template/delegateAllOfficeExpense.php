@@ -301,7 +301,7 @@ ul, li{
                                 </li>
                             </div>
                             <?php 
-                            $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc LIMIT = 500");
+                            $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc limit 200");
                             while($expenseList = mysqli_fetch_assoc($result_expenseList)){ ?>
                                 <li class="list-group-item highlight">
                                     <div class="row text-center">
