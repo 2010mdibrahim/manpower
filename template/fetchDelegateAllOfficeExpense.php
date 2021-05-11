@@ -4,7 +4,7 @@ $delegateId = $_POST['delegateId'];
 $result = $conn->query("SELECT * from delegatetotalexpenseoffice where delegateId = $delegateId ORDER by delegateTotalExpenseOfficeId DESC LIMIT 200");
 if($result->num_rows != 0){
     $html = '   <div class="card" style="width: 100%; background-color: #dce775">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush" style="height: 500px; overflow: auto;">
             <li class="list-group-item" style="background-color: #dce775">
                 <div class="row text-center">
                     <div class="col-print-3 center-column">Office Name</div>
@@ -15,7 +15,7 @@ if($result->num_rows != 0){
                 </div>
             </li>';
     while($office = mysqli_fetch_assoc($result)){
-    $html .= '      <li class="list-group-item" style="background-color: #f9fbe7">
+    $html .= '<li class="list-group-item" style="background-color: #f9fbe7">
                 <div class="row text-center">';
     if($office['type'] == 'outside'){
     $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$office['officeId']));

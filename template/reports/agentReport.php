@@ -12,7 +12,7 @@ $totalComissionAdvance = 0;
 $totalPaid = 0;
 $totalPaidAdvance = 0;
 $totalReturnLoss = 0;
-$html = '<div class="card">
+$html = '<div class="card" style="height: 500px; overflow: auto;">
         <div class="card-header">
             <div class="section-header">
                 <p style="font-size: 25px;">

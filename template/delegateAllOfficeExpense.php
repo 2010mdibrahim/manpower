@@ -38,10 +38,10 @@ if(!isset($_SESSION['sections'])){
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
-  background-color: yellow;
+  top: 0px;
+  /* background-color: yellow;
   padding: 50px;
-  font-size: 20px;
+  font-size: 20px; */
 }
 .header-expesne-list{
     font-weight: bold;
@@ -235,7 +235,7 @@ ul, li{
                 <div class="col-print-1">Options</div>
             </div>
         </div>
-        <ul class="list-group list-group-flush" style="height: 500px; overflow: auto;">
+        <ul class="list-group list-group-flush">
             
             <?php
             $result = $conn->query("SELECT delegateName, delegateId from delegate where delegateId = 22");
@@ -291,7 +291,7 @@ ul, li{
                 <div style="display: none;" class="expense-list" id="<?php echo $delegate['delegateId']."_expense_list";?>">
                     <div class="row justify-content-center <?php echo $delegate['delegateId']."_highlight";?> p-1">
                         <div class="card" style="width: 95%;">
-                            <div class="card-header">
+                            <div class="card-header sticky">
                                 <li>
                                     <div class="row text-center header-expesne-list">
                                         <div class="col-print-4">Office Name</div>
