@@ -349,11 +349,6 @@ if(isset($_GET['pp'])){
                         <th>Edit</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td><button class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button></td>
-                    </tr>
-                    </tbody>
                     <?php
                     while( $candidate = mysqli_fetch_assoc($result) ){
                         $hasVisa = mysqli_fetch_assoc($conn->query("SELECT processingId, pending from processing where passportNum = '".$candidate['passportNum']."' AND passportCreationDate = '".$candidate['creationDate']."'"));
