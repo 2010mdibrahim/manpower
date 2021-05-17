@@ -5,15 +5,25 @@ $result = $conn->query("SELECT * from delegatetotalexpenseoffice where delegateI
 if($result->num_rows != 0){
     $html = '   <div class="card" style="width: 100%; background-color: #dce775">
         <ul class="list-group list-group-flush list-overflow">
-            <li class="list-group-item" style="background-color: #dce775">
-                <div class="row text-center">
-                    <div class="col-print-3 center-column">Office Name</div>
-                    <div class="col-print-3 center-column">Amount</div>
-                    <div class="col-print-3 center-column">Date</div>
-                    <div class="col-print-2 exclude">Receipt</div>
-                    <div class="col-print-1 exclude">Alter</div>
+        <div class="card-header sticky">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h6>Credit List</h6>
+                    <hr>
                 </div>
-            </li>';
+                <div class="col-md-12">
+                    <li class="list-group-item" style="background-color: #dce775">
+                        <div class="row text-center">
+                            <div class="col-print-3 center-column">Office Name</div>
+                            <div class="col-print-3 center-column">Amount</div>
+                            <div class="col-print-3 center-column">Date</div>
+                            <div class="col-print-2 exclude">Receipt</div>
+                            <div class="col-print-1 exclude">Alter</div>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>';
     while($office = mysqli_fetch_assoc($result)){
     $html .= '<li class="list-group-item" style="background-color: #f9fbe7">
                 <div class="row text-center">';

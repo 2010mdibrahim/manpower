@@ -301,13 +301,21 @@ ul, li{
                         <div class="card" style="width: 95%;">
                             <ul class="list-group list-group-flush list-overflow">
                                 <div class="card-header sticky">
-                                    <li>
-                                        <div class="row text-center header-expesne-list">
-                                            <div class="col-print-4">Office Name</div>
-                                            <div class="col-print-4">Amount</div>
-                                            <div class="col-print-4">Payment Date</div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <h6>Debit List</h6>
+                                            <hr>
                                         </div>
-                                    </li>
+                                        <div class="col-md-12">
+                                            <li>
+                                                <div class="row text-center header-expesne-list">
+                                                    <div class="col-print-4">Office Name</div>
+                                                    <div class="col-print-4">Amount</div>
+                                                    <div class="col-print-4">Payment Date</div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </div>                                    
                                 </div>
                                 <?php 
                                 $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc limit 200");
@@ -327,7 +335,7 @@ ul, li{
                                                 echo $expenseList['officeId'];
                                             }
                                             ?></div>
-                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? number_format($expenseList['amount']*$expenseList['rate']). " TAKA" : number_format($expenseList['amount'])." TAKA";?></div>
+                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? number_format($expenseList['amount']*$expenseList['rate']). " Taka" : number_format($expenseList['amount'])." Taka";?></div>
                                             <div class="col-print-4"><?php echo $expenseList['date'];?></div>
                                         </div>
                                     </li>
