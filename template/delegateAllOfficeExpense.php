@@ -370,7 +370,7 @@ ul, li{
     }
     function showReport(agentInfo){
         $.ajax({
-            url: 'template/reports/agentReport.php',
+            url: 'template/agentReportMaheer.php',
             data: {agentInfo: agentInfo},
             type: 'post',
             success: function(response){

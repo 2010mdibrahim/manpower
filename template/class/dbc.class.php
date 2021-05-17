@@ -1,5 +1,6 @@
 <?php
 class Dbc{
+    // this is a testing change
     private $server = 'localhost';
     private $user ='root';
     private $dbname='samin_erp';
@@ -7,7 +8,7 @@ class Dbc{
     private $password = '';
     protected function connection(){
         if(file_exists($this->path)){
-            $this->password = '';
+            $this->password = '!@#$%databaseserveradmin2020';
         }else{
             $this->password = '!@#$%databaseserveradmin2020';
         }
