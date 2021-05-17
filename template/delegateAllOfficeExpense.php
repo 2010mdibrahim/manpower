@@ -56,9 +56,17 @@ if(!isset($_SESSION['sections'])){
     .print-header{
         display: none;
     }
+    .list-overflow{
+        height: 500px;
+        overflow: auto;
+    }
 }
 ul, li{
     list-style-type: none;
+}
+.row{
+    margin-right: 0px;
+    margin-left: 0px;
 }
 </style>
 <div class="container-fluid" style="padding: 2%" style="width: 100%;">
@@ -291,38 +299,40 @@ ul, li{
                 <div style="display: none;" class="expense-list" id="<?php echo $delegate['delegateId']."_expense_list";?>">
                     <div class="row justify-content-center <?php echo $delegate['delegateId']."_highlight";?> p-1">
                         <div class="card" style="width: 95%;">
-                            <div class="card-header sticky">
-                                <li>
-                                    <div class="row text-center header-expesne-list">
-                                        <div class="col-print-4">Office Name</div>
-                                        <div class="col-print-4">Amount</div>
-                                        <div class="col-print-4">Payment Date</div>
-                                    </div>
-                                </li>
-                            </div>
-                            <?php 
-                            $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc limit 200");
-                            while($expenseList = mysqli_fetch_assoc($result_expenseList)){ ?>
-                                <li class="list-group-item highlight">
-                                    <div class="row text-center">
-                                        <div class="col-print-4"><?php
-                                        if($expenseList['type'] == 'manpower'){
-                                            $manpower = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$expenseList['officeId']));
-                                            echo $manpower['manpowerOfficeName'];
-                                        }else if($expenseList['type'] == 'outside'){
-                                            $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$expenseList['officeId']));
-                                            echo $officeName['officeName'];
-                                        }else if($expenseList['type'] == 'NULL'){
-                                            echo $delegate['delegateName'];
-                                        }else{
-                                            echo $expenseList['officeId'];
-                                        }
-                                        ?></div>
-                                        <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? $expenseList['amount']*$expenseList['rate'] : $expenseList['amount'];?></div>
-                                        <div class="col-print-4"><?php echo $expenseList['date'];?></div>
-                                    </div>
-                                </li>
-                            <?php } ?>
+                            <ul class="list-group list-group-flush list-overflow">
+                                <div class="card-header sticky">
+                                    <li>
+                                        <div class="row text-center header-expesne-list">
+                                            <div class="col-print-4">Office Name</div>
+                                            <div class="col-print-4">Amount</div>
+                                            <div class="col-print-4">Payment Date</div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <?php 
+                                $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc limit 200");
+                                while($expenseList = mysqli_fetch_assoc($result_expenseList)){ ?>
+                                    <li class="list-group-item highlight">
+                                        <div class="row text-center">
+                                            <div class="col-print-4"><?php
+                                            if($expenseList['type'] == 'manpower'){
+                                                $manpower = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$expenseList['officeId']));
+                                                echo $manpower['manpowerOfficeName'];
+                                            }else if($expenseList['type'] == 'outside'){
+                                                $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$expenseList['officeId']));
+                                                echo $officeName['officeName'];
+                                            }else if($expenseList['type'] == 'NULL'){
+                                                echo $delegate['delegateName'];
+                                            }else{
+                                                echo $expenseList['officeId'];
+                                            }
+                                            ?></div>
+                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? $expenseList['amount']*$expenseList['rate'] : $expenseList['amount'];?></div>
+                                            <div class="col-print-4"><?php echo $expenseList['date'];?></div>
+                                        </div>
+                                    </li>
+                                <?php } ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
