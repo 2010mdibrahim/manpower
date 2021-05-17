@@ -327,7 +327,7 @@ ul, li{
                                                 echo $expenseList['officeId'];
                                             }
                                             ?></div>
-                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? $expenseList['amount']*$expenseList['rate'] : $expenseList['amount'];?></div>
+                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? number_format($expenseList['amount']*$expenseList['rate']). " TAKA" : number_format($expenseList['amount'])." TAKA";?></div>
                                             <div class="col-print-4"><?php echo $expenseList['date'];?></div>
                                         </div>
                                     </li>
