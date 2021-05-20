@@ -11,7 +11,7 @@ if($type == 'other'){
                     <option value="">Select Office</option>';
         $result = $conn->query("SELECT officeId, officeName from office");
         while($office = mysqli_fetch_assoc($result)){
-            $html .= '<option value="'.$office['officeId'].'">'.$office['officeName'].'</option>';
+            $html .= '<option>'.$office['officeName'].'</option>';
         }                          
         $html .= '</select>';
     }else{
@@ -20,7 +20,7 @@ if($type == 'other'){
                     <option value="">Select Office</option>';
         $result = $conn->query("SELECT manpowerOfficeId, manpowerOfficeName from manpoweroffice");
         while($office = mysqli_fetch_assoc($result)){
-            $html .= '<option value="'.$office['manpowerOfficeId'].'">'.$office['manpowerOfficeName'].'</option>';
+            $html .= '<option>'.$office['manpowerOfficeName'].'</option>';
         }                          
         $html .= '</select>';
     }

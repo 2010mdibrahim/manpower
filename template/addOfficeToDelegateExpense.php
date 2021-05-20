@@ -15,12 +15,12 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$type = $_POST['type'];
 $officeId = $_POST['officeId'];
 $amount = $_POST['amount'];
 $date = $_POST['date'];
-$delegateId = $_POST['delegateId'];
-$maxId = mysqli_fetch_assoc($conn->query("SELECT max(delegateTotalExpenseOfficeId) as id from delegatetotalexpenseoffice"));
+$rate = 1;
+$max_id_qry = mysqli_fetch_assoc($conn->query("SELECT max(id) as max_id from account_maheer"));
+$max_id = $max_id_qry['max_id'] + 1;
 if (($_FILES['officeReceipt']['name'] != "")){
     // Where the file is going to be stored
     $target_dir = "uploads/officeReceipt/";    
@@ -28,14 +28,14 @@ if (($_FILES['officeReceipt']['name'] != "")){
     $path = pathinfo($file);
     $ext = $path['extension'];
     $temp_name = $_FILES['officeReceipt']['tmp_name'];
-    $path_filename_ext = $base_dir.$target_dir."officeReceipt"."_".$maxId['id'].".".$ext;
-    $receipt = $target_dir."officeReceipt"."_".$maxId['id'].".".$ext;
+    $path_filename_ext = $base_dir.$target_dir."officeReceipt"."_".$max_id.".".$ext;
+    $receipt = $target_dir."officeReceipt"."_".$max_id.".".$ext;
 }
-$result = $conn->query("INSERT INTO delegatetotalexpenseoffice(delegateId, officeId, amount, date, type, receipt) VALUES ($delegateId,'$officeId',$amount,'$date', '$type', '$receipt')");
+$result = $conn->query("INSERT INTO account_maheer(particular, date, debit, credit, dollar_rate_credit, debit_receipt) VALUES ('$officeId','$date',$amount, 0, $rate, '$receipt')");
 
 if($result){
     move_uploaded_file($temp_name,$path_filename_ext);
-    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense&dei=".base64_encode($delegateId)."'</script>";
+    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{
     print_r(mysqli_error($conn));
 }

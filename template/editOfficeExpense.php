@@ -15,22 +15,36 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$delegateId = $_POST['delegateId'];
-$delegateTotalExpenseOfficeId = $_POST['delegateTotalExpenseOfficeId'];
+$account_maheer_id = $_POST['account_maheer_id'];
 if(isset($_POST['alter'])){
     $alter = $_POST['alter'];
 }else{
     $alter = '';
 }
 if($alter == 'delete'){
-    $result = $conn->query("DELETE from delegateTotalExpenseOffice where delegateTotalExpenseOfficeId = $delegateTotalExpenseOfficeId");
+    $result = $conn->query("DELETE from account_maheer where id = $account_maheer_id");
 }else{
-    $amount = $_POST['amount'];
+    $edit_debit_amount = $_POST['edit_debit_amount'];
+    // $edit_credit_amount = $_POST['edit_credit_amount'];
     $date = $_POST['date'];
-    $result = $conn->query("UPDATE delegateTotalExpenseOffice set amount = $amount, date = '$date' where delegateTotalExpenseOfficeId = $delegateTotalExpenseOfficeId");
+    if (($_FILES['officeReceipt']['name'] != "")){
+        // Where the file is going to be stored
+        $target_dir = "uploads/officeReceipt/";    
+        $file = $_FILES['officeReceipt']['name'];
+        $path = pathinfo($file);
+        $ext = $path['extension'];
+        $temp_name = $_FILES['officeReceipt']['tmp_name'];
+        $path_filename_ext = $base_dir.$target_dir."officeReceipt"."_".$account_maheer_id.".".$ext;
+        $receipt = $target_dir."officeReceipt"."_".$account_maheer_id.".".$ext;
+        $result = $conn->query("UPDATE account_maheer set debit_receipt = '$receipt' where id = $account_maheer_id");
+        // print_r("UPDATE account_maheer set debit_receipt = '$receipt' where id = $account_maheer_id");
+        // exit();
+        move_uploaded_file($temp_name,$path_filename_ext);
+    }
+    $result = $conn->query("UPDATE account_maheer set debit = $edit_debit_amount, date = '$date' where id = $account_maheer_id");
 }
 if($result){
-    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense&dei=".base64_encode($_POST['delegateId'])."'</script>";
+    echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{
     print_r(mysqli_error($conn));
 }

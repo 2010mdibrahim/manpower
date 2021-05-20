@@ -42,6 +42,8 @@ $html .=            '</span></p>
                             </thead>';
             $result = $conn->query("SELECT jobs.creditType, fName, lName, passportNum, passport.creationDate, passport.jobId, (SELECT sum(amount) from candidateexpense where candidateexpense.passportNum = passport.passportNum AND candidateexpense.passportCreationDate = passport.creationDate) as expenseSum, manpoweroffice.manpowerOfficeId from passport INNER JOIN jobs using (jobId) INNER JOIN manpoweroffice using (manpowerOfficeName) where agentEmail = '$agentEmail' AND status != 2 order by passport.creationDate desc");
             while($agent = mysqli_fetch_assoc($result)){
+                $ticket_price = 0;
+                $manpower_processing_cost = 0;
                 $html .=        '<tr>';
                 $maxPayment = mysqli_fetch_assoc($conn->query("SELECT max(payDate) as maxPay FROM candidateexpense where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
                 $html .= '<td>'.$maxPayment['maxPay'].'</td>';
@@ -54,8 +56,8 @@ $html .=            '</span></p>
                         $manpowerJobProcessing = mysqli_fetch_assoc($conn->query("SELECT processingCost from manpowerjobprocessing where manpowerOfficeId = ".$agent['manpowerOfficeId']." AND jobId = ".$agent['jobId']));
                         $ticket = mysqli_fetch_assoc($conn->query("SELECT ticketPrice from ticket where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
                         $ticket_price = (is_null($ticket)) ? 0 : $ticket['ticketPrice'];
+                        $manpower_processing_cost = $manpowerJobProcessing['processingCost'];
                         $totalExpense += $manpowerJobProcessing['processingCost'] + $ticket_price;
-                        print_r($visa['visaStampingDate']);
                     }
                     $html .=                '<a href="?page=visaList&pi='.base64_encode($visa['processingId']).'">'.$visa['sponsorVisa'].'</a>';
                 }else{
@@ -65,7 +67,7 @@ $html .=            '</span></p>
                 $html .=            '<td>';
                 $expns = (is_null($agent['expenseSum'])) ? 0 : $agent['expenseSum'];
                 $totalExpense += $expns;
-                $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($totalExpense)."</a>";    
+                $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['expenseSum'] + $manpower_processing_cost + $ticket_price)."</a>";    
                 $html .=            '</td>';
                 $agent_comission = mysqli_fetch_assoc($conn->query("SELECT comissionId, agentcomission.amount from agentcomission INNER JOIN processing on processing.passportNum = agentcomission.passportNum AND processing.passportCreationDate = agentcomission.passportCreationDate where agentcomission.passportNum = '".$agent['passportNum']."' AND agentcomission.passportCreationDate = '".$agent['creationDate']."' AND processing.pending between 1 AND 2"));
                 $agent_comission_returned = mysqli_fetch_assoc($conn->query("SELECT comissionId, agentcomission.amount from agentcomission INNER JOIN processing on processing.passportNum = agentcomission.passportNum AND processing.passportCreationDate = agentcomission.passportCreationDate where agentcomission.passportNum = '".$agent['passportNum']."' AND agentcomission.passportCreationDate = '".$agent['creationDate']."' AND processing.pending = 3"));

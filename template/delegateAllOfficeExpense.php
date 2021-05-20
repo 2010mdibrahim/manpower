@@ -128,54 +128,32 @@ ul, li{
             </form>
         </div>
     </div>
-    <!-- Delete Delegate Expense Modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="deleteDelegateExpense">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/editOfficeToDelegateExpense.php" method="post">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm Deletion Of Delegate Account?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    <input type="hidden" name="alter" value="delete">
-                        <input type="hidden" name="delegateId" id="delegateIdModalDelete">
-                        <div class="row justify-content-center">
-                            <div class="col text-center">
-                                <button class="btn btn-danger"> Confirm Deletion </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     <!-- Edit Delegate Expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="editOfficeExpense">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form action="template/editOfficeExpense.php" method="post">
+            <form action="template/editOfficeExpense.php" method="post" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Office Expense</h5>
+                        <h5 class="modal-title">Give Office Expense Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="delegateId" id="delegateIdModalOffice">
-                        <input type="hidden" name="delegateTotalExpenseOfficeId" id="delegateTotalExpenseOfficeId">
-                        <label> Amount </label>
-                        <input class="form-control" type="number" name="amount" id="amountModalOffice">
+                        <input type="hidden" name="account_maheer_id" id="account_maheer_id">
+                        <input class="form-control" type="text" id="modal_office_name" disabled>
+                        <div id="getOffice"></div>                        
+                        <label> Debit Amount </label>
+                        <input class="form-control" type="number" name="edit_debit_amount" id="edit_debit_amount">
+                        <!-- <label> Credit Amount </label>
+                        <input class="form-control" type="number" name="edit_credit_amount" id="edit_credit_amount"> -->
                         <label> Date </label>
-                        <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="dateModalOffice" placeholder="Enter date">                       
+                        <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="edit_date" placeholder="Enter date">                       
+                        <label> Receipt </label>
+                        <input class="form-control" type="file" name="officeReceipt" id="officeReceipt">                       
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -199,7 +177,6 @@ ul, li{
                 
                 <div id="localOffice" class="col-print-4">
                     <div class="form-group row align-items-end">
-                        <input type="hidden" name="currancy" value="dollar">                   
                         <div class="col-sm">
                             <label> Amount in Dollar </label>
                             <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">                   
@@ -249,9 +226,11 @@ ul, li{
             $result = $conn->query("SELECT delegateName, delegateId from delegate where delegateId = 22");
             $i = 1;
             while($delegate = mysqli_fetch_assoc($result)){
-                $sumOffice = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as officeSum from delegatetotalexpenseoffice where delegateId = ".$delegate['delegateId']));
+                $sum_office = mysqli_fetch_assoc($conn->query("SELECT sum(credit) as credit_sum, sum(debit) as debit_sum from account_maheer"));
                 $sumAgent = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as total from agentexpense where agentEmail = 'maheeer2010@hotmail.com'"));
-                $totalCredit = $sumOffice['officeSum'] + $sumAgent['total'];
+                $delegateCandidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as totalAmount from candidateexpense where agentEmail = 'maheeer2010@hotmail.com'"));
+                $totalCredit = $sum_office['credit_sum'] + $delegateCandidateExpense['totalAmount'];
+                $totalDebit = $sumAgent['total'] + $sum_office['debit_sum'];
             ?>
             <div id="<?php echo $delegate['delegateId']."_print";?>">
                 <li class="list-group-item bg-light print-header print-header">
@@ -265,11 +244,8 @@ ul, li{
                     <div class="row text-center">
                         <div class="col-print-3 center-column"><?php echo $delegate['delegateName'];?></div>
                         <div class="col-print-4"><?php 
-                        $delegateOfficeExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount*rate) as totalAmount from delegatetotalexpense where delegateId = ".$delegate['delegateId']));
-                        $delegateCandidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as totalAmount from candidateexpense where agentEmail = 'maheeer2010@hotmail.com'"));
-                        $delegateTotalAmount = $delegateOfficeExpense['totalAmount'] + $delegateCandidateExpense['totalAmount'];
-                        echo number_format(round($delegateTotalAmount)); ?> Taka</div>
-                        <div class="col-print-4"><?php echo number_format(round($delegateTotalAmount) - $totalCredit);?> Taka</div>
+                        echo number_format(round($totalCredit)); ?> Taka</div>
+                        <div class="col-print-4"><?php echo number_format(round($totalCredit) - $totalDebit);?> Taka</div>
                         <div class="col-print-1 exclude">
                             <div class="row justify-content-center">
                                 <div class="form-group">
@@ -284,66 +260,14 @@ ul, li{
                                 <div class="form-group">
                                     <abbr title="Show List of Offices"><button class="btn btn-sm btn-show" id="btnShow<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button></abbr>
                                     <abbr title="Hide List of Offices"><button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button></abbr>
-                                </div>                                
-                                <div class="form-group">
-                                    <abbr title="Show Delegate Debit List"><button type="button" class="btn btn-sm btn-info expense_show" id="<?php echo $delegate['delegateId'].'_expense_show';?>" value="<?php echo $delegate['delegateId'];?>" onclick="show_expense_list(this.value)"><i class="fa fa-eye" aria-hidden="true"></i></button></abbr>
-                                    <abbr title="Hide Delegate Debit List"><button type="button" class="btn btn-sm btn-warning expense_hide" id="<?php echo $delegate['delegateId'].'_expense_hide';?>" value="<?php echo $delegate['delegateId'];?>" onclick="hide_expense(this.value)" style="display: none;"><i class="fas fa-eye-slash"></i></button></abbr>
-                                </div>
+                                </div> 
                                 <div class="form-group">
                                     <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </li>
-                <div style="display: none;" class="expense-list" id="<?php echo $delegate['delegateId']."_expense_list";?>">
-                    <div class="row justify-content-center <?php echo $delegate['delegateId']."_highlight";?> p-1">
-                        <div class="card" style="width: 95%;">
-                            <ul class="list-group list-group-flush list-overflow">
-                                <div class="card-header sticky">
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <h6>Debit List</h6>
-                                            <hr>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <li>
-                                                <div class="row text-center header-expesne-list">
-                                                    <div class="col-print-4">Office Name</div>
-                                                    <div class="col-print-4">Amount</div>
-                                                    <div class="col-print-4">Payment Date</div>
-                                                </div>
-                                            </li>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <?php 
-                                $result_expenseList = $conn->query("SELECT * FROM delegatetotalexpense where delegateId = ".$delegate['delegateId']." order by creationDate desc limit 200");
-                                while($expenseList = mysqli_fetch_assoc($result_expenseList)){ ?>
-                                    <li class="list-group-item highlight">
-                                        <div class="row text-center">
-                                            <div class="col-print-4"><?php
-                                            if($expenseList['type'] == 'manpower'){
-                                                $manpower = mysqli_fetch_assoc($conn->query("SELECT manpowerOfficeName from manpoweroffice where manpowerOfficeId = ".$expenseList['officeId']));
-                                                echo $manpower['manpowerOfficeName'];
-                                            }else if($expenseList['type'] == 'outside'){
-                                                $officeName = mysqli_fetch_assoc($conn->query("SELECT officeName from office where officeId = ".$expenseList['officeId']));
-                                                echo $officeName['officeName'];
-                                            }else if($expenseList['type'] == 'NULL'){
-                                                echo $delegate['delegateName'];
-                                            }else{
-                                                echo $expenseList['officeId'];
-                                            }
-                                            ?></div>
-                                            <div class="col-print-4"><?php echo ($expenseList['currancy'] == 'dollar') ? number_format($expenseList['amount']*$expenseList['rate']). " Taka" : number_format($expenseList['amount'])." Taka";?></div>
-                                            <div class="col-print-4"><?php echo $expenseList['date'];?></div>
-                                        </div>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                </li>                
                 <li class="list-group-item details" style="display: none;" id="<?php echo $delegate['delegateId']  ;?>">
                 </li>
             </div>
@@ -510,10 +434,11 @@ ul, li{
     $('#delegateNav').addClass('active');
     function editOfficeExpense(info){
         const info_split = info.split('_');
-        $('#delegateTotalExpenseOfficeId').val(info_split[0]);
-        $('#amountModalOffice').val(info_split[1]);
-        $('#dateModalOffice').val(info_split[2]);
-        $('#delegateIdModalOffice').val(info_split[3]);
+        $('#account_maheer_id').val(info_split[0]);
+        $('#edit_debit_amount').val(info_split[1]);
+        $('#edit_credit_amount').val(info_split[2]);
+        $('#edit_date').val(info_split[3]);
+        $('#modal_office_name').val(info_split[4]);
     }
     function editDelegateExpense(info){
         const info_split = info.split('_');
