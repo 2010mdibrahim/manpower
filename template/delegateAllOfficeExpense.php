@@ -127,7 +127,7 @@ ul, li{
                 </div>
             </form>
         </div>
-    </div>
+    </div>    
     <!-- Edit Delegate Office Expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="editOfficeExpense">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -255,6 +255,39 @@ ul, li{
             $totalCredit = $sum_office['debit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'];
             $totalDebit = $sumAgent['total'] + $sum_office['credit_sum'];
             ?>
+            <!-- Expense details Modal -->
+            <div class="modal fade" tabindex="-1" role="dialog" id="expense_details">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form action="template/addOfficeToDelegateExpense.php" method="post" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Expense details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Total Debit: <?php echo number_format($sum_office['debit_sum']); ?> &#2547;</li>
+                                            <li class="list-group-item">Total candidate expense: <?php echo number_format($delegateCandidateExpense['totalAmount']); ?> &#2547;</li>
+                                            <li class="list-group-item">Total processing cost: <?php echo number_format($manpower_processing['processing_cost_sum']); ?> &#2547;</li>
+                                            <li class="list-group-item">Total ticket price: <?php echo number_format($ticket_price['ticket_sum']); ?> &#2547;</li>
+                                            <li class="list-group-item">Total comission received for candidate: <?php echo number_format($sumAgent['total']); ?> &#2547;</li>
+                                            <li class="list-group-item">Total credit: <?php echo number_format($sum_office['credit_sum']); ?> &#2547;</li>
+                                        </ul> 
+                                    </div>
+                                </div>                                                      
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div id="<?php echo $delegate['delegateId']."_print";?>">
                 <li class="list-group-item bg-light print-header print-header">
                     <div class="row text-center">
@@ -286,6 +319,9 @@ ul, li{
                                 </div> 
                                 <div class="form-group">
                                     <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
+                                </div>
+                                <div class="form-group">
+                                    <abbr title="Show Detailed Expense Report"><button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#expense_details"><i class="fas fa-info-circle"></i></button></abbr>
                                 </div>
                             </div>
                         </div>
