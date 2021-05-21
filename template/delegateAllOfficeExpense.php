@@ -231,7 +231,7 @@ ul, li{
         <div class="card-header text-center">
             <div class="row text-center">
                 <div class="col-print-2 center-column">Delegate Name</div>
-                <div class="col-print-4">Total Amount</div>
+                <div class="col-print-4">Total Debit Amount</div>
                 <div class="col-print-4">Remaining Balance</div>
                 <div class="col-print-2">Options</div>
             </div>
@@ -259,7 +259,7 @@ ul, li{
                 <li class="list-group-item bg-light print-header print-header">
                     <div class="row text-center">
                         <div class="col-print-2 center-column">Delegate Name</div>
-                        <div class="col-print-4">Total Amount</div>
+                        <div class="col-print-4">Total Debit Amount</div>
                         <div class="col-print-4">Remaining Balance</div>
                     </div>
                 </li>
