@@ -32,7 +32,7 @@ if(isset($_POST['officeId'])){
     $officeId = 'self'; 
 }
 $creationDate = date('Y-m-d H:i:s');
-$result = $conn->query("INSERT INTO account_maheer(particular, date, debit, credit, dollar_rate_credit) VALUES ('$officeId','$date',0, $amount, $rate)");
+$result = $conn->query("INSERT INTO account_maheer(particular, date, debit, credit, dollar_rate_debit) VALUES ('$officeId','$date', $amount, 0, $rate)");
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";
 }else{

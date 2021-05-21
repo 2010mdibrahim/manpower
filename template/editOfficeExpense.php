@@ -25,7 +25,8 @@ if($alter == 'delete'){
     $result = $conn->query("DELETE from account_maheer where id = $account_maheer_id");
 }else{
     $edit_debit_amount = $_POST['edit_debit_amount'];
-    // $edit_credit_amount = $_POST['edit_credit_amount'];
+    $edit_credit_amount = $_POST['edit_credit_amount'];
+    $edit_dollar_rate = $_POST['edit_dollar_rate'];
     $date = $_POST['date'];
     if (($_FILES['officeReceipt']['name'] != "")){
         // Where the file is going to be stored
@@ -37,11 +38,9 @@ if($alter == 'delete'){
         $path_filename_ext = $base_dir.$target_dir."officeReceipt"."_".$account_maheer_id.".".$ext;
         $receipt = $target_dir."officeReceipt"."_".$account_maheer_id.".".$ext;
         $result = $conn->query("UPDATE account_maheer set debit_receipt = '$receipt' where id = $account_maheer_id");
-        // print_r("UPDATE account_maheer set debit_receipt = '$receipt' where id = $account_maheer_id");
-        // exit();
         move_uploaded_file($temp_name,$path_filename_ext);
     }
-    $result = $conn->query("UPDATE account_maheer set debit = $edit_debit_amount, date = '$date' where id = $account_maheer_id");
+    $result = $conn->query("UPDATE account_maheer set debit = $edit_debit_amount,credit = $edit_credit_amount, dollar_rate_debit = $edit_dollar_rate, date = '$date' where id = $account_maheer_id");
 }
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateAllOfficeExpense'</script>";

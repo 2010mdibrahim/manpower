@@ -128,7 +128,7 @@ ul, li{
             </form>
         </div>
     </div>
-    <!-- Edit Delegate Expense Modal -->
+    <!-- Edit Delegate Office Expense Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="editOfficeExpense">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <form action="template/editOfficeExpense.php" method="post" enctype="multipart/form-data">
@@ -142,15 +142,23 @@ ul, li{
                     <div class="modal-body">
                         <input type="hidden" name="account_maheer_id" id="account_maheer_id">
                         <input class="form-control" type="text" id="modal_office_name" disabled>
-                        <div id="getOffice"></div>                        
-                        <label> Debit Amount </label>
-                        <input class="form-control" type="number" name="edit_debit_amount" id="edit_debit_amount">
-                        <!-- <label> Credit Amount </label>
-                        <input class="form-control" type="number" name="edit_credit_amount" id="edit_credit_amount"> -->
+                        <div id="getOffice"></div>  
+                        <div id="debit-modal">
+                            <label> Debit Amount </label>
+                            <input class="form-control" type="number" name="edit_debit_amount" id="edit_debit_amount">
+                        </div>
+                        <div id="debit-modal-dollar">                            
+                            <label> Debit Amount in Dollar </label>
+                            <input class="form-control" type="number" name="edit_dollar_rate" id="edit_dollar_rate" step="any">
+                        </div>
+                        <div id="credit-modal">
+                            <label> Credit Amount </label>
+                            <input class="form-control" type="number" name="edit_credit_amount" id="edit_credit_amount">
+                            <label> Receipt </label>
+                            <input class="form-control" type="file" name="officeReceipt" id="officeReceipt"> 
+                        </div>
                         <label> Date </label>
-                        <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="edit_date" placeholder="Enter date">                       
-                        <label> Receipt </label>
-                        <input class="form-control" type="file" name="officeReceipt" id="officeReceipt">                       
+                        <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="edit_date" placeholder="Enter date">                                              
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -199,12 +207,20 @@ ul, li{
                     <input class="form-control" type="submit" name="submit" id="" value="Add">
                 </div>
             </div>
-            <div class="form-row">
+            <div class="row justify-content-between">
                 <div class="col-print-2">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="yes" id="addLocal" name="addLocal" onchange="localCurrancy()">
                         <label class="form-check-label" for="addLocal">
                             Add Local Currancy
+                        </label>
+                    </div>
+                </div>
+                <div class="col-print-2">
+                    <div style="float: right;" class="form-check">
+                        <input class="form-check-input" type="checkbox" value="yes" id="full_report" name="full_report">
+                        <label class="form-check-label" for="addLocal">
+                            Include Full Report
                         </label>
                     </div>
                 </div>
@@ -214,39 +230,46 @@ ul, li{
     <div class="card" style="width: 100%;">
         <div class="card-header text-center">
             <div class="row text-center">
-                <div class="col-print-3 center-column">Delegate Name</div>
+                <div class="col-print-2 center-column">Delegate Name</div>
                 <div class="col-print-4">Total Amount</div>
                 <div class="col-print-4">Remaining Balance</div>
-                <div class="col-print-1">Options</div>
+                <div class="col-print-2">Options</div>
             </div>
         </div>
         <ul class="list-group list-group-flush">
             
             <?php
-            $result = $conn->query("SELECT delegateName, delegateId from delegate where delegateId = 22");
+            $today = date('Y-m-d');
+            $delegate = mysqli_fetch_assoc($conn->query("SELECT delegateName, delegateId from delegate where delegateId = 22"));
             $i = 1;
-            while($delegate = mysqli_fetch_assoc($result)){
-                $sum_office = mysqli_fetch_assoc($conn->query("SELECT sum(credit) as credit_sum, sum(debit) as debit_sum from account_maheer"));
-                $sumAgent = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as total from agentexpense where agentEmail = 'maheeer2010@hotmail.com'"));
-                $delegateCandidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as totalAmount from candidateexpense where agentEmail = 'maheeer2010@hotmail.com'"));
-                $totalCredit = $sum_office['credit_sum'] + $delegateCandidateExpense['totalAmount'];
-                $totalDebit = $sumAgent['total'] + $sum_office['debit_sum'];
+            $sum_office = mysqli_fetch_assoc($conn->query("SELECT sum(credit) as credit_sum, sum(debit*dollar_rate_debit) as debit_sum from account_maheer"));
+            // this is comission and other expense that maheer gave maam
+            $sumAgent = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as total from agentexpense where agentEmail = 'maheeer2010@hotmail.com'"));
+            // candidate expense w/o ticket price and manpowerprocessing cost
+            $delegateCandidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as totalAmount from candidateexpense where agentEmail = 'maheeer2010@hotmail.com'"));
+            // sum of processing cost
+            $manpower_processing = mysqli_fetch_assoc($conn->query("SELECT sum(manpowerjobprocessing.processingCost) as processing_cost_sum from passport INNER JOIN manpoweroffice USING (manpowerOfficeName) INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where passport.agentEmail = 'maheeer2010@hotmail.com' and processing.visaStampingDate < '$today'"));
+            // sum of ticket price
+            $ticket_price = mysqli_fetch_assoc($conn->query("SELECT SUM(ticket.ticketPrice) as ticket_sum FROM ticket INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where processing.visaStampingDate < '$today' and passport.agentEmail = 'maheeer2010@hotmail.com'"));
+
+            $totalCredit = $sum_office['debit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'];
+            $totalDebit = $sumAgent['total'] + $sum_office['credit_sum'];
             ?>
             <div id="<?php echo $delegate['delegateId']."_print";?>">
                 <li class="list-group-item bg-light print-header print-header">
                     <div class="row text-center">
-                        <div class="col-print-3 center-column">Delegate Name</div>
+                        <div class="col-print-2 center-column">Delegate Name</div>
                         <div class="col-print-4">Total Amount</div>
                         <div class="col-print-4">Remaining Balance</div>
                     </div>
                 </li>
                 <li class="list-group-item highlight <?php echo $delegate['delegateId']."_highlight";?>" id="<?php echo $delegate['delegateId']."_highlight";?>">
                     <div class="row text-center">
-                        <div class="col-print-3 center-column"><?php echo $delegate['delegateName'];?></div>
+                        <div class="col-print-2 center-column"><?php echo $delegate['delegateName'];?></div>
                         <div class="col-print-4"><?php 
                         echo number_format(round($totalCredit)); ?> Taka</div>
                         <div class="col-print-4"><?php echo number_format(round($totalCredit) - $totalDebit);?> Taka</div>
-                        <div class="col-print-1 exclude">
+                        <div class="col-print-2 exclude">
                             <div class="row justify-content-center">
                                 <div class="form-group">
                                     <abbr title="Candidate Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $delegate['delegateName']."-maheeer2010@hotmail.com";?>" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>
@@ -271,7 +294,6 @@ ul, li{
                 <li class="list-group-item details" style="display: none;" id="<?php echo $delegate['delegateId']  ;?>">
                 </li>
             </div>
-            <?php } ?>
         </ul>
     </div>
     <div id="showAgentReportDivPrint">
@@ -371,15 +393,19 @@ ul, li{
     function print_div(id){
         // showExpense(id);
         // show_expense_list(id);
-        $('.center-column').removeClass('col-print-3');
+        $('.center-column').removeClass('col-print-2');
         $('.center-column').addClass('col-print-4');
+        $('.center-column-2').removeClass('col-print-2');
+        $('.center-column-2').addClass('col-print-3');
         $("#" + id + '_print').print({
             noPrintSelector: ".exclude",
             globalStyles: true,
             doctype: '<!doctype html>',    
         })       
         $('.center-column').removeClass('col-print-4');
-        $('.center-column').addClass('col-print-3');
+        $('.center-column').addClass('col-print-2');
+        $('.center-column-2').removeClass('col-print-3');
+        $('.center-column-2').addClass('col-print-2');
     }
     function finally_print(){
         
@@ -435,10 +461,28 @@ ul, li{
     function editOfficeExpense(info){
         const info_split = info.split('_');
         $('#account_maheer_id').val(info_split[0]);
+        console.log( $('#edit_debit_amount').val(info_split[1]) );
+        if(info_split[1] === '0'){
+            $('#debit-modal').hide();
+            $('#debit-modal-dollar').hide();
+        }else{
+            if(info_split[5] != 1){
+                $('#debit-modal-dollar').show();
+            }else{
+                $('#debit-modal-dollar').hide();
+            }
+            $('#debit-modal').show();
+        }
+        if(info_split[2] === '0'){
+            $('#credit-modal').hide();
+        }else{
+            $('#credit-modal').show();
+        }
         $('#edit_debit_amount').val(info_split[1]);
         $('#edit_credit_amount').val(info_split[2]);
         $('#edit_date').val(info_split[3]);
         $('#modal_office_name').val(info_split[4]);
+        $('#edit_dollar_rate').val(info_split[5]);
     }
     function editDelegateExpense(info){
         const info_split = info.split('_');
@@ -450,6 +494,8 @@ ul, li{
         $('#delegateIdModal').val(id);
     }
     function showExpense(val){
+        console.log($("input[name='full_report']:checked").val());
+        let full_report = (typeof $("input[name='full_report']:checked").val() === 'undefined') ? 'no' : 'yes';
         $('.highlight').css('background-color', 'white'); //resetting prev list
         $('.btn-show').show(); //resetting prev list
         $('.btn-hide').hide(); //resetting prev list
@@ -458,7 +504,7 @@ ul, li{
         $('.details').hide();
         $.ajax({
             type: 'post',
-            data: {delegateId : val},
+            data: {delegateId : val, full_report: full_report},
             url: 'template/fetchDelegateAllOfficeExpense.php',
             success: function(response){
                 $('#'+val).html(response);

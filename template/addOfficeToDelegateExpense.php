@@ -31,7 +31,7 @@ if (($_FILES['officeReceipt']['name'] != "")){
     $path_filename_ext = $base_dir.$target_dir."officeReceipt"."_".$max_id.".".$ext;
     $receipt = $target_dir."officeReceipt"."_".$max_id.".".$ext;
 }
-$result = $conn->query("INSERT INTO account_maheer(particular, date, debit, credit, dollar_rate_credit, debit_receipt) VALUES ('$officeId','$date',$amount, 0, $rate, '$receipt')");
+$result = $conn->query("INSERT INTO account_maheer(particular, date, debit, credit, dollar_rate_credit, debit_receipt) VALUES ('$officeId','$date', 0, $amount, $rate, '$receipt')");
 
 if($result){
     move_uploaded_file($temp_name,$path_filename_ext);
