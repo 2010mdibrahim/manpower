@@ -305,7 +305,8 @@ ul, li{
                         echo number_format(round($totalDebit)); ?> Taka</div>
                         <div class="col-print-3 center-column"><?php 
                         echo number_format(round($totalCredit)); ?> Taka</div>
-                        <div class="col-print-2"><?php echo number_format(round($totalDebit) - $totalCredit);?> Taka</div>
+                        <?php $remaining_balance = round($totalDebit) - $totalCredit?>
+                        <div class="col-print-2 <?php echo ($remaining_balance < 0) ? 'text-danger' : ''; ?>"><?php echo number_format($remaining_balance);?> Taka</div>
                         <div class="col-print-2 exclude">
                             <div class="row justify-content-center">
                                 <div class="form-group">
