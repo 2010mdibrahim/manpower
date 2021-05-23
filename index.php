@@ -446,6 +446,7 @@ $failed = new UnsetFailedLogin();
 
 
 <script>
+$(document).ready(function(){
     let table = $('#dataTableSeaum').DataTable({
                     "fixedHeader": true,
                     "paging": true,
@@ -526,6 +527,8 @@ $failed = new UnsetFailedLogin();
         todayHighlight:'TRUE',
         autoclose: true,
     });
+});
+    
     window.onpageshow = function() {
         $('.select2').select2({
             width: '100%'

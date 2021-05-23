@@ -230,9 +230,10 @@ ul, li{
     <div class="card" style="width: 100%;">
         <div class="card-header text-center">
             <div class="row text-center">
-                <div class="col-print-2 center-column">Delegate Name</div>
-                <div class="col-print-4">Total Debit Amount</div>
-                <div class="col-print-4">Remaining Balance</div>
+                <div class="col-print-2">Delegate Name</div>
+                <div class="col-print-3 center-column">Total Debit Amount</div>
+                <div class="col-print-3 center-column">Total Credit Amount</div>
+                <div class="col-print-2">Remaining Balance</div>
                 <div class="col-print-2">Options</div>
             </div>
         </div>
@@ -252,8 +253,8 @@ ul, li{
             // sum of ticket price
             $ticket_price = mysqli_fetch_assoc($conn->query("SELECT SUM(ticket.ticketPrice) as ticket_sum FROM ticket INNER JOIN processing on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where processing.visaStampingDate < '$today' and passport.agentEmail = 'maheeer2010@hotmail.com'"));
 
-            $totalCredit = $sum_office['debit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'];
-            $totalDebit = $sumAgent['total'] + $sum_office['credit_sum'];
+            $totalCredit = $sum_office['credit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'];
+            $totalDebit = $sum_office['debit_sum'] + $sumAgent['total'];
             ?>
             <!-- Expense details Modal -->
             <div class="modal fade" tabindex="-1" role="dialog" id="expense_details">
@@ -291,17 +292,20 @@ ul, li{
             <div id="<?php echo $delegate['delegateId']."_print";?>">
                 <li class="list-group-item bg-light print-header print-header">
                     <div class="row text-center">
-                        <div class="col-print-2 center-column">Delegate Name</div>
+                        <div class="col-print-2">Delegate Name</div>
                         <div class="col-print-4">Total Debit Amount</div>
-                        <div class="col-print-4">Remaining Balance</div>
+                        <div class="col-print-4">Total Debit Amount</div>
+                        <div class="col-print-2">Remaining Balance</div>
                     </div>
                 </li>
                 <li class="list-group-item highlight <?php echo $delegate['delegateId']."_highlight";?>" id="<?php echo $delegate['delegateId']."_highlight";?>">
                     <div class="row text-center">
-                        <div class="col-print-2 center-column"><?php echo $delegate['delegateName'];?></div>
-                        <div class="col-print-4"><?php 
+                        <div class="col-print-2"><?php echo $delegate['delegateName'];?></div>
+                        <div class="col-print-3 center-column"><?php 
+                        echo number_format(round($totalDebit)); ?> Taka</div>
+                        <div class="col-print-3 center-column"><?php 
                         echo number_format(round($totalCredit)); ?> Taka</div>
-                        <div class="col-print-4"><?php echo number_format(round($totalCredit) - $totalDebit);?> Taka</div>
+                        <div class="col-print-2"><?php echo number_format(round($totalDebit) - $totalCredit);?> Taka</div>
                         <div class="col-print-2 exclude">
                             <div class="row justify-content-center">
                                 <div class="form-group">
@@ -320,9 +324,9 @@ ul, li{
                                 <div class="form-group">
                                     <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <abbr title="Show Detailed Expense Report"><button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#expense_details"><i class="fas fa-info-circle"></i></button></abbr>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -429,7 +433,7 @@ ul, li{
     function print_div(id){
         // showExpense(id);
         // show_expense_list(id);
-        $('.center-column').removeClass('col-print-2');
+        $('.center-column').removeClass('col-print-3');
         $('.center-column').addClass('col-print-4');
         $('.center-column-2').removeClass('col-print-2');
         $('.center-column-2').addClass('col-print-3');
@@ -439,7 +443,7 @@ ul, li{
             doctype: '<!doctype html>',    
         })       
         $('.center-column').removeClass('col-print-4');
-        $('.center-column').addClass('col-print-2');
+        $('.center-column').addClass('col-print-3');
         $('.center-column-2').removeClass('col-print-3');
         $('.center-column-2').addClass('col-print-2');
     }
