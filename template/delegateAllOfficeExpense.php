@@ -325,6 +325,9 @@ ul, li{
                                 <div class="form-group">
                                     <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
                                 </div>
+                                <div class="form-group">
+                                    <abbr title="Export Excel"><a href="template/exportExcelDelegateAllOfficeExpense.php?delegateId=<?= base64_encode($delegate['delegateId'])?>&full_report=no"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>"><i class="fas fa-file-excel"></i></button></a></abbr>
+                                </div>
                                 <!-- <div class="form-group">
                                     <abbr title="Show Detailed Expense Report"><button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#expense_details"><i class="fas fa-info-circle"></i></button></abbr>
                                 </div> -->
@@ -551,6 +554,17 @@ ul, li{
                 $('#'+val).html(response);
                 $('#'+val).show();
                 $('.'+val+'_highlight').css('background-color', '#b2dfdb');
+            }
+        });
+    }
+    function excel_export(val){
+        console.log($("input[name='full_report']:checked").val());
+        let full_report = (typeof $("input[name='full_report']:checked").val() === 'undefined') ? 'no' : 'yes';
+        $.ajax({
+            type: 'post',
+            data: {delegateId : val, full_report: full_report},
+            url: 'template/exportExcelDelegateAllOfficeExpense.php',
+            success: function(response){
             }
         });
     }
