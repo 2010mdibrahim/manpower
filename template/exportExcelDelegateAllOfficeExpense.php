@@ -43,5 +43,5 @@ $sheet->setCellValue('C'.$i, $total_debit);
 $sheet->setCellValue('D'.$i, $total_credit);
 $writer = new Xlsx($spreadsheet);
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="'. urlencode('Office Expense List.xlsx').'"');
+header('Content-Disposition: attachment; filename="'. urlencode('Office_Expense_List.xlsx').'"');
 $writer->save('php://output');
