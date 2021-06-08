@@ -220,7 +220,13 @@ if(!isset($_SESSION['sections'])){
                         [10, 25, 50, 100, 500],
                         [10, 25, 50, 100, 500]
                     ],
-                    
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ]                    
                 });
                 // table.buttons().remove();
             }

@@ -3,11 +3,11 @@ $passportNum = base64_decode($_GET['pn']);
 $creationDate = base64_decode($_GET['cd']);
 $today = date("Y-m-d");
 // this is candidateinfo
-$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processing.processingId, processing.visaStampingDate, count(ticketId) as count_ticket, passport.fName, passport.lName, passport.jobId, agent.agentName, agent.agentEmail FROM passport INNER JOIN jobs using(jobId) INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
+$candidateInfo = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType, processing.processingId, processing.manpowerCard, processing.visaStampingDate, count(ticketId) as count_ticket, passport.fName, passport.lName, passport.jobId, agent.agentName, agent.agentEmail FROM passport INNER JOIN jobs using(jobId) LEFT JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN agent USING (agentEmail) LEFT JOIN ticket on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate'"));
 // this this candidate expenseces
 $result_candidate_expense = $conn->query("SELECT candidateexpense.* FROM candidateexpense where candidateexpense.passportNum = '$passportNum' AND candidateexpense.passportCreationDate = '$creationDate'");
 // this is candidate expenseces sum
-$expense_sum = mysqli_fetch_assoc($conn->query("SELECT ticket.ticketPrice, manpowerjobprocessing.processingCost from passport INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passport.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate' AND manpowerjobprocessing.jobId = ".$candidateInfo['jobId']));
+$expense_sum = mysqli_fetch_assoc($conn->query("SELECT ticket.flightDate, ticket.ticketPrice, manpowerjobprocessing.processingCost from passport INNER JOIN manpoweroffice on manpoweroffice.manpowerOfficeName = passport.manpowerOfficeName INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId LEFT JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate where passport.passportNum = '$passportNum' AND passport.creationDate = '$creationDate' AND manpowerjobprocessing.jobId = ".$candidateInfo['jobId']));
 // this is comission and advances
 $result_comission = $conn->query("SELECT agentcomission.payMode as comissionPayMode, agentcomission.payDate as comissionPayDate, agentcomission.paidAmount as comissionPaidAmount, agentcomission.agentEmail, agentcomission.comissionId, agentcomission.amount, advance.advancePayMode, agentcomission.creationDate, agentcomission.comment, advance.advanceAmount, advance.payDate, advance.advanceId FROM agentcomission LEFT JOIN advance USING (comissionId) where agentcomission.passportNum = '$passportNum' AND agentcomission.passportCreationDate = '$creationDate'");
 $total = 0;
@@ -318,11 +318,14 @@ $amount = 0;
                             <div class="col-md-4">
                                 <label class="card-title">Total Expense</label>
                                 <?php $result_expense_sum = mysqli_fetch_assoc($conn->query("SELECT sum(candidateexpense.amount) as expense_sum from candidateexpense where passportNum = '$passportNum' AND passportCreationDate = '$creationDate'"));?>
-                                <?php if($candidateInfo['agentEmail'] == 'maheeer2010@hotmail.com' AND $candidateInfo['visaStampingDate'] <= $today){ ?>
-                                    <h4><?php $totalExpense = ($result_expense_sum) ? $result_expense_sum['expense_sum'] : 0 ; $totalExpense += + $expense_sum['ticketPrice'] + $expense_sum['processingCost']; echo number_format($totalExpense)." BDT";  ?></h4>
-                                <?php }else{ ?>
-                                    <h4><?php $totalExpense = ($result_expense_sum) ? $result_expense_sum['expense_sum'] : 0 ; echo number_format($totalExpense)." BDT"; ?></h4>
-                                <?php } ?>
+                                <?php $totalExpense = (!empty($result_expense_sum)) ? $result_expense_sum['expense_sum'] : 0 ;?>
+                                <?php   if($candidateInfo['agentEmail'] == 'maheeer2010@hotmail.com' AND $candidateInfo['manpowerCard'] == 'yes'){ 
+                                            $totalExpense += $expense_sum['processingCost'];
+                                            $totalExpense += ($expense_sum['flightDate'] < $today) ? $expense_sum['ticketPrice'] : 0;
+                                        }else{
+                                            $totalExpense = ($result_expense_sum) ? $result_expense_sum['expense_sum'] : 0 ;
+                                        } ?>
+                                <h4><?php echo number_format($totalExpense)." BDT";  ?></h4>
                             </div>
                             <?php if($candidateInfo['agentEmail'] == 'maheeer2010@hotmail.com'){?>
                                 <?php if($candidateInfo['visaStampingDate'] <= $today){ ?>

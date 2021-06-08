@@ -42,8 +42,10 @@ $html .=            '</span></p>
             $result = $conn->query("SELECT jobs.creditType, fName, lName, passportNum, passport.creationDate, (SELECT sum(amount) from candidateexpense where candidateexpense.passportNum = passport.passportNum AND candidateexpense.passportCreationDate = passport.creationDate) as expenseSum from passport INNER JOIN jobs using (jobId) where agentEmail = '$agentEmail' AND status != 2 order by passport.creationDate desc");
             while($agent = mysqli_fetch_assoc($result)){
                 $html .=        '<tr>';
+                // this column for sorting the table
                 $maxPayment = mysqli_fetch_assoc($conn->query("SELECT max(payDate) as maxPay FROM candidateexpense where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
                 $html .= '<td>'.$maxPayment['maxPay'].'</td>';
+                // end sorting column
                 $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
                 $html .=            '<td><a href="?page=listCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
                 $html .=            '<td>';

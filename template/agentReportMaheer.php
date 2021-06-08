@@ -50,11 +50,11 @@ $html .=            '</span></p>
                 $html .=            '<td>'.$agent['fName'].' '.$agent['lName'].'</td>';
                 $html .=            '<td><a href="?page=listCandidate&pp='.base64_encode($agent['passportNum'])."&cd=".base64_encode($agent['creationDate']).'">'.$agent['passportNum'].'</a></td>';
                 $html .=            '<td>';
-                $visa = mysqli_fetch_assoc($conn->query("SELECT sponsorVisa, processingId, visaStampingDate from processing where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
+                $visa = mysqli_fetch_assoc($conn->query("SELECT manpowerCard, sponsorVisa, processingId, visaStampingDate from processing where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
                 if (!is_null($visa)){
-                    if($visa['visaStampingDate'] <= $today){
+                    if($visa['manpowerCard'] == 'yes'){
                         $manpowerJobProcessing = mysqli_fetch_assoc($conn->query("SELECT processingCost from manpowerjobprocessing where manpowerOfficeId = ".$agent['manpowerOfficeId']." AND jobId = ".$agent['jobId']));
-                        $ticket = mysqli_fetch_assoc($conn->query("SELECT ticketPrice from ticket where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."'"));
+                        $ticket = mysqli_fetch_assoc($conn->query("SELECT ticketPrice from ticket where passportNum = '".$agent['passportNum']."' AND passportCreationDate = '".$agent['creationDate']."' AND flightDate < '".$today."'"));
                         $ticket_price = (is_null($ticket)) ? 0 : $ticket['ticketPrice'];
                         $manpower_processing_cost = $manpowerJobProcessing['processingCost'];
                         $totalExpense += $manpowerJobProcessing['processingCost'] + $ticket_price;
