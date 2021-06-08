@@ -326,7 +326,7 @@ ul, li{
                                     <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
                                 </div>
                                 <div class="form-group">
-                                    <abbr title="Export Excel"><a href="template/exportExcelDelegateAllOfficeExpense.php?delegateId=<?= base64_encode($delegate['delegateId'])?>&full_report=no"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>"><i class="fas fa-file-excel"></i></button></a></abbr>
+                                    <abbr title="Export Excel"><a href="template/exportExcelDelegateAllOfficeExpense.php?delegateId=<?= base64_encode($delegate['delegateId'])?>&full_report=yes"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>"><i class="fas fa-file-excel"></i></button></a></abbr>
                                 </div>
                                 <!-- <div class="form-group">
                                     <abbr title="Show Detailed Expense Report"><button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#expense_details"><i class="fas fa-info-circle"></i></button></abbr>
