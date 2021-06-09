@@ -51,14 +51,20 @@ if(!isset($_SESSION['sections'])){
     .print-header{
         display: static;
     }
+    .print-footer{
+        display: static;
+    }
 }
 @media screen  {
     .print-header{
         display: none;
     }
     .list-overflow{
-        height: 500px;
+        max-height: 500px;
         overflow: auto;
+    }
+    .print-footer{
+        display: none;
     }
 }
 ul, li{
@@ -248,13 +254,12 @@ ul, li{
             $sumAgent = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as total from agentexpense where agentEmail = 'maheeer2010@hotmail.com'"));
             // candidate expense w/o ticket price and manpowerprocessing cost
             $delegateCandidateExpense = mysqli_fetch_assoc($conn->query("SELECT sum(amount) as totalAmount from candidateexpense where agentEmail = 'maheeer2010@hotmail.com'"));
-            // sum of processing cost
+            // sum of processing cost after adding manpower card
             $manpower_processing = mysqli_fetch_assoc($conn->query("SELECT sum(manpowerjobprocessing.processingCost) as processing_cost_sum from passport INNER JOIN manpoweroffice USING (manpowerOfficeName) INNER JOIN manpowerjobprocessing on manpoweroffice.manpowerOfficeId = manpowerjobprocessing.manpowerOfficeId INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where passport.agentEmail = 'maheeer2010@hotmail.com' and processing.manpowerCard < 'yes'"));
-            // sum of ticket price
+            // sum of ticket price after flight date
             $ticket_price = mysqli_fetch_assoc($conn->query("SELECT SUM(ticket.ticketPrice) as ticket_sum FROM ticket INNER JOIN passport on passport.passportNum = ticket.passportNum AND passport.creationDate = ticket.passportCreationDate where ticket.flightDate < '".$today."' and passport.agentEmail = 'maheeer2010@hotmail.com'"));
-
-            $totalCredit = $sum_office['credit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'];
-            $totalDebit = $sum_office['debit_sum'] + $sumAgent['total'];
+            $totalCredit = $sum_office['credit_sum'] + $delegateCandidateExpense['totalAmount'] + $manpower_processing['processing_cost_sum'] + $ticket_price['ticket_sum'] + $sumAgent['total'];
+            $totalDebit = $sum_office['debit_sum'];
             ?>
             <!-- Expense details Modal -->
             <div class="modal fade" tabindex="-1" role="dialog" id="expense_details">
@@ -334,9 +339,55 @@ ul, li{
                             </div>
                         </div>
                     </div>
-                </li>                
-                <li class="list-group-item details" style="display: none;" id="<?php echo $delegate['delegateId']  ;?>">
                 </li>
+                <div class="details" style="display: none;" id="<?php echo $delegate['delegateId']  ;?>"></div>
+                <div class="print-footer">
+                    <li class="list-group-item highlight <?php echo $delegate['delegateId']."_highlight";?>" id="<?php echo $delegate['delegateId']."_highlight";?>">
+                        <div class="row text-center">
+                            <div class="col-print-2"><?php echo $delegate['delegateName'];?></div>
+                            <div class="col-print-3 center-column"><?php 
+                            echo number_format(round($totalDebit)); ?> Taka</div>
+                            <div class="col-print-3 center-column"><?php 
+                            echo number_format(round($totalCredit)); ?> Taka</div>
+                            <?php $remaining_balance = round($totalDebit) - $totalCredit?>
+                            <div class="col-print-2 <?php echo ($remaining_balance < 0) ? 'text-danger' : ''; ?>"><?php echo number_format($remaining_balance);?> Taka</div>
+                            <div class="col-print-2 exclude">
+                                <div class="row justify-content-center">
+                                    <div class="form-group">
+                                        <abbr title="Candidate Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $delegate['delegateName']."-maheeer2010@hotmail.com";?>" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>
+                                    </div>
+                                    <div class="form-group">
+                                        <abbr title="Add Candidate Comission"><a href="?page=addExpenseAgentPersonal&ag=<?php echo base64_encode('maheeer2010@hotmail.com');?>&lp=delegateAllOfficeExpense"><button class="btn btn-sm btn-info"><i class="fas fa-user-plus"></i></button></a></abbr>
+                                    </div>
+                                    <div class="form-group">
+                                        <abbr title="Enter Office Credit Amount"><button class="btn btn-sm" data-toggle="modal" data-target="#addOffice" value="<?php echo $delegate['delegateId'];?>" onclick="modalValue(this.value)"><span class="fa fa-plus"></span></button></abbr>
+                                    </div>
+                                    <div class="form-group">
+                                        <abbr title="Show List of Offices"><button class="btn btn-sm btn-show" id="btnShow<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="showExpense(this.value)"><span class="fa fa-sort-down"></span></button></abbr>
+                                        <abbr title="Hide List of Offices"><button class="btn btn-sm btn-hide" id="btnHide<?php echo $delegate['delegateId'];?>" value="<?php echo $delegate['delegateId'];?>" onclick="hideExpense(this.value)" style="display: none;"><span class="fa fa-sort-up"></span></button></abbr>
+                                    </div> 
+                                    <div class="form-group">
+                                        <abbr title="Print A Receipt"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>" onclick="print_div(this.value)"><i class="fa fa-print"></i></button></abbr>
+                                    </div>
+                                    <div class="form-group">
+                                        <abbr title="Export Excel"><a href="template/exportExcelDelegateAllOfficeExpense.php?delegateId=<?= base64_encode($delegate['delegateId'])?>&full_report=yes"><button type="button" class="btn btn-sm btn-info" value="<?php echo $delegate['delegateId'];?>"><i class="fas fa-file-excel"></i></button></a></abbr>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <abbr title="Show Detailed Expense Report"><button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#expense_details"><i class="fas fa-info-circle"></i></button></abbr>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-light print-header">
+                        <div class="row text-center">
+                            <div class="col-print-2">Delegate Name</div>
+                            <div class="col-print-4">Total Debit Amount</div>
+                            <div class="col-print-4">Total Debit Amount</div>
+                            <div class="col-print-2">Remaining Balance</div>
+                        </div>
+                    </li>
+                </div>
             </div>
         </ul>
     </div>
