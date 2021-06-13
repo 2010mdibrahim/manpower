@@ -9,6 +9,8 @@ while($notification = mysqli_fetch_assoc($notifications)){
 }
 if($i >= 49){
     $html .= '<li class="list-group-item text-center" style="cursor: pointer"><a href="?page=all_notification">Show All</a></li>';
+}else if($i == 0){
+    $html .= '<li class="list-group-item text-center" style="cursor: pointer">No Notification</li>';
 }
 $html .=   '</ul>';
 $notifications = $conn->query("SELECT * from notifications where employee_id = '".$_SESSION['employee_id']."' limit 50");
