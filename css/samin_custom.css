@@ -28,7 +28,7 @@ label{
     transform: translateX(0%);
 }
 .notification-content-list{
-    max-height: 600px;
+    max-height: 700px;
     overflow-y: scroll;
 }
 .notification-content{
