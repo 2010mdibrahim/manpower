@@ -90,6 +90,16 @@ $failed = new UnsetFailedLogin();
     }
 </style>
 <div class="wrapper">
+    <div class="notification-slider custom-scroll">
+        <div class="row notification-content">
+            <div class="col-sm-12">
+                <ul class="list-group">
+                <li class="list-group-item"><span style="float: left;font-weight: 600;">Notifications</span><span style="float: right;cursor: pointer;" onclick="hide_notification()">Close</span></li> 
+                </ul>
+            </div>
+            <div class="col-sm-12 notification-content-list" id="notification_slider_body"></div>
+        </div>
+    </div>
     <?php
     if(isset($_SESSION['email']) === false){
         include 'template/login.php';
@@ -429,6 +439,8 @@ $failed = new UnsetFailedLogin();
             include('template/crm.php');
         }else if($page == 'addExpenseAgentPersonal') {
             include('template/addExpenseAgentPersonal.php');
+        }else if($page == 'all_notification') {
+            include('template/all_notification.php');
         }else{
             include ('template/home.php');
         }
@@ -446,88 +458,82 @@ $failed = new UnsetFailedLogin();
 
 
 <script>
-$(document).ready(function(){
-    let table = $('#dataTableSeaum').DataTable({
-                    "fixedHeader": true,
-                    "paging": true,
-                    "lengthChange": true,
-                    "lengthMenu": [
-                        [10, 25, 50, 100, 500],
-                        [10, 25, 50, 100, 500]
-                    ],
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": true,
-                    "responsive": true,
-                    "order": [],
-                    "scrollX": false
-                });
-    table.row( 11 ).scrollTo();
-    table.scroller.toPosition( 15 );
-    console.log(table);
-    $('#dataTableSeaumAgentList').DataTable({
-        "fixedHeader": true,
-        "paging": true,
-        "lengthChange": true,
-        "lengthMenu": [
-            [10, 25, 50, 100, 500],
-            [10, 25, 50, 100, 500]
-        ],
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": true,
-        "responsive": true,
-        "order": [[ 4, "desc" ]],
-        "scrollX": false
-    });
-    $.ajax({
-        type: 'post',
-        url: 'template/notification.php',
-        success: function(body_msg){
-            console.log(body_msg);
-            if(body_msg != ""){
-                new jBox('Notice', {
-                    animation: 'flip',
-                    color: 'blue',
-                    content: body_msg,
-                    attributes: {
-                        x: 'right',
-                        y: 'bottom'
-                    },                            
-                    delayOnHover: true,
-                    showCountdown: true
-                });
+    function show_notification(){
+        $.ajax({
+            type: 'post',
+            url: 'template/notification_slider.php',
+            success: function(body_msg){
+                $('#notification_slider_body').html(body_msg);
             }
-            
-            // Let's check if the browser supports notifications
-            // if(body != ""){
+        });
+        $(".notification-slider").addClass('show');
+    }
+    function hide_notification(){
+        $(".notification-slider").removeClass('show');
+    }
+    $(document).ready(function(){
+        let table = $('#dataTableSeaum').DataTable({
+                        "fixedHeader": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "lengthMenu": [
+                            [10, 25, 50, 100, 500],
+                            [10, 25, 50, 100, 500]
+                        ],
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "responsive": true,
+                        "order": [],
+                        "scrollX": false
+                    });
+        table.row( 11 ).scrollTo();
+        table.scroller.toPosition( 15 );
+        console.log(table);
+        $('#dataTableSeaumAgentList').DataTable({
+            "fixedHeader": true,
+            "paging": true,
+            "lengthChange": true,
+            "lengthMenu": [
+                [10, 25, 50, 100, 500],
+                [10, 25, 50, 100, 500]
+            ],
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+            "order": [[ 4, "desc" ]],
+            "scrollX": false
+        });
+        $.ajax({
+            type: 'post',
+            url: 'template/notification.php',
+            success: function(body_msg){
+                if(body_msg != ""){
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'blue',
+                        content: body_msg,
+                        attributes: {
+                            x: 'right',
+                            y: 'bottom'
+                        },                            
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                }
+            }
+        });
+        $(".timePicker").timepicker();
 
-            //     // Let's check whether notification permissions have already been granted
-            //     if (Notification.permission === "granted") {
-            //         var notification = new Notification('Final Medical Report Due:', {body});
-            //     }
-
-            //     else if (Notification.permission !== "denied") {
-            //         Notification.requestPermission().then(function (permission) {
-            //         // If the user accepts, let's create a notification
-            //             if (permission === "granted") {
-            //                 var notification = new Notification('Final Medical Report Due:', {body});
-            //             }
-            //         });
-            //     }
-            // }
-        }
+        $('.datepicker').datepicker({
+            format: 'yyyy/mm/dd',
+            todayHighlight:'TRUE',
+            autoclose: true,
+        });
     });
-    $(".timePicker").timepicker();
-
-    $('.datepicker').datepicker({
-        format: 'yyyy/mm/dd',
-        todayHighlight:'TRUE',
-        autoclose: true,
-    });
-});
     
     window.onpageshow = function() {
         $('.select2').select2({

@@ -11,3 +11,50 @@
 label{
     font-weight: bold;
 }
+.badge.notification{
+    position: absolute;
+    top: -1px;
+}
+.notification-slider{
+    position: fixed;
+    height: 100%;
+    width: 50%;
+    right: 0;
+    z-index: 10;
+    transform: translateX(100%);
+    transition: 500ms ease;
+}
+.notification-slider.show{
+    transform: translateX(0%);
+}
+.notification-content-list{
+    max-height: 600px;
+    overflow-y: scroll;
+}
+.notification-content{
+    margin-top: 45px;
+}
+@media only screen and (max-width: 600px) {
+    .notification-slider{
+        width: 80%;
+    }
+}
+/* width */
+div.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(214, 231, 63); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

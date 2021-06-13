@@ -82,7 +82,12 @@
                         </div>
                     <?php } ?>
                     <a href="?page=crm" class="nav-item nav-link" id="crmNav">CRM</a>
-                    <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-item nav-link" id="notification" onclick="show_notification()"><i class="far fa-bell"></i>
+                            <!-- <span class="badge badge-light notification"><?php echo $_SESSION['notification_count']; ?></span> -->
+                        </a>
+                    </div>
+                    <!-- <a href="?page=test" class="nav-item nav-link" id="reportNav">TEST</a> -->
                 </div>
                 <div class="navbar-nav ml-auto">                    
                     <?php if(in_array("All", $sections) || in_array("Delegate", $sections)){?>
