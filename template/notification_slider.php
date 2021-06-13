@@ -1,6 +1,6 @@
 <?php
 include ('database.php');
-$notifications = $conn->query("SELECT passport.fName, passport.lName, notifications.* from notifications inner join passport on passport.id = notifications.passport_id where employee_id = '".$_SESSION['employee_id']."' limit 50");
+$notifications = $conn->query("SELECT passport.fName, passport.lName, notifications.* from notifications inner join passport on passport.id = notifications.passport_id where employee_id = '".$_SESSION['employee_id']."' ORDER BY notifications.id desc limit 50");
 $html =    '<ul class="list-group">';
 $i = 0;
 while($notification = mysqli_fetch_assoc($notifications)){

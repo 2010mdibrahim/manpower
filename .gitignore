@@ -1,3 +1,4 @@
 uploads/
 template/datatable/conn.php
 template/class/dbc.class.php
+template/database.php

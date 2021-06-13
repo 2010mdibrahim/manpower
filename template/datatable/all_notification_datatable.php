@@ -1,6 +1,7 @@
 <?php 
 
 include("../database.php");
+include("../class/ssp.class.php");
 
 $table = 'notifications';
 $primaryKey = 'id';

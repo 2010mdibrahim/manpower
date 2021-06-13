@@ -12,7 +12,8 @@ if(isset($_SESSION['email'])){
     $notificationTime = new DateTime(date('Y-m-d H:i:s'));
     $todayF = $today->format('Y-m-d');
     $lastDateF = $lastDate->format('Y-m-d');
-    $result_medical = $conn->query("SELECT id, passportNum, creationDate, fName, lName, mobNum, finalMedicalReport, lastNotificationDate FROM passport WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND `notification` = 'yes'");
+    $result_medical = $conn->query("SELECT final_medical_insert, id, passportNum, creationDate, fName, lName, mobNum, finalMedicalReport, lastNotificationDate FROM passport WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND `notification` = 'yes'");
+    
     $notification = "";
     if($result_medical){
         while($finalReport = mysqli_fetch_assoc($result_medical)){
@@ -21,24 +22,24 @@ if(isset($_SESSION['email'])){
                 $finalDiff = $today->diff($finalMedicalReport);
                 if($finalReport['lastNotificationDate'] == '0000-00-00 00:00:00'){
                     if($finalDiff->d == 1){
+                        $notification .= 'Medical Report Due tommorow: '.$finalReport['passportNum']."<br>";
                         $save_notification = 'Medical Report Due tommorow: '.$finalReport['passportNum'];
                     }else{
+                        $notification .= 'Medical Report Due today: '.$finalReport['passportNum']."<br>";
                         $save_notification = 'Medical Report Due today: '.$finalReport['passportNum'];
                     }
-                    $notification .= $save_notification."<br>";
                     $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                     $result_notified = $conn->query("UPDATE passport set lastNotificationDate = '$notificationTimeF' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");   
-                    $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$result_medical['id'].")");
+                    $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$finalReport['id'].")");
                 }else{
                     $lastNofitificationDate = new DateTime($finalReport['lastNotificationDate']);
                     $notificationDiff = $notificationTime->diff($lastNofitificationDate);
                     if($notificationDiff->h >= 4){
                         if($finalDiff->d == 1){
-                            $save_notification = 'Medical Report Due tommorow: '.$finalReport['passportNum'];
+                            $notification .= 'Medical Report Due tommorow: '.$finalReport['passportNum']."<br>";
                         }else{
-                            $save_notification = 'Medical Report Due today: '.$finalReport['passportNum'];
+                            $notification .= 'Medical Report Due today: '.$finalReport['passportNum']."<br>";
                         }
-                        $notification .= $save_notification."<br>";
                         $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                         $result_notified = $conn->query("UPDATE passport set lastNotificationDate = '$notificationTimeF' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
                     }
@@ -52,17 +53,21 @@ if(isset($_SESSION['email'])){
                 $notificationDiff = $notificationTime->diff($lastNofitificationDate);
                 if($notificationDiff->h >= 4){
                     if($finalDiff->y == 0 AND $finalDiff->m == 0 AND $finalDiff->d < 14){
-                        $save_notification = 'Medical Report Date Over: '.$finalReport['passportNum'];
+                        $notification .= 'Medical Report Warning: '.$finalReport['passportNum']."<br>";
+                        $save_notification = 'Medical Report Warning: '.$finalReport['passportNum'];
                     }
-                    $notification .= $save_notification."<br>";
                     $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                     $result_notified = $conn->query("UPDATE passport set lastNotificationDate = '$notificationTimeF' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
-                    // $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$result_medical['id'].")");
+                    if($finalReport['final_medical_insert'] == 'no'){
+                        $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', ".$finalReport['id'].")");
+                        $update = $conn->query("UPDATE passport set final_medical_insert = 'yes' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
+                    }
                 }                    
             }
         }
     }    
-    
+    // print_r( "SELECT final_medical_insert, id, passportNum, creationDate, fName, lName, mobNum, finalMedicalReport, lastNotificationDate FROM passport WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND `notification` = 'yes'" );
+    // exit();
     $result_ticket = $conn->query("SELECT id, passportNum, passportCreationDate, flightDate, lastNotified FROM ticket WHERE flightDate BETWEEN '$todayF' AND '$lastDateF' AND `notification` = 'yes'");
     if($result_ticket){
         if($notification != ""){
@@ -73,24 +78,24 @@ if(isset($_SESSION['email'])){
             $flightDiff = $today->diff($flightDateTime);
             if($flightDate['lastNotified'] == '0000-00-00 00:00:00'){
                 if($flightDiff->d == 0){
+                    $notification .= "Ticket Due Today : ".$flightDate['passportNum']."<br>";
                     $save_notification = "Ticket Due Today : ".$flightDate['passportNum'];
                 }else{
+                    $notification .= "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum']."<br>";
                     $save_notification = "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum'];
                 }
-                $notification .= $save_notification."<br>";
                 $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                 $result_notified = $conn->query("UPDATE ticket set lastNotified = '$notificationTimeF' where passportNum = '".$flightDate['passportNum']."' AND passportCreationDate = '".$flightDate['passportCreationDate']."'");   
-                $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$result_medical['id'].")");
+                $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$flightDate['id'].")");
             }else{
                 $lastNofitificationDate = new DateTime($flightDate['lastNotified']);
                 $notificationDiff = $notificationTime->diff($lastNofitificationDate);
                 if($notificationDiff->h >= 4){
                     if($flightDiff->d == 0){
-                        $save_notification = "Ticket Due Today : ".$flightDate['passportNum'];
+                        $notification .= "Ticket Due Today : ".$flightDate['passportNum']."<br>";
                     }else{
-                        $save_notification = "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum'];
+                        $notification .= "Ticket Due in ".$flightDiff->d." Days : ".$flightDate['passportNum']."<br>";
                     }
-                    $notification .= $save_notification."<br>";
                     $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                     $result_notified = $conn->query("UPDATE ticket set lastNotified = '$notificationTimeF' where passportNum = '".$flightDate['passportNum']."' AND passportCreationDate = '".$flightDate['passportCreationDate']."'");   
                 }
@@ -112,20 +117,19 @@ if(isset($_SESSION['email'])){
         $stampingDateDiff = $stampingDate->diff($today);
         if($visa['lastNotificationDate'] == '0000-00-00 00:00:00'){        
             if($stampingDateDiff->y == 0 AND $stampingDateDiff->m == 0 AND $stampingDateDiff->d < 14 AND $today < $stampingDate){
+                $notification .= 'VISA Date Over: '.$visa['passportNum']."<br>";
                 $save_notification = 'VISA Date Over: '.$visa['passportNum'];
             }
-            $notification .= $save_notification."<br>";
             $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
             $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId']);   
-            $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$result_medical['id'].")");
+            $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `notified`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', 'no', ".$visa['id'].")");
         }else{
             $lastNofitificationDate = new DateTime($visa['lastNotificationDate']);
             $notificationDiff = $notificationTime->diff($lastNofitificationDate);
             if($notificationDiff->h >= 4){
                 if($stampingDateDiff->y == 0 AND $stampingDateDiff->m == 0 AND $stampingDateDiff->d < 14 AND $today < $stampingDate){
-                    $save_notification = 'VISA Date Over: '.$visa['passportNum'];
+                    $notification .= 'VISA Date Over: '.$visa['passportNum']."<br>";
                 }
-                $notification .= $save_notification."<br>";
                 $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                 $result_notified = $conn->query("UPDATE processing set lastNotificationDate = '$notificationTimeF' where processingId = ".$visa['processingId']);   
             }
