@@ -96,22 +96,10 @@ if(!isset($_SESSION['sections'])){
                         <input type="hidden" name="passportNum" id="passportNumDelegateExpenseInfo">
                         <input type="hidden" name="creationDate" id="creationDateDelegateExpenseInfo">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="delegateExpenseAmount">Delegate Comission</label>
                                     <input class="form-control" type="number" name="delegateExpenseAmount" id="delegateExpenseAmountModal" placeholder="Enter Delegate Comission" onkeyup="calculateBDT()">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="dollarRate">Dollar Rate</label>
-                                    <input class="form-control" type="number" name="dollarRate" id="dollarRateModal" placeholder="Dollar Rate" onkeyup="calculateBDT()" step="any">
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="bdtAmount">Amount in BDT</label>
-                                    <input class="form-control" type="number" name="bdtAmount" id="bdtAmountModal" placeholder="BDT" readonly>
                                 </div>
                             </div>
                         </div>                        

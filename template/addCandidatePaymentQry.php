@@ -94,11 +94,11 @@ if($alter == 'delete'){
             $result = $conn->query("UPDATE advance set advanceAmount = $advance, payDate = '$paydate', advancePayMode = '$paymentMethod', updatedBy = '$admin', updatedOn = '$date' where advanceId = $advanceId");
         }else{
             if($comission_id_existing > 0){                
-                $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance, '$paydate', '$paymentMethod', $comission_id_existing, '$admin', '$date')");
+                $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn, agentEmail) VALUES ($advance, '$paydate', '$paymentMethod', $comission_id_existing, '$admin', '$date', '$agentEmail')");
             }else{
                 $result = $conn->query("INSERT INTO agentcomission(amount, passportNum, passportCreationDate, agentEmail, comment, creationDate, updatedBy, updatedOn) VALUES ($fullAmount, '$passportNum', '$passportCreationDate', '$agentEmail',  '$comment', '$create_date', '$admin', '$date')");
                 $comissionId = mysqli_fetch_assoc($conn->query("SELECT max(comissionId) as comissionId from agentcomission"));
-                $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance, '$paydate', '$paydate', ".$comissionId['comissionId'].", '$admin', '$date')");
+                $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn, agentEmail) VALUES ($advance, '$paydate', '$paydate', ".$comissionId['comissionId'].", '$admin', '$date', '$agentEmail')");
             } 
         }           
     }else{

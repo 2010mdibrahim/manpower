@@ -203,7 +203,7 @@ if (($_FILES['fullPhotoFile']['name'] != "")){
             $payDate = $_POST['payDate'];
             $payMode = $_POST['payMode'];
             $comissionId = mysqli_fetch_assoc($conn->query("SELECT max(comissionId) as comissionId from agentcomission"));
-            $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn) VALUES ($advance_amount, '$payDate', '$payMode', ".$comissionId['comissionId'].", '$admin', '$date')");
+            $result = $conn->query("INSERT INTO advance(advanceAmount, payDate, advancePayMode, comissionId, updatedBy, updatedOn, agentEmail) VALUES ($advance_amount, '$payDate', '$payMode', ".$comissionId['comissionId'].", '$admin', '$date', '$agentEmail')");
         }        
     }
     $onlyDate = date('Y-m-d');

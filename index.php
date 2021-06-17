@@ -111,354 +111,1332 @@ $failed = new UnsetFailedLogin();
         </div>
     </div>
     <?php
-    if(isset($_SESSION['email']) === false){
-        if($page == 'login_agent') {
-            include('template/login_agent.php');
-        }else{
-            include 'template/login.php';
-        }
-        $failed->unset_failed_login();
-    }else{
+    
+    
         // include 'includes/topbar.php';
-        include 'includes/navbar.php';
         if($page == 'newCandidate'){
-            include ('template/newCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/newCandidate.php');
+            }
         }else if ($page == 'listCandidate'){
-            include ('template/listCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/listCandidate.php');
+            }
         }else if($page == 'newVisa'){
-            include ('template/newVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/newVisa.php');
+            }
         }else if($page == 'visaList'){
-            include ('template/visaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/visaList.php');
+            }
         }else if($page == 'newTicket'){
-            include ('template/newTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/newTicket.php');
+        
+            }
         }else if($page == 'listTicket'){
-            include ('template/listTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/listTicket.php');
+        
+            }
         }else if($page == 'selectTicket'){
-            include ('template/selectTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/selectTicket.php');
+        
+            }
         }else if($page == 'selectTicketWithPassport'){
-            include ('template/selectTicketWithPassport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/selectTicketWithPassport.php');
+        
+            }
         }else if($pagePost == 'editCandidate'){
-            include ('template/editCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/editCandidate.php');
+        
+            }
         }else if($pagePost == 'editVisa'){
-            include ('template/editVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/editVisa.php');
+        
+            }
         }else if($pagePost == 'editTicket'){
-            include ('template/editTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/editTicket.php');
+            }
         }
-        // else if($page == 'expenseHeader'){
-        //     include ('template/expenseHeader.php');
-        // }else if($page == 'newExpenseHeader'){
-        //     include ('template/newExpenseHeader.php');
-        // }else if($pagePost == 'editExpenseHeader'){
-        //     include ('template/editExpenseHeader.php');
-        // }else if($page == 'newExpense'){
-        //     include ('template/newExpense.php');
-        // }else if($page == 'expenseDetails'){
-        //     include ('template/expenseDetails.php');
-        // }else if($pagePost == 'editExpense'){
-        //     include ('template/editExpense.php');
-        // }else if($page == 'addAdmin'){
-        //     include ('template/addAdmin.php');
-        // }
         else if($page == 'addVisaPayment'){
-            include ('template/addVisaPayment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/addVisaPayment.php');
+        
+            }
         }else if($page == 'addVisaPaymentWithAgent'){
-            include ('template/addVisaPaymentWithAgent.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/addVisaPaymentWithAgent.php');
+        
+            }
         }else if($page == 'addNewAgent'){
-            include ('template/addNewAgent.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/addNewAgent.php');        
+            }
         }else if($page == 'agentList'){
-            include ('template/agentList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/agentList.php');
+        
+            }
         }else if($pagePost == 'editAgent'){
-            include ('template/editAgent.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/editAgent.php');
+        
+            }
         }else if($page == 'addNewSponsor'){
-            include "template/addNewSponsor.php";
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include "template/addNewSponsor.php";
+
+            }
         }else if($page == 'sponsorList'){
-            include "template/sponsorList.php";
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include "template/sponsorList.php";
+        
+            }
         }else if($pagePost == 'editSponsor'){
-            include ('template/editSponsor.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/editSponsor.php');
+        
+            }
         }else if($page == 'transferVisa'){
-            include ('template/transferVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/transferVisa.php');
+        
+            }
         }else if($pagePost == 'transferVisaWithCandidate'){
-            include ('template/transferVisaWithCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/transferVisaWithCandidate.php');
+        
+            }
         }else if($page == 'candidateVisaList'){
-            include ('template/candidateVisaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/candidateVisaList.php');
+        
+            }
         }else if($page == 'selectStageVisa'){
-            include ('template/selectStageVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/selectStageVisa.php');
+        
+            }
         }else if($pagePost == 'medicalStage'){
-            include ('template/medicalStage.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/medicalStage.php');
+        
+            }
         }else if($pagePost == 'emigrationStage'){
-            include ('template/emigrationStage.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/emigrationStage.php');
+        
+            }
         }else if($page == 'visaStamping'){
-            include ('template/selectStageVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/selectStageVisa.php');
+        
+            }
         }else if($pagePost == 'visaStampingStage'){
-            include ('template/stampingStage.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/stampingStage.php');
+        
+            }
         }else if($pagePost == 'paymentStage'){
-            include ('template/paymentStage.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/paymentStage.php');
+        
+            }
         }else if($page == 'completeCandidate'){
-            include ('template/selectCandidateUpdate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/selectCandidateUpdate.php');
+        
+            }
         }else if($page == 'report'){
-            include ('template/report.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/report.php');
+        
+            }
         }else if($page == 'selectReportByName'){
-            include ('template/reports/selectReportByName.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/selectReportByName.php');
+        
+            }
         }else if($pagePost == 'expenseReport'){
-            include ('template/reports/expenseReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/expenseReport.php');
+        
+            }
         }else if($page == 'selectCandidateReportByDate'){
-            include ('template/reports/selectCandidateReportByDate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/selectCandidateReportByDate.php');
+        
+            }
         }else if($page == 'selectReportByNameDate'){
-            include ('template/reports/selectReportByNameDate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/selectReportByNameDate.php');
+        
+            }
         }else if($page == 'selectAgentByTicket'){
-            include ('template/reports/selectAgentByTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/selectAgentByTicket.php');
+        
+            }
         }else if($page == 'stageWiseCandidateReport'){
-            include ('template/reports/candidateReportByStage.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/candidateReportByStage.php');
+        
+            }
         }else if($page == 'candidateReport'){
-            include ('template/reports/candidateReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/candidateReport.php');
+        
+            }
         }else if($page == 'visaReportBySponsor'){
-            include ('template/reports/visaReportBySponsor.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/visaReportBySponsor.php');
+        
+            }
         }else if($pagePost == 'visaSponsorReport'){
-            include ('template/reports/visaSponsorReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/reports/visaSponsorReport.php');
+        
+            }
         }else if($page == 'candidateWisePL') {
-            include('template/reports/candidateWisePL.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/reports/candidateWisePL.php');
+        
+            }
         }else if($page == 'datatable') {
-            include('template/datatable.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/datatable.php');
+        
+            }
         }else if($page == 'admin') {
-            include('template/admin/admin.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/admin.php');
+        
+            }
         }else if($page == 'createCompany') {
-            include('template/admin/createCompany.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/createCompany.php');
+        
+            }
         }else if($page == 'company') {
-            include('template/admin/company.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/company.php');
+        
+            }
         }else if($page == 'companyList') {
-            include('template/admin/companyList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/companyList.php');
+        
+            }
         }else if($pagePost == 'editCompany'){
-            include ('template/admin/createCompany.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/admin/createCompany.php');
+            }
         }else if($page == 'department') {
-            include('template/admin/department.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/department.php');
+        
+            }
         }else if($page == 'createDepartment') {
-            include('template/admin/createDepartment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/createDepartment.php');
+        
+            }
         }else if($page == 'departmentList') {
-            include('template/admin/departmentList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include('template/admin/departmentList.php');
+        
+            }
         }else if($pagePost == 'editDepartment'){
-            include ('template/admin/createDepartment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/admin/createDepartment.php');
+        
+            }
         }else if($page == 'branch') {
-            include('template/admin/branch.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/branch.php');
+        
+            }
         }else if($page == 'createBranch') {
-            include('template/admin/createBranch.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/createBranch.php');
+        
+            }
         }else if($page == 'branchList') {
-            include('template/admin/branchList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/branchList.php');
+        
+            }
         }else if($pagePost == 'editBranch'){
-            include ('template/admin/createBranch.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/admin/createBranch.php');
+        
+            }
         }else if($page == 'salary') {
-            include('template/admin/salary.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/salary.php');
+        
+            }
         }else if($page == 'salaryList') {
-            include('template/admin/salaryList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/salaryList.php');
+        
+            }
         }else if($page == 'createSalary') {
-            include('template/admin/createSalary.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/createSalary.php');
+        
+            }
         }else if($pagePost == 'editSalary'){
-            include ('template/admin/createSalary.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/admin/createSalary.php');
+        
+            }
         }else if($page == 'profession') {
-            include('template/admin/profession.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/profession.php');
+        
+            }
         }else if($page == 'createProfession') {
-            include('template/admin/createProfession.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/createProfession.php');
+        
+            }
         }else if($page == 'professionList') {
-            include('template/admin/professionList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/professionList.php');
+        
+            }
         }else if($pagePost == 'editProfession'){
-            include ('template/admin/createProfession.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/admin/createProfession.php');
+        
+            }
         }else if($page == 'createDesignation') {
-            include('template/admin/createDesignation.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/createDesignation.php');
+        
+            }
         }else if($page == 'designationList') {
-            include('template/admin/designationList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/designationList.php');
+        
+            }
         }else if($pagePost == 'editDesignation') {
-            include('template/admin/createDesignation.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/createDesignation.php');
+        
+            }
         }else if($page == 'designation') {
-            include('template/admin/designation.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/designation.php');
+        
+            }
         }else if($page == 'employee') {
-            include('template/admin/employee.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/employee.php');
+            }
         }else if($page == 'addEmployee') {
-            include('template/admin/addEmployee.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/addEmployee.php');
+            }
         }
         // else if($page == 'employeeList') {
         //     include('template/admin/employeeList.php');
         // }
         else if($page == 'addDepartment') {
-            include('template/admin/addDepartment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/addDepartment.php');
+            }
         }else if($pagePost == 'companyEmployeeList') {
-            include('template/admin/companyEmployeeList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/companyEmployeeList.php');
+            }
         }
         // else if($pagePost == 'editEmployee') {
         //     include('template/admin/addEmployee.php');
         // }
         else if($pagePost == 'completeCandidate') {
-            include('template/completeCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completeCandidate.php');
+            }
         }else if($pagePost == 'candidateWisePlReport') {
-            include('template/reports/candidateWisePLReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/candidateWisePLReport.php');
+            }
         }else if($page == 'companyDepartmentList') {
-            include('template/admin/companyDepartmentList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/companyDepartmentList.php');
+            }
         }else if($pagePost == 'companyDepartmentListWithData') {
-            include('template/admin/companyDepartmentListWithData.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/companyDepartmentListWithData.php');
+            }
         }else if($page == 'addBranch') {
-            include('template/admin/addBranch.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/addBranch.php');
+            }
         }else if($page == 'companyBranchList') {
-            include('template/admin/selectCompanyForBranch.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/selectCompanyForBranch.php');
+            }
         }else if($pagePost == 'companyBranchListWithData') {
-            include('template/admin/companyBranchList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/companyBranchList.php');
+            }
         }else if($page == 'reportByDate') {
-            include('template/reports/reportByDate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/reportByDate.php');
+            }
         }else if($pagePost == 'employeeReportTable') {
-            include('template/reports/employeeReportTable.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/employeeReportTable.php');
+            }
         }else if($page == 'cityWiseCandidateReport') {
-            include('template/reports/cityWiseCandidateReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/cityWiseCandidateReport.php');
+            }
         }else if($pagePost == 'cityWiseCandidateReportWithData') {
-            include('template/reports/cityWiseCandidateReportWithData.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/cityWiseCandidateReportWithData.php');
+            }
         }else if($page == 'addMofa') {
-            include('template/mofa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/mofa.php');
+            }
         }else if($page == 'selectPassport') {
-            include('template/selectPassport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/selectPassport.php');
+            }
         }else if($pagePost == 'mofaUpdate') {
-            include('template/mofaUpdate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/mofaUpdate.php');
+            }
         }else if($page == 'showEvidence') {
-            include('template/showEvidence.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showEvidence.php');
+            }
         }else if($pagePost == 'mofaReportTable') {
-            include('template/reports/mofaReportTable.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/mofaReportTable.php');
+            }
         }else if($page == 'tmp') {
-            include('template/tmp.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/tmp.php');
+            }
         }else if($page == 'selectSponsorDetailsReport') {
-            include('template/reports/selectSponsorDetailsReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/selectSponsorDetailsReport.php');
+            }
         }else if($pagePost == 'sponsorDetailsReport') {
-            include('template/reports/sponsorDetailsReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/sponsorDetailsReport.php');
+            }
         }else if($page == 'selectSponsorReportByCategory') {
-            include('template/reports/selectSponsorReportByCategory.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/selectSponsorReportByCategory.php');
+            }
         }else if($pagePost == 'sponsorReportByCategory') {
-            include('template/reports/sponsorReportByCategory.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/sponsorReportByCategory.php');
+            }
         }else if($page == 'switchJob') {
-            include('template/admin/switchJob.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/admin/switchJob.php');
+            }
         }else if($page == 'visaSponsor') {
-            include('template/visaSponsor.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/visaSponsor.php');
+            }
         }else if($page == 'allVisaList') {
-            include('template/allVisaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/allVisaList.php');
+            }
         }else if($page == 'manpower') {
-            include('template/manpower.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/manpower.php');
+            }
         }else if($page == 'manpowerList') {
-            include('template/manpowerList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/manpowerList.php');
+            }
         }else if($page == 'addExpenseAgent') {
-            include('template/addExpenseAgent.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addExpenseAgent.php');
+            }
         }else if($page == 'expenseAgentList') {
-            include('template/expenseAgentList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/expenseAgentList.php');
+            }
         }else if($page == 'showAgentExpenseList') {
-            include('template/showAgentExpenseList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showAgentExpenseList.php');
+            }
         }else if($pagePost == 'editAgentExpense') {
-            include('template/editAgentExpense.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editAgentExpense.php');
+            }
         }else if($pagePost == 'editSponsorVisa') {
-            include('template/editSponsorVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editSponsorVisa.php');
+            }
         }else if($page == 'addNewDelegate') {
-            include('template/addNewDelegate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addNewDelegate.php');
+            }
         }else if($page == 'delegateList') {
-            include('template/delegateList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateList.php');
+            }
         }else if($pagePost == 'editDelegate') {
-            include('template/editDelegate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editDelegate.php');
+            }
         }else if($page == 'tN') {  //ticket info
-            include('template/ticketInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/ticketInfo.php');
+            }
         }else if($page == 'tNc') {  //ticket info
-            include('template/completedTicketInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completedTicketInfo.php');
+            }
         }else if($page == 'jobs') {
-            include('template/jobs.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/jobs.php');
+            }
         }else if($pagePost == 'editVisaData') {
-            include('template/editVisaData.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editVisaData.php');
+            }
         }else if($pagePost == 'addCandidatePayment') {
-            include('template/addCandidatePayment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addCandidatePayment.php');
+            }
         }else if($pagePost == 'showCandidatePayment') {
-            include('template/showCandidatePayment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showCandidatePayment.php');
+            }
         }else if($pagePost == 'exchangeVisa') {
-            include('template/exchangeVisa.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/exchangeVisa.php');
+            }
         }else if($page == 'ce') {
-            include('template/showCandidatePayment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showCandidatePayment.php');
+            }
         }else if($page == 'cI') {
-            include('template/candidateDocumentInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/candidateDocumentInfo.php');
+            }
         }else if($page == 'ccI') {
-            include('template/completeCandidateDocumentInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completeCandidateDocumentInfo.php');
+            }
         }else if($pagePost == 'editCandidatePayment') {
-            include('template/editCandidatePayment.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editCandidatePayment.php');
+            }
         }else if($page == 'agentReport') {
-            include('template/reports/agentReport.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/reports/agentReport.php');
+            }
         }else if($page == 'payMode') {
-            include('template/payMode.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/payMode.php');
+            }
         }else if($page == 'addDelegateExpense') {
-            include('template/addDelegateExpense.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addDelegateExpense.php');
+            }
         }else if($page == 'dlel') {
-            include('template/delegateExpenseList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateExpenseList.php');
+            }
         }else if($page == 'svf') {
-            include('template/showVisaStampingFiles.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showVisaStampingFiles.php');
+            }
         }else if($page == 'svfc') {
-            include('template/showVisaStampingFilesComplete.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showVisaStampingFilesComplete.php');
+            }
         }else if($page == 'demo') {
-            include('template/demo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/demo.php');
+            }
         }else if($page == 'completeListCandidate') {
-            include('template/completeListCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completeListCandidate.php');
+            }
         }else if($page == 'completeVisaList') {
-            include('template/completeVisaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completeVisaList.php');
+            }
         }else if($page == 'cec') {
-            include('template/showCandidatePaymentCompleted.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/showCandidatePaymentCompleted.php');
+            }
         }else if($page == 'delegateOfficeExpense') {
-            include('template/delegateOfficeExpense.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateOfficeExpense.php');
+            }
         }else if($page == 'delegateOfficeExpenseList') {
-            include('template/delegateOfficeExpenseList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateOfficeExpenseList.php');
+            }
         }else if($pagePost == 'delegateOfficeExpenseListEdit') {
-            include('template/delegateOfficeExpenseListEdit.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateOfficeExpenseListEdit.php');
+            }
         }else if($page == 'newOffice') {
-            include('template/newOffice.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/newOffice.php');
+            }
         }else if($page == 'officeList') {
-            include('template/officeList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/officeList.php');
+            }
         }else if($pagePost == 'editOffice') {
-            include('template/editOffice.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editOffice.php');
+            }
         }else if($page == 'delegateAllOfficeExpense') {
-            include('template/delegateAllOfficeExpense.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateAllOfficeExpense.php');
+            }
         }else if($pagePost == 'editManpowerOffice') {
-            include('template/editManpowerOffice.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editManpowerOffice.php');
+            }
         }else if($page == 'outsideListTicket') {
-            include('template/outsideListTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/outsideListTicket.php');
+            }
         }else if($page == 'outsideCandidateList') {
-            include('template/outsideCandidateList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/outsideCandidateList.php');
+            }
         }else if($pagePost == 'editOutsideTicket') {
-            include('template/editOutsideTicket.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editOutsideTicket.php');
+            }
         }else if($page == 'candidateInfo') {
-            include('template/candidateInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/candidateInfo.php');
+            }
         }else if($page == 'manpowerJobList') {
-            include('template/manpowerJobList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/manpowerJobList.php');
+            }
         }else if($page == 'pendingListCandidate') {
-            include('template/pendingListCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/pendingListCandidate.php');
+            }
         }else if($page == 'pendingVisaList') {
-            include('template/pendingVisaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/pendingVisaList.php');
+            }
         }else if($page == 'returnedListCandidate') {
-            include('template/returnedListCandidate.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/returnedListCandidate.php');
+            }
         }else if($page == 'returnedVisaList') {
-            include('template/returnedVisaList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/returnedVisaList.php');
+            }
         }else if($page == 'test') {
-            include('template/test.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/test.php');
+            }
         }else if($page == 'newEmployee') {
-            include('template/newEmployee.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/newEmployee.php');
+            }
         }else if($page == 'employeeList') {
-            include('template/employeeList.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/employeeList.php');
+            }
         }else if($page == 'addSections') {
-            include('template/addSections.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addSections.php');
+            }
         }else if($pagePost == 'editEmployee') {
-            include('template/editEmployee.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/editEmployee.php');
+            }
         }else if($page == 'completedCandidateInfo') {
-            include('template/completedCandidateInfo.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/completedCandidateInfo.php');
+            }
         }else if($page == 'getZip') {
-            include('template/getZip.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/getZip.php');
+            }
         }else if($page == 'delegateAccount') {
-            include('template/delegateAccount.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/delegateAccount.php');
+            }
         }else if($page == 'resetPass') {
-            include('template/resetPass.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/resetPass.php');
+            }
         }else if($page == 'sendSms') {
-            include('template/sendSms.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/sendSms.php');
+            }
         }else if($page == 'crm') {
-            include('template/crm.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/crm.php');
+            }
         }else if($page == 'addExpenseAgentPersonal') {
-            include('template/addExpenseAgentPersonal.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/addExpenseAgentPersonal.php');
+            }
         }else if($page == 'all_notification') {
-            include('template/all_notification.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include('template/all_notification.php');
+            }
+        }else if($page == 'agent_login') {
+            if(isset($_SESSION['agent_email']) === false){
+                include 'template/login_agent.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'template/agent_dashboard.php';
+            }
+        }else if($page == 'agent_dashboard') {
+            if(isset($_SESSION['agent_email']) === false){
+                include 'template/login_agent.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'template/agent_dashboard.php';
+            }
         }else{
-            include ('template/home.php');
+            if(isset($_SESSION['email']) === false){
+                include 'template/login.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'includes/navbar.php';
+                include ('template/home.php');
+            }
         }
-    } ?>
+    ?>
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </div>

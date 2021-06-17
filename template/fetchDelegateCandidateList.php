@@ -46,7 +46,7 @@ while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
             $amount_received_in_dollar = $amount_payed['amount_received_in_dollar'];
         }
         $html .=     '<td><span>&#2547; </span>'.number_format($amount_received_in_dollar).'</td>';
-        $html .=     '<td><span>&#2547; </span>'.number_format($amount_received_in_taka).'</td>';
+        $html .=     '<td><span>&#x24; </span>'.number_format($amount_received_in_taka).'</td>';
         $remaining = $delegateList['delegateComission'] - $amount_received_in_dollar;
         $html .=     '<td><button data-toggle="modal" data-target="#add_comission_delegate" class="btn btn-success btn-sm" value="" onclick="add_delegate_expense(\''.$delegateList['passport_id'].'\', \''.$remaining.'\')">Comission +</button></td>
                 </tr>';
