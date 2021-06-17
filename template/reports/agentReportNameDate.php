@@ -77,11 +77,13 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
     };
     $html .=            '</td>';
     $html .=            '<td>';
-    if($visa['pending'] == 1){
-        $totalComission += $agent['amount'];   
-        $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
-    }else{
-        $html .= '0';
+    if (!is_null($visa)){
+        if($visa['pending'] == 1){
+            $totalComission += $agent['amount'];   
+            $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
+        }else{
+            $html .= '0';
+        }
     }
     $html .=            '</td>';
     $html .=            '</tr>';
