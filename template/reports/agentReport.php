@@ -20,9 +20,14 @@ $html .=            '</span></p>
             </div>
         </div>
         <div class="card-group">
-            <div class="row" style="width: 100%; margin-right: 0; margin-left: 0;">
-                <div class="col-md-9" style="padding: 0">
-                <div class="card">
+            <div class="row" style="width: 100%; margin-right: 0; margin-left: 0;">';
+if(isset($agent_info[2])){
+    $html .= '<div class="col-md-12" style="padding: 0">';
+}else{
+    $html .= '<div class="col-md-9" style="padding: 0">';
+}
+                
+$html .=       '<div class="card">
                     <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover text-center" id="dataTableSeaum" style="width:100%">
@@ -139,41 +144,44 @@ $html .=            '</span></p>
                         </div>
                     </div>                    
                     
-                </div>
-                <div class="col-md-3" style="padding: 0">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <p>Total Comission</p>
-                                        <h3><span id="pdf_total_comission">'.number_format($totalComission).'</span></h3>
-                                    </div>
-                                    <div class="col-sm">
-                                        <p>Total Expense</p>
-                                        <h3><span id="pdf_total_expense">'.number_format($totalExpense).'</span></h3>
-                                    </div>
-                                </div>
-                            </div>';
-$finalTotal = $totalComission - $totalExpense - $totalComissionAdvance;
-$html .=                    '<div class="card-body">
-                                <div class="row">';
-$html .=                        '<div class="col-sm">                                        
-                                        <p>Remaining Balance</p>';
-if($finalTotal < 0){                                        
-    $html .= '<h3 class="text-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
-}else{
-    $html .= '<h3>'.number_format($finalTotal).'</h3>';
-}
-$html .=                            '</div>
-                                    <div class="col-sm">                                        
-                                        <p>Total Returned Loss</p>
-                                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3><span id="pdf_total_loss">'.number_format($totalReturnLoss).'</span></h3></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
+                </div>';
+if(!isset($agent_info[2])){
+    $html .=       '<div class="col-md-3" style="padding: 0">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm">
+                        <p>Total Comission</p>
+                        <h3><span id="pdf_total_comission">'.number_format($totalComission).'</span></h3>
                     </div>
+                    <div class="col-sm">
+                        <p>Total Expense</p>
+                        <h3><span id="pdf_total_expense">'.number_format($totalExpense).'</span></h3>
+                    </div>
+                </div>
+            </div>';
+    $finalTotal = $totalComission - $totalExpense - $totalComissionAdvance;
+    $html .=                    '<div class="card-body">
+                <div class="row">';
+    $html .=                        '<div class="col-sm">                                        
+                        <p>Remaining Balance</p>';
+    if($finalTotal < 0){                                        
+    $html .= '<h3 class="text-danger"><span id="pdf_total_final">'.number_format($finalTotal).'</span></h3>';
+    }else{
+    $html .= '<h3>'.number_format($finalTotal).'</h3>';
+    }
+    $html .=                            '</div>
+                    <div class="col-sm">                                        
+                        <p>Total Returned Loss</p>
+                        <a href="?page=returnedListCandidate&ag='.base64_encode($agentEmail).'" target="_blank"><h3><span id="pdf_total_loss">'.number_format($totalReturnLoss).'</span></h3></a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div>  
+    </div>
+    </div>';
+}
+
+$html .=    '</div>
     </div>';
 echo $html;

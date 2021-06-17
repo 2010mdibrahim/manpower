@@ -1427,6 +1427,13 @@ $failed = new UnsetFailedLogin();
             }else{
                 include 'template/agent_dashboard.php';
             }
+        }else if($page == 'agent_details_information') {
+            if(isset($_SESSION['agent_email']) === false){
+                include 'template/login_agent.php';
+                $failed->unset_failed_login();
+            }else{
+                include 'template/agent_details_information.php';
+            }
         }else{
             if(isset($_SESSION['email']) === false){
                 include 'template/login.php';
