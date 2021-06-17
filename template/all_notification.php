@@ -88,7 +88,7 @@ $(document).ready(function() {
         "ScrollX": true,
         "processing": true,
         "serverSide": true,
-        "ajax": "<?php echo $base_dir ?>template/datatable/all_notification_datatable.php"
+        "ajax": "<?php echo $datable_path ?>template/datatable/all_notification_datatable.php"
     });
 })
 

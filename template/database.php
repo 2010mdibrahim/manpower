@@ -1,13 +1,18 @@
 <?php
 include('class/getConnectionController.php');
 session_start();
-$path = 'http://localhost/mahfuza/';
-$live_path = 'http://erp.superhostelbd.com/mahfuza/';
+$path = 'C:/xampp/htdocs/mahfuza/';
 $gettingConn = new getConnectionController();
 $conn = $gettingConn->getConnection();
 $host = 'localhost';
 $user = 'root';
 $pass = '!@#$%databaseserveradmin2020';
 $db = 'samin_erp';
-$base_dir = $path;
+if(file_exists($path)){
+    $base_dir = $path;
+    $datable_path = 'http://localhost/mahfuza/';
+}else{
+    $base_dir = '//10.100.105.200/g/xampp/htdocs/mahfuza/';
+    $datable_path = 'http://erp.superhostelbd.com/mahfuza/';
+}
 ?>

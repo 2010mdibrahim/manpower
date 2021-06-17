@@ -66,4 +66,9 @@ $html .=    '<tfoot>
         </table>
         <input type="hidden" id="totalComission" value="'.$totalComission.'">
         </div>';
-echo $html;
+$header = 'Comission Complete List';
+$data = array(
+    'html' => $html,
+    'header' => $header
+);
+echo json_encode($data);

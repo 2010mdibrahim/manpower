@@ -41,7 +41,7 @@ $result = mysqli_query($conn,$qry);
                 <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Delegate Candidate List</h5>
+                            <h5 class="modal-title" id="delegate_list_title">Delegate Candidate List</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -220,7 +220,9 @@ $result = mysqli_query($conn,$qry);
             url: 'template/fetchDelegateCandidateList.php',
             data: {delegateId: delegateId},
             success: function(response){
-                $('#showDelegateCandidateDiv').html(response);
+                let info = JSON.parse(response);
+                $('#delegate_list_title').html(info.header);
+                $('#showDelegateCandidateDiv').html(info.html);
                 $(document).ready(function() {
                     $('#dataTableSeaumNotPaid').DataTable({
                         "fixedHeader": true,
@@ -270,7 +272,9 @@ $result = mysqli_query($conn,$qry);
             url: 'template/fetchPaidDelegateCandidateList.php',
             data: {info: info},
             success: function(response){
-                $('#showDelegateCandidateDiv').html(response);
+                let info = JSON.parse(response);
+                $('#showDelegateCandidateDiv').html(info.html);
+                $('#delegate_list_title').html(info.header);
                 totalComission = '&#x24; ' + $('#totalComission').val();
                 console.log(totalComission);
                 $('#totalComissionShow').html(totalComission);
