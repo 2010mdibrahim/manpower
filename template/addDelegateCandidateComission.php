@@ -1,13 +1,6 @@
 <?php
 include ('database.php');
-$candidateList = $_POST['candidateList'];
-$delegatePayDate = $_POST['delegatePayDate'];
-$maxDelegateComissionIdQry = mysqli_fetch_assoc($conn->query("SELECT max(delegateComissionInformationId) as delegateComissionInformationId from delegatecomissioninformation"));
-if(is_null($maxDelegateComissionIdQry)){
-    $maxDelegateComissionId = 1;
-}else{
-    $maxDelegateComissionId = (int)$maxDelegateComissionIdQry['delegateComissionInformationId'] + 1;
-}
+$max_id = mysqli_fetch_assoc($conn->query("SELECT max(id) as max_id from delegate_comission_for_candidate"));
 if (($_FILES['delegateSlip']['name'] != "")){
     // Where the file is going to be stored
     $target_dir = "uploads/delegateSlip/";    
@@ -15,22 +8,27 @@ if (($_FILES['delegateSlip']['name'] != "")){
     $path = pathinfo($file);
     $ext = $path['extension'];
     $temp_name = $_FILES['delegateSlip']['tmp_name'];
-    $path_filename_ext = $base_dir.$target_dir."delegateSlip"."_".$maxDelegateComissionId.".".$ext;
-    $delegateSlipFile = $target_dir."delegateSlip"."_".$maxDelegateComissionId.".".$ext;
+    $path_filename_ext = $base_dir.$target_dir."delegateSlip"."_".$max_id['max_id'].".".$ext;
+    $delegateSlipFile = $target_dir."delegateSlip"."_".$max_id['max_id'].".".$ext;
 }else{
     $delegateSlipFile = '';
 }
-$result = $conn->query("INSERT into delegatecomissioninformation (comissionPayDate, comissionSlip) values ('$delegatePayDate', '$delegateSlipFile')");
+$prev_comission = mysqli_fetch_assoc($conn->query("SELECT passport.delegateComission, sum(delegate_comission_for_candidate.amount) as `already_paid` from passport LEFT JOIN  delegate_comission_for_candidate on passport.id = delegate_comission_for_candidate.passport_id where passport.id = '".$_POST['passport_id']."'"));
+// print_r(mysqli_error($conn));
+$result = $conn->query("INSERT into delegate_comission_for_candidate (passport_id, amount, dollar_rate, document) values ('".$_POST['passport_id']."', '".$_POST['amount']."', '".$_POST['dollar_rate']."', '$delegateSlipFile')");
+if(!is_null($prev_comission['already_paid'])){
+    $alread_paid = 0;
+}else{
+    $alread_paid = $prev_comission['already_paid'];
+}
+// print_r($prev_comission['delegateComission']);
+if($prev_comission['delegateComission'] == ($alread_paid + $_POST['amount'])){
+    $update = $conn->query("UPDATE passport set delegateComissionPaid = 'paid' where id = ".$_POST['passport_id']);
+}
 if($result){
     move_uploaded_file($temp_name,$path_filename_ext);
 }
-foreach($candidateList as $candidate){
-    $candidate_split = explode('_',$candidate);
-    $passportNum = $candidate_split[0];
-    $creationDate = $candidate_split[1];
-    $result = $conn->query("UPDATE passport set delegateComissionPaid = 'paid', delegateComissionInformationId = $maxDelegateComissionId where passportNum = '$passportNum' AND creationDate = '$creationDate'");
-}
-exit();
+// exit();
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateList'</script>";
 }else{

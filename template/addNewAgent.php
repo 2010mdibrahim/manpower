@@ -51,6 +51,10 @@ if(!isset($_SESSION['sections'])){
                     <label for="sel1">Police Clearance:</label>
                     <input class="form-control-file" type="file" name="agentPolice" id="police" required>
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="sel1">Password:</label>
+                    <input class="form-control" type="text" name="password" id="password" placeholder="comment">
+                </div>
             </div>
         </div>
         <div id="test"></div>
@@ -79,6 +83,7 @@ if(!isset($_SESSION['sections'])){
                 }
             }
         });
+        $('#password').val(random_password());
     });
     $('#agentNav').addClass('active');
 </script>

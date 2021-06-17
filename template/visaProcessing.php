@@ -121,7 +121,7 @@ if ($mode == 'empRqstMode') {
         if(isset($_POST['stampingDate'])){
             $stampingDate = $_POST['stampingDate'];
             $result = $conn->query("UPDATE processing set visaStamping = 'yes', visaStampingDate = '$stampingDate' where processingId = $processingId");
-            echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
+            echo "<script> window.location.href='../index.php?page=visaList'</script>";
         }
         foreach ( $_FILES as $name ) {
             $count = count($name['name']);
@@ -140,7 +140,7 @@ if ($mode == 'empRqstMode') {
                     $result = $conn -> query("UPDATE visafile set visaFile = '$data_path' where visaFileId = $visaFileId");
                     if($result){
                         move_uploaded_file($temp_name,$path_filename_ext);
-                        echo "<script> window.location.href='../index.php?page=svf&p=".base64_encode($processingId)."'</script>";
+                        echo "<script> window.location.href='../index.php?page=visaList'</script>";
                     }else{
                         echo mysqli_error($conn);
                     }

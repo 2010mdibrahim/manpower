@@ -27,18 +27,43 @@ $result = mysqli_query($conn,$qry);
         display: flex;
         flex-direction: row;
     }
-    .modal-dialog {
+    .delegate-list-modal {
         max-width: 80%;
         margin: 1.75rem auto;
     }
 </style>
-
+<!-- Delegate Comission -->
+<div class="modal fade inner_modal" tabindex="-1" role="dialog" id="add_comission_delegate">
+    <div class="modal-dialog modal-sm" role="document">
+        <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Money</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="">
+                    <input type="hidden" name="passport_id" id="passport_id">
+                    <input class="form-control mb-1" type="number" name="amount" id="amount" placeholder="Amount" required>
+                    <input class="form-control mb-1" type="number" name="dollar_rate" placeholder="Dollar Rate" step="any" required>
+                    <input class="form-control-file mb-1" type="file" name="delegateSlip" id="delegateSlip">
+                    <input class="form-control datepicker" autocomplete="off" type="text" name="pay_date" id="pay_date" placeholder="Enter Date" required>                
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="container-fluid" style="padding: 2%">
     <div class="card">
         <!-- Delegate Candidate List -->
         <div class="modal fade" tabindex="-1" role="dialog" id="delegateCandidateList">
-            <div class="modal-dialog modal-xl" role="document">
-                <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data">
+            <div class="modal-dialog delegate-list-modal modal-xl" role="document">
+                <!-- <form action="template/addDelegateCandidateComission.php" method="post" enctype="multipart/form-data"> -->
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="delegate_list_title">Delegate Candidate List</h5>
@@ -51,13 +76,11 @@ $result = mysqli_query($conn,$qry);
                         
                         </div>
                         <div class="modal-footer">
-                            <input class="form-control datepicker w-25" autocomplete="off" type="text" name="delegatePayDate" id="delegatePayDate" placeholder="Enter Date" style="display: none;">
-                            <input class="form-control-file w-25" type="file" name="delegateSlip" id="delegateSlip" style="display: none;">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div id="comission_submit_button"></div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
         <!-- Add Office -->
@@ -212,6 +235,11 @@ $result = mysqli_query($conn,$qry);
 
 
 <script>
+    function add_delegate_expense(passport_id, remaining_balance){
+        $('#delegateCandidateList').modal('hide')
+        $('#passport_id').val(passport_id);
+        $('#amount').prop('max', remaining_balance);
+    }
     $('#delegateNav').addClass('active');
     function fetchDelegateCandidate(delegateId){
         $('#showDelegateCandidateDiv').html('');
@@ -221,6 +249,7 @@ $result = mysqli_query($conn,$qry);
             data: {delegateId: delegateId},
             success: function(response){
                 let info = JSON.parse(response);
+                $('#comission_submit_button').html(info.button);
                 $('#delegate_list_title').html(info.header);
                 $('#showDelegateCandidateDiv').html(info.html);
                 $(document).ready(function() {
@@ -273,6 +302,7 @@ $result = mysqli_query($conn,$qry);
             data: {info: info},
             success: function(response){
                 let info = JSON.parse(response);
+                $('#comission_submit_button').html(info.button);
                 $('#showDelegateCandidateDiv').html(info.html);
                 $('#delegate_list_title').html(info.header);
                 totalComission = '&#x24; ' + $('#totalComission').val();

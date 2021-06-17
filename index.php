@@ -61,6 +61,16 @@ $failed = new UnsetFailedLogin();
 <div id="seaum_alert">
 <script>
     var data_loading = '<div style="position: fixed; z-index: 99999; top: 0%; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"><center><img src="<?="img/loading.gif";?>" style="margin-top:16%;border-radius:50px 5px 50px 5px;"/></center></div>';
+    function random_password(){
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var randomPassword = '';
+        for (i = 0; i < 6; i++) {
+            randomPassword = randomPassword + chars.charAt(
+                Math.floor(Math.random() * chars.length)
+            );
+        }
+        return randomPassword;
+    }
 </script>
 <style>
     .col-print-1 {width:8%;  float:left;}
@@ -102,7 +112,11 @@ $failed = new UnsetFailedLogin();
     </div>
     <?php
     if(isset($_SESSION['email']) === false){
-        include 'template/login.php';
+        if($page == 'login_agent') {
+            include('template/login_agent.php');
+        }else{
+            include 'template/login.php';
+        }
         $failed->unset_failed_login();
     }else{
         // include 'includes/topbar.php';

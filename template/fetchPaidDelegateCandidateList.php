@@ -17,18 +17,15 @@ $html = '<div class="modal-body">
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
-                <th>Dollar Rate</th>
-                <th>In BDT</th>
-                <th>Comission Pay Date</th>
-                <th>Comission Slip</th>
+                <th>Received In BDT</th>
             </tr>
             </thead>';
 $today = date('Y-m-d');
 $totalComission = 0;
-$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.delegateComissionPaid, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission, delegatecomissioninformation.comissionPayDate, delegatecomissioninformation.comissionSlip, passport.dollarRate FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId INNER JOIN delegatecomissioninformation using (delegateComissionInformationId) WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'paid' ORDER BY processing.pending");
+$delegateList_result = $conn->query("SELECT processing.pending, delegate.delegateName, passport.fName, passport.lName, passport.passportNum, passport.delegateComissionPaid, passport.creationDate, processing.sponsorVisa, sponsor.sponsorNID, processing.visaStampingDate, passport.delegateComission, passport.id as passport_pk FROM passport INNER JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId WHERE delegate.delegateId = $delegateId AND processing.visaStampingDate < '$today' AND passport.delegateComissionPaid = 'paid' ORDER BY processing.pending");
 while( $delegateList = mysqli_fetch_assoc($delegateList_result) ){
-$totalComission += (int)$delegateList['delegateComission'];
-$html .=    '<tr>
+    $totalComission += (int)$delegateList['delegateComission'];
+    $html .= '<tr>
                 <td>'.$delegateList['fName']." ".$delegateList['lName'].'</td>
                 <td>'.$delegateList['passportNum'].'</td>
                 <td>'.$delegateList['sponsorVisa'].'</td>
@@ -40,12 +37,9 @@ $html .=    '<tr>
     }else{
         $html .= '<td>'.$ticket['flightDate'].'</td>';
     }
-                
+    $paid_comission = mysqli_fetch_assoc($conn->query("SELECT sum(amount * dollar_rate) as total_amount from delegate_comission_for_candidate where passport_id = ".$delegateList['passport_pk']));
     $html .=   '<td><span>&#x24; '.$delegateList['delegateComission'].' </span></td>
-                <td>'.$delegateList['dollarRate'].'</td>
-                <td><span>&#2547; </span>'.number_format($delegateList['delegateComission']*$delegateList['dollarRate']).'</td>
-                <td>'.$delegateList['comissionPayDate'].'</td>
-                <td><a href="'.$delegateList['comissionSlip'].'" target="_blank">Slip</a></td>
+                <td>'.number_format($paid_comission['total_amount']).'</td>
             </tr>';
 }
 $html .=    '<tfoot>
@@ -57,10 +51,7 @@ $html .=    '<tfoot>
                 <th>Stamping</th>
                 <th>Flight Date</th>
                 <th>Comission</th>
-                <th>Dollar Rate</th>
-                <th>In BDT</th>
-                <th>Comission Pay Date</th>
-                <th>Comission Slip</th> 
+                <th>Received In BDT</th>
             </tr>
             </tfoot>
         </table>
@@ -69,6 +60,7 @@ $html .=    '<tfoot>
 $header = 'Comission Complete List';
 $data = array(
     'html' => $html,
-    'header' => $header
+    'header' => $header,
+    'button' => ''
 );
 echo json_encode($data);

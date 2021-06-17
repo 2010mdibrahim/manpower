@@ -62,13 +62,6 @@ if(!isset($_SESSION['sections'])){
     </form>
 </div>
 <script>
-    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
-    var randomPassword = '';
-    for (i = 0; i < 10; i++) {
-        randomPassword = randomPassword + chars.charAt(
-            Math.floor(Math.random() * chars.length)
-        );
-    }
-    $('#password').val(randomPassword);
+    $('#password').val(random_password());
     $('#employeeNav').addClass('active');
 </script>
