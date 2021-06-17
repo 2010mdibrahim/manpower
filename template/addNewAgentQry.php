@@ -114,12 +114,11 @@ if($alter == 'delete') {
             if (($_FILES['agentPolice']['name'] != "")){
                 move_uploaded_file($police_temp_name,$police_path_filename_ext);
             }
-            echo "<script>window.alert('Inserted')</script>";
-            echo "<script> window.location.href='../index.php?page=agentList'</script>";
+            // echo "<script>window.alert('Inserted')</script>";
+            // echo "<script> window.location.href='../index.php?page=agentList'</script>";
         } else {
-            echo "<script>window.alert('Email Already Exists')</script>";
-            echo "<script> window.location.href='../index.php?page=addNewAgent'</script>";
+            // echo "<script>window.alert('Email Already Exists')</script>";
+            // echo "<script> window.location.href='../index.php?page=addNewAgent'</script>";
         }
     }
 }
-

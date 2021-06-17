@@ -10,5 +10,4 @@ $user = 'root';
 $pass = '!@#$%databaseserveradmin2020';
 $db = 'samin_erp';
 $base_dir = $path;
-
 ?>

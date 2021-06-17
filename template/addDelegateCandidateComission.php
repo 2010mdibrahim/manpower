@@ -30,6 +30,7 @@ foreach($candidateList as $candidate){
     $creationDate = $candidate_split[1];
     $result = $conn->query("UPDATE passport set delegateComissionPaid = 'paid', delegateComissionInformationId = $maxDelegateComissionId where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 }
+exit();
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateList'</script>";
 }else{
