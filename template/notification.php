@@ -58,9 +58,10 @@ if(isset($_SESSION['email'])){
                     }
                     $notificationTimeF = $notificationTime->format('Y-m-d H:i:s');
                     $result_notified = $conn->query("UPDATE passport set lastNotificationDate = '$notificationTimeF' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
-                    if($finalReport['final_medical_insert'] == 'no'){
+                    if($finalReport['final_medical_insert'] == 'no' AND $save_notification != ''){
                         $insert_to_notification = $conn->query("INSERT INTO `notifications`(`notification`, `notification_date`, `employee_id`, `passport_id`) VALUES ('$save_notification', '".$notificationTime->format('Y-m-d H:i:s')."', '$employee_id', ".$finalReport['id'].")");
                         $update = $conn->query("UPDATE passport set final_medical_insert = 'yes' where passportNum = '".$finalReport['passportNum']."' AND creationDate = '".$finalReport['creationDate']."'");
+                        $save_notification = '';
                     }
                 }                    
             }

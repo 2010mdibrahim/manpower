@@ -9,6 +9,6 @@ $host = 'localhost';
 $user = 'root';
 $pass = '!@#$%databaseserveradmin2020';
 $db = 'samin_erp';
-$base_dir = $path;
+$base_dir = $live_path;
 
 ?>

@@ -157,6 +157,7 @@ if(!isset($_SESSION['sections'])){
 
 <script>
     function print_div(agentInfo){
+        console.log(agentInfo);
         $.ajax({
             url: 'template/reports/agentReportPrint.php',
             data: {agentInfo: agentInfo},
@@ -195,20 +196,80 @@ if(!isset($_SESSION['sections'])){
             success: function(response){
                 $('#showAgentReportDiv').html(response);
                 $('#print_button').val(agentInfo);
-                console.log(agentInfo);
                 $('.returned').parent().addClass('returned_col');
-                let table = $('#dataTableSeaum').DataTable({
+                let pdf_total_comission = $('#pdf_total_comission').html();
+                console.log(pdf_total_comission);
+                let pdf_total_expense = $('#pdf_total_expense').html();
+                let pdf_total_final = $('#pdf_total_final').html();
+                let pdf_total_loss = $('#pdf_total_loss').html();
+                if(pdf_total_final.charAt(0) === '-'){
+                    color_div = 'red';
+                }else{
+                    color_div = 'black';
+                }
+                console.log(color_div);
+                $('#dataTableSeaum').DataTable({
                     "fixedHeader": true,
                     "paging": true,
                     "lengthChange": true,
+                    "lengthMenu": [
+                        [10, 25, 50, 100, 500],
+                        [10, 25, 50, 100, 500]
+                    ],
                     "searching": true,
                     "ordering": true,
                     "info": true,
                     "autoWidth": true,
                     "responsive": true,
-                    "scrollX": false,
                     "order": [[0, "desc"]],
                     "scrollX": false,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            exportOptions : {
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            exportOptions : {
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            exportOptions : {
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            customize: function ( doc ) {
+                                doc.content.splice(0, 1, {
+                                    text: [
+                                            { text: 'Total Comission: \n',fontSize:12,alignment: 'center' },
+                                            { text: pdf_total_comission + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                            '\n',
+                                            { text: 'Total Expense: \n',fontSize:12,alignment: 'center' },
+                                            { text: pdf_total_expense + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                            '\n',
+                                            { text: 'Grand Total: \n',fontSize:12,alignment: 'center' },
+                                            { text: pdf_total_final + '\n',color: color_div,bold: true, fontSize:15,alignment: 'center' },
+                                            '\n',
+                                            { text: 'Return Loss: \n',fontSize:12,alignment: 'center' },
+                                            { text: pdf_total_loss + '\n',bold: true, fontSize:15,alignment: 'center' },
+                                    ],
+                                    margin: [0, 0, 0, 12],
+                                    alignment: 'center'
+                                });
+                            },
+                            exportOptions : {
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                            }
+                        }
+                    ],
                     "columnDefs": [
                         {
                             "targets": [ 0 ],
@@ -216,20 +277,52 @@ if(!isset($_SESSION['sections'])){
                             "searchable": false
                         }
                     ],
-                    "lengthMenu": [
-                        [10, 25, 50, 100, 500],
-                        [10, 25, 50, 100, 500]
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copyHtml5',
-                        'excelHtml5',
-                        'csvHtml5',
-                        'pdfHtml5'
-                    ]                    
+
                 });
-                // table.buttons().remove();
             }
         });
+        // $.ajax({
+        //     url: 'template/reports/agentReport.php',
+        //     data: {agentInfo: agentInfo},
+        //     type: 'post',
+        //     success: function(response){
+        //         $('#showAgentReportDiv').html(response);
+        //         $('#print_button').val(agentInfo);
+        //         console.log(agentInfo);
+        //         $('.returned').parent().addClass('returned_col');
+        //         let table = $('#dataTableSeaum').DataTable({
+        //             "fixedHeader": true,
+        //             "paging": true,
+        //             "lengthChange": true,
+        //             "searching": true,
+        //             "ordering": true,
+        //             "info": true,
+        //             "autoWidth": true,
+        //             "responsive": true,
+        //             "scrollX": false,
+        //             "order": [[0, "desc"]],
+        //             "scrollX": false,
+        //             "columnDefs": [
+        //                 {
+        //                     "targets": [ 0 ],
+        //                     "visible": false,
+        //                     "searchable": false
+        //                 }
+        //             ],
+        //             "lengthMenu": [
+        //                 [10, 25, 50, 100, 500],
+        //                 [10, 25, 50, 100, 500]
+        //             ],
+        //             dom: 'Bfrtip',
+        //             buttons: [
+        //                 'copyHtml5',
+        //                 'excelHtml5',
+        //                 'csvHtml5',
+        //                 'pdfHtml5'
+        //             ]                    
+        //         });
+        //         // table.buttons().remove();
+        //     }
+        // });
     }
 </script>
