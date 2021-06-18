@@ -24,6 +24,9 @@
         animation-name: scaleUp;
         animation-duration: 1s;
     }
+    .company-logo{
+        position: absolute;
+    }
 
     @keyframes scaleUp {
         from { transform: translate(0px,-50px); }
@@ -31,7 +34,13 @@
     }
 </style>
 
-
+<div class="company-logo" style="width: 100%;overflow:hidden">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="img/company-logo.png" alt="" width="200px">
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="card">
         <form action="template/loginPage.php" method="post" class="form">
