@@ -24,6 +24,9 @@
         animation-name: scaleUp;
         animation-duration: 1s;
     }
+    .company-logo{
+        position: absolute;
+    }
 
     @keyframes scaleUp {
         from { transform: translate(0px,-50px); }
@@ -32,7 +35,14 @@
 </style>
 
 
-<div class="container">
+<div class="company-logo" style="width: 100%;overflow:hidden">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="img/company-logo.png" alt="" width="200px">
+        </div>
+    </div>
+</div>
+<div class="container">    
     <div class="card">
         <form action="template/loginPageAgent.php" method="post" class="form">
             <?php if(isset($_SESSION['agent_failed_login'])){ ?><p class="text-danger">Incorrect Credentials</p> <?php } ?>

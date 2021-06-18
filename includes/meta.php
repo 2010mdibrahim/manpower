@@ -5,4 +5,4 @@
 <meta content="Law Firm Website Template" name="description">
 
 <!-- Favicon -->
-<link href="img/favicon.ico" rel="icon">
+<link rel="icon" href="img/company-logo.png">
