@@ -158,7 +158,7 @@ if(!isset($_SESSION['sections'])){
                 $('#password').val('');
                 $('#password_confirm').val('');
                 if(response === 'true'){
-                    success_alert('Password Change Successfull!!');
+                    success_alert('Password Changed Successfull!!');
                 }else{
                     error_alert('Something went wrong!!');
                 }
