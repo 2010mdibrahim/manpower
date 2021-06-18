@@ -13,8 +13,8 @@ if( $email!="" && $pass!=""){
         echo "<script>window.location='../index.php?page=agent_dashboard'</script>";
     }else{
         $_SESSION['agent_failed_login'] = true;
-        echo "<script>window.location='../index.php?page=agent_login'</script>";
+        // echo "<script>window.location='../index.php?page=agent_login'</script>";
     }
 }else{
-    echo "<script>window.location='../index.php?page=agent_login'</script>";
+    // echo "<script>window.location='../index.php?page=agent_login'</script>";
 }
