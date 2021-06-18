@@ -327,7 +327,7 @@ $columns = array(
     array( 'db' => 'status',   'dt' => 30 ),
     array( 'db' => 'disableReason',   'dt' => 31 ),
     array(
-		'db' => 'id',
+		'db' => 'status',
 		'dt' => 32,
 		'formatter' => function( $d, $row ) {
             $html = '<div class="container">
@@ -379,6 +379,28 @@ $columns = array(
                         </div>
                     </div>';
 			return $html;
+		}
+	),
+    array( 'db' => 'testMedicalStatus', 'dt' => 33 ),
+    array( 'db' => 'finalMedicalStatus', 'dt' => 34 ),
+    array(
+		'db' => 'status',
+		'dt' => 35,
+		'formatter' => function( $d, $row ) {global $conn;
+            $hasVisa = mysqli_fetch_assoc($conn->query("SELECT processingId, pending from processing where passportNum = '".$row[5]."' AND passportCreationDate = '".$row[0]."'"));
+            $hasTicket = mysqli_fetch_assoc($conn->query("SELECT ticketId from ticket where passportNum = '".$row[5]."' AND passportCreationDate = '".$row[0]."'"));
+            if(is_null($hasVisa)){
+                return 'null';
+            }else{
+                if($hasVisa['pending'] == 3){
+                    return 'pending_3';
+                }else if(!is_null($hasTicket)){
+                    return 'yes_ticket';
+                }else{
+                    return 'no_ticket';
+                }
+            }
+            
 		}
 	)
 );

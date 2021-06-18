@@ -39,6 +39,29 @@ if(isset($_GET['pp'])){
 ?>
 
 <style>
+    .status-2{
+        background-color: #8d6e63;
+        color: white
+    }
+    .status-1{
+        background-color: #f9a825 ;
+    }
+    .unfit{
+        background-color: #f44336;
+        color: white;
+    }
+    .pending_3{
+        background-color: #424242;
+        color: white;
+    }
+    .yes_ticket{
+        background-color: #42a5f5;
+        color: white;
+    }
+    .no_ticket{
+        background-color: #66bb6a;
+        color: white;
+    }
     .btn_custom{
         padding: 1%;
         align-content: center;
@@ -331,7 +354,7 @@ if(isset($_GET['pp'])){
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="list_candidate" class="table table-bordered table-hover"  style="width:100%">
+                <table id="list_candidate" class="table table-bordered"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Creation Date</th>
@@ -367,6 +390,9 @@ if(isset($_GET['pp'])){
                         <th>Status</th>
                         <th>Disabled Reason</th>
                         <th>Edit</th>
+                        <th>Test Medical Status</th>
+                        <th>Final Medical Status</th>
+                        <th>Visa</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -385,6 +411,9 @@ if(isset($_GET['pp'])){
                         <th>Police Clearance</th>
                         <th>Training Card</th>                       
                         <th>Edit</th>
+                        <th>Test Medical Status</th>
+                        <th>Final Medical Status</th>
+                        <th>Visa</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -459,10 +488,9 @@ $(document).ready(function(){
         "ScrollX": true,
         "processing": true,
         "serverSide": true,
-        
         "ajax": "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
         "columnDefs": [
-            {
+                        {
                             "targets": [ 0 ],
                             "visible": false,
                             "searchable": false
@@ -470,12 +498,12 @@ $(document).ready(function(){
                         {
                             "targets": [ 1 ],
                             "visible": false,
-                            "searchable": false
+                            "searchable": true
                         },
                         {
                             "targets": [ 2 ],
                             "visible": false,
-                            "searchable": false
+                            "searchable": true
                         },
                         {
                             "targets": [ 8 ],
@@ -492,7 +520,7 @@ $(document).ready(function(){
                             "visible": false,
                             "searchable": false
                         },
-{
+                        {
                             "targets": [ 14 ],
                             "visible": false,
                             "searchable": false
@@ -522,7 +550,7 @@ $(document).ready(function(){
                             "visible": false,
                             "searchable": false
                         },
-{
+                        {
                             "targets": [ 21 ],
                             "visible": false,
                             "searchable": false
@@ -561,8 +589,49 @@ $(document).ready(function(){
                             "targets": [ 31 ],
                             "visible": false,
                             "searchable": false
+                        },
+                        {
+                            "targets": [ 33 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 34 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 35 ],
+                            "visible": false,
+                            "searchable": false
                         }
                     ],
+        createdRow: function (row, data, index) {
+                        //
+                        // if the second column cell is blank apply special formatting
+                        //
+                        if (data[30] == "2") {
+                            console.dir(row);
+                            $(row).addClass("status-2");
+                        }else if(data[30] == "1"){
+                            console.dir(row);
+                            $(row).addClass("status-1");
+                        }else if(data[33] == "unfit" || data[34] == "unfit"){
+                            console.dir(row);
+                            $(row).addClass("unfit");
+                        }else if(data[35] != 'null'){
+                            if(data[35] == 'pending_3'){
+                                console.dir(row);
+                                $(row).addClass("pending_3");
+                            }else if(data[35] == 'yes_ticket'){
+                                console.dir(row);
+                                $(row).addClass("yes_ticket");
+                            }else {
+                                console.dir(row);
+                                $(row).addClass("no_ticket");
+                            }
+                        }
+                    }
                     
     });
 });
