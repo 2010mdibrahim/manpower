@@ -6,6 +6,10 @@
     .table-content{
         padding: 0px;
     }
+    .container-fluid{
+        padding-right: 0px;
+        padding-left: 0px;
+    }
 }
 </style>
 <div class="container-fluid">
