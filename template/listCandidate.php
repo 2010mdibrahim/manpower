@@ -444,6 +444,7 @@ if(isset($_GET['pp'])){
                         y: 'bottom'
                     }
                 });
+			    $('#list_candidate').DataTable().ajax.reload( null , false);
             }
         });
 
