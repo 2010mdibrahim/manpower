@@ -612,23 +612,23 @@ $(document).ready(function(){
                         //
                         if (data[30] == "2") {
                             console.dir(row);
-                            $(row).addClass("status-2");
+                            $(row).addClass("processing status-2");
                         }else if(data[30] == "1"){
                             console.dir(row);
-                            $(row).addClass("status-1");
+                            $(row).addClass("processing status-1");
                         }else if(data[33] == "unfit" || data[34] == "unfit"){
                             console.dir(row);
-                            $(row).addClass("unfit");
+                            $(row).addClass("processing unfit");
                         }else if(data[35] != 'null'){
                             if(data[35] == 'pending_3'){
                                 console.dir(row);
-                                $(row).addClass("pending_3");
+                                $(row).addClass("processing pending_3");
                             }else if(data[35] == 'yes_ticket'){
                                 console.dir(row);
-                                $(row).addClass("yes_ticket");
+                                $(row).addClass("processing yes_ticket");
                             }else {
                                 console.dir(row);
-                                $(row).addClass("no_ticket");
+                                $(row).addClass("processing no_ticket");
                             }
                         }
                     }
