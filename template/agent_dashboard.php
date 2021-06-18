@@ -46,7 +46,6 @@ $agent_expense = mysqli_fetch_assoc($conn->query("SELECT sum(agentexpense.fullAm
     <div class="row">
         <div class="col-md-12 col-12 text-center">
             <p style="font-size: 25px;font-weight: 600;margin-top: 15px;">Mahfuza Overseas - Agent Dashboard  </p>
-            <span style="float: right;"><a href="template/agent_logout.php"><button>Logout</button></a></span>
         </div>
         <div class="col-md-12 col-12 text-center">
             <div class="card">
@@ -81,7 +80,10 @@ $agent_expense = mysqli_fetch_assoc($conn->query("SELECT sum(agentexpense.fullAm
             </div>
         </div>
         <div class="col-md-12 col-12 text-center">
-            <a href="index.php?page=agent_details_information"><button class="btn btn-primary">Details</button></a>
+            <a style="margin-left: 60px;" href="index.php?page=agent_details_information"><button class="btn btn-primary">Details</button></a>
+            <span style="float: right;"><a href="template/agent_logout.php"><button class="btn btn-danger">Logout</button></a></span>
+        </div>
+        <div class="col-md-12 col-12">
         </div>
     </div>
 </div>
