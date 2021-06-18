@@ -20,7 +20,7 @@ if(!isset($_SESSION['sections'])){
         display: flex;
         flex-direction: row;
     }
-    .modal-dialog {
+    .modal-xl {
         max-width: 80%;
         margin: 1.75rem auto;
     }
@@ -34,13 +34,46 @@ if(!isset($_SESSION['sections'])){
     }
 </style>
 <div class="container-fluid" style="padding: 2%">
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="check">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      ...
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" id="check">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+        ...
+        </div>
     </div>
-  </div>
-</div>
+    </div>
+    <!-- Add/Update Agent Password Modal -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="update_password_modal">
+        <div class="modal-dialog modal-sm" role="document">
+            <form method="post" id="update_password">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add/Update Agent Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="agent_email" id="agent_email">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="text-danger" id="error_message"></p>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <input class="form-control" type="text" name="password" id="password" placeholder="Enter Password">
+                            </div>
+                            <div class="col-md-12">
+                                <input class="form-control" type="text" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add/Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Agent Report Modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="showAgentReport">
         <div class="modal-dialog modal-xl" role="document">
@@ -71,7 +104,7 @@ if(!isset($_SESSION['sections'])){
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover" style="width:100%">
+                <table id="agent_list_datatable" class="table table-bordered table-hover" style="width:100%">
                     <thead>
                     <tr>
                         <th>Photo</th>
@@ -83,56 +116,7 @@ if(!isset($_SESSION['sections'])){
                         <th>Alter</th>
                     </tr>
                     </thead>
-                    <?php
-                    if(isset($_GET['agE'])){
-                        $agentEmail = base64_decode($_GET['agE']);
-                        $result = $conn->query("SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent where agentEmail = '$agentEmail' order by creationDate desc");
-                    }else{
-                        $qry = "SELECT agentPassport, agentPoliceClearance, agentEmail, agentName, agentPhone, agentPhoto, comment FROM agent order by creationDate desc";
-                        $result = mysqli_query($conn,$qry);
-                    }                    
-                    while($agent = mysqli_fetch_assoc($result)){ ?>
-                        <tr>
-                            <td>
-                                <a target="_blank" href="<?php echo $agent['agentPhoto'];?>">
-                                    <img class="agent thumbnail" src="<?php echo $agent['agentPhoto'];?>" alt="Forest">
-                                </a>
-                            </td>
-                            <td><?php echo $agent['agentEmail'];?></td>
-                            <td><?php echo $agent['agentName'];?></td>
-                            <td><?php echo $agent['agentPhone'];?></td>
-                            <td>
-                            <a href="<?php echo $agent['agentPassport'];?>" target="_blank"><button class="btn btn-warning">Passport</button></a>
-                            <a href="<?php echo $agent['agentPoliceClearance'];?>" target="_blank" ><button class="btn btn-info">Clearance</button></a>
-                            </td>
-                            <td>
-                                <abbr title="Add Candidate Expense"><a href="?page=addExpenseAgent&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><span class="fas fa-plus"></span></button></a></abbr>
-                                <abbr title="Add Agent Expense"><a href="?page=addExpenseAgentPersonal&ag=<?php echo base64_encode($agent['agentEmail']);?>"><button class="btn btn-sm btn-info"><i class="fas fa-user-plus"></i></button></a></abbr>
-                                <!-- <abbr title="Agent Account"><a href="?page=showAgentExpenseList&ag=<?php echo base64_encode($agent['agentEmail']);?>" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-dollar"></span></button></a></abbr> -->
-                                <abbr title="Agent Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="<?php echo $agent['agentName']."-".$agent['agentEmail'];?>" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>
-                            </td>
-                            <td>
-                                <div class="flex-container">
-                                    <div style="padding-right: 2%">
-                                        <form action="index.php" method="post">
-                                            <input type="hidden" name="alter" value="update">
-                                            <input type="hidden" value="editAgent" name="pagePost">
-                                            <input type="hidden" value="<?php echo $agent['agentEmail']; ?>" name="agentEmail">
-                                            <button type="submit" class="btn btn-primary btn-sm">Edit</></button>
-                                        </form>
-                                    </div>
-                                    <div style="padding-left: 2%">
-                                        <form action="template/addNewAgentQry.php" method="post">
-                                            <input type="hidden" name="alter" value="delete">
-                                            <input type="hidden" value="editAgent" name="pagePost">
-                                            <input type="hidden" value="<?php echo $agent['agentEmail']; ?>" name="agentEmail">
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</></button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php } ?>
+                    <tbody></tbody>
                     <tfoot>
                     <tr hidden>
                         <th>Photo</th>
@@ -156,6 +140,34 @@ if(!isset($_SESSION['sections'])){
 
 
 <script>
+    $('#update_password').submit(function(){
+        event.preventDefault();
+        let password = $('#password').val();
+        let password_confirm = $('#password_confirm').val();
+        if(password != password_confirm){
+            $('#error_message').html("Password Does Not Match");
+            return false;
+        }
+        let agent_email = $('#agent_email').val();
+        $.ajax({
+            url: 'template/ajax/update_agent_password.php',
+            data: {agent_email: agent_email, password: password},
+            type: 'post',
+            success: function(response){
+                $('#update_password_modal').modal('hide');
+                $('#password').val('');
+                $('#password_confirm').val('');
+                if(response === 'true'){
+                    success_alert('Password Change Successfull!!');
+                }else{
+                    error_alert('Something went wrong!!');
+                }
+            }
+        });
+    });
+    function update_password_agent_val(agent_email){
+        $('#agent_email').val(agent_email);
+    }
     function print_div(agentInfo){
         console.log(agentInfo);
         $.ajax({
@@ -325,4 +337,17 @@ if(!isset($_SESSION['sections'])){
         //     }
         // });
     }
+    $(document).ready(function(){
+        var table_booking = $('#agent_list_datatable').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": false,
+            "info": true,
+            "ScrollX": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": "<?php echo $datable_path ?>template/datatable/agentListDatatable.php"
+        });
+    });
 </script>

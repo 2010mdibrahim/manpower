@@ -71,6 +71,38 @@ $failed = new UnsetFailedLogin();
         }
         return randomPassword;
     }
+    function success_alert(title, content){
+        new jBox('Notice', {
+            attributes: {
+                x: 'right',
+                y: 'bottom'
+            },
+            stack: false,
+            animation: {
+                open: 'tada',
+                close: 'zoomIn'
+            },
+            color: 'green',
+            title: title,
+            content: content
+        });
+    }
+    function error_alert(title, content){
+        new jBox('Notice', {
+            attributes: {
+                x: 'right',
+                y: 'bottom'
+            },
+            stack: false,
+            animation: {
+                open: 'tada',
+                close: 'zoomIn'
+            },
+            color: 'red',
+            title: title,
+            content: content
+        });
+    }
 </script>
 <style>
     .col-print-1 {width:8%;  float:left;}
