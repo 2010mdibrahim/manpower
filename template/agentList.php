@@ -347,7 +347,8 @@ if(!isset($_SESSION['sections'])){
             "ScrollX": true,
             "processing": true,
             "serverSide": true,
-            "ajax": "<?php echo $datable_path ?>template/datatable/agentListDatatable.php"
+            "ajax": "<?php echo $datable_path ?>template/datatable/agentListDatatable.php",
+            
         });
     });
 </script>
