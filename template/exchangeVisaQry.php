@@ -15,6 +15,7 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
+$candidate_name = $_POST['passportNum'];
 $processingId = $_POST['processingId'];
 $selectedSponsorVisa = $_POST['selectedSponsorVisa'];
 $selectedSponsorVisaAmount = intval($_POST['selectedSponsorVisaAmount']);
@@ -22,7 +23,7 @@ $info = explode('-',$_POST['sponsorInfo']);
 $sponsorVisa = $info[0];
 $visaAmount = intval($info[1]);
 
-$result = $conn->query("UPDATE processing set sponsorVisa = '$sponsorVisa' where processingId = $processingId");
+$result = $conn->query("UPDATE processing set sponsorVisa = '$sponsorVisa', `name` = '$candidate_name' where processingId = $processingId");
 
 if($result){
     $selectedSponsorVisaAmount += 1;

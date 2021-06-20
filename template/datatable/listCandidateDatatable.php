@@ -109,11 +109,7 @@ $columns = array(
 	),
     array(
 		'db' => 'jobId',
-		'dt' => 14,
-		'formatter' => function( $d, $row ) {global $conn;
-            $job = mysqli_fetch_assoc($conn->query("SELECT creditType from jobs where jobId = '".$d."'"));
-			return $job['creditType'];
-		}
+		'dt' => 14
 	),
     array( 'db' => 'agentEmail', 'dt' => 15 ),
     array( 'db' => 'testMedical', 'dt' => 16 ),
@@ -121,7 +117,8 @@ $columns = array(
     array(
 		'db' => 'testMedicalStatus',
 		'dt' => 18,
-		'formatter' => function( $d, $row ) {
+		'formatter' => function( $d, $row ) {global $conn;
+            $job = mysqli_fetch_assoc($conn->query("SELECT creditType from jobs where jobId = '".$row[14]."'"));
             $html = '<div class="row justify-content-center">';             
             if(empty($row[16]) || $row[16]=='no'){
                 $html .= '  <div class="btn_custom">
@@ -154,7 +151,7 @@ $columns = array(
                     }
                     $html .= '</div>';
             }
-            if($row[14] != 'Paid'){
+            if($job['creditType'] != 'Paid'){
                 $html .=    '<div class="btn_custom">
                                 <form action="index.php" method="post">
                                     <input type="hidden" name="redir" value="listCandidate">
@@ -178,7 +175,8 @@ $columns = array(
     array(
 		'db' => 'finalMedicalStatus',
 		'dt' => 23,
-		'formatter' => function( $d, $row ) {
+		'formatter' => function( $d, $row ) {global $conn;
+            $job = mysqli_fetch_assoc($conn->query("SELECT creditType from jobs where jobId = '".$row[14]."'"));
             $html = '';
             if(empty($row[16]) || $row[16]=='no'){
                 $html .= '<button class="btn btn-warning btn-sm">Do Previous</button>';
@@ -215,7 +213,7 @@ $columns = array(
                         }
                     $html .= '</div>';
                 }
-                if($row[14] != 'Paid'){
+                if($job['creditType'] != 'Paid'){
                     $html .=    '<div class="btn_custom">
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="redir" value="listCandidate">
@@ -250,7 +248,8 @@ $columns = array(
     array(
 		'db' => 'policeClearanceFile',
 		'dt' => 25,
-		'formatter' => function( $d, $row ) {
+		'formatter' => function( $d, $row ) {global $conn;
+            $job = mysqli_fetch_assoc($conn->query("SELECT creditType from jobs where jobId = '".$row[14]."'"));
             $html = '<div class="row">';                            
                 if($row[24] == 'yes'){
                     $html .=    '<div class="col-sm-3">
@@ -264,7 +263,7 @@ $columns = array(
                                     <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#policeClearanceFileSubmit" id="policeClearancePassport" value="'.$row[5]."_".$row[0].'" onclick="policeClearance(this.value)">No</button>                            
                                 </div>';
                 }
-                if($row[14] != 'Paid'){
+                if($job['creditType'] != 'Paid'){
                     $html .=    '<div class="col-sm-3">
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="redir" value="listCandidate">
@@ -287,7 +286,8 @@ $columns = array(
     array(
 		'db' => 'policeClearanceFile',
 		'dt' => 29,
-		'formatter' => function( $d, $row ) {
+		'formatter' => function( $d, $row ) {global $conn;
+            $job = mysqli_fetch_assoc($conn->query("SELECT creditType from jobs where jobId = '".$row[14]."'"));
             $html = '<div class="row">';
             if($row[26] == 'new'){
                 if($row[27] == 'yes'){
@@ -302,7 +302,7 @@ $columns = array(
                                     <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#trainingCardFileSubmit" id="trainingPassport" value="'.$row[5].'" onclick="trainingCard(this.value)">No</button>
                                 </div>';
                     }
-                if($row[14] != 'Paid'){
+                if($job['creditType'] != 'Paid'){
                     $html .=    '<div class="col-sm-3">
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="redir" value="listCandidate">

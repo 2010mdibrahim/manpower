@@ -34,7 +34,7 @@ $result = $conn->query("SELECT passport.passportNum, passport.creationDate, pass
                         <?php
                         while($passport = mysqli_fetch_assoc($result)){
                         ?>
-                            <option value="<?php echo $passport['passportNum']."_".$passport['creationDate']; ?>"><?php echo $passport['fName']." ".$passport['lName']." - ".$passport['passportNum']; ?></option>
+                            <option value="<?php echo $passport['passportNum']."_".$passport['creationDate']."_".$passport['fName']." ".$passport['lName']; ?>"><?php echo $passport['fName']." ".$passport['lName']." - ".$passport['passportNum']; ?></option>
                         <?php } ?>
                     </select>                    
                 </div>  
