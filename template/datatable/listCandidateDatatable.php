@@ -3,9 +3,17 @@
 include("../database.php");
 include("../class/ssp.class.php");
 
+if($_GET['specific'] == 'unfit'){
+    $where = "passport.testMedicalStatus = 'unfit' or passport.finalMedicalStatus = 'unfit'";
+}else if($_GET['specific'] == 'onHold'){
+    $where = "passport.status = 1";
+}else if($_GET['specific'] == 'disable'){
+    $where = "passport.status = 2";
+}else{
+    $where = "";
+}
 $table = 'passport';
 $primaryKey = 'id';
-$where = "";
 $columns = array(
     array( 'db' => 'creationDate', 'dt' => 0 ),
     array( 'db' => 'fName', 'dt' => 1 ),
@@ -160,7 +168,7 @@ $columns = array(
                                     <input type="hidden" name="candidateName" value="'.$row[1]." ".$row[2].'">
                                     <input type="hidden" name="passport_info" value="'.$row[5]."_".$row[0].'">
                                     <input type="hidden" name="agentEmail" value="'.$row[15].'">
-                                    <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                    <button class="btn btn-sm btn-success" type="submit" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                 </form>
                             </div>';
             }
@@ -222,7 +230,7 @@ $columns = array(
                                         <input type="hidden" name="candidateName" value="'.$row[1]." ".$row[2].'">
                                         <input type="hidden" name="passport_info" value="'.$row[5]."_".$row[0].'">
                                         <input type="hidden" name="agentEmail" value="'.$row[15].'">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        <button class="btn btn-sm btn-success" type="submit"  ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                     </form>
                                 </div>';
                 }
@@ -272,7 +280,7 @@ $columns = array(
                                         <input type="hidden" name="candidateName" value="'.$row[1]." ".$row[2].'">
                                         <input type="hidden" name="passport_info" value="'.$row[5]."_".$row[0].'">
                                         <input type="hidden" name="agentEmail" value="'.$row[15].'">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        <button class="btn btn-sm btn-success" type="submit"  ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                     </form>
                                 </div>';
                 }
@@ -311,7 +319,7 @@ $columns = array(
                                         <input type="hidden" name="candidateName" value="'.$row[1]." ".$row[2].'">
                                         <input type="hidden" name="passport_info" value="'.$row[5]."_".$row[0].'">
                                         <input type="hidden" name="agentEmail" value="'.$row[15].'">
-                                        <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
+                                        <button class="btn btn-sm btn-success" type="submit"  ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                     </form>
                                 </div>';
                 }                     
@@ -351,10 +359,10 @@ $columns = array(
                                 </form>                                    
                             </div>
                             <div class="ml-1 mt-1">
-                                <abbr title="Show Expenseces of Candidate"><a href="?page=ce'."&pn=".base64_encode($row[5])."&cd=".base64_encode($row[0]).'" target="_blank"><button class="btn btn-sm btn-info" type="button" id="add_visa" ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
+                                <abbr title="Show Expenseces of Candidate"><a href="?page=ce'."&pn=".base64_encode($row[5])."&cd=".base64_encode($row[0]).'" target="_blank"><button class="btn btn-sm btn-info" type="button"  ><span class="fa fa-dollar" aria-hidden="true"></span></button></a></abbr>
                             </div>
                             <div class="ml-1 mt-1">
-                                <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum='.$row[5].'&creationDate='.$row[0].'" target="_blank"><button class="btn btn-sm btn-warning" type="button" id="add_visa" ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
+                                <abbr title="See Candidate Info"><a href="?page=candidateInfo&passportNum='.$row[5].'&creationDate='.$row[0].'" target="_blank"><button class="btn btn-sm btn-warning" type="button"  ><span class="fa fa-eye" aria-hidden="true"></span></button></a></abbr>
                             </div>
                             
                             <div class="ml-1 mt-1">
@@ -366,7 +374,7 @@ $columns = array(
                                     <input type="hidden" name="candidateName" value="'.$row[1]." ".$row[2].'">
                                     <input type="hidden" name="passport_info" value="'.$row[5]."_".$row[0].'">
                                     <input type="hidden" name="agentEmail" value="'.$row[15].'">
-                                    <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
+                                    <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit"  ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                                 </form>
                             </div>
                             <div class="ml-1 mt-1">';
@@ -401,6 +409,18 @@ $columns = array(
                 }
             }
             
+		}
+	),
+    array(
+		'db' => 'status',
+		'dt' => 36,
+		'formatter' => function( $d, $row ) {global $conn;
+            $hasTicket = mysqli_fetch_assoc($conn->query("SELECT ticketId from ticket where passportNum = '".$row[5]."' AND passportCreationDate = '".$row[0]."'"));
+            if(!is_null($hasTicket)){
+                return 'yes_ticket';
+            }else{
+                return 'no_ticket';
+            }
 		}
 	)
 );
