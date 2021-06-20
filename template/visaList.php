@@ -461,6 +461,7 @@ function stopNotification(processingId){
                     y: 'bottom'
                 }
             });
+            $('#list_visa').DataTable().ajax.reload( null , false);
         }
     });
 
@@ -570,13 +571,17 @@ $('body').on('click', '#finalMedicalFile', function(){
 $(document).ready(function(){
     var table_booking = $('#list_visa').DataTable({
         "paging": true,
-        "lengthChange": false,
+        "lengthChange": true,
         "searching": true,
         "order": [[0, "desc"]],
         "info": true,
         "ScrollX": true,
         "processing": true,
         "serverSide": true,
+        "lengthMenu": [
+            [10, 25, 50, 100, 500],
+            [10, 25, 50, 100, 500]
+        ],
         "ajax": "<?php echo $datable_path ?>template/datatable/visaListDatatable.php",
         "columnDefs": [
                         {

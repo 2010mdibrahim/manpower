@@ -507,13 +507,17 @@ $(document).ready(function(){
     if(specific === 'inTicket'){
         var list_candidate_table = $('#list_candidate').DataTable({
             "paging": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "searching": true,
             "order": [[0, "desc"]],
             "info": true,
             "ScrollX": true,
             "processing": true,
             "serverSide": true,
+            "lengthMenu": [
+                [10, 25, 50, 100, 500],
+                [10, 25, 50, 100, 500]
+            ],
             ajax: {
                 url: "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
                 data: {specific: specific}
@@ -678,13 +682,17 @@ $(document).ready(function(){
     }else{
         var list_candidate_table = $('#list_candidate').DataTable({
             "paging": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "searching": true,
             "order": [[0, "desc"]],
             "info": true,
             "ScrollX": true,
             "processing": true,
             "serverSide": true,
+            "lengthMenu": [
+                [10, 25, 50, 100, 500],
+                [10, 25, 50, 100, 500]
+            ],
             ajax: {
                 url: "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
                 data: {specific: specific}
