@@ -133,11 +133,9 @@ $columns = array(
 		'dt' => 18,
 		'formatter' => function( $d, $row ) {
             global $conn;
-            $country = mysqli_fetch_assoc($conn->query("SELECT country from passport where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $credit_type = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
+            $row_database = mysqli_fetch_assoc($conn->query("SELECT passport.agentEmail, jobs.creditType, passport.country from passport INNER JOIN jobs using (jobId) where passportNum = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             $html = '';
-            if(strtolower($country['country']) == 'saudi arabia'){                          
+            if(strtolower($row_database['country']) == 'saudi arabia'){                          
                 if(empty($row[13]) || $row[13] =='no'){ 
                     $html .= '<button class="btn btn-warning btn-sm">Do Previous</button>';
                 }else{
@@ -154,14 +152,14 @@ $columns = array(
                                         <a href="'.$d.'" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
                                     </div>';
                     } 
-                    if($credit_type['creditType'] != 'Paid'){ 
+                    if($row_database['creditType'] != 'Paid'){ 
                         $html .=    '<div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="Okala">
                                             <input type="hidden" name="candidateName" value="'.$row[3].'">
                                             <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                            <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                            <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>';
@@ -179,11 +177,9 @@ $columns = array(
 		'db' => 'mufaFile',
 		'dt' => 20,
 		'formatter' => function( $d, $row ) {global $conn;
-            $country = mysqli_fetch_assoc($conn->query("SELECT country from passport where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $credit_type = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
+            $row_database = mysqli_fetch_assoc($conn->query("SELECT passport.agentEmail, jobs.creditType, passport.country from passport INNER JOIN jobs using (jobId) where passportNum = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             $html = '';
-            if(strtolower($country['country']) == 'saudi arabia'){
+            if(strtolower($row_database['country']) == 'saudi arabia'){
                 if(empty($row[15]) || $row[15]=='no'){
                     $html .= '<button class="btn btn-warning btn-sm">Do Previous</button>';
                 }else{
@@ -200,14 +196,14 @@ $columns = array(
                                         <a href="'.$d.'" target="_blank"><button class="btn btn-info btn-sm" type="button"><span class="fas fa-search"></span></button></a>
                                     </div>';
                     }
-                    if($credit_type['creditType'] != 'Paid'){
+                    if($row_database['creditType'] != 'Paid'){
                         $html .=    '<div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="MUFA">
                                             <input type="hidden" name="candidateName" value="'.$row[3].'">
                                             <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                            <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                            <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>';
@@ -298,8 +294,7 @@ $columns = array(
 		'db' => 'finger',
 		'dt' => 27,
 		'formatter' => function( $d, $row ) {global $conn;
-            $credit_type = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
+            $row_database = mysqli_fetch_assoc($conn->query("SELECT passport.agentEmail, jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             $html = '';
             if(empty($row[23]) || $row[23]=='no'){
                 $html .= '<button class="btn btn-warning btn-sm">Do Previous</button>';
@@ -324,14 +319,14 @@ $columns = array(
                                     </form>
                                 </div>';
                 }
-                if($credit_type['creditType'] != 'Paid'){
+                if($row_database['creditType'] != 'Paid'){
                     $html .=    '<div class="col-md-3">
                                     <form action="index.php" method="post">
                                         <input type="hidden" name="pagePost" value="addCandidatePayment">
                                         <input type="hidden" name="purpose" value="Finger">
                                         <input type="hidden" name="candidateName" value="'.$row[4].'">
                                         <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                        <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                        <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                         <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                     </form>
                                 </div>';
@@ -347,8 +342,7 @@ $columns = array(
 		'formatter' => function( $d, $row ) {global $conn;
             $html = '';
             $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, trainingCardFile, departureSeal from passport where passportNum = '".$row[1]."' AND creationDate = '".$row[2]."'"));
-            $credit_type = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
+            $row_database = mysqli_fetch_assoc($conn->query("SELECT passport.agentEmail, jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             if( $trainingCard['departureSeal'] == 'yes'){
                 $html .= '<a href="?page=cI&p='.base64_encode($row[1])."&cd=.".base64_encode($row[2])."&t=".time().'"><p class="text-center">Experienced</p></a>';
             }else{
@@ -368,14 +362,14 @@ $columns = array(
                                         <a href="'.$trainingCard['trainingCardFile'].'" target="_blank"><button class="btn btn-info btn-sm"><span class="fas fa-search"></span></button></a>
                                     </div>';
                     }
-                    if($credit_type['creditType'] != 'Paid'){
+                    if($row_database['creditType'] != 'Paid'){
                         $html .=    '<div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="Training Card">
                                             <input type="hidden" name="candidateName" value="'.$row[3].'">
                                             <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                            <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                            <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>';
@@ -393,8 +387,7 @@ $columns = array(
 		'formatter' => function( $d, $row ) {global $conn;
             $html = '';
             $trainingCard = mysqli_fetch_assoc($conn->query("SELECT trainingCard, departureSeal from passport where passportNum = '".$row[1]."' AND creationDate = '".$row[2]."'"));
-            $credit_type = mysqli_fetch_assoc($conn->query("SELECT jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
+            $row_database = mysqli_fetch_assoc($conn->query("SELECT passport.agentEmail, jobs.creditType from passport INNER JOIN jobs using (jobId) where passportNum = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             if($trainingCard['departureSeal'] != 'yes'){
                 if(empty($trainingCard['trainingCard']) || $trainingCard['trainingCard'] == 'no' || empty($row[26]) || $row[26] == 'no'){
                     $html .= '<button class="btn btn-warning btn-sm">Do Previous</button>';
@@ -412,14 +405,14 @@ $columns = array(
                                         <a href="'.$d.'" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>
                                     </div>';
                     }
-                    if($credit_type['creditType'] != 'Paid'){
+                    if($row_database['creditType'] != 'Paid'){
                         $html .=    '<div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="Manpower">
                                             <input type="hidden" name="candidateName" value="'.$row[3].'">
                                             <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                            <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                            <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>';
@@ -440,14 +433,14 @@ $columns = array(
                                         <a href="'.$d.'" target="_blank"><button class="btn btn-sm btn-info"><span class="fas fa-search"></span></button></a>
                                     </div>';
                     }
-                    if($credit_type['creditType'] != 'Paid'){
+                    if($row_database['creditType'] != 'Paid'){
                         $html .=    '<div class="col-sm-3">
                                         <form action="index.php" method="post">
                                             <input type="hidden" name="pagePost" value="addCandidatePayment">
                                             <input type="hidden" name="purpose" value="Manpower">
                                             <input type="hidden" name="candidateName" value="'.$row[3].'">
                                             <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                            <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                            <input type="hidden" name="agentEmail" value="'.$row_database['agentEmail'].'">
                                             <button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button>
                                         </form>
                                     </div>';
@@ -490,9 +483,8 @@ $columns = array(
 		'db' => 'youtube',
 		'dt' => 33,
 		'formatter' => function( $d, $row ) {global $conn;
-            $passport = mysqli_fetch_assoc($conn->query("SELECT passport.disableReason, passport.status, delegateComission from passport where passportNum = '".$row[1]."' AND creationDate = '".$row[2]."'"));
+            $passport = mysqli_fetch_assoc($conn->query("SELECT agentEmail, passport.disableReason, passport.status, delegateComission from passport where passportNum = '".$row[1]."' AND creationDate = '".$row[2]."'"));
             $visa = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.visaGenderType, sponsorvisalist.visaAmount from processing INNER JOIN sponsorvisalist USING (sponsorVisa) where passportNum = '".$row[1]."' AND passportCreationDate = '".$row[2]."'"));
-            $agent = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
             $html = '';
             $html .= '<div class="row">';
             if($d == ''){
@@ -521,7 +513,7 @@ $columns = array(
                                 <input type="hidden" name="notAdvance" value="notAdvance">
                                 <input type="hidden" name="candidateName" value="'.$row[3].'">
                                 <input type="hidden" name="passport_info" value="'.$row[1]."_".$row[2].'">
-                                <input type="hidden" name="agentEmail" value="'.$agent['agentEmail'].'">
+                                <input type="hidden" name="agentEmail" value="'.$passport['agentEmail'].'">
                                 <abbr title="Extra Expense"><button class="btn btn-sm btn-success" type="submit" id="add_visa" ><span class="fas fa-plus" aria-hidden="true"></span></button></abbr>
                             </form>
                         </div>
