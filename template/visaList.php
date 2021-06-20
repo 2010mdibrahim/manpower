@@ -390,7 +390,7 @@ if(!isset($_SESSION['sections'])){
     
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTableSeaum" class="table table-bordered table-hover"  style="width:100%">
+                <table id="list_visa" class="table table-bordered table-hover"  style="width:100%">
                     <thead>
                     <tr>
                         <th>Passport Name</th>
@@ -982,6 +982,163 @@ $('body').on('click', '#testMedicalFile', function(){
 
 $('body').on('click', '#finalMedicalFile', function(){
     $('#visaMedicalFinal').val($('#finalMedicalFile').val());
+});
+$(document).ready(function(){
+    var table_booking = $('#list_visa').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "order": [[0, "desc"]],
+        "info": true,
+        "ScrollX": true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
+        "columnDefs": [
+                        {
+                            "targets": [ 0 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 1 ],
+                            "visible": false,
+                            "searchable": true
+                        },
+                        {
+                            "targets": [ 2 ],
+                            "visible": false,
+                            "searchable": true
+                        },
+                        {
+                            "targets": [ 8 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 10 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 12 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 14 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 15 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 16 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 17 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 19 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 20 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 21 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 22 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 24 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 26 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 27 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 28 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 30 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 31 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 33 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 34 ],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [ 35 ],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ],
+        createdRow: function (row, data, index) {
+                        //
+                        // if the second column cell is blank apply special formatting
+                        //
+                        if (data[30] == "2") {
+                            console.dir(row);
+                            $(row).addClass("processing status-2");
+                        }else if(data[30] == "1"){
+                            console.dir(row);
+                            $(row).addClass("processing status-1");
+                        }else if(data[33] == "unfit" || data[34] == "unfit"){
+                            console.dir(row);
+                            $(row).addClass("processing unfit");
+                        }else if(data[35] != 'null'){
+                            if(data[35] == 'pending_3'){
+                                console.dir(row);
+                                $(row).addClass("processing pending_3");
+                            }else if(data[35] == 'yes_ticket'){
+                                console.dir(row);
+                                $(row).addClass("processing yes_ticket");
+                            }else {
+                                console.dir(row);
+                                $(row).addClass("processing no_ticket");
+                            }
+                        }
+                    }
+                    
+    });
 });
 $('#visaNav').addClass('active');
 </script>

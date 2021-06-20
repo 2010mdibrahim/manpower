@@ -13,6 +13,6 @@ if(file_exists($path)){
     $datable_path = 'http://localhost/mahfuza/';
 }else{
     $base_dir = '//10.100.105.200/g/xampp/htdocs/mahfuza/';
-    $datable_path = 'http://erp.superhostelbd.com/mahfuza/';
+    $datable_path = '//10.100.105.200/mahfuza/';
 }
 ?>
