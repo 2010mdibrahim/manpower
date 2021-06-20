@@ -398,18 +398,38 @@ if(isset($_GET['pp'])){
                     <tbody></tbody>
                     <tfoot>
                     <tr hidden>
-                        <th>Creation Date & Agent Name</th>
+                    <th>Creation Date</th>
+                        <th>fName</th>
+                        <th>lName</th>
+                        <th style="width: 90px !important;">Creation Date & Agent Name</th>
                         <th>Candidate Name</th>
                         <th>Passport No</th>
                         <th>Mobile No</th>
                         <th>Age</th>
-                        <th>Passport expire date</th>
-                        <th>Candidate previouse status</th>
+                        <th>Issue Date</th>
+                        <th style="width: 70px !important;">Passport expire date</th>
+                        <th>Arrival</th>
+                        <th style="width: 70px !important;">Candidate previouse status</th>
+                        <th>Country</th>               
                         <th>Applying for Country</th>               
+                        <th>Job Id</th>               
+                        <th>Agent Email</th>
+                        <th>Test Medical Status</th>
+                        <th>Test Medical File</th>
                         <th>Test Medical</th>
+                        <th>Final Medical Status</th>
+                        <th>Final Medical File</th>
+                        <th>Final Medical Notification</th>
+                        <th>Final Medical Report</th>
                         <th>Final Medical</th>
+                        <th>Police Clearance Status</th>
                         <th>Police Clearance</th>
+                        <th>Exp Status</th>                       
+                        <th>Training Card Status</th>                       
+                        <th>Training Card File</th>                       
                         <th>Training Card</th>                       
+                        <th>Status</th>
+                        <th>Disabled Reason</th>
                         <th>Edit</th>
                         <th>Test Medical Status</th>
                         <th>Final Medical Status</th>
