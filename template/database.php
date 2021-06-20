@@ -8,11 +8,14 @@ $host = 'localhost';
 $user = 'root';
 $pass = '!@#$%databaseserveradmin2020';
 $db = 'samin_erp';
+$req_urldd = explode("/",$_SERVER['REQUEST_URI']);
+$auto_url_finder = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://" . $_SERVER['HTTP_HOST']."/".$req_urldd[1].'/';
+$home = $auto_url_finder;
 if(file_exists($path)){
     $base_dir = $path;
     $datable_path = 'http://localhost/mahfuza/';
 }else{
     $base_dir = '//10.100.105.200/g/xampp/htdocs/mahfuza/';
-    $datable_path = '//10.100.105.200/mahfuza/';
+    $datable_path = '//'.$_SERVER['HTTP_HOST']."/".$req_urldd[1].'/';
 }
 ?>
