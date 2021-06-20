@@ -360,7 +360,7 @@ if(isset($_GET['pp'])){
                         <th>Creation Date</th>
                         <th>fName</th>
                         <th>lName</th>
-                        <th style="width: 90px !important;">Creation Date & Agent Name</th>
+                        <th style="width: 150px !important;">Creation Date & Agent Name</th>
                         <th>Candidate Name</th>
                         <th>Passport No</th>
                         <th>Mobile No</th>
