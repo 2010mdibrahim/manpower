@@ -95,22 +95,39 @@ if(isset($_GET['pp'])){
         border-radius: 10px;
         transition: border-radius 0.5s;
     }
-    .indicator.green{
-        border: 5px #66bb6a solid;
+    .filter-button{
+        outline: none;
+        background-color: white;
+        box-shadow: white;
+        transition: 1s;
+        font-weight: bold;
+        border-radius: 5px;
+        box-shadow: 1px 1px rgba(136, 136, 136, 0.5);
     }
-    .indicator.blue{
+    .filter-button:hover{
+        cursor: pointer;
+        box-shadow: 2px 2px rgba(136, 136, 136, 0.5);
+        background-color: #c8e6c9 ;
+    }
+    .filter-button:focus{
+        outline: none;
+    }
+    .filter-button.green{
+        border: 5px solid #66bb6a;
+    }
+    .filter-button.blue{
         border: 5px #42a5f5 solid;
     }
-    .indicator.red{
+    .filter-button.red{
         border: 5px #f44336 solid;
     }
-    .indicator.black{
+    .filter-button.black{
         border: 5px #424242 solid;
     }
-    .indicator.hold{
+    .filter-button.hold{
         border: 5px #f9a825  solid;
     }
-    .indicator.disable{
+    .filter-button.disable{
         border: 5px #8d6e63  solid;
     }
 </style>
@@ -334,22 +351,22 @@ if(isset($_GET['pp'])){
             <input type="hidden" id="specific_value" value="<?php echo (isset($_GET['specific']) ? $_GET['specific'] : '')?>">
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=listCandidate&specific=inVisa"><div class="indicator green">In VISA</div></a>
+                    <a class="indicator-a" href="?page=listCandidate&specific=inVisa"><button class="filter-button green">In VISA</button></a>
                 </div>
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=listCandidate&specific=inTicket"><div class="indicator blue">In Ticket</div></a>
+                    <a class="indicator-a" href="?page=listCandidate&specific=inTicket"><button class="filter-button blue">In Ticket</button></a>
                 </div>
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=listCandidate&specific=unfit"><div class="indicator red">Unfit</div></a>
+                    <a class="indicator-a" href="?page=listCandidate&specific=unfit"><button class="filter-button red">Unfit</button></a>
                 </div>
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=returnedListCandidate"><div class="indicator black">Back</div></a>
+                    <a class="indicator-a" href="?page=returnedListCandidate"><button class="filter-button black">Back</button></a>
                 </div>
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=listCandidate&specific=onHold"><div class="indicator hold">On Hold</div></a>
+                    <a class="indicator-a" href="?page=listCandidate&specific=onHold"><button class="filter-button hold">On Hold</button></a>
                 </div>
                 <div class="col-md-1">
-                    <a class="indicator-a" href="?page=listCandidate&specific=disable"><div class="indicator disable">Disabled</div></a>
+                    <a class="indicator-a" href="?page=listCandidate&specific=disable"><button class="filter-button disable">Disabled</button></a>
                 </div>
             </div>
         </div>
