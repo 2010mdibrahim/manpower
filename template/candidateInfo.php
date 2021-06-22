@@ -309,43 +309,67 @@ $documentation = '';
                             <label class="label label-in" for="passportList">Documents</label>
                             <ul>
                                 <li class="list-group-item">  
-                                    <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn document-anchor">Passport Scanned Copy</button></a>
+                                    <?php if(file_exists($passportInfo['passportScannedCopy'])){ ?>
+                                        <a href="<?php echo $passportInfo['passportScannedCopy']; $documentation .= $passportInfo['passportScannedCopy']?>" target="_blank"><button class="btn document-anchor">Passport Scanned Copy</button></a>
+                                    <?php } ?>
                                     <?php if($passportInfo['testMedical'] == 'yes'){ ?>
-                                        <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Test Medical</button></a>
+                                        <?php if(file_exists($passportInfo['testMedicalFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['testMedicalFile'];$documentation .= '~'.$passportInfo['testMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Test Medical</button></a>
+                                        <?php } ?>
                                     <?php }?>
                                     <?php if($passportInfo['finalMedical'] == 'yes'){ ?>
-                                        <a href="<?php echo $passportInfo['finalMedicalFile'];$documentation .= '~'.$passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Final Medical</button></a>
+                                        <?php if(file_exists($passportInfo['finalMedicalFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['finalMedicalFile'];$documentation .= '~'.$passportInfo['finalMedicalFile'];?>" target="_blank"><button class="btn document-anchor">Final Medical</button></a>
+                                        <?php } ?>
                                     <?php }?>
                                     <?php if($passportInfo['policeClearance'] == 'yes'){ ?>
-                                        <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn document-anchor">Police Clearance</button></a>
+                                        <?php if(file_exists($passportInfo['policeClearanceFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['policeClearanceFile'];$documentation .= '~'.$passportInfo['policeClearanceFile'];?>" target="_blank"><button class="btn document-anchor">Police Clearance</button></a>
+                                        <?php } ?>
                                     <?php }?>
                                     <?php if($passportInfo['experienceStatus'] == 'experienced'){ ?>
-                                        <a href="<?php echo $passportInfo['departureSealFile'];$documentation .= '~'.$passportInfo['departureSealFile'];?>" target="_blank"><button class="btn document-anchor">Departure Seal</button></a>
-                                        <a href="<?php echo $passportInfo['arrivalSealFile'];$documentation .= '~'.$passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn document-anchor">Arrival Seal</button></a>
+                                        <?php if(file_exists($passportInfo['departureSealFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['departureSealFile'];$documentation .= '~'.$passportInfo['departureSealFile'];?>" target="_blank"><button class="btn document-anchor">Departure Seal</button></a>
+                                        <?php } ?>
+                                        <?php if(file_exists($passportInfo['arrivalSealFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['arrivalSealFile'];$documentation .= '~'.$passportInfo['arrivalSealFile'];?>" target="_blank"><button class="btn document-anchor">Arrival Seal</button></a>
+                                        <?php } ?>
                                         <?php
                                         $result = $conn->query("SELECT * from optionalfiles where passportNum = '".$passportInfo['passportNum']."' AND passportCreationDate = '".$passportInfo['creationDate']."'");
                                         $i = 1;
                                         if(!is_null($result)){
                                             while($optional = mysqli_fetch_assoc($result)){ ?>
-                                                <a href="<?php echo $optional['optionalFile'];$documentation .= '~'.$optional['optionalFile'];?>" target="_blank"><button class="btn document-anchor">Opt #<?php echo $i++;?></button></a>                                        
+                                                <?php if(file_exists($optional['optionalFile'])){ ?>
+                                                        <a href="<?php echo $optional['optionalFile'];$documentation .= '~'.$optional['optionalFile'];?>" target="_blank"><button class="btn document-anchor">Opt #<?php echo $i++;?></button></a>                                        
+                                                <?php } ?>
                                     <?php   } 
                                         } 
                                     }else{ ?>
-                                        <a href="<?php echo $passportInfo['trainingCardFile'];$documentation .= '~'.$passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn document-anchor">Training Card</button></a>
+                                        <?php if(file_exists($passportInfo['trainingCardFile'])){ ?>
+                                            <a href="<?php echo $passportInfo['trainingCardFile'];$documentation .= '~'.$passportInfo['trainingCardFile'];?>" target="_blank"><button class="btn document-anchor">Training Card</button></a>
+                                        <?php } ?>
                                     <?php } 
                                     if($hasVisa['processingCount'] != 0){
                                     $visaInfo = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorVisa, ticket.flightDate,ticket.ticketId, delegate.delegateName, delegateoffice.officeName, sponsor.sponsorName, processing.* from processing LEFT JOIN ticket on processing.passportNum = ticket.passportNum AND processing.passportCreationDate = ticket.passportCreationDate INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID INNER JOIN delegateoffice on delegateoffice.delegateOfficeId = sponsor.delegateOfficeId INNER JOIN delegate on delegate.delegateId = delegateoffice.delegateId where processing.passportNum = '$passportNum' AND processing.passportCreationDate = '$creationDate'"));
                                     ?>
-                                        <a href="<?php echo $visaInfo['okalaFile'];$documentation .= '~'.$visaInfo['okalaFile'];?>" target="_blank"><button class="btn document-anchor">Okala</button></a>
-                                        <a href="<?php echo $visaInfo['mufaFile'];$documentation .= '~'.$visaInfo['mufaFile'];?>" target="_blank"><button class="btn document-anchor">MUFA</button></a>
-                                        <a href="<?php echo $visaInfo['manpowerCardFile'];$documentation .= '~'.$visaInfo['manpowerCardFile'];?>" target="_blank"><button class="btn document-anchor">Manpower Card</button></a>
+                                        <?php if(file_exists($visaInfo['okalaFile'])){ ?>
+                                            <a href="<?php echo $visaInfo['okalaFile'];$documentation .= '~'.$visaInfo['okalaFile'];?>" target="_blank"><button class="btn document-anchor">Okala</button></a>
+                                        <?php } ?>
+                                        <?php if(file_exists($visaInfo['mufaFile'])){ ?>
+                                            <a href="<?php echo $visaInfo['mufaFile'];$documentation .= '~'.$visaInfo['mufaFile'];?>" target="_blank"><button class="btn document-anchor">MUFA</button></a>
+                                        <?php } ?>
+                                        <?php if(file_exists($visaInfo['manpowerCardFile'])){ ?>
+                                            <a href="<?php echo $visaInfo['manpowerCardFile'];$documentation .= '~'.$visaInfo['manpowerCardFile'];?>" target="_blank"><button class="btn document-anchor">Manpower Card</button></a>
+                                        <?php } ?>
                                     <?php 
                                     if($visaInfo['visaStamping'] == 'yes'){
                                     $result = $conn->query("SELECT * from visafile where processingId = ".$visaInfo['processingId']); 
                                     $i = 1;
                                     while($visaFile = mysqli_fetch_assoc($result)){
                                     ?>
-                                        <a href="<?php echo $visaFile['visaFile'];$documentation .= '~'.$visaFile['visaFile'];?>" target="_blank"><button class="btn document-anchor">Stamping #<?php echo $i++;?></button></a>
+                                        <?php if(file_exists($visaFile['visaFile'])){ ?>
+                                            <a href="<?php echo $visaFile['visaFile'];$documentation .= '~'.$visaFile['visaFile'];?>" target="_blank"><button class="btn document-anchor">Stamping #<?php echo $i++;?></button></a>
+                                        <?php } ?>
                                     <?php } } } ?>
                                     <a class="exclude" href="template/getZip.php?doc=<?php echo $documentation;?>"><button class="btn btn-warning document-anchor"><i class="fa fa-download"></i></button></a>
                                 </li>

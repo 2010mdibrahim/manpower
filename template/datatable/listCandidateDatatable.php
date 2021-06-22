@@ -23,7 +23,7 @@ $columns = array(
 		'dt' => 3,
 		'formatter' => function( $d, $row ) {global $conn;
             $agentInfo = mysqli_fetch_assoc($conn->query("SELECT agentName from agent where agentEmail = '".$d."'"));
-			return '<p>'.$row[5].'</p>
+			return '<p>'.$row[0].'</p>
                     <p><a href="?page=agentList&agE='.base64_encode($d).'">'.$agentInfo['agentName'].'</a></p>';
 		}
 	),
