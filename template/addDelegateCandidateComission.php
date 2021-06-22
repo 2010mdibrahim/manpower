@@ -17,18 +17,16 @@ $prev_comission = mysqli_fetch_assoc($conn->query("SELECT passport.delegateComis
 // print_r(mysqli_error($conn));
 $result = $conn->query("INSERT into delegate_comission_for_candidate (passport_id, amount, dollar_rate, document) values ('".$_POST['passport_id']."', '".$_POST['amount']."', '".$_POST['dollar_rate']."', '$delegateSlipFile')");
 if(!is_null($prev_comission['already_paid'])){
-    $alread_paid = 0;
-}else{
     $alread_paid = $prev_comission['already_paid'];
+}else{
+    $alread_paid = 0;
 }
-// print_r($prev_comission['delegateComission']);
 if($prev_comission['delegateComission'] == ($alread_paid + $_POST['amount'])){
     $update = $conn->query("UPDATE passport set delegateComissionPaid = 'paid' where id = ".$_POST['passport_id']);
 }
 if($result){
     move_uploaded_file($temp_name,$path_filename_ext);
 }
-// exit();
 if($result){
     echo "<script> window.location.href='../index.php?page=delegateList'</script>";
 }else{
