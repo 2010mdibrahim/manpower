@@ -31,7 +31,7 @@ $columns = array(
 		'db' => 'gender',
 		'dt' => 4,
 		'formatter' => function( $d, $row ) {
-			return '<a href="?page=cI&p='.base64_encode($row[5])."&cd=.".base64_encode($row[5])."&t=".time().'" target="_blank">'.$row[1]." ".$row[2].'</a>
+			return '<a href="?page=cI&p='.base64_encode($row[5])."&cd=.".base64_encode($row[0])."&t=".time().'" target="_blank">'.$row[1]." ".$row[2].'</a>
                     <p>('.$d.')</p>';
 		}
 	),

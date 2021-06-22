@@ -124,7 +124,7 @@ if($alter == 'delete'){
         $passportFile = $passport_target_dir."passport"."_".$passportNum."_".str_replace(":", "", $currentCreationDate).".".$passport_ext; 
         $result = $conn->query("UPDATE passport set passportScannedCopy = '$passportFile' where passportNum = '$passportNum' AND creationDate = '$currentCreationDate'");
         if ($result){
-            move_uploaded_file($photo_temp_name,$photo_path_filename_ext);
+            move_uploaded_file($passport_temp_name,$passport_path_filename_ext);
         }
     }
 
