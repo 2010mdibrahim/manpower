@@ -9,7 +9,7 @@ $totalCredit = 0;
 // }else{
 //     $result = $conn->query("SELECT * from account_maheer limit 100");
 // }
-$result = $conn->query("SELECT * from account_maheer");
+$result = $conn->query("SELECT * from account_maheer order by date");
 if($result->num_rows != 0){
     $html = '';
     while($office = mysqli_fetch_assoc($result)){
