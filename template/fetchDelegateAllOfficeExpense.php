@@ -18,7 +18,7 @@ if($result->num_rows != 0){
                     <div class="row text-center">';
         $temp_html .= '             <div class="col-print-2 center-column-2">'.$office['date'].'</div>';
         $temp_html .= '              <div class="col-print-3">'.$office['particular'].'</div>';
-        $totalDebit += (int)( $office['debit'] * $office['dollar_rate_debit'] );
+        $totalDebit += ( (int)$office['debit'] * (int)$office['dollar_rate_debit'] );
         $totalCredit += (int)$office['credit'];
         $temp_html .= '              <div class="col-print-2">'.$office['debit'] * $office['dollar_rate_debit'].' Taka</div>';
         $temp_html .= '              <div class="col-print-2">'.$office['credit'].' Taka</div>';
