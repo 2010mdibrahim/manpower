@@ -6,7 +6,7 @@ $gettingConn = new getConnectionController();
 $conn = $gettingConn->getConnection();
 $host = 'localhost';
 $user = 'root';
-$pass = '';
+$pass = '!@#$%databaseserveradmin2020';
 $db = 'samin_erp';
 $req_urldd = explode("/",$_SERVER['REQUEST_URI']);
 $auto_url_finder = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://" . $_SERVER['HTTP_HOST']."/".$req_urldd[1].'/';
