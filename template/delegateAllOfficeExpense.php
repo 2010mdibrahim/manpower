@@ -492,6 +492,8 @@ ul, li{
         $('.center-column').addClass('col-print-4');
         $('.center-column-2').removeClass('col-print-2');
         $('.center-column-2').addClass('col-print-3');
+        $('.center-column-3').removeClass('col-print-1');
+        $('.center-column-3').addClass('col-print-2');
         $("#" + id + '_print').print({
             noPrintSelector: ".exclude",
             globalStyles: true,
@@ -501,6 +503,8 @@ ul, li{
         $('.center-column').addClass('col-print-3');
         $('.center-column-2').removeClass('col-print-3');
         $('.center-column-2').addClass('col-print-2');
+        $('.center-column-3').removeClass('col-print-2');
+        $('.center-column-3').addClass('col-print-1');
     }
     function finally_print(){
         
