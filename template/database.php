@@ -15,7 +15,7 @@ if(file_exists($path)){
     $base_dir = $path;
     $datable_path = 'http://localhost/mahfuza/';
 }else{
-    $base_dir = '//10.100.105.200/g/xampp/htdocs/mahfuza/';
+    $base_dir = 'E:/xampp/htdocs/mahfuza/';
     $datable_path = '//'.$_SERVER['HTTP_HOST']."/".$req_urldd[1].'/';
 }
 ?>

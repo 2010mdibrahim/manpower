@@ -22,7 +22,7 @@ if($result->num_rows != 0){
         $totalCredit += $office['credit'];
         $temp_html .= '              <div class="col-print-2">'.$office['debit'] * $office['dollar_rate_debit'].' Taka</div>';
         $temp_html .= '              <div class="col-print-2">'.$office['credit'].' Taka</div>';
-        $temp_html .= '              <div class="col-print-1 center-column-3">'.$totalDebit - $totalCredit.' Taka</div>';
+        $temp_html .= '              <div class="col-print-1 center-column-3">'.( $totalDebit - $totalCredit ).' Taka</div>';
         if($office['debit_receipt'] != ''){
             $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
         }else{
