@@ -93,6 +93,7 @@ if($result->num_rows != 0){
                 </div>
             </div>';
     while($candidate = mysqli_fetch_assoc($result)){
+        $totalExpense = 0;
         $expense_row = $conn->query("SELECT amount, purpose from candidateexpense where candidateexpense.passportNum = '".$candidate['passportNum']."' AND candidateexpense.passportCreationDate = '".$candidate['creationDate']."'");
         $ticket_price = 0;
         $manpower_processing_cost = 0;
