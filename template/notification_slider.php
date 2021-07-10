@@ -9,6 +9,8 @@ while($notification = mysqli_fetch_assoc($notifications)){
         if($notification['finalMedicalStatus'] != 'unfit' AND $notification['testMedicalStatus'] != 'unfit'){
             $html .= '<li class="list-group-item"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
         }
+    }else{
+        $html .= '<li class="list-group-item"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
     }
     $i++;
 }
