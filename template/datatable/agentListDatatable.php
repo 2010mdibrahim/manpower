@@ -35,7 +35,8 @@ $columns = array(
             $agent = mysqli_fetch_assoc($conn->query("SELECT agentName, agentPoliceClearance from agent where agentEmail = '".$d."'"));
 			return '<abbr title="Add Candidate Expense"><a href="?page=addExpenseAgent&ag='.base64_encode($d).'"><button class="btn btn-sm btn-info"><span class="fas fa-plus"></span></button></a></abbr>
                     <abbr title="Add Agent Expense"><a href="?page=addExpenseAgentPersonal&ag='.base64_encode($d).'"><button class="btn btn-sm btn-info"><i class="fas fa-user-plus"></i></button></a></abbr>
-                    <abbr title="Agent Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="'.$agent['agentName']."-".$d.'" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>';
+                    <abbr title="Agent Report"><button data-target="#showAgentReport" data-toggle="modal" class="btn btn-info btn-sm" value="'.$agent['agentName']."-".$d.'" onclick="showReport(this.value)"><span class="fas fa-eye"></span></button></abbr>
+                    <abbr title="Agent Report"><a href="index.php?page=showAgentExpenseList&ag='.base64_encode($d).'"><button type="button" class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button></a></abbr>';
 		}
 	),
     array(

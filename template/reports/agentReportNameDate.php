@@ -27,7 +27,6 @@ $html .=            '</span></p>
                     <th>Candidate Passport</th>
                     <th>VISA</th>
                     <th>Total Expense</th>
-                    <th>Comission</th>
                 </tr>
                 </thead>';
 if(isset($_POST['completeReport'])){
@@ -76,25 +75,15 @@ while($agent = mysqli_fetch_assoc($candidateInfo_comission)){
         $html .= '-';
     };
     $html .=            '</td>';
-    $html .=            '<td>';
-    if (!is_null($visa)){
-        if($visa['pending'] == 1){
-            $totalComission += $agent['amount'];   
-            $html .= '<a href="?page=ce&pn='.base64_encode($agent['passportNum']).'&cd='.base64_encode($agent['creationDate']).'">'.number_format($agent['amount'])."</a>";
-        }else{
-            $html .= '0';
-        }
-    }
-    $html .=            '</td>';
     $html .=            '</tr>';
 }
+$agent_comission = mysqli_fetch_assoc($conn->query("SELECT sum(fullAmount) as comission from agentexpense where agentEmail = '$agentEmail' AND expensePurposeAgent = 'comission'"));
 $html .=        '<tfoot hidden>
                 <tr>
                     <th>Candidate Name</th>
                     <th>Candidate Passport</th>
                     <th>VISA</th>
                     <th>Total Expense</th>
-                    <th>Comission</th>
                 </tr>
                 </tfoot>
             </table>
@@ -102,7 +91,7 @@ $html .=        '<tfoot hidden>
             
             <div class="row justify-content-center">
                 <div class="col-Sm box">Total Expense = '.number_format($totalExpense).'</div>
-                <div class="col-Sm box">Total Comission = '.number_format($totalComission).'</div>
+                <div class="col-Sm box">Total Comission = '.number_format($agent_comission['comission']).'</div>
                 <div class="col-Sm box">Grand Total = '.number_format((intval($totalComission) - intval($totalExpense))).'</div>
             </div>
         </div>

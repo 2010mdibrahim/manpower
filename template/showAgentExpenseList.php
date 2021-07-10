@@ -21,8 +21,11 @@ if(isset($_GET['ag'])){
     $agentEmail = '';
 }
 $today = date('Y-m-d');
+// agent expense
 $result_agent_expense = $conn -> query("SELECT candidateNID, candidateBirthNumber, payDate, agentExpenseId, candidateName, fullAmount, expensePurposeAgent, date(creationDate) as creationDate FROM agentexpense WHERE agentEmail = '$agentEmail'");
+// comisssion
 $result_comission = $conn -> query("SELECT jobs.creditType, agentcomission.amount, agentcomission.comissionId, passport.fName, passport.lName, passport.passportNum, passport.creationDate, ticket.flightDate FROM agentcomission INNER JOIN passport on passport.passportNum = agentcomission.passportNum AND passport.creationDate = agentcomission.passportCreationDate INNER JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate INNER JOIN jobs on jobs.jobId = passport.jobId INNER JOIN processing on processing.passportNum = agentcomission.passportNum AND processing.passportCreationDate = agentcomission.passportCreationDate WHERE agentcomission.agentEmail = '$agentEmail' AND ticket.flightDate < '$today' AND processing.pending <= 2 AND passport.status = 0");
+// candidate expense
 $result_expense = $conn -> query("SELECT passport.fName, passport.lName, passport.passportNum, passport.creationDate, candidateexpense.amount, candidateexpense.purpose, candidateexpense.payDate,candidateexpense.payMode, candidateexpense.expenseId from candidateexpense INNER JOIN passport on passport.passportNum = candidateexpense.passportNum AND passport.creationDate = candidateexpense.passportCreationDate where candidateexpense.agentEmail = '$agentEmail' AND passport.status != 2");
 $totalExpense = 0;
 $totalComission = 0;
