@@ -5,7 +5,7 @@ print_r(mysqli_error($conn));
 $html =    '<ul class="list-group">';
 $i = 0;
 while($notification = mysqli_fetch_assoc($notifications)){
-    if(str_contains($notification['notification'], 'Medical')){
+    if(strpos($notification['notification'], 'Medical') !== false){
         if($notification['finalMedicalStatus'] != 'unfit' AND $notification['testMedicalStatus'] != 'unfit'){
             $html .= '<li class="list-group-item"><div class="row"><div class="col-md-10">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-2"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
         }
