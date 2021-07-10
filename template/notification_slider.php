@@ -10,7 +10,11 @@ while($notification = mysqli_fetch_assoc($notifications)){
             $html .= '<li class="list-group-item"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
         }
     }else{
-        $html .= '<li class="list-group-item"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
+        if(strpos($notification['notification'], 'VISA') !== false){
+            $html .= '<li class="list-group-item" style="background-color: #ef5350;color: white;"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
+        }else{
+            $html .= '<li class="list-group-item"><div class="row"><div class="col-md-9">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-3"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
+        }
     }
     $i++;
 }
