@@ -1,10 +1,15 @@
 <?php
 include ('database.php');
-$notifications = $conn->query("SELECT passport.fName, passport.lName, notifications.* from notifications inner join passport on passport.id = notifications.passport_id ORDER BY notifications.id desc limit 50");
+$notifications = $conn->query("SELECT passport.fName, passport.lName, passport.finalMedicalStatus, passport.testMedicalStatus, notifications.* from notifications inner join passport on passport.id = notifications.passport_id LEFT JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending not in (2,3) ORDER BY notifications.id desc limit 50");
+print_r(mysqli_error($conn));
 $html =    '<ul class="list-group">';
 $i = 0;
 while($notification = mysqli_fetch_assoc($notifications)){
-    $html .= '<li class="list-group-item"><div class="row"><div class="col-md-10">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-2"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
+    if(str_contains($notification['notification'], 'Medical')){
+        if($notification['finalMedicalStatus'] != 'unfit' AND $notification['testMedicalStatus'] != 'unfit'){
+            $html .= '<li class="list-group-item"><div class="row"><div class="col-md-10">'.$notification['notification'].' - '.$notification['fName'].' '.$notification['lName'].'</div><div class="col-md-2"><span style="float:right"><small>'.$notification['notification_date'].'</small></span></div></div></li>';
+        }
+    }
     $i++;
 }
 if($i >= 49){

@@ -6,9 +6,10 @@ $medical = $_POST['medical'];
 $medicalStatus = $_POST['medicalStatus'];
 if($medicalStatus == 'unfit'){
     $updateStatus = 'fit';
+    $result = $conn->query("UPDATE passport set $medical = '$updateStatus', notification = 'yes' where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 }else{
     $updateStatus = 'unfit';
+    $result = $conn->query("UPDATE passport set $medical = '$updateStatus', notification = 'no' where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 }
-$result = $conn->query("UPDATE passport set $medical = '$updateStatus' where passportNum = '$passportNum' AND creationDate = '$creationDate'");
 echo "<script> window.location.href='../index.php?page=listCandidate'</script>";
 

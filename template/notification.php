@@ -20,8 +20,8 @@ if(isset($_SESSION['email'])){
 
     $todayF = $today->format('Y-m-d');
     $lastDateF = $lastDate->format('Y-m-d');
-    $result_medical = $conn->query("SELECT final_medical_insert, id, passportNum, creationDate, fName, lName, mobNum, finalMedicalReport, lastNotificationDate FROM passport WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND `notification` = 'yes'");
-    
+    $result_medical = $conn->query("SELECT passport.final_medical_insert, passport.id, passport.passportNum, passport.creationDate, passport.fName, passport.lName, passport.mobNum, passport.finalMedicalReport, passport.lastNotificationDate FROM passport LEFT JOIN processing on processing.passportNum = passport.passportNum and processing.passportCreationDate = passport.creationDate WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND passport.notification = 'yes' AND processing.processingId is null");
+    // print_r("SELECT passport.final_medical_insert, passport.id, passport.passportNum, passport.creationDate, passport.fName, passport.lName, passport.mobNum, passport.finalMedicalReport, passport.lastNotificationDate FROM passport LEFT JOIN processing on processing.passportNum = passport.passportNum and processing.passportCreationDate = passport.creationDate WHERE finalMedicalReport BETWEEN '$today_upper_limit_string' AND '$lastDateF' AND passport.notification = 'yes' AND processing.processingId is null");
     $notification = "";
     if($result_medical){
         while($finalReport = mysqli_fetch_assoc($result_medical)){
