@@ -25,7 +25,28 @@ if(!empty($_POST['pagePost'])){
 </head>
 
 <script>
+<<<<<<< Updated upstream
     
+=======
+    $(document).ready(function() {
+        $('#dataTableSeaum').DataTable({
+                        "fixedHeader": true,
+                        "paging": true,
+                        "lengthChange": true,
+                        "lengthMenu": [
+                            [10, 25, 50, 100, 500],
+                            [10, 25, 50, 100, 500]
+                        ],
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": true,
+                        "responsive": true,
+                        "order": [],
+                        "scrollX": false
+                    });              
+    });
+>>>>>>> Stashed changes
 </script>
 <style>
     h4{
