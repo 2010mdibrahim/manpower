@@ -154,7 +154,7 @@ ul, li{
                             <input class="form-control" type="number" name="edit_debit_amount" id="edit_debit_amount">
                         </div>
                         <div id="debit-modal-dollar">                            
-                            <label> Debit Amount in Dollar </label>
+                            <label> Rate </label>
                             <input class="form-control" type="number" name="edit_dollar_rate" id="edit_dollar_rate" step="any">
                         </div>
                         <div id="credit-modal">
@@ -182,33 +182,43 @@ ul, li{
     <form action="template/delegateAllOfficeExpenseQry.php" method="post" enctype="multipart/form-data">       
         <div class="form-group">                      
             <div class="form-row align-items-end">      
-                <div class="form-group col-print-3" >
+                <div class="form-group col-print-2">
                     <label> Delegate Name </label>
                     <select class="form-control" id="delegateId" name="delegateId" required readonly>
                         <option value="<?php echo $delegate['delegateId']; ?>"><?php echo $delegate['delegateName']; ?></option>
                     </select>                  
-                </div>
-                
+                </div>                
                 <div id="localOffice" class="col-print-4">
                     <div class="form-group row align-items-end">
                         <div class="col-sm">
-                            <label> Amount in Dollar </label>
-                            <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount in Dollar" onkeyup="calculateBDT()">                   
+                            <label> Amount </label>
+                            <input class="form-control" type="number" name="amount" id="amountDelegate" placeholder="Enter Amount" onkeyup="calculateBDT()">                   
+                        </div>                        
+                        <div class="col-sm">
+                            <label> Rate </label>
+                            <input class="form-control" type="number" name="rate" id="rateDelegate" placeholder="Currency Rate" step="any" onkeyup="calculateBDT()">                 
                         </div>
                         <div class="col-sm">
-                            <label> Dollar Rate </label>
-                            <input class="form-control" type="number" name="rate" id="rateDelegate" placeholder="Enter Dollar Rate" step="any" onkeyup="calculateBDT()">                 
+                            <label> Currency </label>
+                            <select class="form-control" id="currency" name="currency" required readonly>
+                                <option>Dollar</option>
+                                <option>Saudi riyal</option>
+                            </select> 
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-print-2">
+                <div class="form-group col-print-1">
                     <label> Amount in BDT </label>
                     <input class="form-control" type="number" name="amountBDT" id="amountBDTDelegate" readonly="readonly">
                 </div>
                 <div class="form-group col-print-2">
                     <label> Date </label>
                     <input class="form-control datepicker" autocomplete="off" type="text" name="date" id="date" placeholder="Enter date">                   
-                </div>  
+                </div>
+                <div class="form-group col-print-2">
+                    <label> File </label>
+                    <input class="form-control" autocomplete="off" type="file" name="delegate_file" id="delegate_file">                   
+                </div>
                 <div class="form-group col-print-1">
                     <input class="form-control" type="submit" name="submit" id="" value="Add">
                 </div>
@@ -551,7 +561,6 @@ ul, li{
             }
         });
     }
-
     var highlight = $('#highlightDelegate').val();
     if(highlight != 'no'){
         (highlight);
@@ -560,7 +569,6 @@ ul, li{
     function editOfficeExpense(info){
         const info_split = info.split('_');
         $('#account_maheer_id').val(info_split[0]);
-        console.log( $('#edit_debit_amount').val(info_split[1]) );
         if(info_split[1] === '0'){
             $('#debit-modal').hide();
             $('#debit-modal-dollar').hide();
@@ -593,7 +601,6 @@ ul, li{
         $('#delegateIdModal').val(id);
     }
     function showExpense(val){
-        console.log($("input[name='full_report']:checked").val());
         let full_report = (typeof $("input[name='full_report']:checked").val() === 'undefined') ? 'no' : 'yes';
         $('.highlight').css('background-color', 'white'); //resetting prev list
         $('.btn-show').show(); //resetting prev list
