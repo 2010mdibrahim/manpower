@@ -444,6 +444,17 @@ if(!isset($_SESSION['sections'])){
 </div>
 
 <script>
+function pending_list(passportNum, passportCreationDate){
+    $.ajax({
+        type: 'post',
+        url: 'template/sendToPendingList.php',
+        data: {passportNum, passportCreationDate},
+        success: function (response){
+            $('#list_visa').DataTable().ajax.reload( null , false);
+        }
+    });
+};
+
 function stopNotification(processingId){
     mode = 'visa';
     href = 'visaList';

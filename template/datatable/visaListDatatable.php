@@ -47,7 +47,7 @@ $columns = array(
 		'dt' => 9,
 		'formatter' => function( $d, $row ) {global $conn;
             $row_database = mysqli_fetch_assoc($conn->query("SELECT sponsorvisalist.sponsorNID from processing INNER JOIN sponsorvisalist USING (sponsorVisa) where passportNum  = '".$row[1]."' AND passportCreationDate = '".$row[2]."'"));
-			return '<p>'.$row_database['sponsorNID'].'</p><p><a href="?page=sponsorList&spN='.base64_encode($row_database['sponsorNID']).'"><span style="font-size: 11px;">'.$row[8].'</span></a></p>';
+			return '<p>'.$row_database['sponsorNID'].'</p><p><a href="?page=sponsorList&spN='.base64_encode($row_database['sponsorNID']).'"></a></p>';
 		}
 	),
     array(
@@ -467,11 +467,7 @@ $columns = array(
                 $html .= '<input type="hidden" name="pagePost" value="ticketInfo">';
                 $html .= '<a href="?page=tN&tI='.$ticketId.'" target="_blank"><button class="btn btn-info btn-sm">'.$ticket['flightDate'].'</button></a>';
                 if($row[31] == 0){
-                    $html .=    '<form class="mt-1" action="template/sendToPendingList.php" method="post">
-                                    <input type="hidden" name="passportNum" value="'.$row[1].'">
-                                    <input type="hidden" name="passportCreationDate" value="'.$row[2].'">
-                                    <button class="btn btn-sm btn-secondary"><i class="fas fa-plane"></i></button>
-                                </form>';
+                    $html .=    '<button type="button" class="btn btn-sm btn-secondary" onclick="pending_list(\''.$row[1].'\', \''.$row[2].'\')"><i class="fas fa-plane"></i></button>';
                 }else{
                     $html .= '<button type="button" class="btn btn-sm btn-success mt-1"><i class="fas fa-plane"></i></button>';
                 }

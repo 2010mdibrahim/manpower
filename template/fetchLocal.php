@@ -16,6 +16,22 @@ if($show == 'local'){
                     <div id="getOfficeDelegate"></div>
                 </div>
             </div>';
+}else if($show == 'saudi'){
+    $html = '<div class="row align-items-end">
+                <input type="hidden" name="currancy" value="bdt">                   
+                <div class="form-group col-md-5">
+                    <label> Office Type </label>
+                    <select class="form-control select2" id="type" name="type" onchange="getDelegateOffice(this.value, \'local\')" required>
+                        <option value="">Select Type</option>
+                        <option value="manpower">Manpower Office</option>
+                        <option value="outside">Outside Office</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-7">
+                    <div id="getOfficeDelegate"></div>
+                </div>
+            </div>';
 }else{
     $html = '<div class="form-group row align-items-end">
                 <input type="hidden" name="currancy" value="dollar">                   

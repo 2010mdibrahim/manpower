@@ -25,6 +25,8 @@ if($result->num_rows != 0){
         $temp_html .= '              <div class="col-print-1 center-column-3">'.( $totalDebit - $totalCredit ).' Taka</div>';
         if($office['debit_receipt'] != ''){
             $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
+        }else if($office['debit_receipt_2'] != ''){
+            $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt_2'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
         }else{
             $temp_html .= '              <div class="col-print-1 exclude">-</div>';
         }

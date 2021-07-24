@@ -23,10 +23,6 @@ if(!empty($_POST['pagePost'])){
     <?php include ('includes/link.php')?>
     <?php include ('includes/datatable.php')?>
 </head>
-
-<script>
-    
-</script>
 <style>
     h4{
         padding: 0.5%;
