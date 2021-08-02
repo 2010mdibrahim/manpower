@@ -17,8 +17,8 @@ if(!isset($_SESSION['sections'])){
 }
 $includeCandidate = $_POST['includeCandidateFromAgent'];
 $nid = $_POST['nid'];
-$fName = $_POST['fName'];
-$lName = $_POST['lName'];
+$fName = $conn->real_escape_string($_POST['fName']);
+$lName = $conn->real_escape_string($_POST['lName']);
 $gender = $_POST['gender'];
 $mobNum = $_POST['mobNum'];
 $passportNum= $_POST['passportNum'];
@@ -45,7 +45,7 @@ if(isset($_POST['office'])){
     $office = '';
 }
 
-$comment = $_POST['comment'];
+$comment = $conn->real_escape_string($_POST['comment']);
 $dob = $_POST['dob'];
 $admin = $_SESSION['email'];
 $date = date("Y-m-d H:i:s");

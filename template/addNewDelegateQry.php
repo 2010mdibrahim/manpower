@@ -37,9 +37,9 @@ if(isset($_POST['addDelegate'])){
             echo "<script>window.alert('Error')</script>";
         }
     }else{
-        $delegateName = $_POST['delegateName'];
-        $delegateCountry = $_POST['delegateCountry'];
-        $delegateState = $_POST['delegateState'];
+        $delegateName = $conn->real_escape_string($_POST['delegateName']);
+        $delegateCountry = $conn->real_escape_string($_POST['delegateCountry']);
+        $delegateState = $conn->real_escape_string($_POST['delegateState']);
         $comment = $conn->real_escape_string($_POST['comment']);
        
         $date = date("Y-m-d");

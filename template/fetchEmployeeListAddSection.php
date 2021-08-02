@@ -1,7 +1,7 @@
 <?php
 include ('database.php');
 $employeeId = $_POST['employeeId'];
-$html = '<input type="hidden" name="employeeIdemployeeIdemployeeId" value="'.$employeeId.'">
+$html = '<input type="hidden" name="employeeId" value="'.$employeeId.'">
         <div class="form-group">
             <label for="name">Employee Access</label>
             <select class="form-control select2" name="empAccess[]" multiple required>';

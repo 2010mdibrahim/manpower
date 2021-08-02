@@ -150,7 +150,7 @@ if(!isset($_SESSION['sections'])){
         $.ajax({
             type: 'post',
             url: 'template/fetchEmployeeListAddSection.php',
-            data: {employeeId: employeeId},
+            data: {employeeId},
             success: function (response){
                 $('#sectionAddModal').html(response);
                 $('.select2').select2({

@@ -2,8 +2,8 @@
 include ('database.php');
 $flightTime = $_POST['flightTime'];
 $candidateSelect = $_POST['candidateSelect'];
-$airplane = $_POST['airline'];
-$flightNo = $_POST['flightNo'];
+$airplane = $conn->real_escape_string($_POST['airline']);
+$flightNo = $conn->real_escape_string($_POST['flightNo']);
 $flightDate = $_POST['flightDate'];
 if(isset($_POST['fromPlace'])){
     $fromPlace = $_POST['fromPlace'];
@@ -13,7 +13,7 @@ if(isset($_POST['fromPlace'])){
 
 $toPlace = $_POST['toPlace'];
 $amount = $_POST['amount'];
-$comment = $_POST['comment'];
+$comment = $conn->real_escape_string($_POST['comment']);
 
 if(!empty($_POST['transitHour'])){
     $transitHour = $_POST['transitHour'];
@@ -24,8 +24,6 @@ if(!empty($_POST['transitHour'])){
 $admin = $_SESSION['email'];
 $date = date("Y-m-d");
 $createDate = date("Y-m-d H:i:s");
-
-
 
 // $existingTicket = $conn->query("SELECT count(ticketId) from ticket where passportNum = '$passport'"); // will use if passport will have only one ticket
 if($candidateSelect == 'inhouse'){
@@ -56,7 +54,7 @@ if($candidateSelect == 'inhouse'){
 }else if($candidateSelect == 'new'){
     $referrer = $_POST['referrer'];
     if($referrer == 'local'){
-        $localReferrerName = $_POST['localAgentName'];
+        $localReferrerName = $conn->real_escape_string($_POST['localAgentName']);
         $localReferrerMob = $_POST['localAgentMob'];
         $insert = $conn->query("INSERT INTO localreferrer(localReferrerName, localReferrerMob) VALUES ('$localReferrerName', '$localReferrerMob')");
         $localReferrerDb = mysqli_fetch_assoc($conn->query("SELECT max(localReferrerId) as lastReferrer from localreferrer"));
@@ -69,7 +67,7 @@ if($candidateSelect == 'inhouse'){
     }else{
         $referrerAgent = '';
     }
-    $name = $_POST['name'];
+    $name = $conn->real_escape_string($_POST['name']);
     $mobNum = $_POST['mobNum'];
     $passportNum = $_POST['passportNum'];
     $issueDate = $_POST['issueDate'];

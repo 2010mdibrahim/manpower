@@ -57,7 +57,7 @@ if(!isset($_SESSION['sections'])){
                         </div>
                         <div class="form-group col-sm">
                             <label style="margin-right: 5px;">Passport Copy: </label>
-                            <input class="form-control-file" type="file" autocomplete="off" name="outsidePassportCopy" required>
+                            <input class="form-control-file" type="file" autocomplete="off" name="outsidePassportCopy">
                         </div>
                     </div>
                         

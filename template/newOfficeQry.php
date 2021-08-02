@@ -29,7 +29,7 @@ if($alter == 'delete'){
         print_r(mysqli_error($conn));
     }
 }else{
-    $officeName = $_POST['officeName'];
+    $officeName = $conn->real_escape_string($_POST['officeName']);
     $comment = $conn->real_escape_string($_POST['comment']);
     $admin = $_SESSION['email'];
     $date = date('Y-m-d');

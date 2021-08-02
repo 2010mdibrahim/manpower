@@ -33,7 +33,7 @@ if($alter == 'delete') {
 }else{
     $sponsorPhone = $_POST['sponsorPhone'];
     $delegateOfficeId = $_POST['delegateOfficeId'];
-    $sponsorName = $_POST['sponsorName'];
+    $sponsorName = $conn->real_escape_string($_POST['sponsorName']);
     $admin = $_SESSION['email'];
     $comment = $conn->real_escape_string($_POST['comment']);
     $date = date("Y-m-d");    
