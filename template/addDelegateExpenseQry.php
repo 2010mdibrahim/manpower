@@ -33,7 +33,7 @@ if($alter == 'delete'){
     $amount = $_POST['amount'];
     $paydate = $_POST['paydate'];
     $payMode = $_POST['payMode'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");
 

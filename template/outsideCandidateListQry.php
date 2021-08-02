@@ -24,7 +24,7 @@ $outsidePassportId = $_POST['outsidePassportId'];
 if($alter == 'delete'){
     $result = $conn->query("DELETE from outsidepassport where outsidePassportId = $outsidePassportId");
 }else{
-    $name = $_POST['name'];
+    $name = $conn->real_escape_string($_POST['name']);
     $mobNum = $_POST['mobNum'];
     $passportNum = $_POST['passportNum'];
     $issueDate = $_POST['issueDate'];

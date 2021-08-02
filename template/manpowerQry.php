@@ -21,7 +21,7 @@ if(isset($_POST['manpower'])){
     }else{
         $alter = '';
     }
-    $officeName = $_POST['officeName'];
+    $officeName = $conn->real_escape_string($_POST['officeName']);
     if($alter == 'delete'){
         $result = $conn -> query("DELETE from manpoweroffice where manpowerOfficeName = '$officeName'");
         if($result){
@@ -33,13 +33,13 @@ if(isset($_POST['manpower'])){
         } 
     }else{   
         $licenseNumber = $_POST['licenseNumber'];
-        $officeAddress = $_POST['officeAddress'];
-        $comment = $_POST['comment'];
+        $officeAddress = $conn->real_escape_string($_POST['officeAddress']);
+        $comment = $conn->real_escape_string($_POST['comment']);
         $admin = $_SESSION['email'];
         $date = date("Y-m-d");
         if($alter == 'update'){
             $manpowerOfficeId = $_POST['manpowerOfficeId'];
-            $result = $conn->query("UPDATE manpoweroffice SET manpowerOfficeName='$officeName',licenseNumber='$licenseNumber',officeAddress='$officeAddress',comment=\"$comment\",updatedBy='$admin',updatedOn='$date' where manpowerOfficeId = $manpowerOfficeId");
+            $result = $conn->query("UPDATE manpoweroffice SET manpowerOfficeName='$officeName',licenseNumber='$licenseNumber',officeAddress='$officeAddress',comment='$comment',updatedBy='$admin',updatedOn='$date' where manpowerOfficeId = $manpowerOfficeId");
             if($result){
                 echo "<script>window.alert('Updated')</script>";
                 echo "<script> window.location.href='../index.php?page=manpowerList'</script>";
@@ -52,7 +52,7 @@ if(isset($_POST['manpower'])){
             $processingCostArr = $_POST['processingCost'];
             $existingOffice = mysqli_fetch_assoc($conn -> query("SELECT count(manpowerOfficeName) as officeCount from manpoweroffice where manpowerOfficeName = '$officeName'"));
             if($existingOffice['officeCount'] == 0){
-                $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName,licenseNumber,officeAddress, comment, updatedBy, updatedOn) VALUES ('$officeName','$licenseNumber','$officeAddress', \"$comment\", '$admin', '$date')");
+                $result = $conn->query("INSERT INTO manpoweroffice(manpowerOfficeName,licenseNumber,officeAddress, comment, updatedBy, updatedOn) VALUES ('$officeName','$licenseNumber','$officeAddress', '$comment', '$admin', '$date')");
                 $manpowerOfficeId = mysqli_fetch_assoc($conn -> query("SELECT max(manpowerOfficeId) as lastId from manpoweroffice"));
                 foreach($jobIdArr as $index => $jobId){
                     $result = $conn->query("INSERT INTO manpowerjobprocessing(manpowerOfficeId, jobId, processingCost, updatedBy, updatedOn) VALUES (".$manpowerOfficeId['lastId'].",$jobId,$processingCostArr[$index],'$admin', '$date')");

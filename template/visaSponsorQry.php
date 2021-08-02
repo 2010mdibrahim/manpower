@@ -22,7 +22,7 @@ if(isset($_POST['sponsor'])){
     $visaAmount = $_POST['visaAmount'];
     $jobType = $_POST['jobType'];
     $gender = $_POST['gender'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");
     $curdate = date("Y-m-d H:i:s");

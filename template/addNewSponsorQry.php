@@ -35,7 +35,7 @@ if($alter == 'delete') {
     $delegateOfficeId = $_POST['delegateOfficeId'];
     $sponsorName = $_POST['sponsorName'];
     $admin = $_SESSION['email'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $date = date("Y-m-d");    
     if ($alter == 'update') {
         $currentSponsorNid = $_POST['currentSponsorNid'];

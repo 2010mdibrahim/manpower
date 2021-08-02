@@ -12,9 +12,9 @@ if(!isset($_SESSION['sections'])){
     }
 }
 $email = $_POST['adminEmail'];
-$pass = $_POST['adminPass'];
+$pass = $conn->real_escape_string($_POST['adminPass']);
 if($email!="" && $pass!=""){
-    $qry = "insert into admin (email, pass) values ('$email','$pass')";
+    $qry = "INSERT into admin (email, pass) values ('$email','$pass')";
     $result = mysqli_query($conn, $qry);
     if($result){
         echo "<script>window.alert('Inserted')</script>";

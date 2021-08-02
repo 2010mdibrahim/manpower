@@ -4,7 +4,7 @@ if(isset($_POST["insert"]))
 {
     $mofaCode = $_POST['mofaCode'];
     $mofaStage = $_POST['mofaStage'];
-    $mofaRemark = $_POST['mofaRemark'];
+    $mofaRemark = $conn->real_escape_string($_POST['mofaRemark']);
     $passNo = $_POST['passNo'];
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");

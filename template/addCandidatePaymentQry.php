@@ -68,7 +68,7 @@ if($alter == 'delete'){
     $visaNo = $_POST['visaNo'];
     $agentEmail = $_POST['agentEmail'];
     $fullAmount = $_POST['fullAmount'];
-    $purpose = $_POST['purpose'];
+    $purpose = $conn->real_escape_string($_POST['purpose']);
     if(isset($_POST['comission_id'])){
         $comission_id_existing = $_POST['comission_id'];
     }else{
@@ -84,7 +84,7 @@ if($alter == 'delete'){
     }else{
         $paydate = '';
     }
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $paymentMethod = $_POST['paymentMethod'];
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");

@@ -40,7 +40,7 @@ if(isset($_POST['addDelegate'])){
         $delegateName = $_POST['delegateName'];
         $delegateCountry = $_POST['delegateCountry'];
         $delegateState = $_POST['delegateState'];
-        $comment = $_POST['comment'];
+        $comment = $conn->real_escape_string($_POST['comment']);
        
         $date = date("Y-m-d");
         $admin = $_SESSION['email'];

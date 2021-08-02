@@ -2,9 +2,9 @@
 include ('database.php');
 $date = $_POST['date'];
 $source = $_POST['source'];
-$name = $_POST['name'];
+$name = $conn->real_escape_string($_POST['name']);
 $mob = $_POST['mob'];
-$comment = $_POST['comment'];
+$comment = $conn->real_escape_string($_POST['comment']);
 $countries = $_POST['country'];
 $jobs = $_POST['job'];
 

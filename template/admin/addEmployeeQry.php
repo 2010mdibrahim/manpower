@@ -1,5 +1,20 @@
 <?php
 include ('../database.php');
+if(!isset($_SESSION['sections'])){
+    header("Location: ../index.php");
+    exit();
+}else{
+    if(!in_array("All", $_SESSION['sections'])){
+        if(!in_array("Employee", $_SESSION['sections'])){
+            if (headers_sent()) {
+                die("No Access");
+            }else{
+                header("Location: ../index.php");
+                exit();
+            } 
+        }        
+    }
+}
 if(isset($_POST['alter'])){
     $alter = $_POST['alter'];
 }else{
@@ -7,7 +22,7 @@ if(isset($_POST['alter'])){
 }
 if($alter == 'delete'){
     $employeeId = $_POST['employeeId'];
-    $qry = "delete from employee where employeeId = $employeeId";
+    $qry = "DELETE from employee where employeeId = $employeeId";
     $result = mysqli_query($conn, $qry);
     if($result){
         echo "<script>window.alert('Deleted')</script>";
@@ -16,7 +31,7 @@ if($alter == 'delete'){
         echo "<script>window.alert('Error')</script>";
     }
 }else{
-    $employeeName = $_POST['employeeName'];
+    $employeeName = $conn->real_escape_string($_POST['employeeName']);
     $departmentId = $_POST['departmentId'];
     $salaryId = $_POST['salaryId'];
     $companyId = $_POST['companyId'];
@@ -29,7 +44,7 @@ if($alter == 'delete'){
 
     if($alter == 'update'){
         $employeeId = $_POST['employeeId'];
-        $qry = "update employee set employeeName = '$employeeName', departmentId = $departmentId, designationId = $designationId
+        $qry = "UPDATE employee set employeeName = '$employeeName', departmentId = $departmentId, designationId = $designationId
                   , DOJ = '$doj', DOB = '$dob', DOL = '$dol', salary = $salaryId, updatedBy = '$admin', updatedOn = '$date' where employeeId = $employeeId";
         $result = mysqli_query($conn, $qry);
         if($result){

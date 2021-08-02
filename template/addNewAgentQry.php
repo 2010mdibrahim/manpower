@@ -32,9 +32,9 @@ if($alter == 'delete') {
     }
 }else {
     $admin = $_SESSION['email'];
-    $agentName = $_POST['agentName'];
+    $agentName = $conn->real_escape_string($_POST['agentName']);
     $agentPhone = $_POST['agentPhone'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $date = date("Y-m-d");
 
     if (($_FILES['agentImage']['name'] != "")){

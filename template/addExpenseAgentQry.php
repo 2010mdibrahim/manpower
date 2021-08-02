@@ -34,14 +34,14 @@ if($alter == 'delete'){
         echo "<script> window.location.href='../index.php?page=allVisaList'</script>";
     }
 }else{
-    $candidateName = $_POST['candidateName'];
+    $candidateName = $conn->real_escape_string($_POST['candidateName']);
     $candidateDOB = $_POST['dob'];
     $candidateNID = $_POST['nid'];
     $canidateBirthNumber = $_POST['birthNumber'];
     $fullAmount = $_POST['fullAmount'];
-    $purpose = $_POST['purpose'];   
+    $purpose = $conn->real_escape_string($_POST['purpose']);   
     $expenseMode = $_POST['payMode'];      
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $paydate = $_POST['paydate'];
     $admin = $_SESSION['email'];
     $date = date("Y-m-d");

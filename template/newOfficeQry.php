@@ -30,12 +30,12 @@ if($alter == 'delete'){
     }
 }else{
     $officeName = $_POST['officeName'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $admin = $_SESSION['email'];
     $date = date('Y-m-d');
     if($alter == 'update'){
         $officeId = $_POST['officeId'];
-        $result = $conn->query("UPDATE office set officeName = '$officeName', comment = \"$comment\", updatedBy = '$admin', updatedOn = '$date' where officeId = $officeId");
+        $result = $conn->query("UPDATE office set officeName = '$officeName', comment = '$comment', updatedBy = '$admin', updatedOn = '$date' where officeId = $officeId");
     }else{
         $result = $conn->query("INSERT INTO office(officeName, comment, updatedBy, updatedOn, creationDate) VALUES ('$officeName',\"$comment\",'$admin','$date','$date')");
     }

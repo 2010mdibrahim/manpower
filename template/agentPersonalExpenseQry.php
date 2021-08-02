@@ -2,14 +2,14 @@
 include ('database.php');
 $agentEmail = $_POST['agentEmail'];
 $fullAmount = $_POST['fullAmount'];
-$agentName = $_POST['agentName'];
-$purpose = $_POST['purpose'];
+$agentName = $conn->real_escape_string($_POST['agentName']);
+$purpose = $conn->real_escape_string($_POST['purpose']);
 if($purpose == 'other'){
-    $purpose = $_POST['otherPurpose'];
+    $purpose = $conn->real_escape_string($_POST['otherPurpose']);
 }
 $paydate = $_POST['paydate'];
 $paymentMethod = $_POST['paymentMethod'];
-$comment = $_POST['comment'];
+$comment = $conn->real_escape_string($_POST['comment']);
 $c_date = date('Y-m-d H:m:s');
 $date = date('Y-m-d');
 $admin = $_SESSION['email'];

@@ -15,7 +15,7 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$candidate_name = $_POST['passportNum'];
+$candidate_name = $conn->real_escape_string($_POST['passportNum']);
 $processingId = $_POST['processingId'];
 $selectedSponsorVisa = $_POST['selectedSponsorVisa'];
 $selectedSponsorVisaAmount = intval($_POST['selectedSponsorVisaAmount']);

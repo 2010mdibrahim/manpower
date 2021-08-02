@@ -36,14 +36,14 @@ if($alter == 'delete'){
     $flightDate = $_POST['flightDate'];
 
     if(isset($_POST['fromPlace'])){
-        $fromPlace = $_POST['fromPlace'];
+        $fromPlace = $conn->real_escape_string($_POST['fromPlace']);
     }else{
         $fromPlace = '';
     }
 
-    $toPlace = $_POST['toPlace'];
+    $toPlace = $conn->real_escape_string($_POST['toPlace']);
     $amount = $_POST['amount'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
 
     if(!empty($_POST['transitHour'])){
         $transitHour = $_POST['transitHour'];

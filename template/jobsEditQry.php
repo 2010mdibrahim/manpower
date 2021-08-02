@@ -15,7 +15,7 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$jobType = $_POST['jobType'];
+$jobType = $conn->real_escape_string($_POST['jobType']);
 $creditType = $_POST['creditType'];
 $jobId = $_POST['jobId'];
 $result = $conn->query("UPDATE jobs set jobType = '$jobType', creditType = '$creditType' where jobId = $jobId");

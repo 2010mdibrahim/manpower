@@ -66,7 +66,7 @@ if($alter == 'delete'){
         }
     }
     $amount = $_POST['amount'];
-    $comment = $_POST['comment'];
+    $comment = $conn->real_escape_string($_POST['comment']);
     $payDate = $_POST['payDate'];
     $admin = $_SESSION['email'];
     if($alter == 'update'){

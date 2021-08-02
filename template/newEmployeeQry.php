@@ -26,8 +26,8 @@ if($alter == 'delete'){
 }else{
     $name = $_POST['name'];
     $mobNum = $_POST['mobNum'];
-    $address = $_POST['address'];
-    $empDesignation = $_POST['empDesignation'];
+    $address = $conn->real_escape_string($_POST['address']);
+    $empDesignation = $conn->real_escape_string($_POST['empDesignation']);
     if($alter == 'update'){
         $employeeId = $_POST['employeeId'];
         $result = $conn->query("UPDATE employee SET employeeName='$name',empMob='$mobNum',empAddress='$address',empDesignation='$empDesignation' WHERE employeeId= $employeeId");
