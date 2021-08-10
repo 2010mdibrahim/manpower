@@ -7,8 +7,9 @@ $mob = $_POST['mob'];
 $comment = $conn->real_escape_string($_POST['comment']);
 $countries = $_POST['country'];
 $jobs = $_POST['job'];
+$source_name = $_POST['source_name'];
 
-$result = $conn->query("INSERT INTO crm(date, source, name, mob, comment) VALUES ('$date', '$source', '$name', '$mob', '$comment')");
+$result = $conn->query("INSERT INTO crm(date, source, name, mob, comment,source_name) VALUES ('$date', '$source', '$name', '$mob', '$comment', '$source_name')");
 $get_id = mysqli_fetch_assoc($conn->query("SELECT max(id) as id  from crm"));
 
 foreach($countries as $country){

@@ -589,6 +589,7 @@ $(document).ready(function(){
         "ScrollX": true,
         "processing": true,
         "serverSide": true,
+        "fixedHeader": true,
         "lengthMenu": [
             [10, 25, 50, 100, 500],
             [10, 25, 50, 100, 500]

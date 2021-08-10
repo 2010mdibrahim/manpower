@@ -295,12 +295,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="row align-items-end">
-                    <div class="col-md-10">
+                <div class="row ">
+                    <div class="col-md-2">
+                        <label for="date">Source Name</label>
+                        <input class="form-control" type="text" name="source_name" placeholder="Source Name" required>
+                    </div>
+                    <div class="col-md-8">
                         <label for="date">Comment</label>
                         <textarea class="form-control" name="comment" id="comment" cols="10" rows="2" required></textarea>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-2 align-self-end">
                         <button class="btn btn-primary" style="font-size: 1rem;">Submit</button>
                     </div>
                 </div>
@@ -334,6 +338,8 @@
                             <th>Mobile</th>
                             <th>Name</th>
                             <th>Comment</th>
+                            <th>Source</th>
+                            <th>Source Name</th>
                             <th>Date</th>
                             <th>Countries</th>
                             <th>Jobs</th>
@@ -350,23 +356,33 @@
                             <td><?php echo $crm['mob'];?></td>
                             <td><?php echo $crm['name'];?></td>
                             <td class="comment"><?php echo $crm['comment'];?></td>
+                            <td><?php echo $crm['source'];?></td>
+                            <td><?php echo $crm['source_name'];?></td>
                             <input type="hidden" class="in_table_id" value="<?php echo $crm['id'];?>">
                             <td><?php echo $crm['date'];?></td>
                             <td>
                                 <?php
                                 $result_country = $conn->query("SELECT * from crm_country where crm_id = ".$crm['id']);
                                 print_r(mysqli_error($conn));
+                                $country_string = '';
                                 while($country = mysqli_fetch_assoc($result_country)){
-                                    echo $country['country'].', ';
-                                }?>
+                                    $country_string .= $country['country'].', ';
+                                }
+                                $country_string = rtrim($country_string, ', ');
+                                echo $country_string.'.';
+                                ?>
                             </td>
                             <td>
                                 <?php
                                 $result_country = $conn->query("SELECT * from crm_jobs where crm_id = ".$crm['id']);
                                 print_r(mysqli_error($conn));
+                                $job_string = '';
                                 while($job = mysqli_fetch_assoc($result_country)){
-                                    echo $job['job'].', ';
-                                }?>
+                                    $job_string .= $job['job'].', ';
+                                }
+                                $job_string = rtrim($job_string, ', ');
+                                echo $job_string.'.';
+                                ?>
                             </td>
                             <td>
                                 <form action="template/crm_qry_edit.php" method="post">
@@ -383,6 +399,8 @@
                             <th>Mobile</th>
                             <th>Name</th>
                             <th>Comment</th>
+                            <th>Source</th>
+                            <th>Source Name</th>
                             <th>Date</th>
                             <th>Countries</th>
                             <th>Jobs</th>
