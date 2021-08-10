@@ -349,6 +349,8 @@ if(isset($_GET['pp'])){
                 ?></h2>
             </div>
             <input type="hidden" id="specific_value" value="<?php echo (isset($_GET['specific']) ? $_GET['specific'] : '')?>">
+            <input type="hidden" id="specific_person_pp" value="<?php echo (isset($_GET['pp']) ? $_GET['pp'] : '')?>">
+            <input type="hidden" id="specific_person_cd" value="<?php echo (isset($_GET['cd']) ? $_GET['cd'] : '')?>">
             <div class="row justify-content-md-center text-center">
                 <div class="col-md-1">
                     <a class="indicator-a" href="?page=listCandidate&specific=inVisa"><button class="filter-button green">In VISA</button></a>
@@ -519,8 +521,10 @@ function finalMedical(passport_info){
 function policeClearance(passport_info){
     $('#modalPassportPolice').val(passport_info);
 }
-$(document).ready(function(){
+$(document).ready(function(){    
     let specific = $('#specific_value').val();
+    let specific_person_pp = $('#specific_person_pp').val();
+    let specific_person_cd = $('#specific_person_cd').val();
     if(specific === 'inTicket'){
         var list_candidate_table = $('#list_candidate').DataTable({
             "paging": true,
@@ -537,7 +541,7 @@ $(document).ready(function(){
             ],
             ajax: {
                 url: "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
-                data: {specific: specific}
+                data: {specific, specific_person_pp, specific_person_cd}
             },
             "columnDefs": [
                             {
@@ -712,7 +716,7 @@ $(document).ready(function(){
             ],
             ajax: {
                 url: "<?php echo $datable_path ?>template/datatable/listCandidateDatatable.php",
-                data: {specific: specific}
+                data: {specific, specific_person_pp, specific_person_cd}
             },
             "columnDefs": [
                             {

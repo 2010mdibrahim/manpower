@@ -4,16 +4,24 @@ include("../database.php");
 include("../class/ssp.class.php");
 
 if($_GET['specific'] == 'unfit'){
-    $where = "passport.testMedicalStatus = 'unfit' or passport.finalMedicalStatus = 'unfit'";
+    $specific = " AND passport.testMedicalStatus = 'unfit' or passport.finalMedicalStatus = 'unfit'";
 }else if($_GET['specific'] == 'onHold'){
-    $where = "passport.status = 1";
+    $specific = " AND passport.status = 1";
 }else if($_GET['specific'] == 'disable'){
-    $where = "passport.status = 2";
+    $specific = " AND passport.status = 2";
 }else{
-    $where = "";
+    $specific = "";
+}
+if($_GET['specific_person_pp'] != ''){
+    $passportNum = base64_decode($_GET['specific_person_pp']);
+    $creationDate = base64_decode($_GET['specific_person_cd']);
+    $specific_person = " AND passportNum = '$passportNum' AND creationDate = '$creationDate'";
+}else{
+    $specific_person = "";
 }
 $table = 'passport';
 $primaryKey = 'id';
+$where = "status in (0,1,2)".$specific.$specific_person;
 $columns = array(
     array( 'db' => 'creationDate', 'dt' => 0 ),
     array( 'db' => 'fName', 'dt' => 1 ),
