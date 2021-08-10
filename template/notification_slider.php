@@ -1,6 +1,6 @@
 <?php
 include ('database.php');
-$notifications = $conn->query("SELECT processing.processingId, passport.fName, passport.lName, passport.finalMedicalStatus, passport.testMedicalStatus, notifications.* from notifications inner join passport on passport.id = notifications.passport_id LEFT JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate where processing.pending not in (2,3) AND passport.status != 2 ORDER BY notifications.id desc limit 50");
+$notifications = $conn->query("SELECT processing.processingId, passport.fName, passport.lName, passport.finalMedicalStatus, passport.testMedicalStatus, notifications.* from notifications inner join passport on passport.id = notifications.passport_id LEFT JOIN processing on processing.passportNum = passport.passportNum AND processing.passportCreationDate = passport.creationDate LEFT JOIN ticket on ticket.passportNum = passport.passportNum AND ticket.passportCreationDate = passport.creationDate where processing.pending not in (2,3) AND passport.status != 2 AND ticket.flightDate > '".date('Y-m-d')."' ORDER BY notifications.id desc limit 50");
 print_r(mysqli_error($conn));
 $html =    '<ul class="list-group">';
 $i = 0;
