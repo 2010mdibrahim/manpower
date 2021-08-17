@@ -1538,19 +1538,19 @@ $failed = new UnsetFailedLogin();
             type: 'post',
             url: 'template/notification.php',
             success: function(body_msg){
-                // if(body_msg != ""){
-                //     new jBox('Notice', {
-                //         animation: 'flip',
-                //         color: 'blue',
-                //         content: body_msg,
-                //         attributes: {
-                //             x: 'right',
-                //             y: 'bottom'
-                //         },                            
-                //         delayOnHover: true,
-                //         showCountdown: true
-                //     });
-                // }
+                if(body_msg != ""){
+                    new jBox('Notice', {
+                        animation: 'flip',
+                        color: 'blue',
+                        content: body_msg,
+                        attributes: {
+                            x: 'right',
+                            y: 'bottom'
+                        },                            
+                        delayOnHover: true,
+                        showCountdown: true
+                    });
+                }
             }
         });
         $(".timePicker").timepicker();
