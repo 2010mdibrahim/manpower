@@ -614,7 +614,7 @@ $(document).ready(function(){
                         {
                             "targets": [ 3 ],
                             "visible": false,
-                            "searchable": false
+                            "searchable": true
                         },
                         {
                             "targets": [ 6 ],
