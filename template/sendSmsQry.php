@@ -11,5 +11,5 @@ if(count($numbers) == 1){
     }
 }
 $send = new SendSms();
-$send->sendSmsExecute($phn_number, $massage);
-echo "<script> window.location.href='../index.php?page=sendSms'</script>";
+echo $send->sendSmsExecute($phn_number, $massage);
+// echo "<script> window.location.href='../index.php?page=sendSms'</script>";

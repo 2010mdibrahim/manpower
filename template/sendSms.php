@@ -3,7 +3,7 @@
         <div class="card-header">
             <h4>Send SMS</h4>
         </div>
-        <form action="template/sendSmsQry.php" method="post">
+        <form action="" id="send_sms_form" method="post">
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-sm-12">
@@ -25,3 +25,40 @@
         </form>
     </div>
 </div>
+<script>
+    $('#send_sms_form').on('submit', function(){
+        event.preventDefault();
+        var form = $('#send_sms_form')[0];
+        var data = new FormData(form);
+        $.ajax({
+            type: 'post',
+            data: data,
+            url: "template/sendSmsQry.php",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                let info = JSON.parse(data);
+                if(info.success){
+                    $("#send_sms_form")[0].reset();
+                    new jBox('Notice', {
+                        color: 'green',
+                        content: 'SMS sent successfully!',
+                        attributes: {
+                            x: 'right',
+                            y: 'bottom'
+                        }
+                    });
+                }else{
+                    new jBox('Notice', {
+                        color: 'red',
+                        content: 'SMS failed to send!',
+                        attributes: {
+                            x: 'right',
+                            y: 'bottom'
+                        }
+                    });
+                }
+            }
+        });
+    })
+</script>

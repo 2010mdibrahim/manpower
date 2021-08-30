@@ -9,8 +9,8 @@ class SendSms{
         }else{
             $number = $number;
         }	
-        $apikey = 'e61022bacbd3b3213716f2295b70de8e44992fb9';  
-        $device = '1|0';
+        $apikey = '45260b1fd9db540482ae3b54252fd15767f0818f';  
+        $device = '17|1';
         $api_params = '?key='.$apikey.$number.'&message='.urlencode($message_body).'&devices='.$device;  
         $smsGatewayUrl = "https://sms.bapbeta.com/services/send.php";  
         $smsgatewaydata = $smsGatewayUrl.$api_params;
@@ -21,5 +21,6 @@ class SendSms{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
         curl_close($ch);
+        return $output;
     }
 }

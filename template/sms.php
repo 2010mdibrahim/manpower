@@ -11,7 +11,7 @@ function sendsms($number, $message_body){
       $number = $number;
     }  
     $apikey = 'e61022bacbd3b3213716f2295b70de8e44992fb9';  
-    $device = '1|0';
+    $device = '17|1';
     $api_params = '?key='.$apikey.'&number=%2B880'.$number.'&message='.urlencode($message_body).'&devices='.$device;  
     $smsGatewayUrl = "https://sms.bapbeta.com/services/send.php";  
     $smsgatewaydata = $smsGatewayUrl.$api_params;
