@@ -3,20 +3,44 @@
 include("../database.php");
 include("../class/ssp.class.php");
 
-$table = 'processing';
+$table = '(SELECT 
+                a.processingId,
+                a.passportNum,
+                a.passportCreationDate,
+                a.sponsorVisa,
+                a.empRqst,
+                a.foreignMole,
+                a.okala,
+                a.okalaFile,
+                a.mufa,
+                a.mufaFile,
+                a.medicalUpdate,
+                a.visaStamping,
+                a.notification,
+                a.visaStampingDate,
+                a.finger,
+                a.manpowerCard,
+                a.manpowerCardFile,
+                a.pending,
+                a.youtube,
+                b.fName,
+                b.lName
+            FROM processing a
+            INNER JOIN passport b ON a.passportNum = b.passportNum AND a.passportCreationDate = b.creationDate               
+        ) temp';
 $primaryKey = 'processingId';
 $where = "";
 $columns = array(
     array( 'db' => 'processingId',   'dt' => 0 ),
     array( 'db' => 'passportNum',   'dt' => 1 ),
     array( 'db' => 'passportCreationDate',   'dt' => 2 ),
-    array( 'db' => 'name',   'dt' => 3 ),
+    array( 'db' => 'fName',   'dt' => 3 ),
     array(
-		'db' => 'name',
+		'db' => 'lName',
 		'dt' => 4,
 		'formatter' => function( $d, $row ) {global $conn;
             $agent = mysqli_fetch_assoc($conn->query("SELECT agent.agentName, passport.agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
-			return '<p>'.$d.'</p>'.'<p><a href="?page=agentList&agE='.base64_encode($agent['agentEmail']).'">'.$agent['agentName'].'</a></p>';
+			return '<p>'.$row[3].' '.$d.'</p>'.'<p><a href="?page=agentList&agE='.base64_encode($agent['agentEmail']).'">'.$agent['agentName'].'</a></p>';
 		}
 	),
     array(
@@ -35,7 +59,7 @@ $columns = array(
 		}
 	),
     array(
-		'db' => 'name',
+		'db' => 'processingId',
 		'dt' => 8,
 		'formatter' => function( $d, $row ) {global $conn;
             $row_database = mysqli_fetch_assoc($conn->query("SELECT sponsor.sponsorName from processing INNER JOIN sponsorvisalist USING (sponsorVisa) INNER JOIN sponsor on sponsor.sponsorNID = sponsorvisalist.sponsorNID where passportNum  = '".$row[1]."' AND passportCreationDate = '".$row[2]."'"));
@@ -51,7 +75,7 @@ $columns = array(
 		}
 	),
     array(
-		'db' => 'name',
+		'db' => 'processingId',
 		'dt' => 10,
 		'formatter' => function( $d, $row ) {global $conn;
             $country = mysqli_fetch_assoc($conn->query("SELECT country from passport where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
@@ -121,7 +145,7 @@ $columns = array(
     array( 'db' => 'okala',   'dt' => 15 ),
     array( 'db' => 'okala',   'dt' => 16 ),
     array(
-		'db' => 'name',
+		'db' => 'processingId',
 		'dt' => 17,
 		'formatter' => function( $d, $row ) {global $conn;
             $row_database = mysqli_fetch_assoc($conn->query("SELECT agentEmail from passport INNER JOIN agent using (agentEmail) where passportNum  = '".$row[1]."' AND passport.creationDate = '".$row[2]."'"));
