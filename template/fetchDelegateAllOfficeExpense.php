@@ -13,39 +13,42 @@ $result = $conn->query("SELECT * from account_maheer order by date");
 if($result->num_rows != 0){
     $html = '';
     while($office = mysqli_fetch_assoc($result)){
-        $temp_html = '';
-        $temp_html .= '<li class="list-group-item" style="background-color: #f9fbe7">
-                    <div class="row text-center">';
-        $temp_html .= '             <div class="col-print-2 center-column-2">'.$office['date'].'</div>';
-        $temp_html .= '              <div class="col-print-3">'.$office['particular'].'</div>';
         $totalDebit += ( $office['debit'] * $office['dollar_rate_debit'] );
         $totalCredit += $office['credit'];
-        $temp_html .= '              <div class="col-print-2">'.$office['debit'] * $office['dollar_rate_debit'].' Taka</div>';
-        $temp_html .= '              <div class="col-print-2">'.$office['credit'].' Taka</div>';
-        $temp_html .= '              <div class="col-print-1 center-column-3">'.( $totalDebit - $totalCredit ).' Taka</div>';
-        if($office['debit_receipt'] != ''){
-            $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
-        }else if($office['debit_receipt_2'] != ''){
-            $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt_2'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
-        }else{
-            $temp_html .= '              <div class="col-print-1 exclude">-</div>';
-        }
-        $temp_html .= '              <div class="col-print-1 exclude">';
-        $temp_html .= '                  <div class="row justify-content-center">';
-        $temp_html .= '                      <div class="col-sm">';
-        $temp_html .= '                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editOfficeExpense" value="'.$office['id'].'_'.$office['debit'].'_'.$office['credit']."_".$office['date']."_".$office['particular']."_".$office['dollar_rate_debit'].'" onclick="editOfficeExpense(this.value)"><span class="fa fa-edit"></span></button>';
-        $temp_html .= '                      </div>';
-        $temp_html .= '                      <div class="col-sm">';
-        $temp_html .= '                          <form method="post" action="template/editOfficeExpense.php">';
-        $temp_html .= '                              <input type="hidden" name="alter" value="delete">';
-        $temp_html .= '                              <input type="hidden" name="account_maheer_id" value="'.$office['id'].'">';
-        $temp_html .= '                               <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>';
-        $temp_html .= '                          </form>';
-        $temp_html .= '                      </div>';
-        $temp_html .= '                  </div>';
-        $temp_html .= '              </div>';
-        $temp_html .= '          </div>
-                </li>';
+        if($office['id'] != '209'){
+            $temp_html = '';
+            $temp_html .= '<li class="list-group-item" style="background-color: #f9fbe7">
+                        <div class="row text-center">';
+            $temp_html .= '             <div class="col-print-2 center-column-2">'.$office['date'].'</div>';
+            $temp_html .= '              <div class="col-print-3">'.$office['particular'].'</div>';
+            
+            $temp_html .= '              <div class="col-print-2">'.$office['debit'] * $office['dollar_rate_debit'].' Taka</div>';
+            $temp_html .= '              <div class="col-print-2">'.$office['credit'].' Taka</div>';
+            $temp_html .= '              <div class="col-print-1 center-column-3">'.( $totalDebit - $totalCredit ).' Taka</div>';
+            if($office['debit_receipt'] != ''){
+                $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
+            }else if($office['debit_receipt_2'] != ''){
+                $temp_html .= '              <div class="col-print-1 exclude"><a href="'.$office['debit_receipt_2'].'" target="_blank"><button class="btn btn-sm btn-info" style="padding: .16rem .3rem;"><i class="fas fa-eye"></i></button></a></div>';
+            }else{
+                $temp_html .= '              <div class="col-print-1 exclude">-</div>';
+            }
+            $temp_html .= '              <div class="col-print-1 exclude">';
+            $temp_html .= '                  <div class="row justify-content-center">';
+            $temp_html .= '                      <div class="col-sm">';
+            $temp_html .= '                          <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editOfficeExpense" value="'.$office['id'].'_'.$office['debit'].'_'.$office['credit']."_".$office['date']."_".$office['particular']."_".$office['dollar_rate_debit'].'" onclick="editOfficeExpense(this.value)"><span class="fa fa-edit"></span></button>';
+            $temp_html .= '                      </div>';
+            $temp_html .= '                      <div class="col-sm">';
+            $temp_html .= '                          <form method="post" action="template/editOfficeExpense.php">';
+            $temp_html .= '                              <input type="hidden" name="alter" value="delete">';
+            $temp_html .= '                              <input type="hidden" name="account_maheer_id" value="'.$office['id'].'">';
+            $temp_html .= '                               <button class="btn btn-sm btn-danger"><span class="fa fa-close"></span></button>';
+            $temp_html .= '                          </form>';
+            $temp_html .= '                      </div>';
+            $temp_html .= '                  </div>';
+            $temp_html .= '              </div>';
+            $temp_html .= '          </div>
+                    </li>';
+        }        
         $html = $temp_html . $html;
     }
     $html = '<li class="list-group-item">
