@@ -15,7 +15,7 @@ if(!isset($_SESSION['sections'])){
         }        
     }
 }
-$officeId = $_POST['officeId'];
+$officeId = $conn->real_escape_string($_POST['officeId']);
 $amount = $_POST['amount'];
 $date = $_POST['date'];
 $rate = 1;
